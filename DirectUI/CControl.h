@@ -1,15 +1,15 @@
 #pragma once
 namespace DirectUI
 {
-	namespace Control
+namespace Control
+{
+	class __declspec(dllexport) CControl
 	{
-		class __declspec(dllexport) CControl
-		{
-		protected:
-			virtual void OnSize(int width, int height) {}
-		};
+	public:
+		virtual void OnSize(int width, int height) {}
+	};
 
-	}
+}
 }
 	
 

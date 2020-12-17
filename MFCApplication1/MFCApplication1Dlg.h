@@ -4,6 +4,8 @@
 
 #pragma once
 #include "../DirectUI/CWindow.h"
+using namespace DirectUI;
+using	namespace Control;
 
 // CMFCApplication1Dlg 對話方塊
 class CMFCApplication1Dlg : public CDialogEx

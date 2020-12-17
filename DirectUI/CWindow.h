@@ -1,11 +1,21 @@
 #pragma once
 #include <Windows.h>
 #include <commctrl.h>
-class __declspec(dllexport) CWindow
+#include "CControl.h"
+namespace DirectUI
 {
-public:
-	bool Init(HWND hwnd);
-protected:
-	HWND m_hWNd = NULL;
-};
+	namespace Control
+	{
+		class __declspec(dllexport) CWindow :CControl
+		{
+		public:
+			bool Init(HWND hwnd);
+			void OnSize(int width, int height);
+		protected:
+			HWND m_hWNd = NULL;
+			CControl m_Children;
+		};
 
+
+	}
+}
