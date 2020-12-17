@@ -8,6 +8,7 @@ namespace DirectUI
 		protected:
 			virtual void OnSize(int width, int height) {}
 		};
+
 	}
 }
 	
