@@ -5,8 +5,9 @@ namespace Control
 {
 	class __declspec(dllexport) CControl
 	{
-	public:
+	protected:
 		virtual void OnSize(int width, int height) {}
+		virtual void OnRender() {}
 	};
 
 }

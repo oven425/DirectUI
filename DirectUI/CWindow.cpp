@@ -3,20 +3,24 @@
 using namespace DirectUI;
 using	namespace Control;
 
-LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
 	CWindow* ww = (CWindow*)dwRefData;
+	
 	switch (uMsg)
 	{
+	case WM_ERASEBKGND:
 	case WM_PAINT:
 	{
+		ww->OnRender();
 		::OutputDebugStringA("WM_PAINT\r\n");
 	}
 	break;
 	case WM_SIZE:
 	{
-		ww->OnSize(0, 0);
-		::OutputDebugStringA("WM_SIZE\r\n");
+		UINT width = LOWORD(lParam);
+		UINT height = HIWORD(lParam);
+		ww->OnSize(width, height);
 	}
 	break;
 	}
@@ -31,6 +35,11 @@ bool CWindow::Init(HWND hwnd)
 }
 
 void CWindow::OnSize(int width, int height)
+{
+
+}
+
+void CWindow::OnRender()
 {
 
 }
