@@ -27,7 +27,13 @@
     <ClInclude Include="CControl.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CD2DFacroty.h">
+    <ClInclude Include="CBorder.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CD2DBrush.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,8 +50,16 @@
     <ClCompile Include="CControl.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="CD2DFacroty.cpp">
+    <ClCompile Include="CBorder.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="CD2DBrush.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectUI.rc">
+      <Filter>資源檔</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

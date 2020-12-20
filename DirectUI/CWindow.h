@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <commctrl.h>
 #include "CControl.h"
+#include <d2d1.h>
 namespace DirectUI
 {
 	namespace Control
@@ -10,7 +11,7 @@ namespace DirectUI
 		{
 		public:
 			bool Init(HWND hwnd);
-			
+			void AddChiden(CControl control);
 		protected:
 			void OnSize(int width, int height);
 			void OnRender();
@@ -18,8 +19,11 @@ namespace DirectUI
 			CControl m_Children;
 		private:
 			static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
+
+
+		protected:
+			ID2D1Factory* pD2DFactory = NULL;
+			ID2D1HwndRenderTarget* pRT = NULL;
 		};
-
-
 	}
 }
