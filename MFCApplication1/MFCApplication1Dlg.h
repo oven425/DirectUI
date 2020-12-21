@@ -4,8 +4,9 @@
 
 #pragma once
 #include "../DirectUI/CWindow.h"
+#include "../DirectUI/CD2D_SolidColorBrush.h"
 using namespace DirectUI;
-using	namespace Control;
+using namespace Control;
 
 // CMFCApplication1Dlg 對話方塊
 class CMFCApplication1Dlg : public CDialogEx

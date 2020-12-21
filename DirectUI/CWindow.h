@@ -7,7 +7,7 @@ namespace DirectUI
 {
 	namespace Control
 	{
-		class __declspec(dllexport) CWindow :CControl
+		class __declspec(dllexport) CWindow :public CControl
 		{
 		public:
 			bool Init(HWND hwnd);

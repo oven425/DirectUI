@@ -1,4 +1,7 @@
 #pragma once
+#include "CD2D_Brush.h"
+#include <memory>
+using namespace std;
 namespace DirectUI
 {
 namespace Control
@@ -8,6 +11,8 @@ namespace Control
 	protected:
 		virtual void OnSize(int width, int height) {}
 		virtual void OnRender() {}
+	public:
+		unique_ptr<CD2D_Brush> Background;
 	};
 
 }

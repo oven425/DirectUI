@@ -158,7 +158,9 @@
   <ItemGroup>
     <ClInclude Include="CBorder.h" />
     <ClInclude Include="CControl.h" />
-    <ClInclude Include="CD2DBrush.h" />
+    <ClInclude Include="CD2D_Brush.h" />
+    <ClInclude Include="CD2D_LinearGradientBrush.h" />
+    <ClInclude Include="CD2D_SolidColorBrush.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -167,7 +169,9 @@
   <ItemGroup>
     <ClCompile Include="CBorder.cpp" />
     <ClCompile Include="CControl.cpp" />
-    <ClCompile Include="CD2DBrush.cpp" />
+    <ClCompile Include="CD2D_Brush.cpp" />
+    <ClCompile Include="CD2D_LinearGradientBrush.cpp" />
+    <ClCompile Include="CD2D_SolidColorBrush.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">

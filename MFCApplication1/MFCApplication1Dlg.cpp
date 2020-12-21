@@ -103,7 +103,8 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	// TODO: 在此加入額外的初始設定
 	
 	windows.Init(this->m_hWnd);
-
+	windows.Background = ::make_unique<CD2D_SolidColorBrush>(CD2D_SolidColorBrush());
+	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }
 

@@ -33,7 +33,13 @@
     <ClInclude Include="resource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CD2DBrush.h">
+    <ClInclude Include="CD2D_Brush.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CD2D_LinearGradientBrush.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CD2D_SolidColorBrush.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +59,13 @@
     <ClCompile Include="CBorder.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="CD2DBrush.cpp">
+    <ClCompile Include="CD2D_Brush.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CD2D_LinearGradientBrush.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CD2D_SolidColorBrush.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
