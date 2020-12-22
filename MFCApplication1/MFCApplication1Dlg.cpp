@@ -101,9 +101,17 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	
+	//CD2DLinearGradientBrush
 	windows.Init(this->m_hWnd);
-	windows.Background = ::make_unique<CD2D_SolidColorBrush>(CD2D_SolidColorBrush());
+	//windows.Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+
+	D2D1_GRADIENT_STOP gradientStops[2];
+	gradientStops[0].color = D2D1::ColorF(D2D1::ColorF::Yellow, 1);
+	gradientStops[0].position = 0.0f;
+	gradientStops[1].color = D2D1::ColorF(D2D1::ColorF::ForestGreen, 1);
+	gradientStops[1].position = 1.0f;
+
+	windows.Background = ::make_unique<CD2D_LinearGradientBrush>(gradientStops, 2);
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

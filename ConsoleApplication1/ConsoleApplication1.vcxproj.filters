@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DirectUI.cpp">
+    <ClCompile Include="ConsoleApplication1.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

@@ -51,7 +51,7 @@ bool CWindow::Init(HWND hwnd)
 
 void CWindow::AddChiden(CControl control)
 {
-	this->m_Children = control;
+	//this->m_Children = control;
 }
 
 void CWindow::OnSize(int width, int height)
@@ -65,11 +65,13 @@ void CWindow::OnRender()
 {
 	RECT rc;
 	GetClientRect(this->m_hWNd, &rc);
-	ID2D1SolidColorBrush* m_pBlackBrush = NULL;
-	HRESULT hr = pRT->CreateSolidColorBrush(
-		D2D1::ColorF(D2D1::ColorF::Purple, 1.0f),
-		&m_pBlackBrush
-	);
+	this->Background->Refresh(pRT);
+	ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
+
+	//HRESULT hr = pRT->CreateSolidColorBrush(
+	//	D2D1::ColorF(D2D1::ColorF::Purple, 1.0f),
+	//	&m_pBlackBrush
+	//);
 
 	D2D1_RECT_F size = { 0 };
 	size.bottom = rc.bottom;
@@ -79,6 +81,6 @@ void CWindow::OnRender()
 	this->pRT->BeginDraw();
 	this->pRT->FillRectangle(size, m_pBlackBrush);
 	this->pRT->EndDraw();
-	m_pBlackBrush->Release();
+	//m_pBlackBrush->Release();
 
 }

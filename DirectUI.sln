@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectUI", "DirectUI\Direct
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCApplication1", "MFCApplication1\MFCApplication1.vcxproj", "{B1489C9A-26C6-4FAB-A133-3AB621D48F78}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{528E256B-0C7A-49BA-96A1-40E9F9284979}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{B1489C9A-26C6-4FAB-A133-3AB621D48F78}.Release|x64.Build.0 = Release|x64
 		{B1489C9A-26C6-4FAB-A133-3AB621D48F78}.Release|x86.ActiveCfg = Release|Win32
 		{B1489C9A-26C6-4FAB-A133-3AB621D48F78}.Release|x86.Build.0 = Release|Win32
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Debug|x64.ActiveCfg = Debug|x64
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Debug|x64.Build.0 = Debug|x64
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Debug|x86.ActiveCfg = Debug|Win32
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Debug|x86.Build.0 = Debug|Win32
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Release|x64.ActiveCfg = Release|x64
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Release|x64.Build.0 = Release|x64
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Release|x86.ActiveCfg = Release|Win32
+		{528E256B-0C7A-49BA-96A1-40E9F9284979}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

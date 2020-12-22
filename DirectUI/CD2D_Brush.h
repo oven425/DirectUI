@@ -5,8 +5,9 @@ namespace DirectUI
 {
 	class __declspec(dllexport) CD2D_Brush
 	{
+	public:
 		virtual void Refresh(ID2D1HwndRenderTarget* target) {}
-
+		virtual operator ID2D1Brush*() { return NULL; }
 	};
 }
 
