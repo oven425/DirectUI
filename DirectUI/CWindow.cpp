@@ -49,20 +49,17 @@ bool CWindow::Init(HWND hwnd)
 	return true;
 }
 
-void CWindow::AddChiden(CControl control)
-{
-	//this->m_Children = control;
-}
-
 void CWindow::OnSize(int width, int height)
 {
 	RECT rc;
 	GetClientRect(this->m_hWNd, &rc);
 	this->pRT->Resize(D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top));
+	//this->m_Children->OnSize(width, height);
 }
 
 void CWindow::OnRender()
 {
+	//this->m_Children->OnRender(this->pRT);
 	RECT rc;
 	GetClientRect(this->m_hWNd, &rc);
 	this->Background->Refresh(pRT);

@@ -17,13 +17,12 @@ void CD2D_LinearGradientBrush::Refresh(ID2D1HwndRenderTarget* target)
 {
 	if (this->m_pBrush == NULL && target != NULL)
 	{
-		ID2D1GradientStopCollection *pGradientStops = NULL;
 		HRESULT hr = target->CreateGradientStopCollection(
 			m_pData,
 			2,
 			D2D1_GAMMA_2_2,
 			D2D1_EXTEND_MODE_CLAMP,
-			&pGradientStops
+			&this->m_pGradientStops
 		);
 
 		if (SUCCEEDED(hr))
@@ -32,7 +31,7 @@ void CD2D_LinearGradientBrush::Refresh(ID2D1HwndRenderTarget* target)
 				D2D1::LinearGradientBrushProperties(
 					D2D1::Point2F(0, 0),
 					D2D1::Point2F(150, 150)),
-				pGradientStops,
+				this->m_pGradientStops,
 				&m_pBrush
 			);
 		}
@@ -41,6 +40,11 @@ void CD2D_LinearGradientBrush::Refresh(ID2D1HwndRenderTarget* target)
 
 void CD2D_LinearGradientBrush::Release()
 {
+	if (this->m_pGradientStops != NULL)
+	{
+		this->m_pGradientStops->Release();
+		this->m_pGradientStops = NULL;
+	}
 	if (this->m_pBrush != NULL)
 	{
 		this->m_pBrush->Release();
