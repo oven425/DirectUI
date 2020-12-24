@@ -12,7 +12,8 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	case WM_ERASEBKGND:
 	case WM_PAINT:
 	{
-		ww->OnRender();
+		ww->ReDraw();
+		//ww->OnRender(ww->pRT);
 		//::OutputDebugStringA("WM_PAINT\r\n");
 	}
 	break;
@@ -25,6 +26,11 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	break;
 	}
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
+}
+
+void CWindow::ReDraw()
+{
+	this->OnRender(this->pRT);
 }
 
 bool CWindow::Init(HWND hwnd)
@@ -54,21 +60,17 @@ void CWindow::OnSize(int width, int height)
 	RECT rc;
 	GetClientRect(this->m_hWNd, &rc);
 	this->pRT->Resize(D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top));
-	//this->m_Children->OnSize(width, height);
+	CContentControl::OnSize(width, height);
+
 }
 
-void CWindow::OnRender()
-{
-	//this->m_Children->OnRender(this->pRT);
+void CWindow::OnRender(ID2D1HwndRenderTarget* pRT)
+{	
 	RECT rc;
 	GetClientRect(this->m_hWNd, &rc);
 	this->Background->Refresh(pRT);
 	ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
 
-	//HRESULT hr = pRT->CreateSolidColorBrush(
-	//	D2D1::ColorF(D2D1::ColorF::Purple, 1.0f),
-	//	&m_pBlackBrush
-	//);
 
 	D2D1_RECT_F size = { 0 };
 	size.bottom = rc.bottom;
@@ -77,7 +79,10 @@ void CWindow::OnRender()
 	size.top = rc.top;
 	this->pRT->BeginDraw();
 	this->pRT->FillRectangle(size, m_pBlackBrush);
+
+	CContentControl::OnRender(this->pRT);
+
 	this->pRT->EndDraw();
-	//m_pBlackBrush->Release();
+
 
 }

@@ -12,6 +12,7 @@ namespace Control
 	protected:
 		virtual void OnSize(int width, int height) {}
 		virtual void OnRender(ID2D1HwndRenderTarget* pRT) {}
+		friend class CContentControl;
 	public:
 		virtual void Measure(int width, int height) {}
 		SIZE DesiredSize = { 0 };

@@ -112,6 +112,13 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	gradientStops[1].position = 1.0f;
 
 	windows.Background = ::make_unique<CD2D_LinearGradientBrush>(gradientStops, 2);
+
+
+	unique_ptr<CBorder> border = ::make_unique<CBorder>();
+	border->Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+	//windows.m_Child = make_unique<CBorder>(border);
+
+
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }
