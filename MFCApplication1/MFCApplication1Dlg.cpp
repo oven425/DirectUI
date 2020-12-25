@@ -102,7 +102,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	// TODO: 在此加入額外的初始設定
 	//CD2DLinearGradientBrush
-	windows.Init(this->m_hWnd);
+	
 	//windows.Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
 
 	D2D1_GRADIENT_STOP gradientStops[2];
@@ -111,13 +111,17 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	gradientStops[1].color = D2D1::ColorF(D2D1::ColorF::ForestGreen, 1);
 	gradientStops[1].position = 1.0f;
 
-	windows.Background = ::make_unique<CD2D_LinearGradientBrush>(gradientStops, 2);
+	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(gradientStops, 2);
 
 
-	unique_ptr<CBorder> border = ::make_unique<CBorder>();
-	border->Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-	//windows.m_Child = make_unique<CBorder>(border);
+	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+	border->BorderThickness = 10;
+	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	windows.m_Child = border;
 
+
+	windows.Init(this->m_hWnd);
 
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點

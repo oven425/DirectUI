@@ -52,33 +52,20 @@ bool CWindow::Init(HWND hwnd)
 		),
 		&pRT
 	);
+	this->OnSize(rc.right - rc.left, rc.bottom - rc.top);
 	return true;
 }
 
 void CWindow::OnSize(int width, int height)
 {
-	RECT rc;
-	GetClientRect(this->m_hWNd, &rc);
-	this->pRT->Resize(D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top));
+	this->pRT->Resize(D2D1::SizeU(width, height));
 	CContentControl::OnSize(width, height);
 
 }
 
 void CWindow::OnRender(ID2D1HwndRenderTarget* pRT)
 {	
-	RECT rc;
-	GetClientRect(this->m_hWNd, &rc);
-	this->Background->Refresh(pRT);
-	ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
-
-
-	D2D1_RECT_F size = { 0 };
-	size.bottom = rc.bottom;
-	size.left = rc.left;
-	size.right = rc.right;
-	size.top = rc.top;
 	this->pRT->BeginDraw();
-	this->pRT->FillRectangle(size, m_pBlackBrush);
 
 	CContentControl::OnRender(this->pRT);
 

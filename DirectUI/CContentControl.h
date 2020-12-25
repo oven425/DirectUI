@@ -8,8 +8,9 @@ namespace DirectUI
 		class __declspec(dllexport) CContentControl : public CControl
 		{
 		public:
-			unique_ptr<CControl> m_Child;
+			shared_ptr<CControl> m_Child;
 		protected:
+			void OnSize(int width, int height) override;
 			void OnRender(ID2D1HwndRenderTarget* pRT) override;
 		};
 
