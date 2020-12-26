@@ -133,6 +133,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>Comctl32.lib;D2d1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,6 +163,7 @@
     <ClInclude Include="CD2D_Brush.h" />
     <ClInclude Include="CD2D_LinearGradientBrush.h" />
     <ClInclude Include="CD2D_SolidColorBrush.h" />
+    <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -174,6 +176,7 @@
     <ClCompile Include="CD2D_Brush.cpp" />
     <ClCompile Include="CD2D_LinearGradientBrush.cpp" />
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
+    <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">

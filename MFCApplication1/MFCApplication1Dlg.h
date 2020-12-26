@@ -7,6 +7,7 @@
 #include "../DirectUI/CD2D_SolidColorBrush.h"
 #include "../DirectUI/CD2D_LinearGradientBrush.h"
 #include "../DirectUI/CBorder.h"
+#include "../DirectUI/CStackPanel.h"
 
 using namespace DirectUI;
 using namespace Control;

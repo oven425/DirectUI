@@ -3,21 +3,6 @@
 using namespace DirectUI;
 using namespace Control;
 
-CBorder::CBorder()
-{
-
-}
-
-CBorder::CBorder(const CBorder& data)
-{
-
-}
-
-CBorder::CBorder(const CBorder&& data)
-{
-
-}
-
 void CBorder::Measure(int width, int height)
 {
 	this->DesiredSize.cx = width;
@@ -28,17 +13,22 @@ void CBorder::OnRender(ID2D1HwndRenderTarget* pRT)
 {
 	if (this->BorderThickness > 0)
 	{
-		//::CContentControl::OnRender(pRT);
+		::CControl::OnRender(pRT);
 
-		//D2D1_RECT_F size = { 0 };
-		//size.bottom = this->m_Height- 150;
-		//size.left = this->BorderThickness/2;
-		//size.right = this->m_Width- this->BorderThickness / 2;
-		//size.top = this->BorderThickness/2;
-		//this->BorderBrush->Refresh(pRT);
-		//ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
+		D2D1_RECT_F size = { 0 };
+		size.bottom = (this->m_Height-this->BorderThickness/2)/this->m_DpiScale;
+		size.left = this->BorderThickness / 2 /this->m_DpiScale;
+		size.right = (this->m_Width-this->BorderThickness / 2) / this->m_DpiScale;
+		size.top = this->BorderThickness / 2 / this->m_DpiScale;
+		this->BorderBrush->Refresh(pRT);
+		ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
 
-		//pRT->DrawRectangle(size, m_pBlackBrush, -this->BorderThickness);
+		pRT->DrawRectangle(size, m_pBlackBrush, this->BorderThickness/this->m_DpiScale);
+
+		if (this->m_Child != nullptr)
+		{
+			this->m_Child->OnRender(pRT);
+		}
 
 	}
 	else
@@ -48,8 +38,5 @@ void CBorder::OnRender(ID2D1HwndRenderTarget* pRT)
 	
 	
 	
-	if (this->m_Child != nullptr)
-	{
-
-	}
+	
 }

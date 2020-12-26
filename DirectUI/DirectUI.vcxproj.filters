@@ -45,6 +45,9 @@
     <ClInclude Include="CContentControl.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CStackPanel.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -72,6 +75,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CContentControl.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CStackPanel.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

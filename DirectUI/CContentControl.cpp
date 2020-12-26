@@ -3,12 +3,12 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CContentControl::OnSize(int width, int height)
+void CContentControl::OnSize(double width, double height, double dpiscale)
 {
-	::CControl::OnSize(width, height);
+	::CControl::OnSize(width, height, dpiscale);
 	if (this->m_Child != nullptr)
 	{
-		this->m_Child->OnSize(width, height);
+		this->m_Child->OnSize(width, height, dpiscale);
 	}
 }
 

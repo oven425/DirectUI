@@ -9,9 +9,10 @@ namespace DirectUI
 		{
 		public:
 			shared_ptr<CControl> m_Child;
+		public:
+			virtual void OnRender(ID2D1HwndRenderTarget* pRT) override;
 		protected:
-			void OnSize(int width, int height) override;
-			void OnRender(ID2D1HwndRenderTarget* pRT) override;
+			void OnSize(double width, double height, double dpiscale) override;
 		};
 
 	}

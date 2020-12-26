@@ -4,93 +4,47 @@
 #include <iostream>
 #include <memory>
 using namespace std;
-class CD2D_Brush
-{
+class Parent {
 public:
-	CD2D_Brush()
+	// Create virtual function 
+	virtual void disp()
 	{
-		cout << "CA::CA()" << endl;
-	}
-	CD2D_Brush(const CD2D_Brush& data)
-	{
-		cout << "CA::CA(const CA& data)" << endl;
-	}
-	CD2D_Brush(const CD2D_Brush&& data)
-	{
-		cout << "CA::CA(const CA&& data)" << endl;
-	}
-	~CD2D_Brush()
-	{
-		cout << "CA::~CA()" << endl;
-	}
-	CD2D_Brush& operator=(const CD2D_Brush& data)
-	{
-		cout << "CA& operator=(const CA& data)" << endl;
-		return *this;
-	}
-	CD2D_Brush& operator=(const CD2D_Brush&& data)
-	{
-		cout << "CA& operator=(const CA&& data)" << endl;
-		return *this;
-	}
-	int A = 5;
-	virtual void Set(int data)
-	{
-		this->A = data;
-	}
-
-
-};
-
-class CD2D_SolidColorBrush :public CD2D_Brush
-{
-public:
-	CD2D_SolidColorBrush()
-	{
-		cout << "CB::CB()" << endl;
-	}
-	CD2D_SolidColorBrush(const CD2D_SolidColorBrush& data)
-	{
-		cout << "CB::CB(const CB& data)" << endl;
-	}
-	CD2D_SolidColorBrush(const CD2D_SolidColorBrush&& data)
-	{
-		cout << "CB::CB(const CB&& data)" << endl;
-	}
-	~CD2D_SolidColorBrush()
-	{
-		cout << "CB::~CB()" << endl;
-	}
-	int B = 10;
-	void Set(int data)
-	{
-		this->A = data + 1;
+		cout << "This is the public disp"
+			<< " method of Parent class" << endl;
 	}
 };
 
-
-
-class MyClass
-{
-public:
-	MyClass();
-	~MyClass();
-	unique_ptr<CD2D_Brush> Back;
+// Child class inherit to parent class 
+class Child : public Parent {
 private:
+	int secret_key;
 
+	// Private method which will be called 
+	// Overrride the method of parent class 
+	void disp()
+	{
+		cout << "This is the private disp "
+			<< "method of child class "
+			<< endl;
+		cout << "The key is "
+			<< secret_key << endl;
+	}
+
+public:
+	// Constructor of the child class 
+	Child(int key) { secret_key = key; }
 };
-
-MyClass::MyClass()
-{
-}
-
-MyClass::~MyClass()
-{
-}
-
 int main()
 {
+	// Create object of child class 
+	Child child(1019);
+	Parent pp;
+	pp.disp();
+	// Upcasting 
+	Parent* obj = &child;
 
+	// Function call of child class 
+	obj->disp();
 	
     std::cout << "Hello World!\n";
 }

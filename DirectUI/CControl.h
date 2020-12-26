@@ -10,14 +10,21 @@ namespace Control
 {
 	class __declspec(dllexport) CControl
 	{
-	protected:
-		virtual void OnSize(int width, int height) { this->m_Width = width; this->m_Height = height; }
+	public:
 		virtual void OnRender(ID2D1HwndRenderTarget* pRT);
+	protected:
+		virtual void OnSize(double width, double height, double dpiscale);
+		
 		friend class CContentControl;
-		int m_Width = 0;
-		int m_Height = 0;
+		double m_Width = 0;
+		double m_Height = 0;
 		int m_Left = 0;
 		int m_Top = 0;
+		//double m_ActualWidth = 0;
+		//double m_ActualHeight;
+		//int m_ActualX = 0;
+		//int m_ActualY = 0;
+		double m_DpiScale = 1.0;
 	public:
 		wstring Name = L"";
 		virtual void Measure(int width, int height) {}

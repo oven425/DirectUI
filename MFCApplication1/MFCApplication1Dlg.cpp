@@ -114,12 +114,23 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(gradientStops, 2);
 
 
-	shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-	border->BorderThickness = 10;
-	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	windows.m_Child = border;
+	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	////border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+	//border->BorderThickness = 20;
+	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//windows.m_Child = border;
 
+
+	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	for (int i = 1; i < 5; i++)
+	{
+		
+		shared_ptr<CBorder> border = ::make_shared<CBorder>();
+		
+		border->BorderThickness = 5;
+		stackpanel->AddChild(border);
+	}
+	windows.m_Child = stackpanel;
 
 	windows.Init(this->m_hWnd);
 
