@@ -122,15 +122,17 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 
 	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	stackpanel->SetOrientation(Orientations::Vertical);
+	stackpanel->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
 	for (int i = 1; i < 5; i++)
 	{
-		
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		
-		border->BorderThickness = 5;
+		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+		border->BorderThickness = 2;
+		border->SetHieght(i * 10);
 		stackpanel->AddChild(border);
 	}
-	windows.m_Child = stackpanel;
+	//windows.m_Child = stackpanel;
 
 	windows.Init(this->m_hWnd);
 

@@ -166,6 +166,7 @@
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="IControl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="IControl.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

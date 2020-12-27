@@ -5,17 +5,23 @@ using namespace Control;
 
 void CControl::OnSize(double width, double height, double dpiscale)
 {
-	this->m_Width = width;
-	this->m_Height = height;
+	//this->m_Width = width;
+	//this->m_Height = height;
 	this->m_DpiScale = dpiscale;
+	
+	this->Measure(width, height);
 }
 
 void CControl::OnRender(ID2D1HwndRenderTarget* pRT)
 {
+	if (this->m_ActualHeight == 0 || this->m_ActualWidth == 0)
+	{
+		return;
+	}
 	D2D1_RECT_F size = { 0 };
-	size.bottom = (this->m_Height)/this->m_DpiScale;
+	size.bottom = (this->m_ActualHeight)/this->m_DpiScale;
 	size.left = 0;
-	size.right = (this->m_Width)/this->m_DpiScale;
+	size.right = (this->m_ActualWidth)/this->m_DpiScale;
 	size.top = 0;
 	if (this->Background.use_count() > 0)
 	{

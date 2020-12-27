@@ -68,19 +68,16 @@ bool CWindow::Init(HWND hwnd)
 
 void CWindow::OnSize(double width, double height, double dpiscale)
 {
-	//FLOAT x;
-	//FLOAT y;
-	//UINT dpi = ::GetDpiForWindow(this->m_hWnd);
-	//x = dpi / 96.0;
 	this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
 	CContentControl::OnSize(width/ dpiscale, height/ dpiscale, dpiscale);
+	this->Arrange(0, 0, width, height);
 
 }
 
 void CWindow::OnRender(ID2D1HwndRenderTarget* pRT)
 {	
 	this->pRT->BeginDraw();
-	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	//this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 	CContentControl::OnRender(this->pRT);
 
 	this->pRT->EndDraw();

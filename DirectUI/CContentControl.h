@@ -11,6 +11,7 @@ namespace DirectUI
 			shared_ptr<CControl> m_Child;
 		public:
 			virtual void OnRender(ID2D1HwndRenderTarget* pRT) override;
+			virtual void Arrange(double x, double y, double width, double height) override;
 		protected:
 			void OnSize(double width, double height, double dpiscale) override;
 		};
