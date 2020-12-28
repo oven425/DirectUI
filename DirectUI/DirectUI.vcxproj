@@ -163,7 +163,12 @@
     <ClInclude Include="CD2D_Brush.h" />
     <ClInclude Include="CD2D_LinearGradientBrush.h" />
     <ClInclude Include="CD2D_SolidColorBrush.h" />
+    <ClInclude Include="CDirectUI_Rect.h" />
+    <ClInclude Include="CDirectUI_Thinkness.h" />
+    <ClInclude Include="CGrid.h" />
     <ClInclude Include="CStackPanel.h" />
+    <ClInclude Include="CTextBlock.h" />
+    <ClInclude Include="CUniformGrid.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IControl.h" />
@@ -177,7 +182,12 @@
     <ClCompile Include="CD2D_Brush.cpp" />
     <ClCompile Include="CD2D_LinearGradientBrush.cpp" />
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
+    <ClCompile Include="CDirectUI_Rect.cpp" />
+    <ClCompile Include="CDirectUI_Thinkness.cpp" />
+    <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
+    <ClCompile Include="CTextBlock.cpp" />
+    <ClCompile Include="CUniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IControl.cpp" />

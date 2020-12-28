@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include "CContentControl.h"
 #include <d2d1.h>

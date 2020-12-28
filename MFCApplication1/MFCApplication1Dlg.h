@@ -8,6 +8,7 @@
 #include "../DirectUI/CD2D_LinearGradientBrush.h"
 #include "../DirectUI/CBorder.h"
 #include "../DirectUI/CStackPanel.h"
+#include "../DirectUI/CUniformGrid.h"
 
 using namespace DirectUI;
 using namespace Control;

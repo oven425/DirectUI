@@ -13,8 +13,30 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	case WM_PAINT:
 	{
 		ww->ReDraw();
-		//ww->OnRender(ww->pRT);
-		//::OutputDebugStringA("WM_PAINT\r\n");
+	}
+	break;
+	case WM_MOUSEHOVER:
+	{
+		int xPos = GET_X_LPARAM(lParam);
+		int yPos = GET_Y_LPARAM(lParam);
+	}
+	break;
+	case WM_MOUSEMOVE:
+	{
+		int xPos = GET_X_LPARAM(lParam);
+		int yPos = GET_Y_LPARAM(lParam);
+	}
+	break;
+	case WM_LBUTTONDOWN:
+	{
+		int xPos = GET_X_LPARAM(lParam);
+		int yPos = GET_Y_LPARAM(lParam);
+	}
+	break;
+	case WM_LBUTTONUP:
+	{
+		int xPos = GET_X_LPARAM(lParam);
+		int yPos = GET_Y_LPARAM(lParam);
 	}
 	break;
 	case WM_SIZE:
@@ -69,8 +91,9 @@ bool CWindow::Init(HWND hwnd)
 void CWindow::OnSize(double width, double height, double dpiscale)
 {
 	this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
-	CContentControl::OnSize(width/ dpiscale, height/ dpiscale, dpiscale);
-	this->Arrange(0, 0, width, height);
+	CContentControl::OnSize(width, height, dpiscale);
+	this->Measure(width / dpiscale, height / dpiscale);
+	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 
 }
 

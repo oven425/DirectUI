@@ -1,4 +1,5 @@
 #pragma once
+#include "CDirectUI_Thinkness.h"
 #include "CContentControl.h"
 
 namespace DirectUI

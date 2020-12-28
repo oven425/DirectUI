@@ -121,18 +121,33 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.m_Child = border;
 
 
-	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
-	stackpanel->SetOrientation(Orientations::Vertical);
-	stackpanel->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	for (int i = 1; i < 5; i++)
+	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	//stackpanel->SetOrientation(Orientations::Horizontal);
+	//stackpanel->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//for (int i = 1; i < 5; i++)
+	//{
+	//	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+	//	border->BorderThickness = 2;
+	//	border->SetHieght(i * 10);
+	//	border->SetWidth(i * 20);
+	//	stackpanel->AddChild(border);
+	//}
+	//windows.m_Child = stackpanel;
+
+	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
+	uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	for (int i = 0; i < 4; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
 		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
 		border->BorderThickness = 2;
-		border->SetHieght(i * 10);
-		stackpanel->AddChild(border);
+		//border->SetHieght(i * 10);
+		//border->SetWidth(i * 20);
+		uniformgrid->AddChild(border);
 	}
-	//windows.m_Child = stackpanel;
+	windows.m_Child = uniformgrid;
+
 
 	windows.Init(this->m_hWnd);
 

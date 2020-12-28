@@ -9,25 +9,21 @@ void CControl::OnSize(double width, double height, double dpiscale)
 	//this->m_Height = height;
 	this->m_DpiScale = dpiscale;
 	
-	this->Measure(width, height);
+	//this->Measure(width, height);
 }
 
 void CControl::OnRender(ID2D1HwndRenderTarget* pRT)
 {
-	if (this->m_ActualHeight == 0 || this->m_ActualWidth == 0)
+	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
 		return;
 	}
-	D2D1_RECT_F size = { 0 };
-	size.bottom = (this->m_ActualHeight)/this->m_DpiScale;
-	size.left = 0;
-	size.right = (this->m_ActualWidth)/this->m_DpiScale;
-	size.top = 0;
+	CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
 	if (this->Background.use_count() > 0)
 	{
 		this->Background->Refresh(pRT);
 		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
-		pRT->FillRectangle(size, m_pBlackBrush);
+		pRT->FillRectangle(rc, m_pBlackBrush);
 	}
 	
 	
