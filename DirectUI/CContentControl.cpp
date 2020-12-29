@@ -3,7 +3,7 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CContentControl::OnSize(double width, double height, double dpiscale)
+void CContentControl::OnSize(float width, float height, float dpiscale)
 {
 	::CControl::OnSize(width, height, dpiscale);
 	
@@ -22,7 +22,7 @@ void CContentControl::OnRender(ID2D1HwndRenderTarget* pRT)
 	}
 }
 
-void CContentControl::Arrange(double x, double y, double width, double height)
+void CContentControl::Arrange(float x, float y, float width, float height)
 {
 	CControl::Arrange(x, y, width, height);
 	if (this->m_Child)
@@ -31,11 +31,11 @@ void CContentControl::Arrange(double x, double y, double width, double height)
 	}
 }
 
-void CContentControl::Measure(double width, double height)
+void CContentControl::Measure(float width, float height)
 {
 	CControl::Measure(width, height);
 	if (this->m_Child)
 	{
-		this->m_Child->Measure(width, height);
+		this->m_Child->Measure(this->DesiredSize.width, this->DesiredSize.height);
 	}
 }

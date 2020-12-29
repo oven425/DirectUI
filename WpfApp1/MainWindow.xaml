@@ -6,32 +6,16 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <!--<Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>-->
     <UniformGrid>
-        
-        <StackPanel Background="Green" Orientation="Vertical">
-            <Border BorderThickness="2" Height="10" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="20" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="30" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="40" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="50" BorderBrush="Red"/>
-        </StackPanel>
-        <StackPanel Background="Green" Orientation="Vertical" Grid.Column="1">
-            <Border BorderThickness="2" Width="20" Height="10" BorderBrush="Red"/>
-            <Border BorderThickness="2" Width="40" Height="20" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="30" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="40" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="50" BorderBrush="Red"/>
-        </StackPanel>
-        <StackPanel Background="Green" Orientation="Vertical" Grid.Column="2">
-            <Border BorderThickness="2" Width="20" Height="10" BorderBrush="Red"/>
-            <Border BorderThickness="2" Width="40" Height="20" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="30" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="40" BorderBrush="Red"/>
-            <Border BorderThickness="2" Height="50" BorderBrush="Red"/>
-        </StackPanel>
-        <Button>123</Button>
-        <Button>321</Button>
-        <Button>456</Button>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+        <Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>
+
     </UniformGrid>
     
 </Window>

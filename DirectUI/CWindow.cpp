@@ -39,12 +39,33 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		int yPos = GET_Y_LPARAM(lParam);
 	}
 	break;
+	case WM_SIZING:
+	{
+		RECT* rc = (RECT*)lParam;
+		if (ww->m_MinWidth > 0)
+		{
+			int w = rc->right - rc->left;
+			if (ww->m_MinWidth > w)
+			{
+				rc->right = rc->left + ww->m_MinWidth;
+			}
+		}
+		if (ww->m_MinHeight > 0)
+		{
+			int h = rc->bottom - rc->top;
+			if (ww->m_MinHeight > h)
+			{
+				rc->bottom = rc->top + ww->m_MinHeight;
+			}
+		}
+	}
+	break;
 	case WM_SIZE:
 	{
 		UINT width = LOWORD(lParam);
 		UINT height = HIWORD(lParam);
 		UINT dpi = ::GetDpiForWindow(hWnd);
-		double dpiscale = dpi / 96.0;
+		float dpiscale = dpi / 96.0;
 		ww->OnSize(width, height, dpiscale);
 	}
 	break;
@@ -68,12 +89,13 @@ bool CWindow::Init(HWND hwnd)
 	GetClientRect(hwnd, &rc);
 
 	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
-	double dpiscale = dpi/96.0;
-	double width = rc.right - rc.left;
+	float dpiscale = dpi/96.0;
+	float width = rc.right - rc.left;
 	//width = width / dpiscale;
-	double height = rc.bottom - rc.top;
+	float height = rc.bottom - rc.top;
 	//height = height / dpiscale;
-
+	//CDirectUI_Rect rc(0, 0, rc.right, rc.bottom);
+	//rc = rc / dpiscale;
 	// Create a Direct2D render target          
 	hr = pD2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
@@ -88,7 +110,7 @@ bool CWindow::Init(HWND hwnd)
 	return true;
 }
 
-void CWindow::OnSize(double width, double height, double dpiscale)
+void CWindow::OnSize(float width, float height, float dpiscale)
 {
 	this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
 	CContentControl::OnSize(width, height, dpiscale);

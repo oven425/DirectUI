@@ -7,7 +7,7 @@ void CStackPanel::AddChild(shared_ptr<CControl> data)
 	this->m_Childs.push_back(data);
 }
 
-void CStackPanel::OnSize(double width, double height, double dpiscale)
+void CStackPanel::OnSize(float width, float height, float dpiscale)
 {
 	::CControl::OnSize(width, height, dpiscale);
 	for (auto oo : this->m_Childs)
@@ -29,7 +29,7 @@ void CStackPanel::OnRender(ID2D1HwndRenderTarget* pRT)
 	}
 }
 
-void CStackPanel::Measure(double width, double height)
+void CStackPanel::Measure(float width, float height)
 {
 	::CControl::Measure(width, height);
 	for (auto oo : this->m_Childs)
@@ -38,7 +38,7 @@ void CStackPanel::Measure(double width, double height)
 	}
 }
 
-void CStackPanel::Arrange(double x, double y, double width, double height)
+void CStackPanel::Arrange(float x, float y, float width, float height)
 {
 	CControl::Arrange(x, y, width, height);
 	switch (this->m_Orientation)
@@ -48,8 +48,8 @@ void CStackPanel::Arrange(double x, double y, double width, double height)
 		double y = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(0, y, width, oo->DesiredSize.cy);
-			y = y + oo->DesiredSize.cy;
+			oo->Arrange(0, y, width, oo->DesiredSize.height);
+			y = y + oo->DesiredSize.height;
 		}
 	}
 	break;
@@ -58,8 +58,8 @@ void CStackPanel::Arrange(double x, double y, double width, double height)
 		double x = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(x, 0, oo->DesiredSize.cx, height);
-			x = x + oo->DesiredSize.cx;
+			oo->Arrange(x, 0, oo->DesiredSize.width, height);
+			x = x + oo->DesiredSize.width;
 		}
 	}
 	break;

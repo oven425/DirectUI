@@ -3,12 +3,6 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CBorder::Measure(int width, int height)
-{
-	this->DesiredSize.cx = width;
-	this->DesiredSize.cy = height;
-}
-
 void CBorder::OnRender(ID2D1HwndRenderTarget* pRT)
 {
 	if (this->BorderThickness > 0)

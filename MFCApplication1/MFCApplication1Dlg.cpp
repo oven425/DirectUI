@@ -136,21 +136,33 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.m_Child = stackpanel;
 
 	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
+	//uniformgrid->Margin = CDirectUI_Thinkness(10);
+	//uniformgrid->SetColums(5);
+	//uniformgrid->SetRows(5);
 	uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
 		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
 		border->BorderThickness = 2;
-		//border->SetHieght(i * 10);
-		//border->SetWidth(i * 20);
+		border->SetWidth(300);
+		border->SetHieght(300);
+		border->Margin = CDirectUI_Thinkness(5);
+		//border->SetHorizontalAlignment(HorizontalAlignments::Left);
 		uniformgrid->AddChild(border);
 	}
 	windows.m_Child = uniformgrid;
 
+	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//border->Margin = CDirectUI_Thinkness(5);
+	//border->SetWidth(300);
+	//border->SetHieght(300);
+	//windows.m_Child = border;
+
 
 	windows.Init(this->m_hWnd);
-
+	this->SetWindowTextW(L"MainWindow AA");
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

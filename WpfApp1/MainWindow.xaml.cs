@@ -24,5 +24,11 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //System.Diagnostics.Trace.WriteLine($"w:{this.button.ActualWidth} h:{this.button.ActualHeight}");
+            //System.Diagnostics.Trace.WriteLine($"DesiredSize:{this.button.DesiredSize}");
+        }
     }
 }

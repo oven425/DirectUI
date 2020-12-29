@@ -10,29 +10,36 @@ namespace DirectUI
 		{
 		public:
 			CDirectUI_Rect() {}
-			CDirectUI_Rect(double left, double top, double right, double bottom)
+			CDirectUI_Rect(const CDirectUI_Rect& data)
+			{
+				this->m_Left = data.m_Left;
+				this->m_Top = data.m_Top;
+				this->m_Right = data.m_Right;
+				this->m_Bottom = data.m_Bottom;
+			}
+			CDirectUI_Rect(float left, float top, float right, float bottom)
 			{
 				this->m_Left = left;
 				this->m_Top = top;
 				this->m_Right = right;
 				this->m_Bottom = bottom;
 			}
-			void SetLeft(double data) { this->m_Left = data; }
-			void SetTop(double data) { this->m_Top = data; }
-			void SetRight(double data) { this->m_Right = data; }
-			void SetBottom(double data) { this->m_Bottom = data; }
-			void SetX(double data) { this->m_Left = data; }
-			void SetY(double data) { this->m_Top = data; }
-			void SetWidth(double data) { this->m_Right = this->m_Left + data; }
-			void SetHeight(double data) { this->m_Bottom = this->m_Top + data; }
-			double GetX() { return this->m_Left; }
-			double GetY() { return this->m_Top; }
-			double GetWidth() { return this->m_Right - this->m_Left; }
-			double GetHeight() { return this->m_Bottom - this->m_Top; }
-			double GetLeft() { return this->m_Left; }
-			double GetTop() { return this->m_Top; }
-			double GetRight() { return this->m_Right; }
-			double GetBottom() { return this->m_Bottom; }
+			void SetLeft(float data) { this->m_Left = data; }
+			void SetTop(float data) { this->m_Top = data; }
+			void SetRight(float data) { this->m_Right = data; }
+			void SetBottom(float data) { this->m_Bottom = data; }
+			void SetX(float data) { this->m_Left = data; }
+			void SetY(float data) { this->m_Top = data; }
+			void SetWidth(float data) { this->m_Right = this->m_Left + data; }
+			void SetHeight(float data) { this->m_Bottom = this->m_Top + data; }
+			float GetX() { return this->m_Left; }
+			float GetY() { return this->m_Top; }
+			float GetWidth() { return this->m_Right - this->m_Left; }
+			float GetHeight() { return this->m_Bottom - this->m_Top; }
+			float GetLeft() { return this->m_Left; }
+			float GetTop() { return this->m_Top; }
+			float GetRight() { return this->m_Right; }
+			float GetBottom() { return this->m_Bottom; }
 			operator D2D1_RECT_F() const throw()
 			{
 				D2D1_RECT_F rc;
@@ -53,7 +60,7 @@ namespace DirectUI
 				return rc;
 			}
 
-			CDirectUI_Rect& operator/(double data) const throw()
+			CDirectUI_Rect operator/(float data) const throw()
 			{
 				CDirectUI_Rect rc;
 				rc.m_Left = this->m_Left / data;
@@ -63,10 +70,10 @@ namespace DirectUI
 				return rc;
 			}
 		protected:
-			double m_Left = 0;
-			double m_Top = 0;
-			double m_Bottom = 0;
-			double m_Right = 0;
+			float m_Left = 0;
+			float m_Top = 0;
+			float m_Bottom = 0;
+			float m_Right = 0;
 		};
 	}
 }
