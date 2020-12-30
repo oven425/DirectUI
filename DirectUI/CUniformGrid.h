@@ -21,7 +21,7 @@ namespace DirectUI
 			int GetRows(int data) { return this->m_Rows; }
 			int GetColums(int data) { return this->m_Columns; }
 		protected:
-			void CheckRowCol(double width, double height);
+			void CheckRowCol(float width, float height);
 			double m_CellWidth = 0;
 			double m_CellHeight = 0;
 			int m_CellCount = 0;

@@ -28,8 +28,8 @@ namespace DirectUI
 			void SetTop(float data) { this->m_Top = data; }
 			void SetRight(float data) { this->m_Right = data; }
 			void SetBottom(float data) { this->m_Bottom = data; }
-			void SetX(float data) { this->m_Left = data; }
-			void SetY(float data) { this->m_Top = data; }
+			void SetX(float data) { this->m_Right = data + this->m_Right - this->m_Left; this->m_Left = data; }
+			void SetY(float data) { this->m_Bottom = data + this->m_Bottom - this->m_Top; this->m_Top = data; }
 			void SetWidth(float data) { this->m_Right = this->m_Left + data; }
 			void SetHeight(float data) { this->m_Bottom = this->m_Top + data; }
 			float GetX() { return this->m_Left; }

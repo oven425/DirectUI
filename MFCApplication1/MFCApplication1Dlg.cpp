@@ -136,28 +136,33 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.m_Child = stackpanel;
 
 	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
-	//uniformgrid->Margin = CDirectUI_Thinkness(10);
+	uniformgrid->Margin = CDirectUI_Thinkness(10);
+	uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
+	uniformgrid->SetVerticalAlignment(VerticalAlignments::Top);
 	//uniformgrid->SetColums(5);
 	//uniformgrid->SetRows(5);
 	uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
 	for (int i = 0; i < 7; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 		border->BorderThickness = 2;
-		border->SetWidth(300);
-		border->SetHieght(300);
-		border->Margin = CDirectUI_Thinkness(5);
+		border->SetWidth(150);
+		border->SetHieght(100);
+		//border->Margin = CDirectUI_Thinkness(5);
 		//border->SetHorizontalAlignment(HorizontalAlignments::Left);
 		uniformgrid->AddChild(border);
 	}
 	windows.m_Child = uniformgrid;
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	//border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//border->BorderThickness = 2;
 	//border->Margin = CDirectUI_Thinkness(5);
 	//border->SetWidth(300);
 	//border->SetHieght(300);
+	////border->SetHorizontalAlignment(HorizontalAlignments::Left);
+	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//windows.m_Child = border;
 
 

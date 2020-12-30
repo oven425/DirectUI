@@ -13,7 +13,7 @@ void CUniformGrid::OnRender(ID2D1HwndRenderTarget* pRT)
 	}
 }
 
-void CUniformGrid::CheckRowCol(double width, double height)
+void CUniformGrid::CheckRowCol(float width, float height)
 {
 	this->m_CellCount = this->m_Childs.size();
 	this->m_CellRows = 0;
@@ -52,14 +52,11 @@ void CUniformGrid::Measure(float width, float height)
 	this->CheckRowCol(this->DesiredSize.width, this->DesiredSize.height);
 	for (auto oo : this->m_Childs)
 	{
-		oo->Measure(this->m_CellWidth - oo->Margin.GetLeft()-oo->Margin.GetRight(), this->m_CellHeight - oo->Margin.GetTop() - oo->Margin.GetBottom());
+		oo->Measure(this->m_CellWidth, this->m_CellHeight);
 	}
-}
 
-void CUniformGrid::Arrange(float x, float y, float width, float height)
-{
-	::CControl::Arrange(x, y, width, height);
-
+	vector<float> widths(this->m_CellColums,0);
+	vector<float> heights(this->m_CellRows, 0);
 	int index = 0;
 	for (int row = 0; row < this->m_CellRows; row++)
 	{
@@ -68,49 +65,36 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 			index = row * this->m_CellColums + col;
 			if (index < this->m_Childs.size())
 			{
-				this->m_Childs[index]->Arrange(col * this->m_CellWidth, row * this->m_CellHeight, this->m_CellWidth, this->m_CellHeight);
+				if (widths[col] < this->m_Childs[index]->DesiredSize.width)
+				{
+					widths[col] = this->m_Childs[index]->DesiredSize.width;
+				}
+				if (heights[row] < this->m_Childs[index]->DesiredSize.height)
+				{
+					heights[row] = this->m_Childs[index]->DesiredSize.height;
+				}
+			}
+		}
+	}
+	auto width1 = *std::max_element(widths.begin(), widths.end());
+	auto height1 = *std::max_element(heights.begin(), heights.end());
+	this->DesiredSize.width = width1 * this->m_CellColums;
+	this->DesiredSize.height = height1 * this->m_CellRows;
+}
 
-				//double x = col * this->m_CellWidth+ this->m_Childs[index]->Margin.GetLeft();
-				//double y = row * this->m_CellHeight + this->m_Childs[index]->Margin.GetTop();
-				//double w = this->m_CellWidth - this->m_Childs[index]->Margin.GetRight();
-				//double h = this->m_CellHeight - this->m_Childs[index]->Margin.GetBottom();
-				//if (this->m_Childs[index]->DesiredSize.width != this->m_CellWidth)
-				//{
-				//	switch (this->m_Childs[index]->GetHorizontalAlignment())
-				//	{
-				//	case HorizontalAlignments::Stretch:
-				//	case HorizontalAlignments::Center:
-				//	{
-				//		x = x + (w - this->m_Childs[index]->DesiredSize.width) / 2;
-				//	}
-				//	break;
-				//	case HorizontalAlignments::Right:
-				//	{
-				//		x = x + (w - this->m_Childs[index]->DesiredSize.width);
-				//	}
-				//	break;
-				//	}
-				//	w = this->m_Childs[index]->DesiredSize.width;
-				//}
-				//if (this->m_Childs[index]->DesiredSize.width != this->m_CellHeight)
-				//{
-				//	switch (this->m_Childs[index]->GetVerticalAlignment())
-				//	{
-				//	case VerticalAlignments::Stretch:
-				//	case VerticalAlignments::Center:
-				//	{
-				//		y = y + (h - this->m_Childs[index]->DesiredSize.height) / 2;
-				//	}
-				//	break;
-				//	case VerticalAlignments::Bottom:
-				//	{
-				//		y = y + (h - this->m_Childs[index]->DesiredSize.height);
-				//	}
-				//	break;
-				//	}
-				//	h = this->m_Childs[index]->DesiredSize.height;
-				//}
-				//this->m_Childs[index]->Arrange(x, y, w, h);
+void CUniformGrid::Arrange(float x, float y, float width, float height)
+{
+	::CControl::Arrange(x, y, width, height);
+	this->CheckRowCol(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	int index = 0;
+	for (int row = 0; row < this->m_CellRows; row++)
+	{
+		for (int col = 0; col < this->m_CellColums; col++)
+		{
+			index = row * this->m_CellColums + col;
+			if (index < this->m_Childs.size())
+			{
+				this->m_Childs[index]->Arrange(this->m_ActualRect.GetX()+col * this->m_CellWidth, this->m_ActualRect.GetY()+row * this->m_CellHeight, this->m_CellWidth, this->m_CellHeight);
 			}
 		}
 	}

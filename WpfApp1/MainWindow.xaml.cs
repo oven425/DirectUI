@@ -27,8 +27,8 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //System.Diagnostics.Trace.WriteLine($"w:{this.button.ActualWidth} h:{this.button.ActualHeight}");
-            //System.Diagnostics.Trace.WriteLine($"DesiredSize:{this.button.DesiredSize}");
+            System.Diagnostics.Trace.WriteLine($"w:{this.uniformgrid.ActualWidth} h:{this.uniformgrid.ActualHeight}");
+            System.Diagnostics.Trace.WriteLine($"DesiredSize:{this.uniformgrid.DesiredSize}");
         }
     }
 }
