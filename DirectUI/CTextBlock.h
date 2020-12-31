@@ -10,7 +10,7 @@ namespace DirectUI
 		public:
 			CD2D_Brush Foreground;
 			void SetText(const wchar_t* data) { this->m_Text = data; }
-			void OnRender(ID2D1HwndRenderTarget* pRT) override;
+			void OnRender(ID2D1RenderTarget* pRT) override;
 		protected:
 			wstring m_Text = L"";
 		};

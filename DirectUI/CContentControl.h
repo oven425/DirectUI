@@ -10,7 +10,7 @@ namespace DirectUI
 		public:
 			shared_ptr<CControl> m_Child;
 		public:
-			virtual void OnRender(ID2D1HwndRenderTarget* pRT) override;
+			virtual void OnRender(ID2D1RenderTarget* pRT) override;
 			virtual void Arrange(float x, float y, float width, float height) override;
 			virtual void Measure(float width, float height) override;
 		protected:

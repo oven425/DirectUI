@@ -13,7 +13,7 @@ namespace DirectUI
 			int BorderThickness = 0;
 			int CornerRadius = 0;
 		protected:
-			void OnRender(ID2D1HwndRenderTarget* pRT) override;
+			void OnRender(ID2D1RenderTarget* pRT) override;
 		};
 	}
 }

@@ -7,7 +7,9 @@ namespace DirectUI
 	{
 	public:
 		virtual void Refresh(ID2D1HwndRenderTarget* target) {}
+		virtual void Refresh(ID2D1RenderTarget* target) {}
 		virtual operator ID2D1Brush*() { return NULL; }
+		virtual void Release() {};
 	};
 }
 

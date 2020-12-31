@@ -8,10 +8,12 @@ namespace DirectUI
 	public:
 		CD2D_SolidColorBrush(const D2D1_COLOR_F& color);
 		virtual ~CD2D_SolidColorBrush();
-		virtual void Refresh(ID2D1HwndRenderTarget* target);
+		virtual void Refresh(ID2D1HwndRenderTarget* target) override;
+		virtual void Refresh(ID2D1RenderTarget* target) override;
 		operator ID2D1Brush*() { return this->m_pBrush; }
+		void Release() override;
 	protected:
-		void Release();
+		
 		ID2D1SolidColorBrush* m_pBrush = NULL;
 		D2D1_COLOR_F m_Color;
 	};

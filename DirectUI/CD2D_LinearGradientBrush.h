@@ -8,10 +8,11 @@ namespace DirectUI
 	public:
 		CD2D_LinearGradientBrush(D2D1_GRADIENT_STOP* data, int count);
 		virtual ~CD2D_LinearGradientBrush();
-		virtual void Refresh(ID2D1HwndRenderTarget* target);
+		virtual void Refresh(ID2D1HwndRenderTarget* target) override;
+		virtual void Refresh(ID2D1RenderTarget* target) override;
 		operator ID2D1Brush*() { return this->m_pBrush; }
+		void Release() override;
 	protected:
-		void Release();
 		ID2D1GradientStopCollection* m_pGradientStops = NULL;
 		ID2D1LinearGradientBrush* m_pBrush = NULL;
 		D2D1_GRADIENT_STOP* m_pData = NULL;

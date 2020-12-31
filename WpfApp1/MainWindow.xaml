@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
     <!--<Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>-->
-    <UniformGrid x:Name="uniformgrid" Margin="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <UniformGrid x:Name="uniformgrid" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Border Width="100" Height="150" Margin="0" BorderBrush="Red" BorderThickness="2"></Border>
         <Border Width="100" Height="150" Margin="0" BorderBrush="Red" BorderThickness="2"></Border>
         <Border Width="100" Height="150" Margin="0" BorderBrush="Red" BorderThickness="2"></Border>

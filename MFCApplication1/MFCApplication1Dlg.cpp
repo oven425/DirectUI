@@ -101,7 +101,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	//CD2DLinearGradientBrush
+	int bufsz = swprintf(NULL, 0, L"{data:%d}", 12312);
 	
 	//windows.Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
 
@@ -112,7 +112,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	gradientStops[1].position = 1.0f;
 
 	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(gradientStops, 2);
-
+	windows.Name = L"windows";
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	////border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
@@ -136,15 +136,17 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.m_Child = stackpanel;
 
 	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
-	uniformgrid->Margin = CDirectUI_Thinkness(10);
-	uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
-	uniformgrid->SetVerticalAlignment(VerticalAlignments::Top);
+	uniformgrid->Name = L"uniformgrid";
+	//uniformgrid->Margin = CDirectUI_Thinkness(10);
+	//uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
+	//uniformgrid->SetVerticalAlignment(VerticalAlignments::Top);
 	//uniformgrid->SetColums(5);
 	//uniformgrid->SetRows(5);
 	uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
 	for (int i = 0; i < 7; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
+		border->Name = L"border_"+ std::to_wstring(i);
 		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 		border->BorderThickness = 2;
 		border->SetWidth(150);
@@ -167,7 +169,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 
 	windows.Init(this->m_hWnd);
-	this->SetWindowTextW(L"MainWindow AA");
+	windows.SetTitle(L"MainWindow");
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

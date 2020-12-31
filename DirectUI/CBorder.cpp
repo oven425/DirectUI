@@ -3,46 +3,48 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CBorder::OnRender(ID2D1HwndRenderTarget* pRT)
+void CBorder::OnRender(ID2D1RenderTarget* pRT)
 {
 	if (this->BorderThickness > 0)
 	{
-		::CControl::OnRender(pRT);
+		//::CControl::OnRender(pRT);
 
-
-		//D2D1_RECT_F size = { 0 };
-		CDirectUI_Thinkness thinkness(this->BorderThickness/2);
-		CDirectUI_Rect rc = (this->m_ActualRect + thinkness) / this->m_DpiScale;
-
-		//size.bottom = (this->m_ActualRect.GetBottom()-this->BorderThickness/2)/this->m_DpiScale;
-		//size.left = (this->m_ActualRect.GetX() + this->BorderThickness / 2) / this->m_DpiScale;
-		//size.right = (this->m_ActualRect.GetWidth()-this->BorderThickness / 2) / this->m_DpiScale;
-		//size.top = (this->m_ActualRect.GetY()+this->BorderThickness / 2) / this->m_DpiScale;
-		//char msg[255] = { 0 };
-		//::sprintf_s(msg, "a left:%f top:%f right:%f bottom:%f\r\n", size.left, size.top, size.right, size.bottom);
-		//::OutputDebugStringA(msg);
-		//::sprintf_s(msg, "b left:%f top:%f right:%f bottom:%f\r\n", rc.GetLeft(), rc.GetTop(), rc.GetRight(), rc.GetBottom());
-		//::OutputDebugStringA(msg);
-		if (BorderBrush.use_count() > 0)
+		if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 		{
-			this->BorderBrush->Refresh(pRT);
-			ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
-			pRT->DrawRectangle(rc, m_pBlackBrush, this->BorderThickness / this->m_DpiScale);
+			return;
 		}
 		
+		CDirectUI_Thinkness thinkness(this->BorderThickness / 2);
+		//CDirectUI_Rect rc = (this->m_ActualRect + thinkness) / this->m_DpiScale;
+		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
+		ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
+		HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
+		
+		pCompatibleRenderTarget->BeginDraw();
+		if (BorderBrush)
+		{
+			this->BorderBrush->Release();
+			this->BorderBrush->Refresh(pCompatibleRenderTarget);
+			ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
+			D2D1_RECT_F rc1 = { 0 };
+			rc1.right = this->DesiredSize.width;
+			rc1.bottom = this->DesiredSize.height;
+			pCompatibleRenderTarget->DrawRectangle(CDirectUI_Rect(0,0,this->DesiredSize.width, this->DesiredSize.height) + thinkness, m_pBlackBrush, this->BorderThickness / this->m_DpiScale);
+		}
+		pCompatibleRenderTarget->EndDraw();
+		ID2D1Bitmap* bmp = NULL;
+		pCompatibleRenderTarget->GetBitmap(&bmp);
+		pRT->DrawBitmap(bmp, rc);
+		bmp->Release();
+		pCompatibleRenderTarget->Release();
 
 		if (this->m_Child != nullptr)
 		{
 			this->m_Child->OnRender(pRT);
 		}
-
 	}
 	else
 	{
 		::CContentControl::OnRender(pRT);
 	}
-	
-	
-	
-	
 }

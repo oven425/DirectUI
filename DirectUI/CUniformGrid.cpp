@@ -4,7 +4,7 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CUniformGrid::OnRender(ID2D1HwndRenderTarget* pRT)
+void CUniformGrid::OnRender(ID2D1RenderTarget* pRT)
 {
 	::CControl::OnRender(pRT);
 	for (auto oo : this->m_Childs)

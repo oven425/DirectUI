@@ -119,7 +119,7 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 
 }
 
-void CWindow::OnRender(ID2D1HwndRenderTarget* pRT)
+void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
 	this->pRT->BeginDraw();
 	//this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
@@ -128,4 +128,9 @@ void CWindow::OnRender(ID2D1HwndRenderTarget* pRT)
 	this->pRT->EndDraw();
 
 
+}
+
+void CWindow::SetTitle(const wchar_t* data)
+{
+	::SetWindowTextW(this->m_hWnd, data);
 }

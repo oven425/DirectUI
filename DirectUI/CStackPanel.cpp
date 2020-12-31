@@ -20,7 +20,7 @@ void CStackPanel::OnSize(float width, float height, float dpiscale)
 	
 }
 
-void CStackPanel::OnRender(ID2D1HwndRenderTarget* pRT)
+void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 {
 	CControl::OnRender(pRT);
 	for(auto oo : this->m_Childs)

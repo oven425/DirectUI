@@ -59,11 +59,16 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 
 void CControl::Arrange(float x, float y, float width, float height)
 {
-	//float left = x+ this->Margin.GetLeft();
-	//float top = y + this->Margin.GetTop();
-	//float right = x + width - this->Margin.GetRight();
-	//float bottom = y + height - this->Margin.GetBottom();
+	
 	D2D1_SIZE_F sz = this->GetSize(width, height);
+	if (sz.width > width)
+	{
+		sz.width = width;
+	}
+	if (sz.height > height)
+	{
+		sz.height = height;
+	}
 	float left = x;
 	float top = y;
 	float right = x + sz.width;
@@ -145,9 +150,15 @@ void CControl::Arrange(float x, float y, float width, float height)
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
 	//this->m_ActualRect = this->m_ActualRect + this->Margin;
+	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+
+
+	
+	//::OutputDebugStringW(this->m_ActualRect.ToString().c_str());
+	//::OutputDebugStringW(L"\r\n");
 }
 
-void CControl::OnRender(ID2D1HwndRenderTarget* pRT)
+void CControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
@@ -155,25 +166,19 @@ void CControl::OnRender(ID2D1HwndRenderTarget* pRT)
 	}
 	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
 	HRESULT hr = pRT->CreateCompatibleRenderTarget(D2D1::SizeF(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight()), &pCompatibleRenderTarget);
+	pCompatibleRenderTarget->BeginDraw();
 	CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
 	if (this->Background)
 	{
-		this->Background->Refresh(pRT);
+		this->Background->Release();
+		this->Background->Refresh(pCompatibleRenderTarget);
 		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
-		pRT->FillRectangle(rc, m_pBlackBrush);
-		//pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
+		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
 	}
-	//ID2D1Bitmap* bmp = NULL;
-	//pCompatibleRenderTarget->GetBitmap(&bmp);
-	//pRT->DrawBitmap(bmp);
+	pCompatibleRenderTarget->EndDraw();
+	ID2D1Bitmap* bmp = NULL;
+	pCompatibleRenderTarget->GetBitmap(&bmp);
+	pRT->DrawBitmap(bmp);
+	bmp->Release();
 	pCompatibleRenderTarget->Release();
-}
-
-void CControl::Release()
-{
-	if (this->m_pBmpRT != NULL)
-	{
-		this->m_pBmpRT->Release();
-		this->m_pBmpRT = NULL;
-	}
 }

@@ -13,7 +13,7 @@ void CContentControl::OnSize(float width, float height, float dpiscale)
 	}
 }
 
-void CContentControl::OnRender(ID2D1HwndRenderTarget* pRT)
+void CContentControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	::CControl::OnRender(pRT);
 	if (this->m_Child != nullptr)
