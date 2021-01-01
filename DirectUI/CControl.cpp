@@ -107,7 +107,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	
 	//if (h != this->DesiredSize.height)
 	{
-		switch (this->GetVerticalAlignment())
+		switch (this->m_VerticalAlignment)
 		{
 		case VerticalAlignments::Stretch:
 		{
