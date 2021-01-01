@@ -87,14 +87,38 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 	::CControl::Arrange(x, y, width, height);
 	this->CheckRowCol(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	int index = 0;
+	float cellwidth = this->m_CellWidth;
 	for (int row = 0; row < this->m_CellRows; row++)
 	{
 		for (int col = 0; col < this->m_CellColums; col++)
 		{
 			index = row * this->m_CellColums + col;
+			
 			if (index < this->m_Childs.size())
 			{
-				this->m_Childs[index]->Arrange(this->m_ActualRect.GetX()+col * this->m_CellWidth, this->m_ActualRect.GetY()+row * this->m_CellHeight, this->m_CellWidth, this->m_CellHeight);
+				float cellwidth = this->m_CellWidth;
+				if (cellwidth < this->m_Childs[index]->DesiredSize.width)
+				{
+					cellwidth = this->m_Childs[index]->DesiredSize.width;
+				}
+				float cellheight = this->m_CellHeight;
+				if (cellheight < this->m_Childs[index]->DesiredSize.height)
+				{
+					cellheight = this->m_Childs[index]->DesiredSize.height;
+				}
+				float x1 = this->m_ActualRect.GetX() + col * cellwidth;
+				float y1 = this->m_ActualRect.GetY() + row * cellheight;
+				
+				
+				if ((x1 + cellwidth) > width)
+				{
+					cellwidth = width - x1;
+				}
+				if ((y1 + cellheight) > height)
+				{
+					cellheight = height - y1;
+				}
+				this->m_Childs[index]->Arrange(x1,y1, cellwidth, cellheight);
 			}
 		}
 	}

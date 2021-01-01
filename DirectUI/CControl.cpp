@@ -77,7 +77,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	float h = bottom - top;
 	//if (w != this->DesiredSize.width)
 	{
-		switch (this->GetHorizontalAlignment())
+		switch (this->m_HorizontalAlignment)
 		{
 		case HorizontalAlignments::Stretch:
 		{

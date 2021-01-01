@@ -34,6 +34,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 		pCompatibleRenderTarget->EndDraw();
 		ID2D1Bitmap* bmp = NULL;
 		pCompatibleRenderTarget->GetBitmap(&bmp);
+
 		pRT->DrawBitmap(bmp, rc);
 		bmp->Release();
 		pCompatibleRenderTarget->Release();

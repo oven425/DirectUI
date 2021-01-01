@@ -148,7 +148,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
 		border->Name = L"border_"+ std::to_wstring(i);
 		border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-		border->BorderThickness = 2;
+		border->BorderThickness = 4;
 		border->SetWidth(150);
 		border->SetHieght(100);
 		//border->Margin = CDirectUI_Thinkness(5);
