@@ -35,7 +35,10 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 		ID2D1Bitmap* bmp = NULL;
 		pCompatibleRenderTarget->GetBitmap(&bmp);
 
-		pRT->DrawBitmap(bmp, rc);
+		//pRT->DrawBitmap(bmp, rc);
+		CDirectUI_Rect rc_dst = rc;
+		CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight()) ;
+		pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 		bmp->Release();
 		pCompatibleRenderTarget->Release();
 

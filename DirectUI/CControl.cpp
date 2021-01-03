@@ -158,6 +158,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	//::OutputDebugStringW(L"\r\n");
 }
 
+#define Test
 void CControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
@@ -165,20 +166,40 @@ void CControl::OnRender(ID2D1RenderTarget* pRT)
 		return;
 	}
 	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
+#ifdef  Test
+	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
+#else
 	HRESULT hr = pRT->CreateCompatibleRenderTarget(D2D1::SizeF(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight()), &pCompatibleRenderTarget);
+#endif //  Test
+
+	
 	pCompatibleRenderTarget->BeginDraw();
-	CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
+	
 	if (this->Background)
 	{
 		this->Background->Release();
 		this->Background->Refresh(pCompatibleRenderTarget);
 		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
+#ifdef Test
+		CDirectUI_Rect rc(0,0, this->DesiredSize.width, this->DesiredSize.height);
 		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
+#else
+		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
+		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
+#endif
+		
 	}
 	pCompatibleRenderTarget->EndDraw();
 	ID2D1Bitmap* bmp = NULL;
 	pCompatibleRenderTarget->GetBitmap(&bmp);
+#ifdef Test
+	CDirectUI_Rect rc_dst = this->m_ActualRect/this->m_DpiScale;
+	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
+#else
 	pRT->DrawBitmap(bmp);
+#endif
+	
 	bmp->Release();
 	pCompatibleRenderTarget->Release();
 }

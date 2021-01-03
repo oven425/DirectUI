@@ -14,15 +14,15 @@ namespace DirectUI
 			void SetTop(int data) { this->m_Top = data; }
 			void SetRight(int data) { this->m_Right = data; }
 			void SetBottom(int data) { this->m_Bottom = data; }
-			int GetLeft() { return this->m_Left; }
-			int GetTop() { return this->m_Top; }
-			int GetRight() { return this->m_Right; }
-			int GetBottom() { return this->m_Bottom; }
+			float GetLeft() { return this->m_Left; }
+			float GetTop() { return this->m_Top; }
+			float GetRight() { return this->m_Right; }
+			float GetBottom() { return this->m_Bottom; }
 		protected:
-			int m_Left = 0;
-			int m_Top = 0;
-			int m_Bottom = 0;
-			int m_Right = 0;
+			float m_Left = 0;
+			float m_Top = 0;
+			float m_Bottom = 0;
+			float m_Right = 0;
 		};
 	}
 }
