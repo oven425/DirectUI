@@ -27,8 +27,15 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Trace.WriteLine($"w:{this.uniformgrid.ActualWidth} h:{this.uniformgrid.ActualHeight}");
-            System.Diagnostics.Trace.WriteLine($"DesiredSize:{this.uniformgrid.DesiredSize}");
+            //System.Diagnostics.Trace.WriteLine($"w:{this.uniformgrid.ActualWidth} h:{this.uniformgrid.ActualHeight}");
+            //System.Diagnostics.Trace.WriteLine($"DesiredSize:{this.uniformgrid.DesiredSize}");
+        }
+
+        private void Img_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement control = sender as FrameworkElement;
+            System.Diagnostics.Trace.WriteLine($"w:{control.ActualWidth} h:{control.ActualHeight}");
+            System.Diagnostics.Trace.WriteLine($"DesiredSize:{control.DesiredSize}");
         }
     }
 }

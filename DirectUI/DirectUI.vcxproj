@@ -96,7 +96,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Comctl32.lib;D2d1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;D2d1.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +133,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Comctl32.lib;D2d1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;D2d1.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,9 +165,9 @@
     <ClInclude Include="CD2D_SolidColorBrush.h" />
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Thinkness.h" />
-    <ClInclude Include="CGrid.h" />
+    <ClInclude Include="CImage.h" />
+    <ClInclude Include="CImageSource.h" />
     <ClInclude Include="CStackPanel.h" />
-    <ClInclude Include="CTextBlock.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CUniformGrid.h" />
     <ClInclude Include="CWindow.h" />
@@ -185,9 +185,9 @@
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
-    <ClCompile Include="CGrid.cpp" />
+    <ClCompile Include="CImage.cpp" />
+    <ClCompile Include="CImageSource.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
-    <ClCompile Include="CTextBlock.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CUniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />

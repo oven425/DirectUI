@@ -9,6 +9,7 @@
 #include "../DirectUI/CBorder.h"
 #include "../DirectUI/CStackPanel.h"
 #include "../DirectUI/CUniformGrid.h"
+#include "../DirectUI/CImage.h"
 
 using namespace DirectUI;
 using namespace Control;

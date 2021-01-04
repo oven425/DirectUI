@@ -59,7 +59,6 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 
 void CControl::Arrange(float x, float y, float width, float height)
 {
-	
 	D2D1_SIZE_F sz = this->GetSize(width, height);
 	if (sz.width > width)
 	{
@@ -75,64 +74,84 @@ void CControl::Arrange(float x, float y, float width, float height)
 	float bottom = y + sz.height;
 	float w = right - left;
 	float h = bottom - top;
-	//if (w != this->DesiredSize.width)
+	switch (this->m_HorizontalAlignment)
 	{
-		switch (this->m_HorizontalAlignment)
-		{
-		case HorizontalAlignments::Stretch:
-		{
-			//w = this->DesiredSize.width;
-		}
-		break;
-		case HorizontalAlignments::Left:
-		{
-			w = this->DesiredSize.width;
-		}
-		break;
-		case HorizontalAlignments::Center:
-		{
-			left = left + (w - this->DesiredSize.width) / 2;
-			w = this->DesiredSize.width;
-		}
-		break;
-		case HorizontalAlignments::Right:
-		{
-			left = left + (w - this->DesiredSize.width);
-			w = this->DesiredSize.width;
-		}
-		break;
-		}
+	case HorizontalAlignments::Stretch:
+	{
 		
 	}
-	
-	//if (h != this->DesiredSize.height)
+	break;
+	case HorizontalAlignments::Left:
 	{
-		switch (this->m_VerticalAlignment)
+		w = this->DesiredSize.width;
+		if (w > width)
 		{
-		case VerticalAlignments::Stretch:
+			w = width;
+		}
+	}
+	break;
+	case HorizontalAlignments::Center:
+	{
+		float w1 = this->DesiredSize.width;
+		if (w1 > width)
 		{
-			//h = this->DesiredSize.height;
+			w1 = width;
 		}
-		break;
-		case VerticalAlignments::Top:
+		left = left + (w - w1) / 2;
+		w = w1;
+	}
+	break;
+	case HorizontalAlignments::Right:
+	{
+		float w1 = this->DesiredSize.width;
+		if (w1 > width)
 		{
-			h = this->DesiredSize.height;
+			w1 = width;
 		}
-		break;
-		case VerticalAlignments::Center:
+		left = left + (w - w1);
+		w = w1;
+	}
+	break;
+	}
+	
+	switch (this->m_VerticalAlignment)
+	{
+	case VerticalAlignments::Stretch:
+	{
+		//h = this->DesiredSize.height;
+	}
+	break;
+	case VerticalAlignments::Top:
+	{
+		h = this->DesiredSize.height;
+		if (h > height)
 		{
-			top = top + (h - this->DesiredSize.height) / 2;
-			h = this->DesiredSize.height;
+			h = height;
 		}
-		break;
-		case VerticalAlignments::Bottom:
+	}
+	break;
+	case VerticalAlignments::Center:
+	{
+		float h1 = this->DesiredSize.height;
+		if (h1 > height)
 		{
-			top = top + (h - this->DesiredSize.height);
-			h = this->DesiredSize.height;
+			h1 = height;
 		}
-		break;
+		top = top + (h - h1) / 2;
+		h = h1;
+	}
+	break;
+	case VerticalAlignments::Bottom:
+	{
+		float h1 = this->DesiredSize.height;
+		if (h1 > height)
+		{
+			h1 = height;
 		}
-		
+		top = top + (h - h1);
+		h = h1;
+	}
+	break;
 	}
 	if (left < 0 && this->m_HorizontalAlignment == HorizontalAlignments::Left)
 	{
