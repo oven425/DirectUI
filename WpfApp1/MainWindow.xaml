@@ -19,7 +19,7 @@
         <Image Source="sample.png"/>
         <Button Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2" Click="Button_Click" ></Button>
     </UniformGrid>-->
-    <Image x:Name="img" MouseLeftButtonDown="Img_MouseLeftButtonDown" Source="sample.png" Stretch="None"/>
+    <Image x:Name="img" MouseLeftButtonDown="Img_MouseLeftButtonDown" Source="sample.png" Stretch="UniformToFill"/>
 
 
 </Window>

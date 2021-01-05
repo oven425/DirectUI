@@ -114,7 +114,7 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 {
 	this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
 	CContentControl::OnSize(width, height, dpiscale);
-	this->Measure(width / dpiscale, height / dpiscale);
+	this->Measure(width / dpiscale, height / dpiscale, this->pRT);
 	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 
 }

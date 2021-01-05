@@ -46,13 +46,13 @@ void CUniformGrid::CheckRowCol(float width, float height)
 	this->m_CellHeight = height / this->m_CellRows;
 }
 
-void CUniformGrid::Measure(float width, float height)
+void CUniformGrid::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	::CControl::Measure(width, height);
+	::CControl::Measure(width, height, pRT);
 	this->CheckRowCol(this->DesiredSize.width, this->DesiredSize.height);
 	for (auto oo : this->m_Childs)
 	{
-		oo->Measure(this->m_CellWidth, this->m_CellHeight);
+		oo->Measure(this->m_CellWidth, this->m_CellHeight, pRT);
 	}
 
 	vector<float> widths(this->m_CellColums,0);

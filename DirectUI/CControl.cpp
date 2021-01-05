@@ -8,7 +8,7 @@ void CControl::OnSize(float width, float height, float dpiscale)
 	this->m_DpiScale = dpiscale;
 }
 
-void CControl::Measure(float width, float height)
+void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	//this->DesiredSize.width = width;
 	//if (this->m_Width > 0)

@@ -3,11 +3,11 @@
 
 namespace DirectUI
 {
-	class __declspec(dllexport) CImageSource
+	class __declspec(dllexport) CD2D_ImageSource
 	{
 	public:
-		CImageSource();
-		~CImageSource() {};
+		CD2D_ImageSource();
+		~CD2D_ImageSource() {};
 		void Open(const wchar_t* data);
 		virtual operator IWICFormatConverter*() { return m_pConvertedSourceBitmap; }
 		UINT GetWidth() { return this->m_Width; }

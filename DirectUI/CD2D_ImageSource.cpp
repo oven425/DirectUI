@@ -1,19 +1,19 @@
 #include "pch.h"
-#include "CImageSource.h"
+#include "CD2D_ImageSource.h"
 using namespace DirectUI;
-IWICImagingFactory* CImageSource::m_pIWICFactory = NULL;
+IWICImagingFactory* CD2D_ImageSource::m_pIWICFactory = NULL;
 
-CImageSource::CImageSource()
+CD2D_ImageSource::CD2D_ImageSource()
 {
-	if (CImageSource::m_pIWICFactory == NULL)
+	if (CD2D_ImageSource::m_pIWICFactory == NULL)
 	{
 		::CoInitialize(NULL);
-		HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&CImageSource::m_pIWICFactory));
+		HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&CD2D_ImageSource::m_pIWICFactory));
 		hr = S_OK;
 	}
 }
 
-void CImageSource::Open(const wchar_t* data)
+void CD2D_ImageSource::Open(const wchar_t* data)
 {
 	IWICBitmapDecoder *pIDecoder = NULL;
 	IWICBitmapFrameDecode *pIDecoderFrame = NULL;

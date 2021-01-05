@@ -29,12 +29,12 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 	}
 }
 
-void CStackPanel::Measure(float width, float height)
+void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	::CControl::Measure(width, height);
+	::CControl::Measure(width, height, pRT);
 	for (auto oo : this->m_Childs)
 	{
-		oo->Measure(width, height);
+		oo->Measure(width, height, pRT);
 	}
 }
 

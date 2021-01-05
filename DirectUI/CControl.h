@@ -35,7 +35,7 @@ namespace Control
 	{
 	public:
 		CControl() {}
-		virtual ~CControl() {}
+		virtual ~CControl() { this->Release(); }
 		virtual void OnRender(ID2D1RenderTarget* pRT);
 		virtual void OnSize(float width, float height, float dpiscale);
 		void SetWidth(float data) { this->m_Width = data; }
@@ -60,10 +60,11 @@ namespace Control
 		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
 		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
 		D2D1_SIZE_F GetSize(float width, float height);
+		virtual void Release() {};
 	public:
 		CDirectUI_Thinkness Margin;
 		wstring Name = L"";
-		virtual void Measure(float width, float height);
+		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
 		D2D_SIZE_F DesiredSize = { 0 };
 		shared_ptr<CD2D_Brush> Background;

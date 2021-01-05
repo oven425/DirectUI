@@ -31,11 +31,11 @@ void CContentControl::Arrange(float x, float y, float width, float height)
 	}
 }
 
-void CContentControl::Measure(float width, float height)
+void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	CControl::Measure(width, height);
+	CControl::Measure(width, height, pRT);
 	if (this->m_Child)
 	{
-		this->m_Child->Measure(this->DesiredSize.width, this->DesiredSize.height);
+		this->m_Child->Measure(this->DesiredSize.width, this->DesiredSize.height, pRT);
 	}
 }

@@ -48,9 +48,6 @@
     <ClInclude Include="CStackPanel.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="IControl.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="CDirectUI_Rect.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -63,10 +60,10 @@
     <ClInclude Include="CTrace.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CImageSource.h">
+    <ClInclude Include="CImage.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CImage.h">
+    <ClInclude Include="CD2D_ImageSource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,9 +98,6 @@
     <ClCompile Include="CStackPanel.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="IControl.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
     <ClCompile Include="CDirectUI_Rect.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
@@ -116,10 +110,10 @@
     <ClCompile Include="CTrace.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="CImageSource.cpp">
+    <ClCompile Include="CImage.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="CImage.cpp">
+    <ClCompile Include="CD2D_ImageSource.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

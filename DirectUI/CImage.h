@@ -1,6 +1,6 @@
 #pragma once
 #include "CControl.h"
-#include "CImageSource.h"
+#include "CD2D_ImageSource.h"
 
 namespace DirectUI
 {
@@ -31,14 +31,16 @@ namespace DirectUI
 		class __declspec(dllexport) CImage:public CControl
 		{
 		public:
-			void SetSource(shared_ptr<CImageSource> data);
+			void SetSource(shared_ptr<CD2D_ImageSource> data);
 			void SetStretch(Stretchs data);
 			void OnRender(ID2D1RenderTarget* pRT) override;
-			void Measure(float width, float height) override;
+			void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void Arrange(float x, float y, float width, float height) override;
 		protected:
+			D2D1_RECT_F LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst);
+			void Release() override;
 			ID2D1Bitmap* m_pD2DBitmap = NULL;
-			shared_ptr<CImageSource> m_Source;
+			shared_ptr<CD2D_ImageSource> m_Source;
 			Stretchs m_Stretch = Stretchs::Uniform;
 		};
 	}

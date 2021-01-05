@@ -166,13 +166,12 @@
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Thinkness.h" />
     <ClInclude Include="CImage.h" />
-    <ClInclude Include="CImageSource.h" />
+    <ClInclude Include="CD2D_ImageSource.h" />
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CUniformGrid.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="IControl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -186,13 +185,12 @@
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
     <ClCompile Include="CImage.cpp" />
-    <ClCompile Include="CImageSource.cpp" />
+    <ClCompile Include="CD2D_ImageSource.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CUniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IControl.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -167,11 +167,11 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//windows.m_Child = border;
 
-	shared_ptr<CImageSource> imgsource = ::make_shared<CImageSource>();
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
 	imgsource->Open(L"sample.png");
 	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::None);
+	image->SetStretch(Stretchs::UniformToFill);
 	image->Name = L"image";
 	//image->SetHorizontalAlignment(HorizontalAlignments::Center);
 	windows.m_Child = image;
