@@ -23,7 +23,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 		pCompatibleRenderTarget->BeginDraw();
 		if (BorderBrush)
 		{
-			this->BorderBrush->Release();
+			//this->BorderBrush->Release();
 			this->BorderBrush->Refresh(pCompatibleRenderTarget);
 			ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
 			D2D1_RECT_F rc1 = { 0 };
@@ -51,4 +51,14 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 	{
 		::CContentControl::OnRender(pRT);
 	}
+}
+
+void CBorder::Arrange(float x, float y, float width, float height)
+{
+	::CContentControl::Arrange(x, y, width, height);
+}
+
+void CBorder::Measure(float width, float height, ID2D1RenderTarget* pRT)
+{
+	::CContentControl::Measure(width, height, pRT);
 }

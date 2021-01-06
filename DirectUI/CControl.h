@@ -59,7 +59,7 @@ namespace Control
 		Visibilitys m_Visibility = Visibilitys::Visible;
 		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
 		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
-		D2D1_SIZE_F GetSize(float width, float height);
+		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
 	public:
 		CDirectUI_Thinkness Margin;

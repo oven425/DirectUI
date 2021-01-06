@@ -29,7 +29,7 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 
 	CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
 	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	pRT->DrawBitmap(bmp, rc_dst);
+	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 
 	bmp->Release();
@@ -81,8 +81,11 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
 		pp.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
 		pp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
-		pp.dpiX = 299;
-		pp.dpiY = 299;
+		double dpix = 0;
+		double dpiy = 0;
+		(*this->m_Source).operator IWICFormatConverter*()->GetResolution(&dpix, &dpiy);
+		pp.dpiX = dpix;
+		pp.dpiY = dpiy;
 		pRT->CreateBitmapFromWicBitmap(*this->m_Source, pp, &this->m_pD2DBitmap);
 		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
 		ss.width = 0;
@@ -121,15 +124,16 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		case Stretchs::UniformToFill:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			D2D1_RECT_F src = { 0 };
-			src.right = ss.width;
-			src.bottom = ss.height;
-			D2D1_RECT_F dst = { 0 };
-			dst.right = width;
-			dst.bottom = height;
-			D2D1_RECT_F rrc = LetterBoxRect(dst, src);
-			this->DesiredSize.width = rrc.right - rrc.left;
-			this->DesiredSize.height = rrc.bottom - rrc.top;
+			if (height > width)
+			{
+				
+			}
+			else
+			{
+				this->DesiredSize.width = width;
+				float h = width / height;
+				this->DesiredSize.height = h * height;
+			}
 		}
 		break;
 		}
@@ -141,83 +145,104 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	}
 }
 
+D2D1_SIZE_F CImage::GetSize(float width, float height)
+{
+	D2D1_SIZE_F sz = { 0 };
+	sz.width = this->DesiredSize.width;
+	sz.height = this->DesiredSize.height;
+	//if (width > sz.width)
+	//{
+	//	sz.width = width;
+	//}
+	//if (height > sz.height)
+	//{
+	//	sz.height = height;
+	//}
+	return sz;
+}
+
 void CImage::Arrange(float x, float y, float width, float height)
 {
-	float left = x;
-	float top = y;
-	float right = x + width;
-	float bottom = y + height;
-	float w = right - left;
-	float h = bottom - top;
-	switch (this->m_HorizontalAlignment)
-	{
-	case HorizontalAlignments::Stretch:
-	case HorizontalAlignments::Center:
-	{
-		float w1 = this->DesiredSize.width;
-		if (w1 > width)
-		{
-			w1 = width;
-		}
-		left = left + (w - w1) / 2;
-		w = w1;
-	}
-	break;
-	case HorizontalAlignments::Left:
-	{
+	::CControl::Arrange(x, y, width, height);
+	//float left = x;
+	//float top = y;
+	//float right = x + width;
+	//float bottom = y + height;
+	//float w = right - left;
+	//float h = bottom - top;
+	//switch (this->m_HorizontalAlignment)
+	//{
+	//case HorizontalAlignments::Stretch:
+	//{
+	//	::CControl::Arrange(x, y, width, height);
+	//}
+	//break;
+	//case HorizontalAlignments::Center:
+	//{
+	//	float w1 = this->DesiredSize.width;
+	//	if (w1 > width)
+	//	{
+	//		w1 = width;
+	//	}
+	//	left = left + (w - w1) / 2;
+	//	w = w1;
+	//}
+	//break;
+	//case HorizontalAlignments::Left:
+	//{
 
-	}
-	break;
-	case HorizontalAlignments::Right:
-	{
+	//}
+	//break;
+	//case HorizontalAlignments::Right:
+	//{
 
-	}
-	break;
-	}
+	//}
+	//break;
+	//}
 
-	switch (this->m_VerticalAlignment)
-	{
-	case VerticalAlignments::Stretch:
-	case VerticalAlignments::Center:
-	{
-		float h1 = this->DesiredSize.height;
-		if (h1 > height)
-		{
-			h1 = height;
-		}
-		top = top + (h - h1) / 2;
-		h = h1;
-	}
-	break;
-	case VerticalAlignments::Top:
-	{
+	//switch (this->m_VerticalAlignment)
+	//{
+	//case VerticalAlignments::Stretch:
+	//case VerticalAlignments::Center:
+	//{
+	//	float h1 = this->DesiredSize.height;
+	//	if (h1 > height)
+	//	{
+	//		h1 = height;
+	//	}
+	//	top = top + (h - h1) / 2;
+	//	h = h1;
+	//}
+	//break;
+	//case VerticalAlignments::Top:
+	//{
 
-	}
-	break;
-	case VerticalAlignments::Bottom:
-	{
+	//}
+	//break;
+	//case VerticalAlignments::Bottom:
+	//{
 
-	}
-	break;
-	}
+	//}
+	//break;
+	//}
 
-	if (left < 0 && this->m_HorizontalAlignment == HorizontalAlignments::Left)
-	{
-		left = 0;
-	}
-	if (top < 0 && this->m_VerticalAlignment == VerticalAlignments::Top)
-	{
-		top = 0;
-	}
-	//left = left + this->Margin.GetLeft();
-	//top = top + this->Margin.GetTop();
+	//if (left < 0 && this->m_HorizontalAlignment == HorizontalAlignments::Left)
+	//{
+	//	left = 0;
+	//}
+	//if (top < 0 && this->m_VerticalAlignment == VerticalAlignments::Top)
+	//{
+	//	top = 0;
+	//}
+	////left = left + this->Margin.GetLeft();
+	////top = top + this->Margin.GetTop();
 
-	this->m_ActualRect.SetX(left);
-	this->m_ActualRect.SetY(top);
-	this->m_ActualRect.SetWidth(w);
-	this->m_ActualRect.SetHeight(h);
-	//this->m_ActualRect = this->m_ActualRect + this->Margin;
-	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+	//this->m_ActualRect.SetX(left);
+	//this->m_ActualRect.SetY(top);
+	//this->m_ActualRect.SetWidth(w);
+	//this->m_ActualRect.SetHeight(h);
+	////this->m_ActualRect = this->m_ActualRect + this->Margin;
+	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 
 }
 

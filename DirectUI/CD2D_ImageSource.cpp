@@ -31,10 +31,6 @@ void CD2D_ImageSource::Open(const wchar_t* data)
 		hr = pIDecoder->GetFrame(0, &pIDecoderFrame);
 	}
 
-	pIDecoderFrame->GetSize(&this->m_Width, &this->m_Height);
-	double x = 0;
-	double y = 0;
-	pIDecoderFrame->GetResolution(&x, &y);
 	if (this->m_pConvertedSourceBitmap != NULL)
 	{
 		this->m_pConvertedSourceBitmap->Release();
@@ -54,6 +50,7 @@ void CD2D_ImageSource::Open(const wchar_t* data)
 			WICBitmapPaletteTypeCustom       // Palette translation type
 		);
 	}
+	
 	pIDecoderFrame->Release();
 	pIDecoder->Release();
 }

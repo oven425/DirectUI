@@ -37,6 +37,7 @@ namespace DirectUI
 			void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void Arrange(float x, float y, float width, float height) override;
 		protected:
+			D2D1_SIZE_F GetSize(float width, float height) override;
 			D2D1_RECT_F LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst);
 			void Release() override;
 			ID2D1Bitmap* m_pD2DBitmap = NULL;

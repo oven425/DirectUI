@@ -10,34 +10,6 @@ void CControl::OnSize(float width, float height, float dpiscale)
 
 void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	//this->DesiredSize.width = width;
-	//if (this->m_Width > 0)
-	//{
-	//	if (width < this->m_Width)
-	//	{
-	//		this->DesiredSize.width = width;
-	//	}
-	//	else
-	//	{
-	//		this->DesiredSize.width = this->m_Width;
-	//	}
-	//	this->DesiredSize.width = this->m_Width;
-	//}
-	//this->DesiredSize.height = height;
-	//if (this->m_Height > 0)
-	//{
-	//	if (height < this->m_Height)
-	//	{
-	//		this->DesiredSize.height = height;
-	//	}
-	//	else
-	//	{
-	//		this->DesiredSize.height = this->m_Height;
-	//	}
-	//	this->DesiredSize.height = this->m_Height;
-	//}
-	//this->DesiredSize.width = this->DesiredSize.width - this->Margin.GetLeft() - this->Margin.GetRight();
-	//this->DesiredSize.height = this->DesiredSize.height - this->Margin.GetTop() - this->Margin.GetBottom();
 	this->DesiredSize = this->GetSize(width, height);
 }
 
@@ -70,15 +42,22 @@ void CControl::Arrange(float x, float y, float width, float height)
 	}
 	float left = x;
 	float top = y;
-	float right = x + sz.width;
-	float bottom = y + sz.height;
+	//float right = x + sz.width;
+	//float bottom = y + sz.height;
+	float right = x + width;
+	float bottom = y + height;
+
 	float w = right - left;
 	float h = bottom - top;
 	switch (this->m_HorizontalAlignment)
 	{
 	case HorizontalAlignments::Stretch:
 	{
-		
+		float w1 = this->DesiredSize.width;
+		w = width;
+
+		left = left + (w - w1) / 2;
+		w = w1;
 	}
 	break;
 	case HorizontalAlignments::Left:
@@ -90,6 +69,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 		}
 	}
 	break;
+	
 	case HorizontalAlignments::Center:
 	{
 		float w1 = this->DesiredSize.width;
@@ -104,10 +84,10 @@ void CControl::Arrange(float x, float y, float width, float height)
 	case HorizontalAlignments::Right:
 	{
 		float w1 = this->DesiredSize.width;
-		if (w1 > width)
-		{
-			w1 = width;
-		}
+		//if (w1 > width)
+		//{
+		//	w1 = width;
+		//}
 		left = left + (w - w1);
 		w = w1;
 	}
@@ -118,7 +98,14 @@ void CControl::Arrange(float x, float y, float width, float height)
 	{
 	case VerticalAlignments::Stretch:
 	{
-		//h = this->DesiredSize.height;
+		float h1 = this->DesiredSize.height;
+		h = height;
+		//if (h1 > height)
+		//{
+		//	h1 = height;
+		//}
+		top = top + (h - h1) / 2;
+		h = h1;
 	}
 	break;
 	case VerticalAlignments::Top:
@@ -144,10 +131,10 @@ void CControl::Arrange(float x, float y, float width, float height)
 	case VerticalAlignments::Bottom:
 	{
 		float h1 = this->DesiredSize.height;
-		if (h1 > height)
-		{
-			h1 = height;
-		}
+		//if (h1 > height)
+		//{
+		//	h1 = height;
+		//}
 		top = top + (h - h1);
 		h = h1;
 	}
@@ -161,8 +148,6 @@ void CControl::Arrange(float x, float y, float width, float height)
 	{
 		top = 0;
 	}
-	//left = left + this->Margin.GetLeft();
-	//top = top + this->Margin.GetTop();
 
 	this->m_ActualRect.SetX(left);
 	this->m_ActualRect.SetY(top);
@@ -171,10 +156,6 @@ void CControl::Arrange(float x, float y, float width, float height)
 	//this->m_ActualRect = this->m_ActualRect + this->Margin;
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 
-
-	
-	//::OutputDebugStringW(this->m_ActualRect.ToString().c_str());
-	//::OutputDebugStringW(L"\r\n");
 }
 
 #define Test
