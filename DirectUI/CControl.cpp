@@ -177,7 +177,7 @@ void CControl::OnRender(ID2D1RenderTarget* pRT)
 	
 	if (this->Background)
 	{
-		this->Background->Release();
+		//this->Background->Release();
 		this->Background->Refresh(pCompatibleRenderTarget);
 		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
 #ifdef Test

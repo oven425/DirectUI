@@ -33,9 +33,9 @@ namespace WpfApp1
 
         private void Img_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //FrameworkElement control = sender as FrameworkElement;
-            //System.Diagnostics.Trace.WriteLine($"w:{control.ActualWidth} h:{control.ActualHeight}");
-            //System.Diagnostics.Trace.WriteLine($"DesiredSize:{control.DesiredSize}");
+            FrameworkElement control = sender as FrameworkElement;
+            System.Diagnostics.Trace.WriteLine($"w:{control.ActualWidth} h:{control.ActualHeight}");
+            System.Diagnostics.Trace.WriteLine($"DesiredSize:{control.DesiredSize}");
         }
     }
 }

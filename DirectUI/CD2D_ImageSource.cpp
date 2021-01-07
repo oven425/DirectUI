@@ -50,7 +50,12 @@ void CD2D_ImageSource::Open(const wchar_t* data)
 			WICBitmapPaletteTypeCustom       // Palette translation type
 		);
 	}
-	
-	pIDecoderFrame->Release();
-	pIDecoder->Release();
+	if (pIDecoderFrame != NULL)
+	{
+		pIDecoderFrame->Release();
+	}
+	if (pIDecoder != NULL)
+	{
+		pIDecoder->Release();
+	}
 }

@@ -157,25 +157,26 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//}
 	//windows.m_Child = uniformgrid;
 
-	shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	border->BorderThickness = 2;
-	border->Margin = CDirectUI_Thinkness(5);
-	border->SetWidth(300);
-	border->SetHieght(300);
-	border->Name = L"border";
-	border->SetHorizontalAlignment(HorizontalAlignments::Right);
-	border->SetVerticalAlignment(VerticalAlignments::Bottom);
-	windows.m_Child = border;
+	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//border->BorderThickness = 2;
+	//border->Margin = CDirectUI_Thinkness(5);
+	//border->SetWidth(300);
+	//border->SetHieght(300);
+	//border->Name = L"border";
+	//border->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//windows.m_Child = border;
 
-	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//imgsource->Open(L"sample.jpg");
-	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::None);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Center);
-	//image->Name = L"image";
-	//windows.m_Child = image;
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	imgsource->Open(L"sample.jpg");
+	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	image->SetSource(imgsource);
+	image->SetStretch(Stretchs::Fill);
+	image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	image->SetVerticalAlignment(VerticalAlignments::Top);
+	image->Name = L"image";
+	windows.m_Child = image;
 
 	windows.Init(this->m_hWnd);
 	windows.SetTitle(L"MainWindow");
