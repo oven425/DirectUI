@@ -124,16 +124,22 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		case Stretchs::UniformToFill:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+			float ww = ss.width*height;
+			float hh = ss.height*width;
+			CTrace::WriteLine(L"ww:%f hh:%f", ww, hh);
 			if (height > width)
 			{
-				
+				this->DesiredSize.height = height;
+				float w = height / ss.height;
+				this->DesiredSize.width = w * width;
 			}
 			else
 			{
 				this->DesiredSize.width = width;
-				float h = width / height;
+				float h = width / ss.width;
 				this->DesiredSize.height = h * height;
 			}
+			
 		}
 		break;
 		}

@@ -168,6 +168,7 @@
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
     <ClInclude Include="CStackPanel.h" />
+    <ClInclude Include="CTextBlock.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CUniformGrid.h" />
     <ClInclude Include="CWindow.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
+    <ClCompile Include="CTextBlock.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CUniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />

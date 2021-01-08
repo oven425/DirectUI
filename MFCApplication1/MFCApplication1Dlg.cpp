@@ -168,15 +168,23 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//windows.m_Child = border;
 
-	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	imgsource->Open(L"sample.jpg");
-	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::Fill);
-	image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	image->SetVerticalAlignment(VerticalAlignments::Top);
-	image->Name = L"image";
-	windows.m_Child = image;
+	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	//imgsource->Open(L"sample.jpg");
+	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	//image->SetSource(imgsource);
+	//image->SetStretch(Stretchs::UniformToFill);
+	////image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	////image->SetVerticalAlignment(VerticalAlignments::Top);
+	//image->Name = L"image";
+	//windows.m_Child = image;
+
+	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
+	textblock->SetText(L"TextBlock");
+	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//image->SetVerticalAlignment(VerticalAlignments::Top);
+	textblock->Name = L"textblock";
+	windows.m_Child = textblock;
 
 	windows.Init(this->m_hWnd);
 	windows.SetTitle(L"MainWindow");

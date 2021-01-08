@@ -10,6 +10,7 @@
 #include "../DirectUI/CStackPanel.h"
 #include "../DirectUI/CUniformGrid.h"
 #include "../DirectUI/CImage.h"
+#include "../DirectUI/CTextBlock.h"
 
 using namespace DirectUI;
 using namespace Control;
