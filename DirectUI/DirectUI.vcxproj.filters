@@ -69,6 +69,9 @@
     <ClInclude Include="CTextBlock.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CD2D_Font.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -120,6 +123,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CTextBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CD2D_Font.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

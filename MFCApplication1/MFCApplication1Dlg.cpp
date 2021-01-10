@@ -104,7 +104,10 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	
 	
 	//windows.Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-
+	CD2D_Font font;
+	auto fontnames = CD2D_Font::GetFontNmaes();
+	fontnames.clear();
+	fontnames = CD2D_Font::GetFontNmaes();
 	D2D1_GRADIENT_STOP gradientStops[2];
 	gradientStops[0].color = D2D1::ColorF(D2D1::ColorF::Yellow, 1);
 	gradientStops[0].position = 0.0f;
@@ -187,6 +190,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows.m_Child = textblock;
 
 	windows.Init(this->m_hWnd);
+
+	
+
 	windows.SetTitle(L"MainWindow");
 	//windows.Background1 = new CD2D_SolidColorBrush();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點

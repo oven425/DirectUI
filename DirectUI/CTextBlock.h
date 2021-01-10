@@ -1,5 +1,7 @@
 #pragma once
 #include "CControl.h"
+#include "CD2D_Font.h"
+
 namespace DirectUI
 {
 	namespace Control
