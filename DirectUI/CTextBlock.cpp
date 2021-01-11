@@ -22,7 +22,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		this->Background->Refresh(pRT);
 		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
 		CDirectUI_Rect rc(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-		pRT->FillRectangle(rc, m_pBlackBrush);
+		pRT->FillRectangle(this->m_ActualRect / this->m_DpiScale, m_pBlackBrush);
 
 
 	}
@@ -30,7 +30,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	{
 		this->Foreground->Refresh(pRT);
 		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-		pRT->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, rc, *this->Foreground);
+		pRT->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, this->m_ActualRect/this->m_DpiScale, *this->Foreground);
 	}
 
 
