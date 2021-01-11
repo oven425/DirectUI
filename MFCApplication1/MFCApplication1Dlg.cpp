@@ -104,10 +104,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	
 	
 	//windows.Background = ::make_unique<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-	CD2D_Font font;
-	auto fontnames = CD2D_Font::GetFontNmaes();
-	fontnames.clear();
-	fontnames = CD2D_Font::GetFontNmaes();
+	
 	D2D1_GRADIENT_STOP gradientStops[2];
 	gradientStops[0].color = D2D1::ColorF(D2D1::ColorF::Yellow, 1);
 	gradientStops[0].position = 0.0f;
@@ -182,9 +179,13 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.m_Child = image;
 
 	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
+    textblock->Font = ::make_shared<CD2D_Font>();
+	textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
 	textblock->SetText(L"TextBlock");
-	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
+	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
+	textblock->Name = L"textblock";
+	textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
 	//image->SetVerticalAlignment(VerticalAlignments::Top);
 	textblock->Name = L"textblock";
 	windows.m_Child = textblock;

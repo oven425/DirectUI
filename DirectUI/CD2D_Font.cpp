@@ -79,25 +79,96 @@ CD2D_Font::CD2D_Font()
 			}
 
 			// Allocate a string big enough to hold the name.
-			unique_ptr<wchar_t[]> name1 = make_unique<wchar_t[]>(length + 1);
-			//wchar_t* name = new (std::nothrow) wchar_t[length + 1];
-			//if (name == NULL)
-			//{
-			//	hr = E_OUTOFMEMORY;
-			//}
-
+			//unique_ptr<wchar_t[]> name1 = make_unique<wchar_t[]>(length + 1);
+			wchar_t* name = new wchar_t[length + 1];
 			// Get the family name.
 			if (SUCCEEDED(hr))
 			{
-				hr = pFamilyNames->GetString(index, name1.get(), length + 1);
+				hr = pFamilyNames->GetString(index, name, length + 1);
 			}
-			m_FontNames.push_back(name1.get());
+			m_FontNames.push_back(name);
 		}
 	}
 }
 
+CD2D_Font::~CD2D_Font()
+{
+	if (this->m_pTextFormat != NULL)
+	{
+		this->m_pTextFormat->Release();
+		this->m_pTextFormat = NULL;
+	}
+}
 
 vector<wstring>& CD2D_Font::GetFontNmaes()
 {
 	return CD2D_Font::m_FontNames;
+}
+
+void CD2D_Font::SetFontSize(float data)
+{
+	if (this->m_pTextFormat != NULL)
+	{
+		this->m_pTextFormat->Release();
+		this->m_pTextFormat = NULL;
+	}
+	this->m_FontSize = data;
+}
+
+void CD2D_Font::SetFontName(const wstring& name)
+{
+	if (this->m_pTextFormat != NULL)
+	{
+		this->m_pTextFormat->Release();
+		this->m_pTextFormat = NULL;
+	}
+	this->m_FontName = name;
+}
+
+void CD2D_Font::CreateFont_()
+{
+	if (this->m_pTextFormat != NULL)
+	{
+		this->m_pTextFormat->Release();
+		this->m_pTextFormat = NULL;
+	}
+
+	HRESULT hr = CD2D_Font::m_pDWriteFactory->CreateTextFormat(
+		this->m_FontName.c_str(),                // Font family name.
+		NULL,                       // Font collection (NULL sets it to use the system font collection).
+		DWRITE_FONT_WEIGHT_REGULAR,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		this->m_FontSize,
+		L"en-us",
+		&this->m_pTextFormat
+	);
+	
+}
+
+D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data)
+{
+	D2D1_SIZE_F sz = { 0 };
+	HRESULT hr = S_OK;
+	IDWriteTextLayout* pTextLayout = NULL;
+	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, 0.0f, 0.0f, &pTextLayout);
+	if (SUCCEEDED(hr))
+	{
+		DWRITE_TEXT_METRICS textMetrics;
+		hr = pTextLayout->GetMetrics(&textMetrics);
+		sz.width = ceil(textMetrics.widthIncludingTrailingWhitespace)*textMetrics.lineCount;
+		sz.height = ceil(textMetrics.height);
+	}
+	pTextLayout->Release();
+
+	return sz;
+}
+
+CD2D_Font::operator IDWriteTextFormat*()
+{
+	if (this->m_pTextFormat == NULL)
+	{
+		this->CreateFont_();
+	}
+	return  this->m_pTextFormat;
 }
