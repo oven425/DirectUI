@@ -53,9 +53,9 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 
 void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str());
-	this->DesiredSize.width = sz.width;
-	this->DesiredSize.height = sz.height;
+	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str(), width, height);
+	this->DesiredSize.width = sz.width*this->m_DpiScale;
+	this->DesiredSize.height = sz.height*this->m_DpiScale;
 }
 
 void CTextBlock::Arrange(float x, float y, float width, float height)
@@ -79,6 +79,17 @@ void CTextBlock::Arrange(float x, float y, float width, float height)
 		left = left+(width - w) / 2;
 	}
 	break;
+	case HorizontalAlignments::Left:
+	{
+		w = this->DesiredSize.width;
+	}
+	break;
+	case HorizontalAlignments::Right:
+	{
+		w = this->DesiredSize.width;
+		left = left+(width - w);
+	}
+	break;
 	}
 	switch (this->m_VerticalAlignment)
 	{
@@ -89,7 +100,19 @@ void CTextBlock::Arrange(float x, float y, float width, float height)
 	break;
 	case VerticalAlignments::Center:
 	{
-
+		h = this->DesiredSize.height;
+		top = top + (height - h)/2;
+	}
+	break;
+	case VerticalAlignments::Top:
+	{
+		h = this->DesiredSize.height;
+	}
+	break;
+	case VerticalAlignments::Bottom:
+	{
+		h = this->DesiredSize.height;
+		top = top + (height - h);
 	}
 	break;
 	}

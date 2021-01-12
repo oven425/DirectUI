@@ -146,17 +146,17 @@ void CD2D_Font::CreateFont_()
 	
 }
 
-D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data)
+D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data, float width, float height)
 {
 	D2D1_SIZE_F sz = { 0 };
 	HRESULT hr = S_OK;
 	IDWriteTextLayout* pTextLayout = NULL;
-	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, 0.0f, 0.0f, &pTextLayout);
+	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, width, height, &pTextLayout);
 	if (SUCCEEDED(hr))
 	{
 		DWRITE_TEXT_METRICS textMetrics;
 		hr = pTextLayout->GetMetrics(&textMetrics);
-		sz.width = ceil(textMetrics.widthIncludingTrailingWhitespace)*textMetrics.lineCount;
+		sz.width = ceil(textMetrics.widthIncludingTrailingWhitespace);
 		sz.height = ceil(textMetrics.height);
 	}
 	pTextLayout->Release();

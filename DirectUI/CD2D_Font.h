@@ -17,7 +17,7 @@ namespace DirectUI
 		float GetFontSize() { return this->m_FontSize; }
 		wstring& GetFontName() { return this->m_FontName; }
 		operator IDWriteTextFormat*();
-		D2D1_SIZE_F GetTextSize(const wchar_t* data);
+		D2D1_SIZE_F GetTextSize(const wchar_t* data, float width, float height);
 	protected:
 		static IDWriteFactory* m_pDWriteFactory;
 		static vector<wstring> m_FontNames;

@@ -181,13 +181,12 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
     textblock->Font = ::make_shared<CD2D_Font>();
 	textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
-	textblock->SetText(L"TextBlock");
+	textblock->SetText(L"白日依山盡\r\n黃河入海流");
 	textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
 	textblock->Name = L"textblock";
-	textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
-	//image->SetVerticalAlignment(VerticalAlignments::Top);
-	textblock->Name = L"textblock";
+	textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
+	textblock->SetVerticalAlignment(VerticalAlignments::Top);
 	windows.m_Child = textblock;
 
 	windows.Init(this->m_hWnd);
