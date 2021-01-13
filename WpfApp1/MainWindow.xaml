@@ -21,5 +21,6 @@
     </UniformGrid>-->
     <!--<Image x:Name="img" MouseLeftButtonDown="Img_MouseLeftButtonDown" Source="sample.jpg" Stretch="UniformToFill"/>-->
     <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
-    <TextBlock Text="Textblock" HorizontalAlignment="Center" Background="Black" Foreground="White" FontFamily="Arial"/>
+    <!--<TextBlock Text="Textblock" Width="30" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Background="Black" Foreground="White" FontFamily="Arial"/>-->
+    <Ellipse Fill="Red" Stretch="Fill" Width="150"/>
 </Window>

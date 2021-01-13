@@ -42,6 +42,8 @@ namespace Control
 		void SetHieght(float data) { this->m_Height = data; }
 		void SetMinWidth(float data) { this->m_MinWidth = data; }
 		void SetMinHieght(float data) { this->m_MinHeight = data; }
+		void SetMaxWidth(float data) { this->m_MaxWidth = data; }
+		void SetMaxHieght(float data) { this->m_MaxHeight = data; }
 		void SetVisibility(Visibilitys data) { this->m_Visibility = data; }
 		Visibilitys GetVisibility() { return this->m_Visibility; }
 		void SetVerticalAlignment(VerticalAlignments data) { this->m_VerticalAlignment = data; }
@@ -55,6 +57,8 @@ namespace Control
 		float m_DpiScale = 1.0;
 		float m_MinWidth = 0;
 		float m_MinHeight = 0;
+		float m_MaxWidth = 0;
+		float m_MaxHeight = 0;
 		CDirectUI_Rect m_ActualRect;
 		Visibilitys m_Visibility = Visibilitys::Visible;
 		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;

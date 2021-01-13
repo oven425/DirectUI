@@ -50,10 +50,26 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 				rc->right = rc->left + ww->m_MinWidth;
 			}
 		}
+		if (ww->m_MaxWidth > 0)
+		{
+			int w = rc->right - rc->left;
+			if (ww->m_MaxWidth < w)
+			{
+				rc->right = rc->left + ww->m_MaxWidth;
+			}
+		}
 		if (ww->m_MinHeight > 0)
 		{
 			int h = rc->bottom - rc->top;
 			if (ww->m_MinHeight > h)
+			{
+				rc->bottom = rc->top + ww->m_MinHeight;
+			}
+		}
+		if (ww->m_MaxHeight > 0)
+		{
+			int h = rc->bottom - rc->top;
+			if (ww->m_MinHeight < h)
 			{
 				rc->bottom = rc->top + ww->m_MinHeight;
 			}
@@ -81,6 +97,9 @@ void CWindow::ReDraw()
 bool CWindow::Init(HWND hwnd)
 {
 	this->m_hWnd = hwnd;
+	
+
+
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
 
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
@@ -126,8 +145,6 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 	CContentControl::OnRender(this->pRT);
 
 	this->pRT->EndDraw();
-
-
 }
 
 void CWindow::SetTitle(const wchar_t* data)

@@ -16,7 +16,6 @@ namespace DirectUI
 			shared_ptr<CD2D_Brush> Foreground;
 			shared_ptr<CD2D_Font> Font;
 		protected:
-			D2D1_SIZE_F GetSize(float width, float height) override;
 			wstring m_Text;
 		};
 	}
