@@ -93,11 +93,7 @@ CD2D_Font::CD2D_Font()
 
 CD2D_Font::~CD2D_Font()
 {
-	if (this->m_pTextFormat != NULL)
-	{
-		this->m_pTextFormat->Release();
-		this->m_pTextFormat = NULL;
-	}
+	this->Release();
 }
 
 vector<wstring>& CD2D_Font::GetFontNmaes()
@@ -105,44 +101,67 @@ vector<wstring>& CD2D_Font::GetFontNmaes()
 	return CD2D_Font::m_FontNames;
 }
 
-void CD2D_Font::SetFontSize(float data)
+void CD2D_Font::SetWrapping(DWRITE_WORD_WRAPPING data)
+{
+	this->Release();
+	this->m_Wrapping = data;
+}
+
+void CD2D_Font::SetFontWeight(DWRITE_FONT_WEIGHT data)
 {
 	if (this->m_pTextFormat != NULL)
 	{
 		this->m_pTextFormat->Release();
 		this->m_pTextFormat = NULL;
 	}
+	this->m_FontWeight = data;
+}
+
+void CD2D_Font::SetFontStyle(DWRITE_FONT_STYLE data)
+{
+	this->Release();
+	this->m_FontStyle = data;
+}
+
+void CD2D_Font::SetFontStretch(DWRITE_FONT_STRETCH data)
+{
+	this->Release();
+	this->m_FontStretch = data;
+}
+
+void CD2D_Font::SetUnderLine(bool data)
+{
+	this->m_IsUnderLine = data;
+}
+
+void CD2D_Font::SetFontSize(float data)
+{
+	this->Release();
 	this->m_FontSize = data;
 }
 
 void CD2D_Font::SetFontName(const wstring& name)
 {
-	if (this->m_pTextFormat != NULL)
-	{
-		this->m_pTextFormat->Release();
-		this->m_pTextFormat = NULL;
-	}
+	this->Release();
 	this->m_FontName = name;
 }
 
 void CD2D_Font::CreateFont_()
 {
-	if (this->m_pTextFormat != NULL)
-	{
-		this->m_pTextFormat->Release();
-		this->m_pTextFormat = NULL;
-	}
+	this->Release();
 
 	HRESULT hr = CD2D_Font::m_pDWriteFactory->CreateTextFormat(
 		this->m_FontName.c_str(),                // Font family name.
 		NULL,                       // Font collection (NULL sets it to use the system font collection).
-		DWRITE_FONT_WEIGHT_REGULAR,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
+		this->m_FontWeight,
+		this->m_FontStyle,
+		this->m_FontStretch,
 		this->m_FontSize,
 		L"en-us",
 		&this->m_pTextFormat
 	);
+
+
 	
 }
 
@@ -150,18 +169,33 @@ D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data, float width, float heigh
 {
 	D2D1_SIZE_F sz = { 0 };
 	HRESULT hr = S_OK;
-	IDWriteTextLayout* pTextLayout = NULL;
-	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, width, height, &pTextLayout);
+	//IDWriteTextLayout* pTextLayout = NULL;
+	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, width, height, &this->m_pTextLayout);
 	if (SUCCEEDED(hr))
 	{
+		if (this->m_IsUnderLine == true)
+		{
+			DWRITE_TEXT_RANGE range = { 0 };
+			range.length = ::wcslen(data);
+			this->m_pTextLayout->SetUnderline(TRUE, range);
+		}
 		DWRITE_TEXT_METRICS textMetrics;
-		hr = pTextLayout->GetMetrics(&textMetrics);
+		hr = this->m_pTextLayout->GetMetrics(&textMetrics);
 		sz.width = ceil(textMetrics.widthIncludingTrailingWhitespace);
 		sz.height = ceil(textMetrics.height);
 	}
-	pTextLayout->Release();
+	//pTextLayout->Release();
 
 	return sz;
+}
+
+CD2D_Font::operator IDWriteTextLayout*()
+{
+	if (this->m_pTextLayout == NULL)
+	{
+		this->CreateFont_();
+	}
+	return this->m_pTextLayout;
 }
 
 CD2D_Font::operator IDWriteTextFormat*()
@@ -170,5 +204,19 @@ CD2D_Font::operator IDWriteTextFormat*()
 	{
 		this->CreateFont_();
 	}
-	return  this->m_pTextFormat;
+	return this->m_pTextFormat;
+}
+
+void CD2D_Font::Release()
+{
+	if (this->m_pTextFormat != NULL)
+	{
+		this->m_pTextFormat->Release();
+		this->m_pTextFormat = NULL;
+	}
+	if (this->m_pTextLayout != NULL)
+	{
+		this->m_pTextLayout->Release();
+		this->m_pTextLayout = NULL;
+	}
 }

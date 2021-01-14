@@ -26,7 +26,8 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	{
 		this->Foreground->Refresh(pCompatibleRenderTarget);
 		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-		pCompatibleRenderTarget->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, rc / this->m_DpiScale, *this->Foreground);
+		pCompatibleRenderTarget->DrawTextLayout(rc, *this->Font, *this->Foreground);
+		//pCompatibleRenderTarget->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, rc / this->m_DpiScale, *this->Foreground);
 	}
 
 

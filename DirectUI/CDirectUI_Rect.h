@@ -58,6 +58,13 @@ namespace DirectUI
 				sz.height = this->m_Bottom - this->m_Top;
 				return sz;
 			}
+			operator D2D1_POINT_2F() const throw()
+			{
+				D2D1_POINT_2F pt = { 0 };
+				pt.x = this->m_Left;
+				pt.y = this->m_Top;
+				return pt;
+			}
 			operator D2D1_RECT_F() const throw()
 			{
 				D2D1_RECT_F rc;

@@ -180,16 +180,20 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
     textblock->Font = ::make_shared<CD2D_Font>();
+	textblock->Font->SetFontSize(32);
+	textblock->Font->SetFontWeight();
+	textblock->Font->SetFontStyle();
+	textblock->Font->SetUnderLine(true);
 	textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
 	textblock->SetText(L"白日依山盡,黃河入海流,\r\n欲窮千里目,更上一層樓。");
 	textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
 	textblock->Name = L"textblock";
 	//textblock->SetWidth(50);
-	textblock->SetHieght(20);
+	//textblock->SetHieght(20);
 
-	textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-	textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
 	windows.m_Child = textblock;
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);
