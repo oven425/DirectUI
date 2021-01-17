@@ -101,6 +101,18 @@ vector<wstring>& CD2D_Font::GetFontNmaes()
 	return CD2D_Font::m_FontNames;
 }
 
+void CD2D_Font::SetAligment(DWRITE_TEXT_ALIGNMENT data)
+{
+	this->Release();
+	this->m_Aligment = data;
+}
+
+void CD2D_Font::SetTriming(DWRITE_TRIMMING_GRANULARITY data)
+{
+	this->Release();
+	this->m_Triming = data;
+}
+
 void CD2D_Font::SetWrapping(DWRITE_WORD_WRAPPING data)
 {
 	this->Release();
@@ -161,7 +173,21 @@ void CD2D_Font::CreateFont_()
 		&this->m_pTextFormat
 	);
 
+	this->m_pTextFormat->SetWordWrapping(this->m_Wrapping);
 
+	if (this->m_Triming != DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_NONE)
+	{
+		m_pDWriteFactory->CreateEllipsisTrimmingSign(this->m_pTextFormat, &this->m_pTrimeObject);
+
+		DWRITE_TRIMMING trim1;
+		trim1.granularity = this->m_Triming;
+		trim1.delimiter = 1;
+		trim1.delimiterCount = 24;
+
+		hr = this->m_pTextFormat->SetTrimming(&trim1, this->m_pTrimeObject);
+	}
+	
+	this->m_pTextFormat->SetTextAlignment(this->m_Aligment);
 	
 }
 
@@ -169,8 +195,8 @@ D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data, float width, float heigh
 {
 	D2D1_SIZE_F sz = { 0 };
 	HRESULT hr = S_OK;
-	//IDWriteTextLayout* pTextLayout = NULL;
 	hr = m_pDWriteFactory->CreateTextLayout(data, wcslen(data), *this, width, height, &this->m_pTextLayout);
+
 	if (SUCCEEDED(hr))
 	{
 		if (this->m_IsUnderLine == true)
@@ -184,7 +210,6 @@ D2D1_SIZE_F CD2D_Font::GetTextSize(const wchar_t* data, float width, float heigh
 		sz.width = ceil(textMetrics.widthIncludingTrailingWhitespace);
 		sz.height = ceil(textMetrics.height);
 	}
-	//pTextLayout->Release();
 
 	return sz;
 }
@@ -218,5 +243,10 @@ void CD2D_Font::Release()
 	{
 		this->m_pTextLayout->Release();
 		this->m_pTextLayout = NULL;
+	}
+	if (this->m_pTrimeObject != NULL)
+	{
+		this->m_pTrimeObject->Release();
+		this->m_pTrimeObject = NULL;
 	}
 }
