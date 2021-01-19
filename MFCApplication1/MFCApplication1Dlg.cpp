@@ -138,7 +138,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
 	uniformgrid->Name = L"uniformgrid";
 	//uniformgrid->Margin = CDirectUI_Thinkness(10);
-	//uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
+	uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
 	//uniformgrid->SetVerticalAlignment(VerticalAlignments::Center);
 	//uniformgrid->SetColums(5);
 	//uniformgrid->SetRows(5);
@@ -157,7 +157,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 		shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
 		textblock->Font = ::make_shared<CD2D_Font>();
-		textblock->Font->SetFontSize(32);
+		textblock->Font->SetFontSize(36);
 		textblock->Font->SetFontWeight();
 		//textblock->Font->SetFontStyle();
 		textblock->Font->SetUnderLine(true);
@@ -174,8 +174,8 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		//textblock->SetWidth(50);
 		//textblock->SetHieght(20);
 
-		//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-		//textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+		textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
+		textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
 		uniformgrid->AddChild(textblock);
 	}
 	windows.m_Child = uniformgrid;
