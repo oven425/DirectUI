@@ -23,7 +23,7 @@ namespace DirectUI
 			static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 		protected:
 			void ReDraw();
-			ID2D1Factory* pD2DFactory = NULL;
+			
 			ID2D1HwndRenderTarget* pRT = NULL;
 		};
 	}

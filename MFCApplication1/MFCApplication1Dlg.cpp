@@ -114,11 +114,11 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(gradientStops, 2);
 	windows.Name = L"windows";
 
-	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	////border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-	//border->BorderThickness = 20;
-	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	//windows.m_Child = border;
+	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+	border->BorderThickness = 10;
+	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	windows.m_Child = border;
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
@@ -135,50 +135,50 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//}
 	//windows.m_Child = stackpanel;
 
-	shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
-	uniformgrid->Name = L"uniformgrid";
-	//uniformgrid->Margin = CDirectUI_Thinkness(10);
-	uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
-	//uniformgrid->SetVerticalAlignment(VerticalAlignments::Center);
-	//uniformgrid->SetColums(5);
-	//uniformgrid->SetRows(5);
-	uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	for (int i = 0; i < 7; i++)
-	{
-		//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		//border->Name = L"border_"+ std::to_wstring(i);
-		//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-		//border->BorderThickness = 2;
-		//border->SetWidth(150);
-		//border->SetHieght(100);
-		////border->Margin = CDirectUI_Thinkness(5);
-		////border->SetHorizontalAlignment(HorizontalAlignments::Left);
-		//uniformgrid->AddChild(border);
+	//shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
+	//uniformgrid->Name = L"uniformgrid";
+	////uniformgrid->Margin = CDirectUI_Thinkness(10);
+	//uniformgrid->SetHorizontalAlignment(HorizontalAlignments::Left);
+	////uniformgrid->SetVerticalAlignment(VerticalAlignments::Center);
+	////uniformgrid->SetColums(5);
+	////uniformgrid->SetRows(5);
+	//uniformgrid->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//for (int i = 0; i < 7; i++)
+	//{
+	//	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//	//border->Name = L"border_"+ std::to_wstring(i);
+	//	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	//	//border->BorderThickness = 2;
+	//	//border->SetWidth(150);
+	//	//border->SetHieght(100);
+	//	////border->Margin = CDirectUI_Thinkness(5);
+	//	////border->SetHorizontalAlignment(HorizontalAlignments::Left);
+	//	//uniformgrid->AddChild(border);
 
-		shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
-		textblock->Font = ::make_shared<CD2D_Font>();
-		textblock->Font->SetFontSize(36);
-		textblock->Font->SetFontWeight();
-		//textblock->Font->SetFontStyle();
-		textblock->Font->SetUnderLine(true);
-		textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
-		//textblock->Font->SetTriming(DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_CHARACTER);
-		//textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
-		//textblock->SetText(L"白日依山盡,黃河入海流\r\n欲窮千里目,更上一層樓。");
-		textblock->SetText(std::to_wstring(i).c_str());
-	
-		//textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
-		textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
-		textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
-		textblock->Name = L"textblock";
-		//textblock->SetWidth(50);
-		//textblock->SetHieght(20);
+	//	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
+	//	textblock->Font = ::make_shared<CD2D_Font>();
+	//	textblock->Font->SetFontSize(36);
+	//	textblock->Font->SetFontWeight();
+	//	//textblock->Font->SetFontStyle();
+	//	textblock->Font->SetUnderLine(true);
+	//	textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
+	//	//textblock->Font->SetTriming(DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_CHARACTER);
+	//	//textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
+	//	//textblock->SetText(L"白日依山盡,黃河入海流\r\n欲窮千里目,更上一層樓。");
+	//	textblock->SetText(std::to_wstring(i).c_str());
+	//
+	//	//textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
+	//	textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
+	//	textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
+	//	textblock->Name = L"textblock";
+	//	//textblock->SetWidth(50);
+	//	//textblock->SetHieght(20);
 
-		textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-		textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
-		uniformgrid->AddChild(textblock);
-	}
-	windows.m_Child = uniformgrid;
+	//	textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//	textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//	uniformgrid->AddChild(textblock);
+	//}
+	//windows.m_Child = uniformgrid;
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	//border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));

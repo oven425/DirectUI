@@ -8,7 +8,7 @@
         Title="MainWindow" Height="600" Width="800"
         Background="Purple"
         >
-    <!--<Border Width="300" Height="300" Margin="10" BorderBrush="Red" BorderThickness="2"></Border>-->
+    <Border Width="300" Height="300" CornerRadius="150"  BorderBrush="Red" BorderThickness="2"></Border>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
@@ -21,6 +21,11 @@
     </UniformGrid>-->
     <!--<Image x:Name="img" MouseLeftButtonDown="Img_MouseLeftButtonDown" Source="sample.jpg" Stretch="UniformToFill"/>-->
     <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
-    <TextBlock Text="TextblockAAAABBBBDDDDCCCC"  Background="Black" Foreground="White" FontFamily="Arial" TextTrimming="CharacterEllipsis" />
+    <!--<TextBlock Text="TextblockAAAABBBBDDDDCCCC"  Background="Black" Foreground="White" FontFamily="Arial" TextTrimming="CharacterEllipsis" />-->
     <!--<Ellipse Fill="Red" Stretch="Fill" Width="150"/>-->
+    <!--<GroupBox >
+        <GroupBox.Header>
+            <CheckBox>123</CheckBox>
+        </GroupBox.Header>
+    </GroupBox>-->
 </Window>

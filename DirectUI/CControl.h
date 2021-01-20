@@ -65,6 +65,7 @@ namespace Control
 		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
 		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
+		static ID2D1Factory* m_pD2DFactory;
 	public:
 		CDirectUI_Thinkness Margin;
 		wstring Name = L"";

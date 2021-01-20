@@ -14,8 +14,11 @@ namespace DirectUI
 			int CornerRadius = 0;
 			virtual void Arrange(float x, float y, float width, float height);
 			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
+			void Release() override;
 		protected:
 			void OnRender(ID2D1RenderTarget* pRT) override;
+			ID2D1PathGeometry* m_pBorder = NULL;
+			
 		};
 	}
 }

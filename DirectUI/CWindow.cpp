@@ -102,7 +102,7 @@ bool CWindow::Init(HWND hwnd)
 
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
 
-	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
 
 	RECT rc;
 	GetClientRect(hwnd, &rc);
@@ -116,7 +116,7 @@ bool CWindow::Init(HWND hwnd)
 	//CDirectUI_Rect rc(0, 0, rc.right, rc.bottom);
 	//rc = rc / dpiscale;
 	// Create a Direct2D render target          
-	hr = pD2DFactory->CreateHwndRenderTarget(
+	hr = m_pD2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(
 			hwnd,
@@ -141,8 +141,12 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
 	this->pRT->BeginDraw();
-	//this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 	CContentControl::OnRender(this->pRT);
+
+	
+	
+	
 
 	this->pRT->EndDraw();
 }

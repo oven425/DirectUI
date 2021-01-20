@@ -3,6 +3,8 @@
 using namespace DirectUI;
 using namespace Control;
 
+ID2D1Factory* CControl::m_pD2DFactory = NULL;
+
 void CControl::OnSize(float width, float height, float dpiscale)
 {
 	this->m_DpiScale = dpiscale;
