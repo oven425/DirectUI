@@ -18,6 +18,8 @@ namespace DirectUI
 			float GetTop() { return this->m_Top; }
 			float GetRight() { return this->m_Right; }
 			float GetBottom() { return this->m_Bottom; }
+			bool operator==(CDirectUI_Thinkness& data) { return this->m_Bottom == data.m_Bottom&&this->m_Left == data.m_Left&&this->m_Right == data.m_Right&&this->m_Top == data.m_Top; }
+			bool operator!=(CDirectUI_Thinkness& data) { return this->m_Bottom != data.m_Bottom||this->m_Left != data.m_Left||this->m_Right != data.m_Right||this->m_Top != data.m_Top; }
 		protected:
 			float m_Left = 0;
 			float m_Top = 0;

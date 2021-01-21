@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800"
+        Title="MainWindow" Height="300" Width="300"
         Background="Purple"
         >
-    <Border Width="300" Height="300" CornerRadius="150"  BorderBrush="Red" BorderThickness="2"></Border>
+    <Border CornerRadius="60,30,60,30"  BorderBrush="Red" BorderThickness="30"></Border>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>

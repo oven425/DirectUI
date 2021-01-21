@@ -142,12 +142,133 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	CContentControl::OnRender(this->pRT);
+	//CContentControl::OnRender(this->pRT);
 
 	
-	
-	
+	HRESULT hr = S_OK;
+	ID2D1GeometrySink *pGeometrySink = NULL;
 
+	// Create the first ellipse geometry to merge.
+	const D2D1_ELLIPSE circle1 = D2D1::Ellipse(
+		D2D1::Point2F(75.0f, 75.0f),
+		50.0f,
+		50.0f
+	);
+	//ID2D1RectangleGeometry* m_pCircleGeometry1 = NULL;
+	ID2D1RectangleGeometry* m_pCircleGeometry2 = NULL;
+	ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
+	//hr = m_pD2DFactory->CreateEllipseGeometry(
+	//	circle1,
+	//	&m_pCircleGeometry1
+	//);
+	ID2D1PathGeometry* m_pBorder = NULL;
+	hr = m_pD2DFactory->CreatePathGeometry(&m_pBorder);
+	if (SUCCEEDED(hr))
+	{
+
+		ID2D1GeometrySink *pSink = NULL;
+
+		hr = m_pBorder->Open(&pSink);
+		if (SUCCEEDED(hr))
+		{
+			pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
+
+			pSink->BeginFigure(
+				D2D1::Point2F(20, 10),
+				D2D1_FIGURE_BEGIN_FILLED
+			);
+			pSink->AddLine(D2D1::Point2F(90, 10));
+
+			pSink->AddArc(
+				D2D1::ArcSegment(
+					D2D1::Point2F(100, 20), // end point
+					D2D1::SizeF(10, 10),
+					0.0f, // rotation angle
+					D2D1_SWEEP_DIRECTION_CLOCKWISE,
+					D2D1_ARC_SIZE_SMALL
+				));
+			pSink->AddLine(D2D1::Point2F(100, 90));
+			pSink->AddArc(
+				D2D1::ArcSegment(
+					D2D1::Point2F(90, 100), // end point
+					D2D1::SizeF(10, 10),
+					0.0f, // rotation angle
+					D2D1_SWEEP_DIRECTION_CLOCKWISE,
+					D2D1_ARC_SIZE_SMALL
+				));
+			pSink->AddLine(D2D1::Point2F(20, 100));
+			pSink->AddArc(
+				D2D1::ArcSegment(
+					D2D1::Point2F(10, 90), // end point
+					D2D1::SizeF(10, 10),
+					0.0f, // rotation angle
+					D2D1_SWEEP_DIRECTION_CLOCKWISE,
+					D2D1_ARC_SIZE_SMALL
+				));
+			pSink->AddLine(D2D1::Point2F(10, 20));
+			pSink->AddArc(
+				D2D1::ArcSegment(
+					D2D1::Point2F(20, 10), // end point
+					D2D1::SizeF(10, 10),
+					0.0f, // rotation angle
+					D2D1_SWEEP_DIRECTION_CLOCKWISE,
+					D2D1_ARC_SIZE_SMALL
+				));
+			pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+		}
+
+		hr = pSink->Close();
+	}
+
+	if (SUCCEEDED(hr))
+	{
+		// Create the second ellipse geometry to merge.
+		const D2D1_ELLIPSE circle2 = D2D1::Ellipse(
+			D2D1::Point2F(125.0f, 75.0f),
+			50.0f,
+			50.0f
+		);
+
+		//hr = m_pD2DFactory->CreateEllipseGeometry(circle2, &m_pCircleGeometry2);
+
+		D2D1_RECT_F  rc2 = D2D1::RectF(20, 20, 90, 90);
+		hr = m_pD2DFactory->CreateRectangleGeometry(rc2, &m_pCircleGeometry2);
+	}
+
+
+	if (SUCCEEDED(hr))
+	{
+		//
+		// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
+		//
+		hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
+
+		if (SUCCEEDED(hr))
+		{
+			hr = m_pPathGeometryUnion->Open(&pGeometrySink);
+
+			if (SUCCEEDED(hr))
+			{
+				hr = m_pBorder->CombineWithGeometry(
+					m_pCircleGeometry2,
+					D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
+					NULL,
+					NULL,
+					pGeometrySink
+				);
+			}
+
+			if (SUCCEEDED(hr))
+			{
+				hr = pGeometrySink->Close();
+			}
+
+			//SafeRelease(&pGeometrySink);
+		}
+	}
+	this->Background->Refresh(pRT);
+	this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
+	//pRT->DrawGeometry(m_pBorder, *this->Background);
 	this->pRT->EndDraw();
 }
 

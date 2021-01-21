@@ -116,6 +116,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	//border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
+	border->SetCornerRadius(CDirectUI_Thinkness(20, 40, 60, 80));
 	border->BorderThickness = 10;
 	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
 	windows.m_Child = border;

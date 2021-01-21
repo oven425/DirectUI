@@ -18,52 +18,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 		//CDirectUI_Rect rc = (this->m_ActualRect + thinkness) / this->m_DpiScale;
 		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
 		ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-		HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-
-		hr = m_pD2DFactory->CreatePathGeometry(&this->m_pBorder);
-		//if (SUCCEEDED(hr))
-		//{
-
-		//	ID2D1GeometrySink *pSink = NULL;
-
-		//	hr = m_pSunGeometry->Open(&pSink);
-		//	if (SUCCEEDED(hr))
-		//	{
-		//		pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-
-		//		pSink->BeginFigure(
-		//			D2D1::Point2F(10, 10),
-		//			D2D1_FIGURE_BEGIN_FILLED
-		//		);
-		//		pSink->AddLine(D2D1::Point2F(90, 10));
-
-		//		pSink->AddArc(
-		//			D2D1::ArcSegment(
-		//				D2D1::Point2F(100, 20), // end point
-		//				D2D1::SizeF(10, 10),
-		//				0.0f, // rotation angle
-		//				D2D1_SWEEP_DIRECTION_CLOCKWISE,
-		//				D2D1_ARC_SIZE_SMALL
-		//			));
-		//		pSink->AddLine(D2D1::Point2F(100, 90));
-		//		pSink->AddArc(
-		//			D2D1::ArcSegment(
-		//				D2D1::Point2F(90, 100), // end point
-		//				D2D1::SizeF(10, 10),
-		//				0.0f, // rotation angle
-		//				D2D1_SWEEP_DIRECTION_CLOCKWISE,
-		//				D2D1_ARC_SIZE_SMALL
-		//			));
-		//		pSink->AddLine(D2D1::Point2F(10, 100));
-
-
-		//		pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-		//	}
-
-		//	hr = pSink->Close();
-		//}
-		//this->Background->Refresh(pRT);
-		//pRT->DrawGeometry(m_pSunGeometry, *this->Background, 1.f);
+		
 
 
 
@@ -77,10 +32,60 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 			//this->BorderBrush->Release();
 			this->BorderBrush->Refresh(pCompatibleRenderTarget);
 			ID2D1Brush* m_pBlackBrush = this->BorderBrush->operator ID2D1Brush*();
-			D2D1_RECT_F rc1 = { 0 };
-			rc1.right = this->DesiredSize.width;
-			rc1.bottom = this->DesiredSize.height;
-			pCompatibleRenderTarget->DrawRectangle(CDirectUI_Rect(0,0,this->DesiredSize.width, this->DesiredSize.height) + thinkness, m_pBlackBrush, this->BorderThickness / this->m_DpiScale);
+			//D2D1_RECT_F rc1 = { 0 };
+			//rc1.right = this->DesiredSize.width;
+			//rc1.bottom = this->DesiredSize.height;
+			//pCompatibleRenderTarget->DrawRectangle(CDirectUI_Rect(0,0,this->DesiredSize.width, this->DesiredSize.height) + thinkness, m_pBlackBrush, this->BorderThickness / this->m_DpiScale);
+
+			HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
+
+			hr = m_pD2DFactory->CreatePathGeometry(&this->m_pBorder);
+			if (SUCCEEDED(hr))
+			{
+
+				ID2D1GeometrySink *pSink = NULL;
+
+				hr = m_pBorder->Open(&pSink);
+				if (SUCCEEDED(hr))
+				{
+					pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
+
+					pSink->BeginFigure(
+						D2D1::Point2F(0, 0),
+						D2D1_FIGURE_BEGIN_FILLED
+					);
+					pSink->AddLine(D2D1::Point2F(this->DesiredSize.width, 10));
+
+					pSink->AddArc(
+						D2D1::ArcSegment(
+							D2D1::Point2F(100, 20), // end point
+							D2D1::SizeF(10, 10),
+							0.0f, // rotation angle
+							D2D1_SWEEP_DIRECTION_CLOCKWISE,
+							D2D1_ARC_SIZE_SMALL
+						));
+					pSink->AddLine(D2D1::Point2F(100, 90));
+					pSink->AddArc(
+						D2D1::ArcSegment(
+							D2D1::Point2F(90, 100), // end point
+							D2D1::SizeF(10, 10),
+							0.0f, // rotation angle
+							D2D1_SWEEP_DIRECTION_CLOCKWISE,
+							D2D1_ARC_SIZE_SMALL
+						));
+					pSink->AddLine(D2D1::Point2F(10, 100));
+
+
+					pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+				}
+
+				hr = pSink->Close();
+			}
+			//this->Background->Refresh(pRT);
+			//pRT->DrawGeometry(m_pSunGeometry, *this->Background, 1.f);
+			
+
+
 		}
 		pCompatibleRenderTarget->EndDraw();
 		ID2D1Bitmap* bmp = NULL;
@@ -112,6 +117,16 @@ void CBorder::Arrange(float x, float y, float width, float height)
 void CBorder::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	::CContentControl::Measure(width, height, pRT);
+}
+
+void CBorder::SetCornerRadius(CDirectUI_Thinkness& data)
+{
+	if (this->m_CornerRadius != data)
+	{
+		this->m_CornerRadius = data;
+		this->Release();
+	}
+	
 }
 
 void CBorder::Release()
