@@ -75,6 +75,12 @@
     <ClInclude Include="CGroupBox.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CDirectUI_CornerRadius.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CD2D_PathGeometry.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -132,6 +138,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CGroupBox.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CDirectUI_CornerRadius.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CD2D_PathGeometry.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

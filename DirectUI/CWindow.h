@@ -3,6 +3,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 #include "CContentControl.h"
+#include "CDirectUI_CornerRadius.h"
 #include <d2d1.h>
 namespace DirectUI
 {
@@ -25,6 +26,9 @@ namespace DirectUI
 			void ReDraw();
 			
 			ID2D1HwndRenderTarget* pRT = NULL;
+
+
+			ID2D1PathGeometry* BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness);
 		};
 	}
 }

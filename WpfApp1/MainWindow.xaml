@@ -8,7 +8,7 @@
         Title="MainWindow" Height="300" Width="300"
         Background="Purple"
         >
-    <Border CornerRadius="60,30,60,30"  BorderBrush="Red" BorderThickness="30"></Border>
+    <Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="30" BorderBrush="Red" BorderThickness="10,20,40,40"></Border>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>

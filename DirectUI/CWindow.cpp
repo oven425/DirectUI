@@ -138,78 +138,56 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 
 }
 
-void CWindow::OnRender(ID2D1RenderTarget* pRT)
-{	
-	this->pRT->BeginDraw();
-	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	//CContentControl::OnRender(this->pRT);
-
-	
-	HRESULT hr = S_OK;
-	ID2D1GeometrySink *pGeometrySink = NULL;
-
-	// Create the first ellipse geometry to merge.
-	const D2D1_ELLIPSE circle1 = D2D1::Ellipse(
-		D2D1::Point2F(75.0f, 75.0f),
-		50.0f,
-		50.0f
-	);
-	//ID2D1RectangleGeometry* m_pCircleGeometry1 = NULL;
-	ID2D1RectangleGeometry* m_pCircleGeometry2 = NULL;
-	ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
-	//hr = m_pD2DFactory->CreateEllipseGeometry(
-	//	circle1,
-	//	&m_pCircleGeometry1
-	//);
-	ID2D1PathGeometry* m_pBorder = NULL;
-	hr = m_pD2DFactory->CreatePathGeometry(&m_pBorder);
+ID2D1PathGeometry* CWindow::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness)
+{
+	ID2D1PathGeometry* path = NULL;
+	HRESULT hr = m_pD2DFactory->CreatePathGeometry(&path);
 	if (SUCCEEDED(hr))
 	{
-
 		ID2D1GeometrySink *pSink = NULL;
 
-		hr = m_pBorder->Open(&pSink);
+		hr = path->Open(&pSink);
 		if (SUCCEEDED(hr))
 		{
 			pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 
 			pSink->BeginFigure(
-				D2D1::Point2F(20, 10),
+				D2D1::Point2F(rc.GetLeft()+ thinkness.GetLeft(), rc.GetTop()),
 				D2D1_FIGURE_BEGIN_FILLED
 			);
-			pSink->AddLine(D2D1::Point2F(90, 10));
+			pSink->AddLine(D2D1::Point2F(rc.GetRight() - corner_radius.GetTopRight(), rc.GetTop()));
 
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(100, 20), // end point
-					D2D1::SizeF(10, 10),
+					D2D1::Point2F(rc.GetRight(), rc.GetTop() + corner_radius.GetTopRight()), // end point
+					D2D1::SizeF(corner_radius.GetTopRight(), corner_radius.GetTopRight()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(100, 90));
+			pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetBottom() - corner_radius.GetBottomRight()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(90, 100), // end point
-					D2D1::SizeF(10, 10),
+					D2D1::Point2F(rc.GetRight() - corner_radius.GetBottomRight(), rc.GetBottom()), // end point
+					D2D1::SizeF(corner_radius.GetBottomRight(), corner_radius.GetBottomRight()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(20, 100));
+			pSink->AddLine(D2D1::Point2F(rc.GetLeft() + corner_radius.GetBottomLeft(), rc.GetBottom()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(10, 90), // end point
-					D2D1::SizeF(10, 10),
+					D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft()), // end point
+					D2D1::SizeF(corner_radius.GetBottomLeft(), corner_radius.GetBottomLeft()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(10, 20));
+			pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetTop() + corner_radius.GetTopLeft()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(20, 10), // end point
-					D2D1::SizeF(10, 10),
+					D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft(), rc.GetTop()), // end point
+					D2D1::SizeF(corner_radius.GetTopLeft(), corner_radius.GetTopLeft()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
@@ -219,21 +197,33 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 
 		hr = pSink->Close();
 	}
+	return path;
+}
 
-	if (SUCCEEDED(hr))
-	{
-		// Create the second ellipse geometry to merge.
-		const D2D1_ELLIPSE circle2 = D2D1::Ellipse(
-			D2D1::Point2F(125.0f, 75.0f),
-			50.0f,
-			50.0f
-		);
+void CWindow::OnRender(ID2D1RenderTarget* pRT)
+{	
+	this->pRT->BeginDraw();
+	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	//CContentControl::OnRender(this->pRT);
 
-		//hr = m_pD2DFactory->CreateEllipseGeometry(circle2, &m_pCircleGeometry2);
+	CDirectUI_Rect rc(10, 10, 200, 200);
+	rc = rc / this->m_DpiScale;
+	CDirectUI_CornerRadius m_CornerRadius(30);
+	m_CornerRadius = m_CornerRadius / this->m_DpiScale;
 
-		D2D1_RECT_F  rc2 = D2D1::RectF(20, 20, 90, 90);
-		hr = m_pD2DFactory->CreateRectangleGeometry(rc2, &m_pCircleGeometry2);
-	}
+	CDirectUI_Thinkness m_BorderThickness(10,20,40,40);
+	m_BorderThickness = m_BorderThickness / this->m_DpiScale;
+	HRESULT hr = S_OK;
+	ID2D1GeometrySink *pGeometrySink = NULL;
+
+
+	ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
+	CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius, thinkness);
+
+	CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius, thinkness1);
+
 
 
 	if (SUCCEEDED(hr))

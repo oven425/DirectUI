@@ -37,5 +37,10 @@ namespace WpfApp1
             System.Diagnostics.Trace.WriteLine($"w:{control.ActualWidth} h:{control.ActualHeight}");
             System.Diagnostics.Trace.WriteLine($"DesiredSize:{control.DesiredSize}");
         }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
