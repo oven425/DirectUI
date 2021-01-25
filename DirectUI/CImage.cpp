@@ -76,6 +76,16 @@ D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& r
 
 void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
+	float w = width;
+	float h = height;
+	if (this->m_Width > 0)
+	{
+		w = this->m_Width;
+	}
+	if (this->m_Height > 0)
+	{
+		h = this->m_Height;
+	}
 	if (this->m_pD2DBitmap == NULL)
 	{
 		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
@@ -101,8 +111,8 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			src.right = ss.width;
 			src.bottom = ss.height;
 			D2D1_RECT_F dst = { 0 };
-			dst.right = width;
-			dst.bottom = height;
+			dst.right = w;
+			dst.bottom = h;
 			D2D1_RECT_F rrc = LetterBoxRect(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
@@ -110,15 +120,15 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		break;
 		case Stretchs::Fill:
 		{
-			this->DesiredSize.width = width;
-			this->DesiredSize.height = height;
+			this->DesiredSize.width = w;
+			this->DesiredSize.height = h;
 		}
 		break;
 		case Stretchs::None:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			this->DesiredSize.width = ss.width;
-			this->DesiredSize.height = ss.height;
+			this->DesiredSize.width = ss.width < w?ss.width:w;
+			this->DesiredSize.height = ss.height < h ? ss.height : h;
 		}
 		break;
 		case Stretchs::UniformToFill:
@@ -139,7 +149,6 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 				float h = width / ss.width;
 				this->DesiredSize.height = h * height;
 			}
-			
 		}
 		break;
 		}
@@ -156,15 +165,9 @@ D2D1_SIZE_F CImage::GetSize(float width, float height)
 	D2D1_SIZE_F sz = { 0 };
 	sz.width = this->DesiredSize.width;
 	sz.height = this->DesiredSize.height;
-	//if (width > sz.width)
-	//{
-	//	sz.width = width;
-	//}
-	//if (height > sz.height)
-	//{
-	//	sz.height = height;
-	//}
+
 	return sz;
+	//return CControl::GetSize(width, height);
 }
 
 void CImage::Arrange(float x, float y, float width, float height)

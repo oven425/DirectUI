@@ -83,79 +83,80 @@ void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 
 void CTextBlock::Arrange(float x, float y, float width, float height)
 {
-	D2D1_SIZE_F sz = this->GetSize(width, height);
-	float left = x;
-	float top = y;
-	float right = left + sz.width;
-	float bottom = top + sz.height;
-	float w = right - left;
-	if (this->m_HorizontalAlignment!= HorizontalAlignments::Stretch)
-	{
-		if (w > this->DesiredSize.width)
-		{
-			w = this->DesiredSize.width;
-		}
-	}
-	float h = bottom - top;
-	if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
-	{
-		if (h > this->DesiredSize.height)
-		{
-			h = this->DesiredSize.height;
-		}
-	}
-	switch (this->m_HorizontalAlignment)
-	{
-	case HorizontalAlignments::Stretch:
-	{
-		left = left + (width - w) / 2;
-		
-	}
-	break;
-	case HorizontalAlignments::Center:
-	{
-		//w = this->DesiredSize.width;
-		left = left+(width - w) / 2;
-	}
-	break;
-	case HorizontalAlignments::Left:
-	{
-		//w = this->DesiredSize.width;
-	}
-	break;
-	case HorizontalAlignments::Right:
-	{
-		//w = this->DesiredSize.width;
-		left = left+(width - w);
-	}
-	break;
-	}
-	switch (this->m_VerticalAlignment)
-	{
-	case VerticalAlignments::Stretch:
-	case VerticalAlignments::Center:
-	{
+	::CControl::Arrange(x, y, width, height);
+	//D2D1_SIZE_F sz = this->GetSize(width, height);
+	//float left = x;
+	//float top = y;
+	//float right = left + sz.width;
+	//float bottom = top + sz.height;
+	//float w = right - left;
+	//if (this->m_HorizontalAlignment!= HorizontalAlignments::Stretch)
+	//{
+	//	if (w > this->DesiredSize.width)
+	//	{
+	//		w = this->DesiredSize.width;
+	//	}
+	//}
+	//float h = bottom - top;
+	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
+	//{
+	//	if (h > this->DesiredSize.height)
+	//	{
+	//		h = this->DesiredSize.height;
+	//	}
+	//}
+	//switch (this->m_HorizontalAlignment)
+	//{
+	//case HorizontalAlignments::Stretch:
+	//{
+	//	left = left + (width - w) / 2;
+	//	
+	//}
+	//break;
+	//case HorizontalAlignments::Center:
+	//{
+	//	//w = this->DesiredSize.width;
+	//	left = left+(width - w) / 2;
+	//}
+	//break;
+	//case HorizontalAlignments::Left:
+	//{
+	//	//w = this->DesiredSize.width;
+	//}
+	//break;
+	//case HorizontalAlignments::Right:
+	//{
+	//	//w = this->DesiredSize.width;
+	//	left = left+(width - w);
+	//}
+	//break;
+	//}
+	//switch (this->m_VerticalAlignment)
+	//{
+	//case VerticalAlignments::Stretch:
+	//case VerticalAlignments::Center:
+	//{
 
-		top = top + (height - h)/2;
-	}
-	break;
-	case VerticalAlignments::Top:
-	{
-		//h = this->DesiredSize.height;
-	}
-	break;
-	case VerticalAlignments::Bottom:
-	{
-		//h = this->DesiredSize.height;
-		top = top + (height - h);
-	}
-	break;
-	}
+	//	top = top + (height - h)/2;
+	//}
+	//break;
+	//case VerticalAlignments::Top:
+	//{
+	//	//h = this->DesiredSize.height;
+	//}
+	//break;
+	//case VerticalAlignments::Bottom:
+	//{
+	//	//h = this->DesiredSize.height;
+	//	top = top + (height - h);
+	//}
+	//break;
+	//}
 
-	this->m_ActualRect.SetLeft(left);
-	this->m_ActualRect.SetTop(top);
-	this->m_ActualRect.SetWidth(w);
-	this->m_ActualRect.SetHeight(h);
+	//this->m_ActualRect.SetLeft(left);
+	//this->m_ActualRect.SetTop(top);
+	//this->m_ActualRect.SetWidth(w);
+	//this->m_ActualRect.SetHeight(h);
 }
 
 void CTextBlock::SetText(const wchar_t* data)

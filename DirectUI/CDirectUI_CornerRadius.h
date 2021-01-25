@@ -29,24 +29,10 @@ namespace DirectUI
 			{
 				return this->m_BottomLeft == data.m_BottomLeft&&this->m_BottomRight == data.m_BottomRight&&this->m_TopLeft == data.m_TopLeft&&this->m_TopRight == data.m_TopRight;
 			}
-			CDirectUI_CornerRadius operator+(float data)
-			{
-				CDirectUI_CornerRadius aa(this->m_BottomLeft + data, this->m_BottomRight + data, this->m_TopLeft + data, this->m_TopRight + data);
-				return aa;
-			}
-			CDirectUI_CornerRadius operator-(float data)
-			{
-				CDirectUI_CornerRadius aa(this->m_BottomLeft - data, this->m_BottomRight - data, this->m_TopLeft - data, this->m_TopRight - data);
-				return aa;
-			}
 			CDirectUI_CornerRadius operator/(float data)
 			{
-				return CDirectUI_CornerRadius(this->m_BottomLeft / data, this->m_BottomRight / data, this->m_TopLeft / data, this->m_TopRight / data);
+				return CDirectUI_CornerRadius(this->m_TopLeft / data, this->m_TopRight / data, this->m_BottomRight / data, this->m_BottomLeft / data);
 			}
-			//CDirectUI_CornerRadius operator+(CDirectUI_Thinkness data)
-			//{
-			//	return CDirectUI_CornerRadius(this->m_BottomLeft / , this->m_BottomRight / data, this->m_TopLeft / data, this->m_TopRight / data);
-			//}
 		protected:
 			float m_BottomLeft = 0;
 			float m_BottomRight = 0;

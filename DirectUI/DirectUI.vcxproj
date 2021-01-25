@@ -168,7 +168,6 @@
     <ClInclude Include="CDirectUI_CornerRadius.h" />
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Thinkness.h" />
-    <ClInclude Include="CGroupBox.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
     <ClInclude Include="CStackPanel.h" />
@@ -192,7 +191,6 @@
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
-    <ClCompile Include="CGroupBox.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
     <ClCompile Include="CStackPanel.cpp" />

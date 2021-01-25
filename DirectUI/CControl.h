@@ -50,6 +50,7 @@ namespace Control
 		VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
 		void SetHorizontalAlignment(HorizontalAlignments data) { this->m_HorizontalAlignment = data; }
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
+		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 	protected:
 		friend class CContentControl;
 		float m_Width = 0;

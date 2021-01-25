@@ -13,31 +13,6 @@ CD2D_LinearGradientBrush::~CD2D_LinearGradientBrush()
 	this->Release();
 }
 
-void CD2D_LinearGradientBrush::Refresh(ID2D1HwndRenderTarget* target)
-{
-	if (this->m_pBrush == NULL && target != NULL)
-	{
-		HRESULT hr = target->CreateGradientStopCollection(
-			m_pData,
-			2,
-			D2D1_GAMMA_2_2,
-			D2D1_EXTEND_MODE_CLAMP,
-			&this->m_pGradientStops
-		);
-
-		if (SUCCEEDED(hr))
-		{
-			hr = target->CreateLinearGradientBrush(
-				D2D1::LinearGradientBrushProperties(
-					D2D1::Point2F(0, 0),
-					D2D1::Point2F(150, 150)),
-				this->m_pGradientStops,
-				&m_pBrush
-			);
-		}
-	}
-}
-
 void CD2D_LinearGradientBrush::Refresh(ID2D1RenderTarget* target)
 {
 	if (this->m_pBrush == NULL && target != NULL)

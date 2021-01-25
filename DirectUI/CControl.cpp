@@ -12,7 +12,14 @@ void CControl::OnSize(float width, float height, float dpiscale)
 
 void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	this->DesiredSize = this->GetSize(width, height);
+	if (this->m_Visibility == Visibilitys::Collapsed)
+	{
+		this->DesiredSize.width = this->DesiredSize.height = 0;
+	}
+	else
+	{
+		this->DesiredSize = this->GetSize(width, height);
+	}
 }
 
 D2D1_SIZE_F CControl::GetSize(float width, float height)
@@ -229,7 +236,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	this->m_ActualRect.SetTop(top);
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
-	//this->m_ActualRect = this->m_ActualRect + this->Margin;
+	this->m_ActualRect = this->m_ActualRect + this->Margin;
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 
 }

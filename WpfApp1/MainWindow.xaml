@@ -8,7 +8,7 @@
         Title="MainWindow" Height="300" Width="300"
         Background="Purple"
         >
-    <Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="30" BorderBrush="Red" BorderThickness="10,20,40,40"></Border>
+    <!--<Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="30" BorderBrush="Red" BorderThickness="10,20,40,60"></Border>-->
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
         <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
@@ -19,13 +19,18 @@
         <Image Source="sample.png"/>
         <Button Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2" Click="Button_Click" ></Button>
     </UniformGrid>-->
-    <!--<Image x:Name="img" MouseLeftButtonDown="Img_MouseLeftButtonDown" Source="sample.jpg" Stretch="UniformToFill"/>-->
+    <!--<Image x:Name="img" Height="60" Source="sample.jpg" Stretch="None"/>-->
     <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
-    <!--<TextBlock Text="TextblockAAAABBBBDDDDCCCC"  Background="Black" Foreground="White" FontFamily="Arial" TextTrimming="CharacterEllipsis" />-->
+    <!--<TextBlock Text="TextblockAAAABBBBDDDDCCCC"  Background="Black" Margin="10" Foreground="White" FontFamily="Arial" TextTrimming="CharacterEllipsis" />-->
     <!--<Ellipse Fill="Red" Stretch="Fill" Width="150"/>-->
     <!--<GroupBox >
         <GroupBox.Header>
             <CheckBox>123</CheckBox>
         </GroupBox.Header>
     </GroupBox>-->
+    <StackPanel>
+        <Image Stretch="Fill" Source="sample.jpg"/>
+        <Image Stretch="None" Source="sample.jpg" Height="60"/>
+        <Image Source="sample.jpg" Height="60"/>
+    </StackPanel>
 </Window>

@@ -49,7 +49,7 @@ void CStackPanel::Arrange(float x, float y, float width, float height)
 		for (auto oo : this->m_Childs)
 		{
 			oo->Arrange(0, y, width, oo->DesiredSize.height);
-			y = y + oo->DesiredSize.height;
+			y = y + oo->GetActualRect().GetHeight();
 		}
 	}
 	break;

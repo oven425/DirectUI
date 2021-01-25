@@ -21,14 +21,6 @@ void CD2D_SolidColorBrush::Release()
 	}
 }
 
-void CD2D_SolidColorBrush::Refresh(ID2D1HwndRenderTarget* target)
-{
-	if (this->m_pBrush == NULL)
-	{
-		target->CreateSolidColorBrush(this->m_Color, &this->m_pBrush);
-	}
-}
-
 void CD2D_SolidColorBrush::Refresh(ID2D1RenderTarget* target)
 {
 	if (this->m_pBrush == NULL)

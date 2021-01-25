@@ -72,9 +72,6 @@
     <ClInclude Include="CD2D_Font.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CGroupBox.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="CDirectUI_CornerRadius.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -135,9 +132,6 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CD2D_Font.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="CGroupBox.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CDirectUI_CornerRadius.cpp">

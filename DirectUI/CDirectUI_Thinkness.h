@@ -7,14 +7,8 @@ namespace DirectUI
 		{
 		public:
 			CDirectUI_Thinkness() {}
-			CDirectUI_Thinkness(float data) 
-			{ 
-				if (data > 0)
-				{
-					this->m_Left = this->m_Top = this->m_Right = this->m_Bottom = data;
-				}
-			}
-			CDirectUI_Thinkness(float left_right, float top_bottom) 
+			CDirectUI_Thinkness(float data) { this->m_Left = this->m_Top = this->m_Right = this->m_Bottom = data; }
+			CDirectUI_Thinkness(float left_right, float top_bottom)
 			{
 				if (left_right > 0)
 				{
@@ -27,10 +21,10 @@ namespace DirectUI
 			}
 			CDirectUI_Thinkness(float left, float top, float right, float bottom)
 			{ 
-				this->m_Left = left > 0 ? left : 0;
-				this->m_Top = top > 0 ? top : 0;
-				this->m_Right = right > 0 ? right : 0;
-				this->m_Bottom = bottom > 0 ? bottom : 0;
+				this->m_Left = left;
+				this->m_Top = top;
+				this->m_Right = right;
+				this->m_Bottom = bottom;
 			}
 			void SetLeft(float data) { this->m_Left = data > 0 ? data : 0; }
 			void SetTop(float data) { this->m_Top = data > 0 ? data : 0; }
@@ -46,6 +40,10 @@ namespace DirectUI
 			CDirectUI_Thinkness operator/(float data)
 			{
 				return CDirectUI_Thinkness(this->m_Left / data, this->m_Top/data, this->m_Right / data, this->m_Bottom / data);
+			}
+			CDirectUI_Thinkness operator-()
+			{
+				return CDirectUI_Thinkness(-this->m_Left, -this->m_Top, -this->m_Right, -this->m_Bottom);
 			}
 		protected:
 			float m_Left = 0;
