@@ -20,7 +20,14 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	//}
 	if (this->m_pD2DBitmap != NULL)
 	{
-		pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0,0,this->DesiredSize.width, this->DesiredSize.height));
+		if (this->m_Stretch == Stretchs::None)
+		{
+			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+		}
+		else
+		{
+			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+		}
 	}
 
 	pCompatibleRenderTarget->EndDraw();
@@ -38,35 +45,48 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 
 D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
 {
-	// Compute source/destination ratios.
-	int iSrcWidth = rcSrc.right - rcSrc.left;
-	int iSrcHeight = rcSrc.bottom - rcSrc.top;
+	D2D1_RECT_F rc = { 0 };
+	float iSrcWidth = rcSrc.right - rcSrc.left;
+	float iSrcHeight = rcSrc.bottom - rcSrc.top;
 
-	int iDstWidth = rcDst.right - rcDst.left;
-	int iDstHeight = rcDst.bottom - rcDst.top;
+	float iDstWidth = rcDst.right - rcDst.left;
+	float iDstHeight = rcDst.bottom - rcDst.top;
 
-	int iDstLBWidth;
-	int iDstLBHeight;
-
-	if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) <= iDstWidth)
+	float iDstLBWidth = 0;
+	float iDstLBHeight = 0;
+	if (iDstWidth == 0 && iDstHeight == 0)
 	{
-		// Column letterboxing ("pillar box")
-		iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
-		iDstLBHeight = iDstHeight;
+
+	}
+	else if (iDstWidth == 0)
+	{
+		float h_ = iDstHeight / iSrcHeight;
+		iDstLBWidth = iDstWidth * h_;
+		iDstLBHeight = iSrcHeight;
+	}
+	else if (iDstHeight == 0)
+	{
+		float w_ = iDstWidth / iSrcWidth;
+		iDstLBWidth = iDstWidth;
+		iDstLBHeight = iSrcHeight * w_;
 	}
 	else
 	{
-		// Row letterboxing.
-		iDstLBWidth = iDstWidth;
-		iDstLBHeight = MulDiv(iDstWidth, iSrcHeight, iSrcWidth);
+		if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) <= iDstWidth)
+		{
+			// Column letterboxing ("pillar box")
+			iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
+			iDstLBHeight = iDstHeight;
+		}
+		else
+		{
+			// Row letterboxing.
+			iDstLBWidth = iDstWidth;
+			iDstLBHeight = MulDiv(iDstWidth, iSrcHeight, iSrcWidth);
+		}
 	}
-
-	// Create a centered rectangle within the current destination rect
-
-	LONG left = rcDst.left + ((iDstWidth - iDstLBWidth) / 2);
-	LONG top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
-
-	D2D1_RECT_F rc = { 0 };
+	float left = rcDst.left + ((iDstWidth - iDstLBWidth) / 2);
+	float top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
 	rc.left = left;
 	rc.top = top;
 	rc.right = left + iDstLBWidth;
@@ -86,6 +106,7 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	{
 		h = this->m_Height;
 	}
+	
 	if (this->m_pD2DBitmap == NULL)
 	{
 		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
@@ -97,16 +118,25 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		pp.dpiX = dpix;
 		pp.dpiY = dpiy;
 		pRT->CreateBitmapFromWicBitmap(*this->m_Source, pp, &this->m_pD2DBitmap);
-		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-		ss.width = 0;
 	}
 	if (this->m_Source && this->m_pD2DBitmap != NULL)
 	{
+		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+		if (w == 0)
+		{
+			float h_ = h / ss.height;
+			w = ss.width * h_;
+		}
+		if (h == 0)
+		{
+			float w_ = w / ss.width;
+			h = ss.height * w_;
+		}
 		switch (this->m_Stretch)
 		{
 		case Stretchs::Uniform:
 		{
-			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+			
 			D2D1_RECT_F src = { 0 };
 			src.right = ss.width;
 			src.bottom = ss.height;

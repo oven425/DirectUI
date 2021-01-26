@@ -2,6 +2,7 @@
 #include "CStackPanel.h"
 using namespace DirectUI;
 using namespace Control;
+
 void CStackPanel::AddChild(shared_ptr<CControl> data)
 {
 	this->m_Childs.push_back(data);
@@ -13,11 +14,7 @@ void CStackPanel::OnSize(float width, float height, float dpiscale)
 	for (auto oo : this->m_Childs)
 	{
 		oo->OnSize(width, height, dpiscale);
-		//oo->Measure(width, height);
 	}
-	
-	
-	
 }
 
 void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
@@ -32,9 +29,24 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	::CControl::Measure(width, height, pRT);
-	for (auto oo : this->m_Childs)
+	switch (this->m_Orientation)
 	{
-		oo->Measure(width, height, pRT);
+	case Orientations::Vertical:
+	{
+		for (auto oo : this->m_Childs)
+		{
+			oo->Measure(width, 0, pRT);
+		}
+	}
+	break;
+	case Orientations::Horizontal:
+	{
+		for (auto oo : this->m_Childs)
+		{
+			oo->Measure(0, height, pRT);
+		}
+	}
+	break;
 	}
 }
 
