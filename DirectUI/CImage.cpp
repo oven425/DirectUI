@@ -43,7 +43,7 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	pCompatibleRenderTarget->Release();
 }
 
-D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
+D2D1_RECT_F CImage::Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
 {
 	D2D1_RECT_F rc = { 0 };
 	float iSrcWidth = rcSrc.right - rcSrc.left;
@@ -73,6 +73,108 @@ D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& r
 	else
 	{
 		if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) <= iDstWidth)
+		{
+			// Column letterboxing ("pillar box")
+			iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
+			iDstLBHeight = iDstHeight;
+		}
+		else
+		{
+			// Row letterboxing.
+			iDstLBWidth = iDstWidth;
+			iDstLBHeight = MulDiv(iDstWidth, iSrcHeight, iSrcWidth);
+		}
+	}
+	float left = rcDst.left + ((iDstWidth - iDstLBWidth) / 2);
+	float top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
+	rc.left = left;
+	rc.top = top;
+	rc.right = left + iDstLBWidth;
+	rc.bottom = top + iDstLBHeight;
+	return rc;
+}
+
+D2D1_RECT_F CImage::Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
+{
+	D2D1_RECT_F rc = { 0 };
+	float iSrcWidth = rcSrc.right - rcSrc.left;
+	float iSrcHeight = rcSrc.bottom - rcSrc.top;
+
+	float iDstWidth = rcDst.right - rcDst.left;
+	float iDstHeight = rcDst.bottom - rcDst.top;
+
+	float iDstLBWidth = 0;
+	float iDstLBHeight = 0;
+	if (iDstWidth == 0 && iDstHeight == 0)
+	{
+
+	}
+	else if (iDstWidth == 0)
+	{
+		float h_ = iDstHeight / iSrcHeight;
+		iDstLBWidth = iDstWidth * h_;
+		iDstLBHeight = iSrcHeight;
+	}
+	else if (iDstHeight == 0)
+	{
+		float w_ = iDstWidth / iSrcWidth;
+		iDstLBWidth = iDstWidth;
+		iDstLBHeight = iSrcHeight * w_;
+	}
+	else
+	{
+		if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) >= iDstWidth)
+		{
+			// Column letterboxing ("pillar box")
+			iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
+			iDstLBHeight = iDstHeight;
+		}
+		else
+		{
+			// Row letterboxing.
+			iDstLBWidth = iDstWidth;
+			iDstLBHeight = MulDiv(iDstWidth, iSrcHeight, iSrcWidth);
+		}
+	}
+	float left = rcDst.left + ((iDstWidth - iDstLBWidth) / 2);
+	float top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
+	rc.left = left;
+	rc.top = top;
+	rc.right = left + iDstLBWidth;
+	rc.bottom = top + iDstLBHeight;
+	return rc;
+}
+
+D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
+{
+	D2D1_RECT_F rc = { 0 };
+	float iSrcWidth = rcSrc.right - rcSrc.left;
+	float iSrcHeight = rcSrc.bottom - rcSrc.top;
+
+	float iDstWidth = rcDst.right - rcDst.left;
+	float iDstHeight = rcDst.bottom - rcDst.top;
+
+	float iDstLBWidth = 0;
+	float iDstLBHeight = 0;
+	if (iDstWidth == 0 && iDstHeight == 0)
+	{
+
+	}
+	else if (iDstWidth == 0)
+	{
+		float h_ = iDstHeight / iSrcHeight;
+		iDstLBWidth = iDstWidth * h_;
+		iDstLBHeight = iSrcHeight;
+	}
+	else if (iDstHeight == 0)
+	{
+		float w_ = iDstWidth / iSrcWidth;
+		iDstLBWidth = iDstWidth;
+		iDstLBHeight = iSrcHeight * w_;
+	}
+	else
+	{
+		if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) >= iDstWidth)
 		{
 			// Column letterboxing ("pillar box")
 			iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
@@ -136,7 +238,6 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		{
 		case Stretchs::Uniform:
 		{
-			
 			D2D1_RECT_F src = { 0 };
 			src.right = ss.width;
 			src.bottom = ss.height;
@@ -157,28 +258,63 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		case Stretchs::None:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			this->DesiredSize.width = ss.width < w?ss.width:w;
-			this->DesiredSize.height = ss.height < h ? ss.height : h;
+			float w = width;
+			float h = height;
+			if (this->m_Width > 0)
+			{
+				w = this->m_Width;
+			}
+			if (this->m_Height > 0)
+			{
+				h = this->m_Height;
+			}
+			//if (h == 0)
+			//{
+			//	this->DesiredSize.height = ss.height;
+			//}
+			//else
+			//{
+			//	this->DesiredSize.height = ss.height < h ? ss.height : h;
+			//}
+			//if (w == 0)
+			//{
+			//	this->DesiredSize.width = ss.width;
+			//}
+			//else
+			//{
+			//	this->DesiredSize.width = ss.width < w ? ss.width : w;
+			//}
+			this->DesiredSize.width = ss.width;
+			this->DesiredSize.height = ss.height;
 		}
 		break;
 		case Stretchs::UniformToFill:
 		{
-			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			float ww = ss.width*height;
-			float hh = ss.height*width;
-			CTrace::WriteLine(L"ww:%f hh:%f", ww, hh);
-			if (height > width)
-			{
-				this->DesiredSize.height = height;
-				float w = height / ss.height;
-				this->DesiredSize.width = w * width;
-			}
-			else
-			{
-				this->DesiredSize.width = width;
-				float h = width / ss.width;
-				this->DesiredSize.height = h * height;
-			}
+			D2D1_RECT_F src = { 0 };
+			src.right = ss.width;
+			src.bottom = ss.height;
+			D2D1_RECT_F dst = { 0 };
+			dst.right = w;
+			dst.bottom = h;
+			D2D1_RECT_F rrc = LetterBoxRect(src, dst);
+			this->DesiredSize.width = rrc.right - rrc.left;
+			this->DesiredSize.height = rrc.bottom - rrc.top;
+			//D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+			//float ww = ss.width*height;
+			//float hh = ss.height*width;
+			//CTrace::WriteLine(L"ww:%f hh:%f", ww, hh);
+			//if (height > width)
+			//{
+			//	this->DesiredSize.height = height;
+			//	float w = height / ss.height;
+			//	this->DesiredSize.width = w * width;
+			//}
+			//else
+			//{
+			//	this->DesiredSize.width = width;
+			//	float h = width / ss.width;
+			//	this->DesiredSize.height = h * height;
+			//}
 		}
 		break;
 		}

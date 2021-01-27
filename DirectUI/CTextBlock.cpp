@@ -77,8 +77,8 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str(), width, height);
-	this->DesiredSize.width = sz.width*this->m_DpiScale;
-	this->DesiredSize.height = sz.height*this->m_DpiScale;
+	this->DesiredSize.width = sz.width;
+	this->DesiredSize.height = sz.height;
 }
 
 void CTextBlock::Arrange(float x, float y, float width, float height)
