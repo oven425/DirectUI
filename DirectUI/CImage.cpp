@@ -20,11 +20,11 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	//}
 	if (this->m_pD2DBitmap != NULL)
 	{
-		if (this->m_Stretch == Stretchs::None)
-		{
-			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
-		}
-		else
+		//if (this->m_Stretch == Stretchs::None)
+		//{
+		//	pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+		//}
+		//else
 		{
 			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
 		}
@@ -244,7 +244,7 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			D2D1_RECT_F dst = { 0 };
 			dst.right = w;
 			dst.bottom = h;
-			D2D1_RECT_F rrc = LetterBoxRect(src, dst);
+			D2D1_RECT_F rrc = Calculate_Uniform(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
 		}
@@ -258,16 +258,19 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		case Stretchs::None:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			float w = width;
-			float h = height;
-			if (this->m_Width > 0)
-			{
-				w = this->m_Width;
-			}
-			if (this->m_Height > 0)
-			{
-				h = this->m_Height;
-			}
+			this->DesiredSize.width = ss.width;
+			this->DesiredSize.height = ss.height;
+			//float w = width;
+			//float h = height;
+			//if (this->m_Width > 0)
+			//{
+			//	w = this->m_Width;
+			//}
+			//if (this->m_Height > 0)
+			//{
+			//	h = this->m_Height;
+			//}
+
 			//if (h == 0)
 			//{
 			//	this->DesiredSize.height = ss.height;
@@ -296,25 +299,10 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			D2D1_RECT_F dst = { 0 };
 			dst.right = w;
 			dst.bottom = h;
-			D2D1_RECT_F rrc = LetterBoxRect(src, dst);
+			D2D1_RECT_F rrc = Calculate_UniformToFill(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
-			//D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			//float ww = ss.width*height;
-			//float hh = ss.height*width;
-			//CTrace::WriteLine(L"ww:%f hh:%f", ww, hh);
-			//if (height > width)
-			//{
-			//	this->DesiredSize.height = height;
-			//	float w = height / ss.height;
-			//	this->DesiredSize.width = w * width;
-			//}
-			//else
-			//{
-			//	this->DesiredSize.width = width;
-			//	float h = width / ss.width;
-			//	this->DesiredSize.height = h * height;
-			//}
+
 		}
 		break;
 		}
@@ -333,92 +321,12 @@ D2D1_SIZE_F CImage::GetSize(float width, float height)
 	sz.height = this->DesiredSize.height;
 
 	return sz;
-	//return CControl::GetSize(width, height);
 }
 
 void CImage::Arrange(float x, float y, float width, float height)
 {
+	
 	::CControl::Arrange(x, y, width, height);
-	//float left = x;
-	//float top = y;
-	//float right = x + width;
-	//float bottom = y + height;
-	//float w = right - left;
-	//float h = bottom - top;
-	//switch (this->m_HorizontalAlignment)
-	//{
-	//case HorizontalAlignments::Stretch:
-	//{
-	//	::CControl::Arrange(x, y, width, height);
-	//}
-	//break;
-	//case HorizontalAlignments::Center:
-	//{
-	//	float w1 = this->DesiredSize.width;
-	//	if (w1 > width)
-	//	{
-	//		w1 = width;
-	//	}
-	//	left = left + (w - w1) / 2;
-	//	w = w1;
-	//}
-	//break;
-	//case HorizontalAlignments::Left:
-	//{
-
-	//}
-	//break;
-	//case HorizontalAlignments::Right:
-	//{
-
-	//}
-	//break;
-	//}
-
-	//switch (this->m_VerticalAlignment)
-	//{
-	//case VerticalAlignments::Stretch:
-	//case VerticalAlignments::Center:
-	//{
-	//	float h1 = this->DesiredSize.height;
-	//	if (h1 > height)
-	//	{
-	//		h1 = height;
-	//	}
-	//	top = top + (h - h1) / 2;
-	//	h = h1;
-	//}
-	//break;
-	//case VerticalAlignments::Top:
-	//{
-
-	//}
-	//break;
-	//case VerticalAlignments::Bottom:
-	//{
-
-	//}
-	//break;
-	//}
-
-	//if (left < 0 && this->m_HorizontalAlignment == HorizontalAlignments::Left)
-	//{
-	//	left = 0;
-	//}
-	//if (top < 0 && this->m_VerticalAlignment == VerticalAlignments::Top)
-	//{
-	//	top = 0;
-	//}
-	////left = left + this->Margin.GetLeft();
-	////top = top + this->Margin.GetTop();
-
-	//this->m_ActualRect.SetX(left);
-	//this->m_ActualRect.SetY(top);
-	//this->m_ActualRect.SetWidth(w);
-	//this->m_ActualRect.SetHeight(h);
-	////this->m_ActualRect = this->m_ActualRect + this->Margin;
-	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
-
 }
 
 void CImage::SetSource(shared_ptr<CD2D_ImageSource> data)
