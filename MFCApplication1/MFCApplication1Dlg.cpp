@@ -132,7 +132,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	//	image->SetSource(imgsource);
 	//	image->SetStretch((Stretchs)i);
-	//	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//	image->SetHorizontalAlignment(HorizontalAlignments::Right);
 	//	//image->SetHieght(60);
 	//	//image->SetStretch(Stretchs::Uniform);
 	//	stackpanel->AddChild(image);
@@ -200,12 +200,12 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	imgsource->Open(L"sample.jpg");
 	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::UniformToFill);
+	image->SetStretch(Stretchs::None);
 	//image->SetHieght(60);
-	image->SetHorizontalAlignment(HorizontalAlignments::Left);
+	image->SetHorizontalAlignment(HorizontalAlignments::Right);
 	image->SetVerticalAlignment(VerticalAlignments::Bottom);
 	image->Name = L"image";
-	//image->Margin = CDirectUI_Thinkness(10);
+	image->Margin = CDirectUI_Thinkness(10);
 	windows.m_Child = image;
 
 	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();

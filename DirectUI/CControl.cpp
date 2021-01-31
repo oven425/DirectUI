@@ -119,80 +119,91 @@ void CControl::Arrange(float x, float y, float width, float height, HorizontalAl
 
 void CControl::Arrange(float x, float y, float width, float height)
 {
-	this->Arrange(x, y, width, height, this->m_HorizontalAlignment, this->m_VerticalAlignment);
-	//D2D1_SIZE_F sz = this->GetSize(width, height);
-	//float left = x;
-	//float top = y;
-	//float right = left + sz.width;
-	//float bottom = top + sz.height;
-	//float w = right - left;
+	D2D1_SIZE_F sz = this->GetSize(width, height);
+	float left = x;
+	float top = y;
+	float right = left + sz.width;
+	float bottom = top + sz.height;
+	float w = right - left;
 	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
-	//{
-	//	if (w > this->DesiredSize.width)
-	//	{
-	//		w = this->DesiredSize.width;
-	//	}
-	//}
-	//float h = bottom - top;
+	{
+		if (w > this->DesiredSize.width)
+		{
+			w = this->DesiredSize.width;
+		}
+	}
+	float h = bottom - top;
 	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
-	//{
-	//	if (h > this->DesiredSize.height)
-	//	{
-	//		h = this->DesiredSize.height;
-	//	}
-	//}
-	//switch (this->m_HorizontalAlignment)
-	//{
-	//case HorizontalAlignments::Stretch:
-	//{
-	//	left = left + (width - w) / 2;
-
-	//}
-	//break;
-	//case HorizontalAlignments::Center:
-	//{
-	//	//w = this->DesiredSize.width;
-	//	left = left + (width - w) / 2;
-	//}
-	//break;
-	//case HorizontalAlignments::Left:
-	//{
-	//	//w = this->DesiredSize.width;
-	//}
-	//break;
-	//case HorizontalAlignments::Right:
-	//{
-	//	//w = this->DesiredSize.width;
-	//	left = left + (width - w);
-	//}
-	//break;
-	//}
-	//switch (this->m_VerticalAlignment)
-	//{
-	//case VerticalAlignments::Stretch:
-	//case VerticalAlignments::Center:
-	//{
-
-	//	top = top + (height - h) / 2;
-	//}
-	//break;
-	//case VerticalAlignments::Top:
-	//{
-	//	//h = this->DesiredSize.height;
-	//}
-	//break;
-	//case VerticalAlignments::Bottom:
-	//{
-	//	//h = this->DesiredSize.height;
-	//	top = top + (height - h);
-	//}
-	//break;
-	//}
-
+	{
+		if (h > this->DesiredSize.height)
+		{
+			h = this->DesiredSize.height;
+		}
+	}
+	switch (this->m_HorizontalAlignment)
+	{
+	case HorizontalAlignments::Stretch:
+	{
+		//left = left + (width - w) / 2;
+		if (width > this->DesiredSize.width)
+		{
+			left = left + (width - w) / 2;
+		}
+	}
+	break;
+	case HorizontalAlignments::Center:
+	{
+		//w = this->DesiredSize.width;
+		left = left + (width - w) / 2;
+	}
+	break;
+	case HorizontalAlignments::Left:
+	{
+		//w = this->DesiredSize.width;
+	}
+	break;
+	case HorizontalAlignments::Right:
+	{
+		//w = this->DesiredSize.width;
+		left = left + (width - w);
+	}
+	break;
+	}
+	switch (this->m_VerticalAlignment)
+	{
+	case VerticalAlignments::Stretch:
+	{
+		if (height > this->DesiredSize.height)
+		{
+			top = top + (height - h) / 2;
+		}
+	}
+	break;
+	case VerticalAlignments::Center:
+	{
+		top = top + (height - h) / 2;
+	}
+	break;
 	
-	
-	
+	case VerticalAlignments::Top:
+	{
+		//h = this->DesiredSize.height;
+	}
+	break;
+	case VerticalAlignments::Bottom:
+	{
+		//h = this->DesiredSize.height;
+		top = top + (height - h);
+	}
+	break;
+	}
 
+	this->m_ActualRect.SetLeft(left);
+	this->m_ActualRect.SetTop(top);
+	this->m_ActualRect.SetWidth(w);
+	this->m_ActualRect.SetHeight(h);
+	this->m_ActualRect = this->m_ActualRect + this->Margin;
+	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
 #define Test

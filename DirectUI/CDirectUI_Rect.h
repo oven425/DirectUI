@@ -75,7 +75,7 @@ namespace DirectUI
 				return rc;
 			}
 			
-			CDirectUI_Rect operator+(CDirectUI_Thinkness& data) const throw()
+			CDirectUI_Rect operator+(CDirectUI_Thinkness data) const throw()
 			{
 				CDirectUI_Rect rc;
 				rc.m_Bottom = this->m_Bottom - data.GetBottom();

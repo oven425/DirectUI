@@ -20,11 +20,11 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	//}
 	if (this->m_pD2DBitmap != NULL)
 	{
-		//if (this->m_Stretch == Stretchs::None)
-		//{
-		//	pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
-		//}
-		//else
+		if (this->m_Stretch == Stretchs::None)
+		{
+			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+		}
+		else
 		{
 			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
 		}
@@ -145,61 +145,13 @@ D2D1_RECT_F CImage::Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1
 	return rc;
 }
 
-D2D1_RECT_F CImage::LetterBoxRect(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
-{
-	D2D1_RECT_F rc = { 0 };
-	float iSrcWidth = rcSrc.right - rcSrc.left;
-	float iSrcHeight = rcSrc.bottom - rcSrc.top;
-
-	float iDstWidth = rcDst.right - rcDst.left;
-	float iDstHeight = rcDst.bottom - rcDst.top;
-
-	float iDstLBWidth = 0;
-	float iDstLBHeight = 0;
-	if (iDstWidth == 0 && iDstHeight == 0)
-	{
-
-	}
-	else if (iDstWidth == 0)
-	{
-		float h_ = iDstHeight / iSrcHeight;
-		iDstLBWidth = iDstWidth * h_;
-		iDstLBHeight = iSrcHeight;
-	}
-	else if (iDstHeight == 0)
-	{
-		float w_ = iDstWidth / iSrcWidth;
-		iDstLBWidth = iDstWidth;
-		iDstLBHeight = iSrcHeight * w_;
-	}
-	else
-	{
-		if (MulDiv(iSrcWidth, iDstHeight, iSrcHeight) >= iDstWidth)
-		{
-			// Column letterboxing ("pillar box")
-			iDstLBWidth = MulDiv(iDstHeight, iSrcWidth, iSrcHeight);
-			iDstLBHeight = iDstHeight;
-		}
-		else
-		{
-			// Row letterboxing.
-			iDstLBWidth = iDstWidth;
-			iDstLBHeight = MulDiv(iDstWidth, iSrcHeight, iSrcWidth);
-		}
-	}
-	float left = rcDst.left + ((iDstWidth - iDstLBWidth) / 2);
-	float top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
-	rc.left = left;
-	rc.top = top;
-	rc.right = left + iDstLBWidth;
-	rc.bottom = top + iDstLBHeight;
-	return rc;
-}
 
 void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
+	this->DesiredSize.width = this->DesiredSize.height = 0;
 	float w = width;
 	float h = height;
+	
 	if (this->m_Width > 0)
 	{
 		w = this->m_Width;
@@ -258,8 +210,38 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		case Stretchs::None:
 		{
 			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-			this->DesiredSize.width = ss.width;
-			this->DesiredSize.height = ss.height;
+			if (this->m_Width > 0)
+			{
+				if (this->m_Width < this->DesiredSize.width)
+				{
+					this->DesiredSize.width = this->m_Width;
+				}
+				else
+				{
+					this->DesiredSize.width = ss.width;
+				}
+			}
+			else
+			{
+				this->DesiredSize.width = ss.width;
+			}
+			if (this->m_Height > 0)
+			{
+				if (ss.height < this->m_Height)
+				{
+					this->DesiredSize.height =ss.height;
+				}
+				else
+				{
+					this->DesiredSize.height = this->m_Height;
+				}
+				
+			}
+			else
+			{
+				this->DesiredSize.height = ss.height;
+			}
+			
 			//float w = width;
 			//float h = height;
 			//if (this->m_Width > 0)
@@ -287,8 +269,8 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			//{
 			//	this->DesiredSize.width = ss.width < w ? ss.width : w;
 			//}
-			this->DesiredSize.width = ss.width;
-			this->DesiredSize.height = ss.height;
+			//this->DesiredSize.width = ss.width;
+			//this->DesiredSize.height = ss.height;
 		}
 		break;
 		case Stretchs::UniformToFill:
@@ -316,11 +298,13 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 
 D2D1_SIZE_F CImage::GetSize(float width, float height)
 {
-	D2D1_SIZE_F sz = { 0 };
-	sz.width = this->DesiredSize.width;
-	sz.height = this->DesiredSize.height;
+	//D2D1_SIZE_F sz = { 0 };
+	//sz.width = this->DesiredSize.width;
+	//sz.height = this->DesiredSize.height;
 
-	return sz;
+	//return sz;
+
+	return ::CControl::GetSize(width, height);
 }
 
 void CImage::Arrange(float x, float y, float width, float height)
