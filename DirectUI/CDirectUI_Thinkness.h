@@ -41,6 +41,10 @@ namespace DirectUI
 			{
 				return CDirectUI_Thinkness(this->m_Left / data, this->m_Top/data, this->m_Right / data, this->m_Bottom / data);
 			}
+			CDirectUI_Thinkness operator*(float data)
+			{
+				return CDirectUI_Thinkness(this->m_Left * data, this->m_Top * data, this->m_Right * data, this->m_Bottom * data);
+			}
 			CDirectUI_Thinkness operator-()
 			{
 				return CDirectUI_Thinkness(-this->m_Left, -this->m_Top, -this->m_Right, -this->m_Bottom);

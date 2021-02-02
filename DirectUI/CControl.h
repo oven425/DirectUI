@@ -67,7 +67,7 @@ namespace Control
 		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;
-		void Arrange(float x, float y, float width, float height, HorizontalAlignments horizontal, VerticalAlignments vertical);
+		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect actual_rect, D2D1_SIZE_F measure_size);
 	public:
 		CDirectUI_Thinkness Margin;
 		wstring Name = L"";

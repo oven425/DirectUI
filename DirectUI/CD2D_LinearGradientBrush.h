@@ -14,7 +14,8 @@ namespace DirectUI
 	protected:
 		ID2D1GradientStopCollection* m_pGradientStops = NULL;
 		ID2D1LinearGradientBrush* m_pBrush = NULL;
-		D2D1_GRADIENT_STOP* m_pData = NULL;
+		//D2D1_GRADIENT_STOP* m_pData = NULL;
+		unique_ptr<D2D1_GRADIENT_STOP[]> m_pData;
 	};
 }
 

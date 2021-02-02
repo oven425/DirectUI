@@ -38,92 +38,76 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 	return sz;
 }
 
-void CControl::Arrange(float x, float y, float width, float height, HorizontalAlignments horizontal, VerticalAlignments vertical)
+CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect actual_rect, D2D1_SIZE_F measure_size)
 {
-	D2D1_SIZE_F sz = this->GetSize(width, height);
-	float left = x;
-	float top = y;
-	float right = left + sz.width;
-	float bottom = top + sz.height;
-	float w = right - left;
-	if (horizontal != HorizontalAlignments::Stretch)
+	CDirectUI_Rect rc = CDirectUI_Rect(0,0,actual_rect.GetWidth(), actual_rect.GetHeight());
+	switch (this->m_HorizontalAlignment)
 	{
-		if (w > this->DesiredSize.width)
-		{
-			w = this->DesiredSize.width;
-		}
-	}
-	float h = bottom - top;
-	if (vertical != VerticalAlignments::Stretch)
-	{
-		if (h > this->DesiredSize.height)
-		{
-			h = this->DesiredSize.height;
-		}
-	}
-	switch (horizontal)
-	{
-	case HorizontalAlignments::Stretch:
-	{
-		left = left + (width - w) / 2;
-
-	}
-	break;
 	case HorizontalAlignments::Center:
 	{
-		//w = this->DesiredSize.width;
-		left = left + (width - w) / 2;
-	}
-	break;
-	case HorizontalAlignments::Left:
-	{
-		//w = this->DesiredSize.width;
+		if (rc.GetWidth() < measure_size.width)
+		{
+			float offset_x = measure_size.width - rc.GetWidth();
+			offset_x = offset_x / 2;
+			rc.SetX(offset_x);
+		}
 	}
 	break;
 	case HorizontalAlignments::Right:
 	{
-		//w = this->DesiredSize.width;
-		left = left + (width - w);
+		if (rc.GetWidth() < measure_size.width)
+		{
+			float offset_x = measure_size.width - rc.GetWidth();
+			rc.SetX(offset_x);
+		}
 	}
 	break;
 	}
-	switch (vertical)
+	switch (this->m_VerticalAlignment)
 	{
-	case VerticalAlignments::Stretch:
 	case VerticalAlignments::Center:
 	{
-
-		top = top + (height - h) / 2;
-	}
-	break;
-	case VerticalAlignments::Top:
-	{
-		//h = this->DesiredSize.height;
+		if (rc.GetHeight() < measure_size.height)
+		{
+			float offset_y = measure_size.height - rc.GetHeight();
+			offset_y = offset_y / 2;
+			rc.SetY(offset_y);
+		}
 	}
 	break;
 	case VerticalAlignments::Bottom:
 	{
-		//h = this->DesiredSize.height;
-		top = top + (height - h);
+		if (rc.GetHeight() < measure_size.height)
+		{
+			float offset_y = measure_size.height - rc.GetHeight();
+			rc.SetY(offset_y);
+		}
 	}
 	break;
 	}
-
-	this->m_ActualRect.SetLeft(left);
-	this->m_ActualRect.SetTop(top);
-	this->m_ActualRect.SetWidth(w);
-	this->m_ActualRect.SetHeight(h);
-	this->m_ActualRect = this->m_ActualRect + this->Margin;
-	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+	return rc;
 }
 
 void CControl::Arrange(float x, float y, float width, float height)
 {
+	CDirectUI_Thinkness margin = this->Margin;
+	x = x + margin.GetLeft();
+	y = y + margin.GetTop();
+	width = width - margin.GetLeft() - margin.GetRight();
+	height = height - margin.GetTop() - margin.GetBottom();
 	D2D1_SIZE_F sz = this->GetSize(width, height);
 	float left = x;
 	float top = y;
 	float right = left + sz.width;
+	if (width < sz.width)
+	{
+		right = left + width;
+	}
 	float bottom = top + sz.height;
+	if (height < sz.height)
+	{
+		bottom = top + height;
+	}
 	float w = right - left;
 	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
 	{
@@ -202,7 +186,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	this->m_ActualRect.SetTop(top);
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
-	this->m_ActualRect = this->m_ActualRect + this->Margin;
+	//this->m_ActualRect = this->m_ActualRect + this->Margin;
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 

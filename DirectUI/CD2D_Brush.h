@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+using namespace std;
 #include <d2d1.h>
 
 namespace DirectUI

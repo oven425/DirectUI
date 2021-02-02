@@ -70,9 +70,16 @@ END_MESSAGE_MAP()
 
 
 // CMFCApplication1Dlg 訊息處理常式
-
+#include <array>
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	//array<int, 4> tt{ 1,2,3,4 };
+	//array<int, 4> tt2;
+	//tt2 = tt;
+	//int ss = tt.size();
+	//int tt1[4] = { 0 };
+	//auto aa = &(*tt.begin());
+	//::memcpy(tt1, aa, ss*sizeof(int));
 	CDialogEx::OnInitDialog();
 
 	// 將 [關於...] 功能表加入系統功能表。
@@ -103,14 +110,14 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	// TODO: 在此加入額外的初始設定
 	
 	
-	
-	D2D1_GRADIENT_STOP gradientStops[2];
+	array< D2D1_GRADIENT_STOP, 2> gradientStops;
+	//D2D1_GRADIENT_STOP gradientStops[2];
 	gradientStops[0].color = D2D1::ColorF(D2D1::ColorF::Yellow, 1);
 	gradientStops[0].position = 0.0f;
 	gradientStops[1].color = D2D1::ColorF(D2D1::ColorF::ForestGreen, 1);
 	gradientStops[1].position = 1.0f;
 
-	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(gradientStops, 2);
+	windows.Background = ::make_shared<CD2D_LinearGradientBrush>(&(*gradientStops.begin()), 2);
 	windows.Name = L"windows";
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
@@ -200,12 +207,12 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	imgsource->Open(L"sample.jpg");
 	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::None);
-	//image->SetHieght(60);
-	image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	image->SetStretch(Stretchs::Uniform);
+	image->SetHieght(100);
+	//image->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
 	image->Name = L"image";
-	image->Margin = CDirectUI_Thinkness(10);
+	image->Margin = CDirectUI_Thinkness(10,20,30,40);
 	windows.m_Child = image;
 
 	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
@@ -222,12 +229,12 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	//textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
 	//textblock->Name = L"textblock";
-	////textblock->Margin = CDirectUI_Thinkness(10);
+	//textblock->Margin = CDirectUI_Thinkness(10);
 	////textblock->SetWidth(50);
 	////textblock->SetHieght(20);
 
 	//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//////textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//windows.m_Child = textblock;
 
 

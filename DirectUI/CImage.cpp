@@ -35,7 +35,9 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	pCompatibleRenderTarget->GetBitmap(&bmp);
 
 	CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
-	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	//rc_src = rc_src / (this->m_DpiScale);
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 
@@ -149,6 +151,10 @@ D2D1_RECT_F CImage::Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1
 void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
+	//CDirectUI_Thinkness margin = this->Margin * this->m_DpiScale;
+	CDirectUI_Thinkness margin = this->Margin;
+	width = width - margin.GetLeft() - margin.GetRight();
+	height = height - margin.GetTop() - margin.GetBottom();
 	float w = width;
 	float h = height;
 	
@@ -241,36 +247,6 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			{
 				this->DesiredSize.height = ss.height;
 			}
-			
-			//float w = width;
-			//float h = height;
-			//if (this->m_Width > 0)
-			//{
-			//	w = this->m_Width;
-			//}
-			//if (this->m_Height > 0)
-			//{
-			//	h = this->m_Height;
-			//}
-
-			//if (h == 0)
-			//{
-			//	this->DesiredSize.height = ss.height;
-			//}
-			//else
-			//{
-			//	this->DesiredSize.height = ss.height < h ? ss.height : h;
-			//}
-			//if (w == 0)
-			//{
-			//	this->DesiredSize.width = ss.width;
-			//}
-			//else
-			//{
-			//	this->DesiredSize.width = ss.width < w ? ss.width : w;
-			//}
-			//this->DesiredSize.width = ss.width;
-			//this->DesiredSize.height = ss.height;
 		}
 		break;
 		case Stretchs::UniformToFill:
@@ -284,7 +260,6 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			D2D1_RECT_F rrc = Calculate_UniformToFill(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
-
 		}
 		break;
 		}
@@ -293,6 +268,14 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	{
 		this->DesiredSize.width = width;
 		this->DesiredSize.height = height;
+	}
+	if (this->DesiredSize.width < 0)
+	{
+		this->DesiredSize.width = 0;
+	}
+	if (this->DesiredSize.height < 0)
+	{
+		this->DesiredSize.height = 0;
 	}
 }
 
