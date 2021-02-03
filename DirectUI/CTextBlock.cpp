@@ -37,6 +37,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	pCompatibleRenderTarget->GetBitmap(&bmp);
 	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
 	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 

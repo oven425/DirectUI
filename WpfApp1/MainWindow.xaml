@@ -19,9 +19,9 @@
         <Image Source="sample.png"/>
         <Button Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2" Click="Button_Click" ></Button>
     </UniformGrid>-->
-    <Image x:Name="img" Height="100" Source="sample.jpg" Stretch="Uniform" Margin="10,20,30,40"/>
+    <!--<Image x:Name="img" Source="sample.jpg" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="None" Margin="10,20,30,40"/>-->
     <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
-    <!--<TextBlock Text="TextblockAAAABBBBDDDDCCCC" Height="500" VerticalAlignment="Stretch"  Background="Black" HorizontalAlignment="Right" Foreground="White" FontFamily="Arial"  />-->
+    <TextBlock Text="TextblockAAAABBBBDDDDCCCC" Height="500" Background="Black" HorizontalAlignment="Right" FontSize="32" Foreground="White" FontFamily="Arial"  />
     <!--<Ellipse Fill="Red" Stretch="Fill" Width="150"/>-->
     <!--<GroupBox >
         <GroupBox.Header>
