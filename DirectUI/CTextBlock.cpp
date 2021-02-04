@@ -38,6 +38,8 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
 	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
+
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 
@@ -58,21 +60,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		pRT->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, this->m_ActualRect / this->m_DpiScale, *this->Foreground);
 	}
 #endif
-	
 
-
-
-	
-
-	
-
-
-
-	
-
-
-	
-	
 }
 
 void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
