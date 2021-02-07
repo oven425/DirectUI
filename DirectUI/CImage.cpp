@@ -34,7 +34,8 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	ID2D1Bitmap* bmp = NULL;
 	pCompatibleRenderTarget->GetBitmap(&bmp);
 
-	CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
+	//CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
+	CDirectUI_Rect rc_dst = this->m_ActualRect;
 	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
 	//rc_src = rc_src / (this->m_DpiScale);
