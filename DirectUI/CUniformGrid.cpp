@@ -4,12 +4,12 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CUniformGrid::OnRender(ID2D1RenderTarget* pRT)
+void CUniformGrid::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	::CControl::OnRender(pRT);
+	::CControl::OnRender(pRT, calculate_dpi);
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(pRT);
+		oo->OnRender(pRT, calculate_dpi);
 	}
 }
 

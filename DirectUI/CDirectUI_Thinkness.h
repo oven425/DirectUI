@@ -49,6 +49,10 @@ namespace DirectUI
 			{
 				return CDirectUI_Thinkness(-this->m_Left, -this->m_Top, -this->m_Right, -this->m_Bottom);
 			}
+			bool operator>(float data)
+			{
+				return this->m_Left>data|| this->m_Top>data|| this->m_Right>data|| this->m_Bottom>data;
+			}
 		protected:
 			float m_Left = 0;
 			float m_Top = 0;

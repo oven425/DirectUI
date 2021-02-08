@@ -8,31 +8,27 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Purple"
         >
-    <!--<Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="30" BorderBrush="Red" BorderThickness="10,20,40,60"></Border>-->
+    <Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="100,0,100,0" BorderBrush="Blue" BorderThickness="20"></Border>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Border Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2"></Border>
-        <Image Source="sample.png"/>
-        <Button Width="150" Height="100" Margin="0" BorderBrush="Blue" BorderThickness="2" Click="Button_Click" ></Button>
+        <Image Stretch="None" VerticalAlignment="Top" Source="sample.jpg"/>
+        <Image Stretch="Fill" Source="sample.jpg"/>
+        <Image Stretch="Uniform" Source="sample.jpg"/>
+        <Image Stretch="UniformToFill" Source="sample.jpg"/>
     </UniformGrid>-->
     <!--<Image x:Name="img" Source="sample.jpg" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="None" Margin="10,20,30,40"/>-->
     <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
-    <!--<TextBlock Text="白日依山盡,黃河入海流" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Margin="0" FontSize="32" Foreground="White" FontFamily="Arial"  />-->
-    <!--<Ellipse Fill="Red" Stretch="Fill" Width="150"/>-->
-    <!--<GroupBox >
-        <GroupBox.Header>
-            <CheckBox>123</CheckBox>
-        </GroupBox.Header>
-    </GroupBox>-->
-    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Background="Red">
-        <Image HorizontalAlignment="Right" Height="60" Stretch="Fill" Source="sample.jpg"/>
-        <Image HorizontalAlignment="Right" Height="60" Stretch="Fill" Source="sample.jpg"/>
-        <Image HorizontalAlignment="Right" Height="60" Stretch="Fill" Source="sample.jpg"/>
-    </StackPanel>
+    <!--<TextBlock Text="白日依山盡,黃河入海流" Background="Black" Margin="0" FontSize="32" Foreground="White" FontFamily="Arial"  />-->
+
+    <!--<StackPanel Margin="10" VerticalAlignment="Bottom" Orientation="Horizontal" Background="Red">
+        <Image Height="150" Width="150" Stretch="Fill" Source="sample.jpg"/>
+        <Image Height="150" Width="150" Stretch="Fill" Source="sample.jpg"/>
+        <Image Height="150" Width="150" Stretch="Fill" Source="sample.jpg"/>
+    </StackPanel>-->
+    <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Background="Red">
+        <Image Width="300" Stretch="Fill" Source="sample.jpg"/>
+        <Image Width="300" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="300" Stretch="Fill" Source="sample.jpg"/>
+    </StackPanel>-->
     <!--<StackPanel>
         <StackPanel Orientation="Horizontal">
             <Image Stretch="Uniform"  Height="30" Source="sample.jpg"/>
@@ -43,4 +39,13 @@
             <Image Stretch="Uniform"  Height="30" Source="sample.jpg"/>
         </StackPanel>
     </StackPanel>-->
+    <!--<WrapPanel ItemHeight="150">
+        <Image Width="100" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="100" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="100" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="100" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="300" Height="200" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="300" Stretch="Uniform" Source="sample.jpg"/>
+        <Image Width="300" Stretch="Uniform" Source="sample.jpg"/>
+    </WrapPanel>-->
 </Window>

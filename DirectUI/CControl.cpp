@@ -38,53 +38,60 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 	return sz;
 }
 
-CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect actual_rect, D2D1_SIZE_F measure_size)
+CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x, bool ignore_y)
 {
 	CDirectUI_Rect rc = CDirectUI_Rect(0,0,actual_rect.GetWidth(), actual_rect.GetHeight());
-	switch (this->m_HorizontalAlignment)
+	if (ignore_x == false)
 	{
-	case HorizontalAlignments::Center:
-	{
-		if (rc.GetWidth() < measure_size.width)
+		switch (this->m_HorizontalAlignment)
 		{
-			float offset_x = measure_size.width - rc.GetWidth();
-			offset_x = offset_x / 2;
-			rc.SetX(offset_x);
+		case HorizontalAlignments::Center:
+		{
+			if (rc.GetWidth() < measure_size.width)
+			{
+				float offset_x = measure_size.width - rc.GetWidth();
+				offset_x = offset_x / 2;
+				rc.SetX(offset_x);
+			}
+		}
+		break;
+		case HorizontalAlignments::Right:
+		{
+			if (rc.GetWidth() < measure_size.width)
+			{
+				float offset_x = measure_size.width - rc.GetWidth();
+				rc.SetX(offset_x);
+			}
+		}
+		break;
 		}
 	}
-	break;
-	case HorizontalAlignments::Right:
+	if (ignore_y == false)
 	{
-		if (rc.GetWidth() < measure_size.width)
+		switch (this->m_VerticalAlignment)
 		{
-			float offset_x = measure_size.width - rc.GetWidth();
-			rc.SetX(offset_x);
+		case VerticalAlignments::Center:
+		{
+			if (rc.GetHeight() < measure_size.height)
+			{
+				float offset_y = measure_size.height - rc.GetHeight();
+				offset_y = offset_y / 2;
+				rc.SetY(offset_y);
+			}
+		}
+		break;
+		case VerticalAlignments::Bottom:
+		{
+			if (rc.GetHeight() < measure_size.height)
+			{
+				float offset_y = measure_size.height - rc.GetHeight();
+				rc.SetY(offset_y);
+			}
+		}
+		break;
 		}
 	}
-	break;
-	}
-	switch (this->m_VerticalAlignment)
-	{
-	case VerticalAlignments::Center:
-	{
-		if (rc.GetHeight() < measure_size.height)
-		{
-			float offset_y = measure_size.height - rc.GetHeight();
-			offset_y = offset_y / 2;
-			rc.SetY(offset_y);
-		}
-	}
-	break;
-	case VerticalAlignments::Bottom:
-	{
-		if (rc.GetHeight() < measure_size.height)
-		{
-			float offset_y = measure_size.height - rc.GetHeight();
-			rc.SetY(offset_y);
-		}
-	}
-	break;
-	}
+	
 	return rc;
 }
 
@@ -191,7 +198,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 }
 
 #define Test
-void CControl::OnRender(ID2D1RenderTarget* pRT)
+void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
@@ -225,7 +232,11 @@ void CControl::OnRender(ID2D1RenderTarget* pRT)
 	ID2D1Bitmap* bmp = NULL;
 	pCompatibleRenderTarget->GetBitmap(&bmp);
 #ifdef Test
-	CDirectUI_Rect rc_dst = this->m_ActualRect/this->m_DpiScale;
+	CDirectUI_Rect rc_dst = this->m_ActualRect;
+	if (calculate_dpi == true)
+	{
+		rc_dst = this->m_ActualRect / this->m_DpiScale;
+	}
 	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 #else

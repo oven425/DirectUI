@@ -13,12 +13,12 @@ void CContentControl::OnSize(float width, float height, float dpiscale)
 	}
 }
 
-void CContentControl::OnRender(ID2D1RenderTarget* pRT)
+void CContentControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	::CControl::OnRender(pRT);
+	::CControl::OnRender(pRT, calculate_dpi);
 	if (this->m_Child != nullptr)
 	{
-		this->m_Child->OnRender(pRT);
+		this->m_Child->OnRender(pRT, calculate_dpi);
 	}
 }
 
@@ -37,5 +37,13 @@ void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	if (this->m_Child)
 	{
 		this->m_Child->Measure(this->DesiredSize.width, this->DesiredSize.height, pRT);
+	}
+}
+
+void CContentControl::SetPadding(CDirectUI_Thinkness& data)
+{
+	if (this->m_Padding != data)
+	{
+		this->m_Padding = data;
 	}
 }

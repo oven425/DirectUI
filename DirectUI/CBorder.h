@@ -10,15 +10,15 @@ namespace DirectUI
 		{
 		public:
 			shared_ptr<CD2D_Brush> BorderBrush;
-			int BorderThickness = 0;
-			
+			void SetBorderThickness(CDirectUI_Thinkness& data);
 			void SetCornerRadius(CDirectUI_Thinkness& data);
 			virtual void Arrange(float x, float y, float width, float height);
 			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 			void Release() override;
 		protected:
 			CDirectUI_Thinkness m_CornerRadius;
-			void OnRender(ID2D1RenderTarget* pRT) override;
+			CDirectUI_Thinkness m_BorderThickness;
+			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
 			ID2D1PathGeometry* m_pBorder = NULL;
 			
 		};

@@ -36,7 +36,7 @@ namespace Control
 	public:
 		CControl() {}
 		virtual ~CControl() { this->Release(); }
-		virtual void OnRender(ID2D1RenderTarget* pRT);
+		virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi);
 		virtual void OnSize(float width, float height, float dpiscale);
 		void SetWidth(float data) { this->m_Width = data; }
 		void SetHieght(float data) { this->m_Height = data; }
@@ -67,7 +67,7 @@ namespace Control
 		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;
-		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect actual_rect, D2D1_SIZE_F measure_size);
+		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
 	public:
 		CDirectUI_Thinkness Margin;
 		wstring Name = L"";

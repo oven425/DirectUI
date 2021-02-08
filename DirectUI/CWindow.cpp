@@ -91,7 +91,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 
 void CWindow::ReDraw()
 {
-	this->OnRender(this->pRT);
+	this->OnRender(this->pRT, true);
 }
 
 bool CWindow::Init(HWND hwnd)
@@ -152,42 +152,42 @@ ID2D1PathGeometry* CWindow::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 			pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 
 			pSink->BeginFigure(
-				D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft(), rc.GetTop()),
+				D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft()+ thinkness.GetLeft(), rc.GetTop()),
 				D2D1_FIGURE_BEGIN_FILLED
 			);
-			pSink->AddLine(D2D1::Point2F(rc.GetRight() - corner_radius.GetTopRight()+ thinkness.GetRight(), rc.GetTop()));
+			pSink->AddLine(D2D1::Point2F(rc.GetRight() - corner_radius.GetTopRight() - thinkness.GetRight(), rc.GetTop()));
 
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(rc.GetRight(), rc.GetTop() + corner_radius.GetTopRight()), // end point
-					D2D1::SizeF(corner_radius.GetTopRight(), corner_radius.GetTopRight()),
+					D2D1::Point2F(rc.GetRight(), rc.GetTop() + corner_radius.GetTopRight()+thinkness.GetRight()), // end point
+					D2D1::SizeF(corner_radius.GetTopRight()+ thinkness.GetRight(), corner_radius.GetTopRight()+ thinkness.GetRight()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetBottom() - corner_radius.GetBottomRight()));
+			pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetBottom() - corner_radius.GetBottomRight()- thinkness.GetBottom()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(rc.GetRight() - corner_radius.GetBottomRight(), rc.GetBottom()), // end point
-					D2D1::SizeF(corner_radius.GetBottomRight(), corner_radius.GetBottomRight()),
+					D2D1::Point2F(rc.GetRight() - corner_radius.GetBottomRight()-thinkness.GetRight(), rc.GetBottom()), // end point
+					D2D1::SizeF(corner_radius.GetBottomRight()+ thinkness.GetRight(), corner_radius.GetBottomRight()+ thinkness.GetBottom()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(rc.GetLeft() + corner_radius.GetBottomLeft(), rc.GetBottom()));
+			pSink->AddLine(D2D1::Point2F(rc.GetLeft() + corner_radius.GetBottomLeft()+ thinkness.GetLeft(), rc.GetBottom()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft()), // end point
-					D2D1::SizeF(corner_radius.GetBottomLeft(), corner_radius.GetBottomLeft()),
+					D2D1::Point2F(rc.GetLeft() , rc.GetBottom() - corner_radius.GetBottomLeft()- +thinkness.GetLeft()), // end point
+					D2D1::SizeF(corner_radius.GetBottomLeft()+ thinkness.GetLeft(), corner_radius.GetBottomLeft()+ thinkness.GetBottom()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
 				));
-			pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetTop() + corner_radius.GetTopLeft()));
+			pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetTop() + corner_radius.GetTopLeft()+ thinkness.GetTop()));
 			pSink->AddArc(
 				D2D1::ArcSegment(
-					D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft(), rc.GetTop()), // end point
-					D2D1::SizeF(corner_radius.GetTopLeft(), corner_radius.GetTopLeft()),
+					D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft()+ thinkness.GetLeft(), rc.GetTop()), // end point
+					D2D1::SizeF(corner_radius.GetTopLeft()+ thinkness.GetLeft(), corner_radius.GetTopLeft()+ thinkness.GetTop()),
 					0.0f, // rotation angle
 					D2D1_SWEEP_DIRECTION_CLOCKWISE,
 					D2D1_ARC_SIZE_SMALL
@@ -200,65 +200,65 @@ ID2D1PathGeometry* CWindow::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 	return path;
 }
 
-void CWindow::OnRender(ID2D1RenderTarget* pRT)
+void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	CContentControl::OnRender(this->pRT);
+	//CContentControl::OnRender(this->pRT, calculate_dpi);
 
-	//CDirectUI_Rect rc(10, 10, 200, 200);
-	//rc = rc / this->m_DpiScale;
-	//CDirectUI_CornerRadius m_CornerRadius(30);
-	//m_CornerRadius = m_CornerRadius / this->m_DpiScale;
+	CDirectUI_Rect rc(10, 10, 210, 210);
+	rc = rc / this->m_DpiScale;
+	CDirectUI_CornerRadius m_CornerRadius(0);
+	m_CornerRadius = m_CornerRadius / this->m_DpiScale;
 
-	//CDirectUI_Thinkness m_BorderThickness(10,20,40,60);
-	//m_BorderThickness = m_BorderThickness / this->m_DpiScale;
-	//HRESULT hr = S_OK;
-	//ID2D1GeometrySink *pGeometrySink = NULL;
-
-
-	//ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
-	//CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius, thinkness);
-
-	//CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius, thinkness1);
+	CDirectUI_Thinkness m_BorderThickness(20);
+	m_BorderThickness = m_BorderThickness / this->m_DpiScale;
+	HRESULT hr = S_OK;
+	ID2D1GeometrySink *pGeometrySink = NULL;
 
 
+	ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
+	CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius, thinkness);
 
-	//if (SUCCEEDED(hr))
-	//{
-	//	//
-	//	// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
-	//	//
-	//	hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
+	CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius, -thinkness);
 
-	//	if (SUCCEEDED(hr))
-	//	{
-	//		hr = m_pPathGeometryUnion->Open(&pGeometrySink);
 
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = m_pBorder->CombineWithGeometry(
-	//				m_pCircleGeometry2,
-	//				D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
-	//				NULL,
-	//				NULL,
-	//				pGeometrySink
-	//			);
-	//		}
 
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = pGeometrySink->Close();
-	//		}
+	if (SUCCEEDED(hr))
+	{
+		//
+		// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
+		//
+		hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
 
-	//		//SafeRelease(&pGeometrySink);
-	//	}
-	//}
-	//this->Background->Refresh(pRT);
-	////this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
-	//pRT->DrawGeometry(m_pBorder, *this->Background);
+		if (SUCCEEDED(hr))
+		{
+			hr = m_pPathGeometryUnion->Open(&pGeometrySink);
+
+			if (SUCCEEDED(hr))
+			{
+				hr = m_pBorder->CombineWithGeometry(
+					m_pCircleGeometry2,
+					D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
+					NULL,
+					NULL,
+					pGeometrySink
+				);
+			}
+
+			if (SUCCEEDED(hr))
+			{
+				hr = pGeometrySink->Close();
+			}
+
+			//SafeRelease(&pGeometrySink);
+		}
+	}
+	this->Background->Refresh(pRT);
+	//this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
+	pRT->DrawGeometry(m_pBorder, *this->Background);
 	this->pRT->EndDraw();
 }
 

@@ -3,7 +3,7 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CImage::OnRender(ID2D1RenderTarget* pRT)
+void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
 	//::CControl::OnRender(pRT);
 	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
@@ -36,6 +36,10 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 
 	//CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
 	CDirectUI_Rect rc_dst = this->m_ActualRect;
+	if (calculate_dpi == true)
+	{
+		rc_dst = this->m_ActualRect / this->m_DpiScale;
+	}
 	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
 	//rc_src = rc_src / (this->m_DpiScale);

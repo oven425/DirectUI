@@ -17,7 +17,7 @@ void CStackPanel::OnSize(float width, float height, float dpiscale)
 	}
 }
 
-void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
+void CStackPanel::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
 	//CControl::OnRender(pRT);
 	//for(auto oo : this->m_Childs)
@@ -37,24 +37,22 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 	}
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(pCompatibleRenderTarget);
+		oo->OnRender(pCompatibleRenderTarget, false);
 	}
 
 
 	pCompatibleRenderTarget->EndDraw();
 	ID2D1Bitmap* bmp = NULL;
 	pCompatibleRenderTarget->GetBitmap(&bmp);
-	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
+	CDirectUI_Rect rc_dst = this->m_ActualRect;
+	if (calculate_dpi == true)
+	{
+		rc_dst = this->m_ActualRect / this->m_DpiScale;
+	}
 	CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);
 	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	//if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
-	//{
-	//	rc_src.SetX(this->DesiredSize.width - this->m_ActualRect.GetWidth());
-	//}
-	//CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
-	//float w1 = rc_dst.GetWidth();
-	//float w2 = rc_src.GetWidth();
+	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize, this->m_Orientation== Orientations::Vertical, this->m_Orientation == Orientations::Horizontal);
+
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 
@@ -64,8 +62,9 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 
 void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	//::CControl::Measure(width, height, pRT);
 	this->DesiredSize.width = this->DesiredSize.height = 0;
+	width = width - this->Margin.GetLeft() - this->Margin.GetRight();
+	height = height - this->Margin.GetTop() - this->Margin.GetBottom();
 	switch (this->m_Orientation)
 	{
 	case Orientations::Vertical:
@@ -73,7 +72,10 @@ void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		for (auto oo : this->m_Childs)
 		{
 			oo->Measure(width, 0, pRT);
+			this->DesiredSize.height = this->DesiredSize.height + oo->DesiredSize.height;
 		}
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.width > c2->DesiredSize.width; });
+		this->DesiredSize.width = (*aaa)->DesiredSize.width;
 	}
 	break;
 	case Orientations::Horizontal:
@@ -84,34 +86,74 @@ void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			oo->Measure(0, height, pRT);
 			this->DesiredSize.width = this->DesiredSize.width + oo->DesiredSize.width;
 		}
+
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.height>c2->DesiredSize.height; });
+		this->DesiredSize.height = (*aaa)->DesiredSize.height;
 	}
 	break;
+	}
+
+	if (this->m_Width > 0 && this->m_Width < this->DesiredSize.width)
+	{
+		this->DesiredSize.width = this->m_Width;
+	}
+	else if (this->DesiredSize.width < width)
+	{
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = width;
+		}
+	}
+	if (this->m_Height > 0 && this->m_Height < this->DesiredSize.height)
+	{
+		this->DesiredSize.height = this->m_Height;
+	}
+	else if (this->DesiredSize.height < height)
+	{
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = height;
+		}
 	}
 }
 
 void CStackPanel::Arrange(float x, float y, float width, float height)
 {
-	float w = 0;
+	float w = this->DesiredSize.width;
+	float h = this->DesiredSize.height;
+	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+	{
+		if (w > width - this->Margin.GetLeft() - this->Margin.GetRight())
+		{
+			w = width - this->Margin.GetLeft() - this->Margin.GetRight();
+		}
+	}
+	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+	{
+		if (h > height - this->Margin.GetTop() - this->Margin.GetBottom())
+		{
+			h = height - this->Margin.GetTop() - this->Margin.GetBottom();
+		}
+	}
 	switch (this->m_Orientation)
 	{
 	case Orientations::Vertical:
 	{
-		double y = 0;
+		float y = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(0, y, width, oo->DesiredSize.height);
+			oo->Arrange(0, y, w, oo->DesiredSize.height);
 			y = y + oo->GetActualRect().GetHeight();
 		}
 	}
 	break;
 	case Orientations::Horizontal:
 	{
-		double x = 0;
+		float x = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(x, 0, oo->DesiredSize.width, height);
+			oo->Arrange(x, 0, oo->DesiredSize.width, h);
 			x = x + oo->GetActualRect().GetWidth();
-			w = w + oo->GetActualRect().GetWidth();
 		}
 	}
 	break;

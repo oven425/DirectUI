@@ -17,7 +17,7 @@ namespace DirectUI
 			void SetTitle(const wchar_t* data);
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
-			void OnRender(ID2D1RenderTarget* pRT) override;
+			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
 			HWND m_hWnd = NULL;
 			shared_ptr<CControl> m_Children;
 		private:

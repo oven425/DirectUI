@@ -22,7 +22,7 @@ namespace DirectUI
 			virtual void Arrange(float x, float y, float width, float height) override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
-			void OnRender(ID2D1RenderTarget* pRT) override;
+			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
 			vector<shared_ptr<CControl>> m_Childs;
 			Orientations m_Orientation = Orientations::Vertical;
 

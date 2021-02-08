@@ -3,9 +3,9 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CBorder::OnRender(ID2D1RenderTarget* pRT)
+void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	if (this->BorderThickness > 0)
+	if (this->m_BorderThickness > 0)
 	{
 		//::CControl::OnRender(pRT);
 
@@ -14,7 +14,6 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 			return;
 		}
 		
-		CDirectUI_Thinkness thinkness(this->BorderThickness / 2);
 		//CDirectUI_Rect rc = (this->m_ActualRect + thinkness) / this->m_DpiScale;
 		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
 		ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
@@ -26,7 +25,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 
 
 		
-		pCompatibleRenderTarget->BeginDraw();
+		//pCompatibleRenderTarget->BeginDraw();
 		if (BorderBrush)
 		{
 			//this->BorderBrush->Release();
@@ -100,12 +99,12 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 
 		if (this->m_Child != nullptr)
 		{
-			this->m_Child->OnRender(pRT);
+			this->m_Child->OnRender(pRT, calculate_dpi);
 		}
 	}
 	else
 	{
-		::CContentControl::OnRender(pRT);
+		::CContentControl::OnRender(pRT, calculate_dpi);
 	}
 }
 
@@ -127,6 +126,15 @@ void CBorder::SetCornerRadius(CDirectUI_Thinkness& data)
 		this->Release();
 	}
 	
+}
+
+void CBorder::SetBorderThickness(CDirectUI_Thinkness& data)
+{
+	if (this->m_BorderThickness != data)
+	{
+		this->m_BorderThickness = data;
+		this->Release();
+	}
 }
 
 void CBorder::Release()
