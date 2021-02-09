@@ -68,6 +68,8 @@ namespace Control
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;
 		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
+		bool m_IsMouseOver = false;
+		bool m_IsPress = false;
 	public:
 		CDirectUI_Thinkness Margin;
 		wstring Name = L"";
@@ -75,7 +77,8 @@ namespace Control
 		virtual void Arrange(float x, float y, float width, float height);
 		D2D_SIZE_F DesiredSize = { 0 };
 		shared_ptr<CD2D_Brush> Background;
-		
+		bool IsMouseOver() { return this->m_IsMouseOver; }
+		bool IsPress() { return this->m_IsPress; }
 	};
 
 }

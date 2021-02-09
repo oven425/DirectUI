@@ -27,7 +27,9 @@ void CContentControl::Arrange(float x, float y, float width, float height)
 	CControl::Arrange(x, y, width, height);
 	if (this->m_Child)
 	{
-		this->m_Child->Arrange(x, y, width, height);
+		CDirectUI_Rect rc(x, y, x + width, y + height);
+		rc = rc + this->m_Padding;
+		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
 	}
 }
 

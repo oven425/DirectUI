@@ -85,6 +85,16 @@ namespace DirectUI
 				return rc;
 			}
 
+			CDirectUI_Rect operator-(CDirectUI_Thinkness data) const throw()
+			{
+				CDirectUI_Rect rc;
+				rc.m_Bottom = this->m_Bottom + data.GetBottom();
+				rc.m_Right = this->m_Right + data.GetRight();
+				rc.m_Left = this->m_Left - data.GetLeft();
+				rc.m_Top = this->m_Top - data.GetTop();
+				return rc;
+			}
+
 			CDirectUI_Rect operator/(float data) const throw()
 			{
 				CDirectUI_Rect rc;

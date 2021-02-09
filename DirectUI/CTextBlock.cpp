@@ -2,6 +2,7 @@
 #include "CTextBlock.h"
 using namespace DirectUI;
 using namespace Control;
+
 #define Test
 
 void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)

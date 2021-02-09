@@ -1,4 +1,5 @@
 #pragma once
+#include "CDirectUI_Thinkness.h"
 namespace DirectUI
 {
 	namespace Control
@@ -6,6 +7,7 @@ namespace DirectUI
 		class __declspec(dllexport) CDirectUI_CornerRadius
 		{
 		public:
+			CDirectUI_CornerRadius(){}
 			CDirectUI_CornerRadius(float data)
 			{
 				if (data > 0)
@@ -29,9 +31,22 @@ namespace DirectUI
 			{
 				return this->m_BottomLeft == data.m_BottomLeft&&this->m_BottomRight == data.m_BottomRight&&this->m_TopLeft == data.m_TopLeft&&this->m_TopRight == data.m_TopRight;
 			}
+			bool operator!=(CDirectUI_CornerRadius& data)
+			{
+				return this->m_BottomLeft != data.m_BottomLeft&&this->m_BottomRight != data.m_BottomRight&&this->m_TopLeft != data.m_TopLeft&&this->m_TopRight != data.m_TopRight;
+			}
+			bool operator==(float data)
+			{
+				return this->m_BottomLeft == data&&this->m_BottomRight == data&&this->m_TopLeft == data&&this->m_TopRight == data;
+			}
 			CDirectUI_CornerRadius operator/(float data)
 			{
 				return CDirectUI_CornerRadius(this->m_TopLeft / data, this->m_TopRight / data, this->m_BottomRight / data, this->m_BottomLeft / data);
+			}
+
+			CDirectUI_CornerRadius operator-(CDirectUI_Thinkness& data)
+			{
+				return CDirectUI_CornerRadius(this->m_TopLeft- data.GetLeft(), this->m_TopRight -data.GetTop(), this->m_BottomRight-data.GetRight(), this->m_BottomLeft-data.GetBottom());
 			}
 		protected:
 			float m_BottomLeft = 0;

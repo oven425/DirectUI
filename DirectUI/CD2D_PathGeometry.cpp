@@ -2,7 +2,7 @@
 #include "CD2D_PathGeometry.h"
 using namespace DirectUI;
 
-void CD2D_PathGeometry::Refresh(ID2D1RenderTarget* target)
+void CD2D_PathGeometry::Refresh(ID2D1Factory* factory, ID2D1RenderTarget* target)
 {
 	if (this->m_pPath == NULL)
 	{

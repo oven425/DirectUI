@@ -8,7 +8,10 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Purple"
         >
-    <Border MouseDown="Border_MouseDown" Width="200" Height="200" CornerRadius="100,0,100,0" BorderBrush="Blue" BorderThickness="20"></Border>
+    <Canvas>
+        <Border Width="200" Height="200" Background="LawnGreen" CornerRadius="100,100,100,10" BorderThickness="20" BorderBrush="Blue" Canvas.Left="10" Canvas.Top="10"></Border>
+
+    </Canvas>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Image Stretch="None" VerticalAlignment="Top" Source="sample.jpg"/>
         <Image Stretch="Fill" Source="sample.jpg"/>
@@ -48,4 +51,7 @@
         <Image Width="300" Stretch="Uniform" Source="sample.jpg"/>
         <Image Width="300" Stretch="Uniform" Source="sample.jpg"/>
     </WrapPanel>-->
+    <!--<Canvas>
+        <TextBlock Canvas.Bottom="10" Canvas.Top="10" Text="123"/>
+    </Canvas>-->
 </Window>

@@ -13,8 +13,8 @@ namespace DirectUI
 		~CD2D_Font();
 		void SetFontName(const wstring& name);
 		void SetFontSize(float data);
-		void SetFontWeight(DWRITE_FONT_WEIGHT data= DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_BOLD);
-		void SetFontStyle(DWRITE_FONT_STYLE data= DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC);
+		void SetFontWeight(DWRITE_FONT_WEIGHT data = DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_BOLD);
+		void SetFontStyle(DWRITE_FONT_STYLE data = DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC);
 		void SetUnderLine(bool data);
 		void SetFontStretch(DWRITE_FONT_STRETCH data);
 		void SetWrapping(DWRITE_WORD_WRAPPING data);
