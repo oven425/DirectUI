@@ -119,29 +119,14 @@ ID2D1PathGeometry* CBorder::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 
 void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
-	{
-		return;
-	}
-
-	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-
-
-
-
-
-
-
-	pCompatibleRenderTarget->BeginDraw();
-	CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	CDirectUI_Rect rc = this->m_ActualRect;
 	rc = rc / this->m_DpiScale;
-	//CDirectUI_CornerRadius m_CornerRadius(100, 100, 100, 20);
+	CDirectUI_CornerRadius m_CornerRadius(100, 100, 100, 20);
 	m_CornerRadius = m_CornerRadius / this->m_DpiScale;
 
-	//CDirectUI_Thinkness m_BorderThickness(10);
+	CDirectUI_Thinkness m_BorderThickness(10);
 	m_BorderThickness = m_BorderThickness / this->m_DpiScale;
-	//HRESULT hr = S_OK;
+	HRESULT hr = S_OK;
 	ID2D1GeometrySink *pGeometrySink = NULL;
 
 
@@ -184,34 +169,11 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 			//SafeRelease(&pGeometrySink);
 		}
 	}
-	if (this->Background)
-	{
-		this->Background->Refresh(pRT);
-		//this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
-		pRT->DrawGeometry(m_pBorder, *this->Background);
-
-		pCompatibleRenderTarget->FillGeometry(m_pCircleGeometry2, *this->Background);
-	}
-	
-
-	
-	pCompatibleRenderTarget->EndDraw();
-
-	pCompatibleRenderTarget->EndDraw();
-	ID2D1Bitmap* bmp = NULL;
-	pCompatibleRenderTarget->GetBitmap(&bmp);
-
-	//pRT->DrawBitmap(bmp, rc);
-	CDirectUI_Rect rc_dst = rc;
-	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
-	bmp->Release();
-	pCompatibleRenderTarget->Release();
-
-	if (this->m_Child != nullptr)
-	{
-		this->m_Child->OnRender(pRT, calculate_dpi);
-	}
+	this->Background->Refresh(pRT);
+	pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
+	//pRT->DrawGeometry(m_pBorder, *this->Background);
+	this->BorderBrush->Refresh(pRT);
+	pRT->FillGeometry(m_pCircleGeometry2, *this->BorderBrush);
 }
 
 void CBorder::Arrange(float x, float y, float width, float height)

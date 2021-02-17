@@ -8,10 +8,10 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Purple"
         >
-    <Canvas>
-        <Border Width="200" Height="200" Background="LawnGreen" CornerRadius="100,100,100,10" BorderThickness="20" BorderBrush="Blue" Canvas.Left="10" Canvas.Top="10"></Border>
+    <Grid>
+        <Border Background="LawnGreen" Width="200" Height="200" CornerRadius="5000,0,0,500" BorderThickness="20" BorderBrush="Blue" Canvas.Left="10" Canvas.Top="10"></Border>
 
-    </Canvas>
+    </Grid>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Image Stretch="None" VerticalAlignment="Top" Source="sample.jpg"/>
         <Image Stretch="Fill" Source="sample.jpg"/>

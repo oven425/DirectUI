@@ -213,6 +213,8 @@ ID2D1PathGeometry* CWindow::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 
 			if (corner_radius.GetBottomLeft() > 0)
 			{
+				D2D_POINT_2F pp =  D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft() - +thinkness.GetLeft());
+				D2D_SIZE_F ss = D2D1::SizeF(corner_radius.GetBottomLeft() + thinkness.GetLeft(), corner_radius.GetBottomLeft() + thinkness.GetBottom());
 				pSink->AddArc(
 					D2D1::ArcSegment(
 						D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft() - +thinkness.GetLeft()), // end point
@@ -256,64 +258,65 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	CContentControl::OnRender(this->pRT, calculate_dpi);
+	//CContentControl::OnRender(this->pRT, calculate_dpi);
 
-	//CDirectUI_Rect rc(10, 10, 210, 210);
-	//rc = rc / this->m_DpiScale;
-	//CDirectUI_CornerRadius m_CornerRadius(100,100,100,20);
-	//m_CornerRadius = m_CornerRadius / this->m_DpiScale;
+	//CDirectUI_Rect rc = this->m_ActualRect;
+	CDirectUI_Rect rc(100, 100, 300, 300);
+	rc = rc / this->m_DpiScale;
+	CDirectUI_CornerRadius m_CornerRadius(0,0,0,250);
+	m_CornerRadius = m_CornerRadius / this->m_DpiScale;
 
-	//CDirectUI_Thinkness m_BorderThickness(10);
-	//m_BorderThickness = m_BorderThickness / this->m_DpiScale;
-	//HRESULT hr = S_OK;
-	//ID2D1GeometrySink *pGeometrySink = NULL;
-
-
-	//ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
-	//CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius- thinkness, thinkness);
-
-	//CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius- thinkness, -thinkness1);
+	CDirectUI_Thinkness m_BorderThickness(10);
+	m_BorderThickness = m_BorderThickness / this->m_DpiScale;
+	HRESULT hr = S_OK;
+	ID2D1GeometrySink *pGeometrySink = NULL;
 
 
+	ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
+	CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius- thinkness, thinkness);
 
-	//if (SUCCEEDED(hr))
-	//{
-	//	//
-	//	// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
-	//	//
-	//	hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
+	CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
+	ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius- thinkness, -thinkness1);
 
-	//	if (SUCCEEDED(hr))
-	//	{
-	//		hr = m_pPathGeometryUnion->Open(&pGeometrySink);
 
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = m_pBorder->CombineWithGeometry(
-	//				m_pCircleGeometry2,
-	//				D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
-	//				NULL,
-	//				NULL,
-	//				pGeometrySink
-	//			);
-	//		}
 
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = pGeometrySink->Close();
-	//		}
+	if (SUCCEEDED(hr))
+	{
+		//
+		// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
+		//
+		hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
 
-	//		//SafeRelease(&pGeometrySink);
-	//	}
-	//}
-	//this->Background->Refresh(pRT);
-	////this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
-	//pRT->DrawGeometry(m_pBorder, *this->Background);
+		if (SUCCEEDED(hr))
+		{
+			hr = m_pPathGeometryUnion->Open(&pGeometrySink);
 
-	//this->pRT->FillGeometry(m_pCircleGeometry2, *this->Background);
-	//this->pRT->EndDraw();
+			if (SUCCEEDED(hr))
+			{
+				hr = m_pBorder->CombineWithGeometry(
+					m_pCircleGeometry2,
+					D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
+					NULL,
+					NULL,
+					pGeometrySink
+				);
+			}
+
+			if (SUCCEEDED(hr))
+			{
+				hr = pGeometrySink->Close();
+			}
+
+			//SafeRelease(&pGeometrySink);
+		}
+	}
+	this->Background->Refresh(pRT);
+	//this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
+	pRT->DrawGeometry(m_pBorder, *this->Background);
+
+	this->pRT->FillGeometry(m_pCircleGeometry2, *this->Background);
+	this->pRT->EndDraw();
 }
 
 void CWindow::SetTitle(const wchar_t* data)
