@@ -9,7 +9,7 @@
         Background="Purple"
         >
     <Grid>
-        <Border Background="LawnGreen" Width="200" Height="200" CornerRadius="5000,0,0,500" BorderThickness="20" BorderBrush="Blue" Canvas.Left="10" Canvas.Top="10"></Border>
+        <Border Background="LawnGreen" Width="200" Height="200" CornerRadius="100,100,100,250" BorderThickness="20" BorderBrush="Blue" Canvas.Left="10" Canvas.Top="10"></Border>
 
     </Grid>
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">

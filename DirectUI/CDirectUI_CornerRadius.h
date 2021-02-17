@@ -22,7 +22,10 @@ namespace DirectUI
 				this->m_TopLeft = topleft > 0 ? topleft : 0;
 				this->m_TopRight = topright > 0 ? topright : 0;
 			}
-
+			void SetBottomLeft(float data) { this->m_BottomLeft = data; }
+			void SetBottomRight(float data) { this->m_BottomRight = data; }
+			void SetTopLeft(float data) { this->m_TopLeft = data; }
+			void SetTopRight(float data) { this->m_TopRight = data; }
 			float GetBottomLeft() { return this->m_BottomLeft; }
 			float GetBottomRight() { return this->m_BottomRight; }
 			float GetTopLeft() { return this->m_TopLeft; }

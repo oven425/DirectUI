@@ -194,7 +194,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
 	//this->m_ActualRect = this->m_ActualRect + this->Margin;
-	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
 #define Test

@@ -31,7 +31,7 @@ namespace Control
 		Hidden,
 		Collapsed
 	};
-	class __declspec(dllexport) CControl
+	class __declspec(dllexport) CControl: public enable_shared_from_this<CControl>
 	{
 	public:
 		CControl() {}

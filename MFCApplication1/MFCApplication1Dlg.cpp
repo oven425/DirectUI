@@ -125,6 +125,20 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
 	border->SetBorderThickness(CDirectUI_Thinkness(20, 40, 60, 80));
 	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	imgsource->Open(L"sample.jpg");
+	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	image->SetSource(imgsource);
+	image->SetStretch(Stretchs::Uniform);
+	image->SetHieght(100);
+	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	image->Name = L"image";
+	//image->Margin = CDirectUI_Thinkness(10);
+	border->m_Child = image;
+
+
 	windows.m_Child = border;
 
 

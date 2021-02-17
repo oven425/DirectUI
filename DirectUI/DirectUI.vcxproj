@@ -167,6 +167,7 @@
     <ClInclude Include="CD2D_LinearGradientBrush.h" />
     <ClInclude Include="CD2D_PathGeometry.h" />
     <ClInclude Include="CD2D_SolidColorBrush.h" />
+    <ClInclude Include="CDependencyObject.h" />
     <ClInclude Include="CDirectUI_CornerRadius.h" />
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Thinkness.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="CD2D_LinearGradientBrush.cpp" />
     <ClCompile Include="CD2D_PathGeometry.cpp" />
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
+    <ClCompile Include="CDependencyObject.cpp" />
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
