@@ -13,8 +13,8 @@ namespace DirectUI
 			shared_ptr<CD2D_Brush> BorderBrush;
 			void SetBorderThickness(CDirectUI_Thinkness& data);
 			void SetCornerRadius(CDirectUI_CornerRadius& data);
-			virtual void Arrange(float x, float y, float width, float height);
-			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
+			virtual void Arrange(float x, float y, float width, float height) override;
+			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void Release() override;
 		protected:
 			ID2D1PathGeometry* BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness);

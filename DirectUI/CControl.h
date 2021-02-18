@@ -7,6 +7,8 @@
 #include <algorithm>
 using namespace std;
 
+#include "CDependencyObject.h"
+
 namespace DirectUI
 {
 namespace Control
@@ -38,21 +40,24 @@ namespace Control
 		virtual ~CControl() { this->Release(); }
 		virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi);
 		virtual void OnSize(float width, float height, float dpiscale);
-		void SetWidth(float data) { this->m_Width = data; }
-		void SetHieght(float data) { this->m_Height = data; }
-		void SetMinWidth(float data) { this->m_MinWidth = data; }
-		void SetMinHieght(float data) { this->m_MinHeight = data; }
-		void SetMaxWidth(float data) { this->m_MaxWidth = data; }
-		void SetMaxHieght(float data) { this->m_MaxHeight = data; }
-		void SetVisibility(Visibilitys data) { this->m_Visibility = data; }
+		void SetWidth(float data);
+		void SetHieght(float data);
+		void SetMinWidth(float data);
+		void SetMinHieght(float data);
+		void SetMaxWidth(float data);
+		void SetMaxHieght(float data);
+		void SetVisibility(Visibilitys data);
 		Visibilitys GetVisibility() { return this->m_Visibility; }
-		void SetVerticalAlignment(VerticalAlignments data) { this->m_VerticalAlignment = data; }
+		void SetVerticalAlignment(VerticalAlignments data);
 		VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
-		void SetHorizontalAlignment(HorizontalAlignments data) { this->m_HorizontalAlignment = data; }
+		void SetHorizontalAlignment(HorizontalAlignments data);
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
+		bool HitTest(int x, int y);
+
 	protected:
-		friend class CContentControl;
+		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
+		//friend class CContentControl;
 		float m_Width = 0;
 		float m_Height = 0;
 		float m_DpiScale = 1.0;
@@ -61,6 +66,7 @@ namespace Control
 		float m_MaxWidth = 0;
 		float m_MaxHeight = 0;
 		CDirectUI_Rect m_ActualRect;
+		CDirectUI_Point m_ActualOffset;
 		Visibilitys m_Visibility = Visibilitys::Visible;
 		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
 		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
@@ -70,8 +76,9 @@ namespace Control
 		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
 		bool m_IsMouseOver = false;
 		bool m_IsPress = false;
+		CDirectUI_Thinkness m_Margin;
 	public:
-		CDirectUI_Thinkness Margin;
+		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);

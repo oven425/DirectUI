@@ -22,10 +22,10 @@ namespace DirectUI
 			static void SetTop(shared_ptr<CControl> control, float data);
 			static void SetBottom(shared_ptr<CControl> control, float data);
 		protected:
-			static map<shared_ptr<CControl>, float> m_Lefts;
-			static map<shared_ptr<CControl>, float> m_Rights;
-			static map<shared_ptr<CControl>, float> m_Tops;
-			static map<shared_ptr<CControl>, float> m_Bottoms;
+			static CDependencyObject<shared_ptr<CControl>, float> m_Left;
+			static CDependencyObject<shared_ptr<CControl>, float> m_Right;
+			static CDependencyObject<shared_ptr<CControl>, float> m_Top;
+			static CDependencyObject<shared_ptr<CControl>, float> m_Bottom;
 			vector<shared_ptr<CControl>> m_Childs;
 		};
 	}

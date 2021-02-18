@@ -122,24 +122,32 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f));
-	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
-	border->SetBorderThickness(CDirectUI_Thinkness(20, 40, 60, 80));
+	border->Name = L"border";
+	border->SetCornerRadius(CDirectUI_CornerRadius(20));
+	border->SetBorderThickness(CDirectUI_Thinkness(10));
 	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-
+	//border->SetWidth(200);
+	//border->SetHorizontalAlignment(HorizontalAlignments::Right);
+	border->SetMargin(CDirectUI_Thinkness(20));
+	border->SetPadding(CDirectUI_Thinkness(40));
 	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
 	imgsource->Open(L"sample.jpg");
 	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::Uniform);
-	image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	image->SetStretch(Stretchs::None);
+	//image->SetHieght(100);
+	image->SetHorizontalAlignment(HorizontalAlignments::Right);
 	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
 	image->Name = L"image";
 	//image->Margin = CDirectUI_Thinkness(10);
-	border->m_Child = image;
+	border->SetChild(image);
 
+	CDragFilesArgs aa;
+	for (auto oo : aa.files)
+	{
 
-	windows.m_Child = border;
+	}
+	windows.SetChild(border);
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();

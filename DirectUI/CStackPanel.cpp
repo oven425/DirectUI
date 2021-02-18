@@ -6,6 +6,7 @@ using namespace Control;
 void CStackPanel::AddChild(shared_ptr<CControl> data)
 {
 	this->m_Childs.push_back(data);
+	m_Parent.SetValue(data, this->shared_from_this());
 }
 
 void CStackPanel::OnSize(float width, float height, float dpiscale)
@@ -19,11 +20,6 @@ void CStackPanel::OnSize(float width, float height, float dpiscale)
 
 void CStackPanel::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	//CControl::OnRender(pRT);
-	//for(auto oo : this->m_Childs)
-	//{
-	//	oo->OnRender(pRT);
-	//}
 	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
 	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
 	pCompatibleRenderTarget->BeginDraw();
@@ -63,8 +59,8 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	width = width - this->Margin.GetLeft() - this->Margin.GetRight();
-	height = height - this->Margin.GetTop() - this->Margin.GetBottom();
+	width = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
+	height = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
 	switch (this->m_Orientation)
 	{
 	case Orientations::Vertical:
@@ -123,16 +119,16 @@ void CStackPanel::Arrange(float x, float y, float width, float height)
 	float h = this->DesiredSize.height;
 	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
 	{
-		if (w > width - this->Margin.GetLeft() - this->Margin.GetRight())
+		if (w > width - this->m_Margin.GetLeft() - this->m_Margin.GetRight())
 		{
-			w = width - this->Margin.GetLeft() - this->Margin.GetRight();
+			w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
 		}
 	}
 	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
 	{
-		if (h > height - this->Margin.GetTop() - this->Margin.GetBottom())
+		if (h > height - this->m_Margin.GetTop() - this->m_Margin.GetBottom())
 		{
-			h = height - this->Margin.GetTop() - this->Margin.GetBottom();
+			h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
 		}
 	}
 	switch (this->m_Orientation)

@@ -119,6 +119,7 @@ void CUniformGrid::OnSize(float width, float height, float dpiscale)
 void CUniformGrid::AddChild(shared_ptr<CControl> data)
 {
 	this->m_Childs.push_back(data);
+	m_Parent.SetValue(data, this->shared_from_this());
 }
 
 void CUniformGrid::SetRows(int data)

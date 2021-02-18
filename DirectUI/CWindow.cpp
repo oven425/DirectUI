@@ -19,12 +19,31 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
+		
+	}
+	break;
+	case WM_SETFOCUS:
+	{
+
+	}
+	break;
+	case WM_KILLFOCUS:
+	{
+
 	}
 	break;
 	case WM_MOUSEMOVE:
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
+		char msg[100] = { 0 };
+		::sprintf_s(msg, "x:%d y:%d\r\n", xPos, yPos);
+		//::OutputDebugStringA(msg);
+		vector<shared_ptr<CControl>> childs;
+		/*if (ww->m_Child)
+		{
+			ww->m_Child
+		}*/
 	}
 	break;
 	case WM_LBUTTONDOWN:
@@ -87,6 +106,19 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		ww->OnSize(width, height, dpiscale);
 	}
 	break;
+	case WM_DROPFILES:
+	{
+		HDROP hDrop = (HDROP)wParam;
+		UINT nFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
+		for (int i = 0; i < nFiles; i++)
+		{
+			wchar_t szFileName[MAX_PATH + 1] = { 0 };
+			DragQueryFile(hDrop, i, szFileName, MAX_PATH);
+			::OutputDebugStringW(szFileName);
+		}
+		::DragFinish(hDrop);
+	}
+	break;
 	}
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
@@ -100,7 +132,7 @@ bool CWindow::Init(HWND hwnd)
 {
 	this->m_hWnd = hwnd;
 	
-
+	
 
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
 
@@ -341,4 +373,9 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 void CWindow::SetTitle(const wchar_t* data)
 {
 	::SetWindowTextW(this->m_hWnd, data);
+}
+
+void CWindow::SetAllowDropFiles(bool data)
+{
+	DragAcceptFiles(this->m_hWnd, data==true?TRUE:FALSE);
 }

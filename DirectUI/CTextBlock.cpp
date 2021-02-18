@@ -73,8 +73,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	//CDirectUI_Thinkness margin = this->Margin * this->m_DpiScale;
-	CDirectUI_Thinkness margin = this->Margin;
+	CDirectUI_Thinkness margin = this->m_Margin;
 	width = width - margin.GetLeft() - margin.GetRight();
 	height = height - margin.GetTop() - margin.GetBottom();
 	float w = width;

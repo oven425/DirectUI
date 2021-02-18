@@ -27,7 +27,10 @@ void CContentControl::Arrange(float x, float y, float width, float height)
 	CControl::Arrange(x, y, width, height);
 	if (this->m_Child)
 	{
-		CDirectUI_Rect rc(x, y, x + width, y + height);
+		//CDirectUI_Rect rc(x, y, x + width, y + height);
+		CDirectUI_Rect rc = this->m_ActualRect;
+		
+		rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
 		rc = rc + this->m_Padding;
 		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
 	}
@@ -35,10 +38,13 @@ void CContentControl::Arrange(float x, float y, float width, float height)
 
 void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
+	
 	CControl::Measure(width, height, pRT);
 	if (this->m_Child)
 	{
-		this->m_Child->Measure(this->DesiredSize.width, this->DesiredSize.height, pRT);
+		float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
+		float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
+		this->m_Child->Measure(w, h, pRT);
 	}
 }
 
@@ -48,4 +54,10 @@ void CContentControl::SetPadding(CDirectUI_Thinkness& data)
 	{
 		this->m_Padding = data;
 	}
+}
+
+void CContentControl::SetChild(shared_ptr<CControl> data)
+{
+	this->m_Child = data;
+	//m_Parent.SetValue(data, this->shared_from_this());
 }

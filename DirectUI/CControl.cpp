@@ -4,6 +4,15 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
+CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
+
+bool CControl::HitTest(int x, int y)
+{
+	bool result = true;
+
+
+	return result;
+}
 
 void CControl::OnSize(float width, float height, float dpiscale)
 {
@@ -18,6 +27,22 @@ void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	}
 	else
 	{
+		//this->DesiredSize.width = this->DesiredSize.height = 0;
+		//CDirectUI_Thinkness margin = this->m_Margin;
+		//width = width - margin.GetLeft() - margin.GetRight();
+		//height = height - margin.GetTop() - margin.GetBottom();
+		//float w = width;
+		//float h = height;
+
+		//if (this->m_Width > 0)
+		//{
+		//	w = this->m_Width;
+		//}
+		//if (this->m_Height > 0)
+		//{
+		//	h = this->m_Height;
+		//}
+		//this->DesiredSize = this->GetSize(w, h);
 		this->DesiredSize = this->GetSize(width, height);
 	}
 }
@@ -97,7 +122,7 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 
 void CControl::Arrange(float x, float y, float width, float height)
 {
-	CDirectUI_Thinkness margin = this->Margin;
+	CDirectUI_Thinkness margin = this->m_Margin;
 	x = x + margin.GetLeft();
 	y = y + margin.GetTop();
 	width = width - margin.GetLeft() - margin.GetRight();
@@ -193,8 +218,8 @@ void CControl::Arrange(float x, float y, float width, float height)
 	this->m_ActualRect.SetTop(top);
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
-	//this->m_ActualRect = this->m_ActualRect + this->Margin;
-	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+
+	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
 #define Test
@@ -245,4 +270,54 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	
 	bmp->Release();
 	pCompatibleRenderTarget->Release();
+}
+
+void CControl::SetWidth(float data) 
+{ 
+	this->m_Width = data; 
+}
+
+void CControl::SetHieght(float data) 
+{ 
+	this->m_Height = data; 
+}
+
+void CControl::SetMinWidth(float data) 
+{ 
+	this->m_MinWidth = data; 
+}
+
+void CControl::SetMinHieght(float data) 
+{ 
+	this->m_MinHeight = data; 
+}
+
+void CControl::SetMaxWidth(float data) 
+{ 
+	this->m_MaxWidth = data; 
+}
+
+void CControl::SetMaxHieght(float data) 
+{ 
+	this->m_MaxHeight = data; 
+}
+
+void CControl::SetVisibility(Visibilitys data) 
+{ 
+	this->m_Visibility = data; 
+}
+
+void CControl::SetVerticalAlignment(VerticalAlignments data) 
+{ 
+	this->m_VerticalAlignment = data; 
+}
+
+void CControl::SetHorizontalAlignment(HorizontalAlignments data)
+{
+	this->m_HorizontalAlignment = data;
+}
+
+void CControl::SetMargin(CDirectUI_Thinkness& data)
+{ 
+	this->m_Margin = data; 
 }
