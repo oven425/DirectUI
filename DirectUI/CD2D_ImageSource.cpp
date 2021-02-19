@@ -13,6 +13,12 @@ CD2D_ImageSource::CD2D_ImageSource()
 	}
 }
 
+CD2D_ImageSource::CD2D_ImageSource(const wchar_t* data)
+	: CD2D_ImageSource()
+{
+	this->Open(data);
+}
+
 void CD2D_ImageSource::Open(const wchar_t* data)
 {
 	IWICBitmapDecoder *pIDecoder = NULL;

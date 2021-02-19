@@ -174,11 +174,11 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 		}
 	}
 	this->BorderBrush->Refresh(pCompatibleRenderTarget);
-	this->Background->Refresh(pCompatibleRenderTarget);
+	this->m_Background->Refresh(pCompatibleRenderTarget);
 	pCompatibleRenderTarget->FillGeometry(m_pPathGeometryUnion, *this->BorderBrush);
 	//pCompatibleRenderTarget->DrawGeometry(m_pPathGeometryUnion, *this->Background);
 
-	pCompatibleRenderTarget->FillGeometry(m_pCircleGeometry2, *this->Background);
+	pCompatibleRenderTarget->FillGeometry(m_pCircleGeometry2, *this->m_Background);
 
 	if (this->m_Child)
 	{

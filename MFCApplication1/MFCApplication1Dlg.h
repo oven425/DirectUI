@@ -11,6 +11,7 @@
 #include "../DirectUI/CUniformGrid.h"
 #include "../DirectUI/CImage.h"
 #include "../DirectUI/CTextBlock.h"
+#include "../DirectUI//CCanvas.h"
 
 using namespace DirectUI;
 using namespace Control;
@@ -29,7 +30,7 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支援
-	CWindow windows;
+	shared_ptr<CWindow> windows = ::make_shared<CWindow>();
 
 // 程式碼實作
 protected:
@@ -41,4 +42,6 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+	void DragFiles(const shared_ptr<CControl> sender, const CDragFilesArgs& args);
 };

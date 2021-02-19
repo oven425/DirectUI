@@ -239,14 +239,13 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	
 	pCompatibleRenderTarget->BeginDraw();
 	
-	if (this->Background)
+	if (this->m_Background)
 	{
 		//this->Background->Release();
-		this->Background->Refresh(pCompatibleRenderTarget);
-		ID2D1Brush* m_pBlackBrush = this->Background->operator ID2D1Brush*();
+		this->m_Background->Refresh(pCompatibleRenderTarget);
 #ifdef Test
 		CDirectUI_Rect rc(0,0, this->DesiredSize.width, this->DesiredSize.height);
-		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
+		pCompatibleRenderTarget->FillRectangle(rc, *m_Background);
 #else
 		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
 		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
@@ -320,4 +319,13 @@ void CControl::SetHorizontalAlignment(HorizontalAlignments data)
 void CControl::SetMargin(CDirectUI_Thinkness& data)
 { 
 	this->m_Margin = data; 
+}
+
+void CControl::SetBackground(shared_ptr<CD2D_Brush> data)
+{
+	if (this->m_Background && this->m_Background != data)
+	{
+		this->m_Background->Release();
+	}
+	this->m_Background = data;
 }

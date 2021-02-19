@@ -59,5 +59,5 @@ void CContentControl::SetPadding(CDirectUI_Thinkness& data)
 void CContentControl::SetChild(shared_ptr<CControl> data)
 {
 	this->m_Child = data;
-	//m_Parent.SetValue(data, this->shared_from_this());
+	m_Parent.SetValue(data, this->shared_from_this());
 }

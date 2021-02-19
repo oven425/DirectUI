@@ -110,13 +110,17 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		HDROP hDrop = (HDROP)wParam;
 		UINT nFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
+		CDragFilesArgs dragfiles;
 		for (int i = 0; i < nFiles; i++)
 		{
 			wchar_t szFileName[MAX_PATH + 1] = { 0 };
 			DragQueryFile(hDrop, i, szFileName, MAX_PATH);
+			dragfiles.files.push_back(szFileName);
 			::OutputDebugStringW(szFileName);
 		}
 		::DragFinish(hDrop);
+		auto aa = ww->shared_from_this();
+		ww->test(ww->shared_from_this(), dragfiles);
 	}
 	break;
 	}
@@ -131,7 +135,6 @@ void CWindow::ReDraw()
 bool CWindow::Init(HWND hwnd)
 {
 	this->m_hWnd = hwnd;
-	
 	
 
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);

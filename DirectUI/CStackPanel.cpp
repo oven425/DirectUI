@@ -24,12 +24,12 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
 	pCompatibleRenderTarget->BeginDraw();
 
-	if (this->Background)
+	if (this->m_Background)
 	{
-		this->Background->Refresh(pCompatibleRenderTarget);
+		this->m_Background->Refresh(pCompatibleRenderTarget);
 		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
 		//CDirectUI_Rect rc(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-		pCompatibleRenderTarget->FillRectangle(rc, *this->Background);
+		pCompatibleRenderTarget->FillRectangle(rc, *this->m_Background);
 	}
 	for (auto oo : this->m_Childs)
 	{

@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <algorithm>
+#include <functional>
 using namespace std;
 
 #include "CDependencyObject.h"
@@ -33,6 +34,12 @@ namespace Control
 		Hidden,
 		Collapsed
 	};
+	struct MouseMoveArgs
+	{
+		int X;
+		int Y;
+
+	};
 	class __declspec(dllexport) CControl: public enable_shared_from_this<CControl>
 	{
 	public:
@@ -54,7 +61,7 @@ namespace Control
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 		bool HitTest(int x, int y);
-
+		void SetBackground(shared_ptr<CD2D_Brush> data);
 	protected:
 		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
 		//friend class CContentControl;
@@ -77,15 +84,18 @@ namespace Control
 		bool m_IsMouseOver = false;
 		bool m_IsPress = false;
 		CDirectUI_Thinkness m_Margin;
+		shared_ptr<CD2D_Brush> m_Background;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
 		D2D_SIZE_F DesiredSize = { 0 };
-		shared_ptr<CD2D_Brush> Background;
+		
 		bool IsMouseOver() { return this->m_IsMouseOver; }
 		bool IsPress() { return this->m_IsPress; }
+
+		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseMoveHandler;
 	};
 
 }

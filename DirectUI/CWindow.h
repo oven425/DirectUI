@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <functional>
 using namespace std;
 
 #include <Windows.h>
@@ -20,11 +21,11 @@ namespace DirectUI
 		};
 		class __declspec(dllexport) CWindow :public CContentControl
 		{
-			//friend class CControl;
 		public:
 			bool Init(HWND hwnd);
 			void SetTitle(const wchar_t* data);
 			void SetAllowDropFiles(bool data);
+			std::function<void(const shared_ptr<CControl> sender, const CDragFilesArgs& args)> test;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;

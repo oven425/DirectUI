@@ -5,19 +5,10 @@ using namespace Control;
 
 void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	//::CControl::OnRender(pRT);
 	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
 	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
 	pCompatibleRenderTarget->BeginDraw();
-	//if (this->m_pD2DBitmap == NULL)
-	//{
-	//	//D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
-	//	//pp.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	//	//pp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
-	//	//pp.dpiX = this->m_Source->GetHeight;
-	//	//pp.dpiY = 299;
-	//	pCompatibleRenderTarget->CreateBitmapFromWicBitmap(*this->m_Source, NULL, &this->m_pD2DBitmap);
-	//}
+
 	if (this->m_pD2DBitmap != NULL)
 	{
 		if (this->m_Stretch == Stretchs::None)
@@ -187,12 +178,17 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	if (this->m_Source && this->m_pD2DBitmap != NULL)
 	{
 		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-		if (w == 0)
+		if (w == 0 && h == 0)
+		{
+			w = ss.width;
+			h = ss.height;
+		}
+		else if (w == 0)
 		{
 			float h_ = h / ss.height;
 			w = ss.width * h_;
 		}
-		if (h == 0)
+		else if (h == 0)
 		{
 			float w_ = w / ss.width;
 			h = ss.height * w_;

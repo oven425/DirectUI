@@ -7,6 +7,7 @@ namespace DirectUI
 	{
 	public:
 		CD2D_ImageSource();
+		CD2D_ImageSource(const wchar_t* data);
 		~CD2D_ImageSource() {};
 		void Open(const wchar_t* data);
 		virtual operator IWICFormatConverter*() { return m_pConvertedSourceBitmap; }
