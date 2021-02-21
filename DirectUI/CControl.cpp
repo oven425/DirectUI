@@ -6,10 +6,13 @@ using namespace Control;
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
 CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
 
-bool CControl::HitTest(int x, int y)
+shared_ptr<CControl> CControl::HitTest(int x, int y)
 {
-	bool result = true;
-
+	shared_ptr<CControl> result;
+	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
+	{
+		result = this->shared_from_this();
+	}
 
 	return result;
 }

@@ -2,13 +2,13 @@
 #include <vector>
 using namespace std;
 
-#include "CControl.h"
+#include "CPanel.h"
 
 namespace DirectUI
 {
 	namespace Control
 	{
-		class __declspec(dllexport) CUniformGrid : public CControl
+		class __declspec(dllexport) CUniformGrid : public CPanel
 		{
 		public:
 			void AddChild(shared_ptr<CControl> data);
@@ -27,7 +27,6 @@ namespace DirectUI
 			int m_CellCount = 0;
 			int m_CellRows = 0;
 			int m_CellColums = 0;
-			vector <shared_ptr<CControl>> m_Childs;
 			int m_Rows = 0;
 			int m_Columns = 0;
 		};

@@ -3,13 +3,13 @@
 #include <map>
 using namespace std;
 
-#include "CControl.h"
+#include "CPanel.h"
 
 namespace DirectUI
 {
 	namespace Control
 	{
-		class __declspec(dllexport) CCanvas : public CControl
+		class __declspec(dllexport) CCanvas : public CPanel
 		{
 		public:
 			void AddChild(shared_ptr<CControl> data);
@@ -26,7 +26,6 @@ namespace DirectUI
 			static CDependencyObject<shared_ptr<CControl>, float> m_Right;
 			static CDependencyObject<shared_ptr<CControl>, float> m_Top;
 			static CDependencyObject<shared_ptr<CControl>, float> m_Bottom;
-			vector<shared_ptr<CControl>> m_Childs;
 		};
 	}
 }

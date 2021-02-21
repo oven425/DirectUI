@@ -60,7 +60,7 @@ namespace Control
 		void SetHorizontalAlignment(HorizontalAlignments data);
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
-		bool HitTest(int x, int y);
+		virtual shared_ptr<CControl> HitTest(int x, int y);
 		void SetBackground(shared_ptr<CD2D_Brush> data);
 	protected:
 		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;

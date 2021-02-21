@@ -39,11 +39,22 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		char msg[100] = { 0 };
 		::sprintf_s(msg, "x:%d y:%d\r\n", xPos, yPos);
 		//::OutputDebugStringA(msg);
+		
 		vector<shared_ptr<CControl>> childs;
-		/*if (ww->m_Child)
+		childs.push_back(ww->shared_from_this());
+		shared_ptr<CControl> temp = ww->HitTest(xPos, yPos);
+		while (temp)
 		{
-			ww->m_Child
-		}*/
+			temp = temp->HitTest(xPos, yPos);
+			if (temp)
+			{
+				childs.push_back(temp);
+			}
+			else
+			{
+				break;
+			}
+		}
 	}
 	break;
 	case WM_LBUTTONDOWN:

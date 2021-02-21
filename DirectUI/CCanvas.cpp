@@ -59,7 +59,7 @@ void CCanvas::Arrange(float x, float y, float width, float height)
 	
 	for (auto oo : this->m_Childs)
 	{
-
+		oo->Arrange(x, y, width, height);
 	}
 	this->m_ActualRect = CDirectUI_Rect(x, y, x + width, y + height);
 }

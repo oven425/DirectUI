@@ -13,6 +13,7 @@ namespace DirectUI
 			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void SetPadding(CDirectUI_Thinkness& data);
 			virtual void SetChild(shared_ptr<CControl> data);
+			shared_ptr<CControl> HitTest(int x, int y) override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			CDirectUI_Thinkness m_Padding;

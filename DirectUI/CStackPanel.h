@@ -1,5 +1,5 @@
 #pragma once
-#include "CControl.h"
+#include "CPanel.h"
 #include <vector>
 using namespace std;
 
@@ -12,7 +12,7 @@ namespace DirectUI
 			Horizontal,
 			Vertical
 		};
-		class __declspec(dllexport) CStackPanel :public CControl
+		class __declspec(dllexport) CStackPanel :public CPanel
 		{
 		public:
 			void AddChild(shared_ptr<CControl> data);
@@ -23,7 +23,6 @@ namespace DirectUI
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
-			vector<shared_ptr<CControl>> m_Childs;
 			Orientations m_Orientation = Orientations::Vertical;
 
 		};

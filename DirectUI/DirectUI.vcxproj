@@ -175,6 +175,7 @@
     <ClInclude Include="CDirectUI_Thinkness.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
+    <ClInclude Include="CPanel.h" />
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CTextBlock.h" />
     <ClInclude Include="CTrace.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
+    <ClCompile Include="CPanel.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CTextBlock.cpp" />
     <ClCompile Include="CTrace.cpp" />

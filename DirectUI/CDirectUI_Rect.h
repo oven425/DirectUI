@@ -105,6 +105,16 @@ namespace DirectUI
 			return rc;
 		}
 
+		bool PtInRect(float x, float y)
+		{
+			bool result = false;
+			if (x >= this->m_Left&&x <= this->m_Right&&y >= this->m_Top&&y <= this->m_Bottom)
+			{
+				result = true;
+			}
+			return result;
+		}
+
 		virtual wstring ToString()
 		{
 			std::wostringstream out;
