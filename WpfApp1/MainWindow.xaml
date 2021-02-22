@@ -8,11 +8,12 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Purple"
         >
-    <Canvas Background="Blue">
+    <Button Margin="10">123123</Button>
+    <!--<Canvas Background="Blue">
         <Image Source="sample.jpg" Stretch="Fill" Width="100"/>
         <TextBlock Text="123"/>
         <Border Background="Red" Width="100" Height="100" Canvas.Top="100"></Border>
-    </Canvas>
+    </Canvas>-->
     <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
         <Image Stretch="None" VerticalAlignment="Top" Source="sample.jpg"/>
         <Image Stretch="Fill" Source="sample.jpg"/>

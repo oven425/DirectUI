@@ -6,12 +6,14 @@ using namespace Control;
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
 CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
 
-shared_ptr<CControl> CControl::HitTest(int x, int y)
+bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
-	shared_ptr<CControl> result;
+	bool result = false;
+	//shared_ptr<CControl> result;
 	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
 	{
-		result = this->shared_from_this();
+		childs.push_back(this->shared_from_this());
+		result = true;
 	}
 
 	return result;
@@ -331,4 +333,9 @@ void CControl::SetBackground(shared_ptr<CD2D_Brush> data)
 		this->m_Background->Release();
 	}
 	this->m_Background = data;
+}
+
+void CControl::SetEnabled(bool data)
+{
+	this->m_IsEnabled = data;
 }

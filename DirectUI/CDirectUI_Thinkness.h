@@ -34,7 +34,8 @@ namespace DirectUI
 		float GetBottom() { return this->m_Bottom; }
 		bool operator==(float data) { return this->m_Bottom == data && this->m_Left == data && this->m_Right == data && this->m_Top == data; }
 		bool operator==(CDirectUI_Thinkness& data) { return this->m_Bottom == data.m_Bottom&&this->m_Left == data.m_Left&&this->m_Right == data.m_Right&&this->m_Top == data.m_Top; }
-		bool operator!=(CDirectUI_Thinkness& data) { return this->m_Bottom != data.m_Bottom || this->m_Left != data.m_Left || this->m_Right != data.m_Right || this->m_Top != data.m_Top; }
+		//bool operator!=(CDirectUI_Thinkness& data) { return this->m_Bottom != data.m_Bottom || this->m_Left != data.m_Left || this->m_Right != data.m_Right || this->m_Top != data.m_Top; }
+		bool operator!=(const CDirectUI_Thinkness& data) { return this->m_Bottom != data.m_Bottom || this->m_Left != data.m_Left || this->m_Right != data.m_Right || this->m_Top != data.m_Top; }
 		CDirectUI_Thinkness operator/(float data)
 		{
 			return CDirectUI_Thinkness(this->m_Left / data, this->m_Top / data, this->m_Right / data, this->m_Bottom / data);

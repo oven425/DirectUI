@@ -12,6 +12,7 @@
 #include "../DirectUI/CImage.h"
 #include "../DirectUI/CTextBlock.h"
 #include "../DirectUI//CCanvas.h"
+#include "../DirectUI/CButton.h"
 
 using namespace DirectUI;
 using namespace Control;

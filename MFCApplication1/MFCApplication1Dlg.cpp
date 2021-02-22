@@ -123,20 +123,24 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows->SetBackground(::make_shared<CD2D_LinearGradientBrush>(&(*gradientStops.begin()), 2));
 	windows->Name = L"windows";
 
-	shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
-	canvas->SetBackground(::make_shared< CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue)));
-	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>(L"sample.jpg");
-	//imgsource->Open(L"sample.jpg");
-	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::None);
-	//image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	image->Name = L"image";
-	//image->Margin = CDirectUI_Thinkness(10);
-	canvas->AddChild(image);
-	windows->SetChild(canvas);
+	shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
+	button->SetContent(L"Test");
+	windows->SetChild(button);
+
+	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
+	//canvas->SetBackground(::make_shared< CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue)));
+	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>(L"sample.jpg");
+	////imgsource->Open(L"sample.jpg");
+	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	//image->SetSource(imgsource);
+	//image->SetStretch(Stretchs::None);
+	////image->SetHieght(100);
+	////image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//image->Name = L"image";
+	////image->Margin = CDirectUI_Thinkness(10);
+	//canvas->AddChild(image);
+	//windows->SetChild(canvas);
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));

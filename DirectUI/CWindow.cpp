@@ -36,25 +36,24 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
-		char msg[100] = { 0 };
-		::sprintf_s(msg, "x:%d y:%d\r\n", xPos, yPos);
+		//char msg[100] = { 0 };
+		//::sprintf_s(msg, "x:%d y:%d\r\n", xPos, yPos);
 		//::OutputDebugStringA(msg);
 		
 		vector<shared_ptr<CControl>> childs;
-		childs.push_back(ww->shared_from_this());
-		shared_ptr<CControl> temp = ww->HitTest(xPos, yPos);
-		while (temp)
+		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
-			temp = temp->HitTest(xPos, yPos);
-			if (temp)
+			MouseMoveArgs mouseargs = { 0 };
+			mouseargs.X = xPos;
+			mouseargs.Y = yPos;
+			for (auto oo : childs)
 			{
-				childs.push_back(temp);
+				oo->OnMouseMove(mouseargs);
+				ww->MouseMoveHandler(oo, mouseargs);
 			}
-			else
-			{
-				break;
-			}
+			
 		}
+		ww->ReDraw();
 	}
 	break;
 	case WM_LBUTTONDOWN:
@@ -62,12 +61,39 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
 		::SetCapture(ww->m_hWnd);
+		vector<shared_ptr<CControl>> childs;
+		if (ww->HitTest(xPos, yPos, childs) == true)
+		{
+			MouseMoveArgs mouseargs = { 0 };
+			mouseargs.X = xPos;
+			mouseargs.Y = yPos;
+			for (auto oo : childs)
+			{
+				oo->OnMouseMove(mouseargs);
+				ww->MouseMoveHandler(oo, mouseargs);
+			}
+
+		}
+		ww->ReDraw();
 	}
 	break;
 	case WM_LBUTTONUP:
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
+		vector<shared_ptr<CControl>> childs;
+		if (ww->HitTest(xPos, yPos, childs) == true)
+		{
+			MouseMoveArgs mouseargs = { 0 };
+			mouseargs.X = xPos;
+			mouseargs.Y = yPos;
+			for (auto oo : childs)
+			{
+				oo->OnMouseMove(mouseargs);
+				ww->MouseMoveHandler(oo, mouseargs);
+			}
+
+		}
 		::ReleaseCapture();
 	}
 	break;

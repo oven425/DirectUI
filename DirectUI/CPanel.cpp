@@ -3,17 +3,22 @@
 using namespace DirectUI;
 using namespace Control;
 
-shared_ptr<CControl> CPanel::HitTest(int x, int y)
+bool CPanel::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
-	for (auto oo : this->m_Childs)
+	bool result = false;
+	result = ::CControl::HitTest(x, y, childs);
+	if (result == true)
 	{
-		shared_ptr<CControl> temp = oo->HitTest(x, y);
-		if (temp)
+		for (auto oo : this->m_Childs)
 		{
-			return temp;
-			break;
+			result = oo->HitTest(x, y, childs);
+			if (result == true)
+			{
+				break;
+			}
 		}
 	}
-
-	return nullptr;
+	
+	return result;
+	//return nullptr;
 }

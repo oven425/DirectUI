@@ -38,6 +38,11 @@ namespace WpfApp1
             System.Diagnostics.Trace.WriteLine($"DesiredSize:{control.DesiredSize}");
         }
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+        }
+
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
 

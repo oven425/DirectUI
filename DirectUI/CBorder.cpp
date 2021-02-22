@@ -231,7 +231,7 @@ void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)
 	
 }
 
-void CBorder::SetBorderThickness(CDirectUI_Thinkness& data)
+void CBorder::SetBorderThickness(const CDirectUI_Thinkness& data)
 {
 	if (this->m_BorderThickness != data)
 	{

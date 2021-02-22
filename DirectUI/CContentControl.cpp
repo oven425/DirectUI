@@ -62,18 +62,24 @@ void CContentControl::SetChild(shared_ptr<CControl> data)
 	m_Parent.SetValue(data, this->shared_from_this());
 }
 
-shared_ptr<CControl> CContentControl::HitTest(int x, int y)
+bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
-	shared_ptr<CControl> temp  = CControl::HitTest(x, y);
-	if (temp && this->m_Child)
+	bool result = false;
+	result = CControl::HitTest(x, y, childs);
+	if (result == true && this->m_Child)
 	{
-		shared_ptr<CControl> child = this->m_Child->HitTest(x, y);
-		if (child)
-		{
-			return child;
-		}
-		return temp;
+		this->m_Child->HitTest(x, y, childs);
 	}
+	return result;
+	//if (temp && this->m_Child)
+	//{
+	//	shared_ptr<CControl> child = this->m_Child->HitTest(x, y);
+	//	if (child)
+	//	{
+	//		return child;
+	//	}
+	//	return temp;
+	//}
 
-	return temp;
+	//return temp;
 }

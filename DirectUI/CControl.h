@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <functional>
+#include <vector>
 using namespace std;
 
 #include "CDependencyObject.h"
@@ -40,6 +41,17 @@ namespace Control
 		int Y;
 
 	};
+
+	struct MouseLeftButtonDownArgs
+	{
+		int X;
+		int Y;
+	};
+	struct MouseLeftButtonUpArgs
+	{
+		int X;
+		int Y;
+	};
 	class __declspec(dllexport) CControl: public enable_shared_from_this<CControl>
 	{
 	public:
@@ -60,11 +72,11 @@ namespace Control
 		void SetHorizontalAlignment(HorizontalAlignments data);
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
-		virtual shared_ptr<CControl> HitTest(int x, int y);
+		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
 		void SetBackground(shared_ptr<CD2D_Brush> data);
+		void SetEnabled(bool data);
 	protected:
 		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
-		//friend class CContentControl;
 		float m_Width = 0;
 		float m_Height = 0;
 		float m_DpiScale = 1.0;
@@ -81,21 +93,23 @@ namespace Control
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;
 		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
-		bool m_IsMouseOver = false;
-		bool m_IsPress = false;
 		CDirectUI_Thinkness m_Margin;
 		shared_ptr<CD2D_Brush> m_Background;
+		bool m_IsEnabled = true;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
 		D2D_SIZE_F DesiredSize = { 0 };
-		
-		bool IsMouseOver() { return this->m_IsMouseOver; }
-		bool IsPress() { return this->m_IsPress; }
-
+	
+	public:
+		virtual void OnMouseMove(const MouseMoveArgs& args) {};
+		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) {};
+		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) {};
 		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseMoveHandler;
+		std::function<void(shared_ptr<CControl> sender, const MouseLeftButtonDownArgs& args)> MouseLeftButtonDownHandler;
+		
 	};
 
 }
