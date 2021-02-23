@@ -2,16 +2,20 @@
 #include <memory>
 using namespace std;
 #include <d2d1.h>
+#include "CDirectUI_Color.h"
 
 namespace DirectUI
 {
-	class __declspec(dllexport) CD2D_Brush
+	namespace Direct2D
 	{
-	public:
-		virtual void Refresh(ID2D1RenderTarget* target) {}
-		virtual operator ID2D1Brush*() { return NULL; }
-		virtual void Release() {};
-	};
+		class __declspec(dllexport) CD2D_Brush
+		{
+		public:
+			virtual void Refresh(ID2D1RenderTarget* target) {}
+			virtual operator ID2D1Brush*() { return NULL; }
+			virtual void Release() {};
+		};
+	}
 }
 
 

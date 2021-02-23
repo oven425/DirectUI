@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "CD2D_SolidColorBrush.h"
 using namespace DirectUI;
+using namespace Direct2D;
 
-CD2D_SolidColorBrush::CD2D_SolidColorBrush(const D2D1_COLOR_F& color)
+CD2D_SolidColorBrush::CD2D_SolidColorBrush(const CDirectUI_Color& color)
 {
-	::memcpy_s(&this->m_Color, sizeof(D2D1_COLOR_F), &color, sizeof(D2D1_COLOR_F)); 
+	this->m_Color = color;
 }
 
 CD2D_SolidColorBrush::~CD2D_SolidColorBrush()
@@ -23,9 +24,10 @@ void CD2D_SolidColorBrush::Release()
 
 void CD2D_SolidColorBrush::Refresh(ID2D1RenderTarget* target)
 {
+	HRESULT hr = S_OK;
 	if (this->m_pBrush == NULL)
 	{
-		target->CreateSolidColorBrush(this->m_Color, &this->m_pBrush);
+		hr = target->CreateSolidColorBrush(this->m_Color, &this->m_pBrush);
 	}
 }
 

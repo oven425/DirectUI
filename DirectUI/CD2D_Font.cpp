@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CD2D_Font.h"
 using namespace DirectUI;
+using namespace Direct2D;
+
 IDWriteFactory* CD2D_Font::m_pDWriteFactory = NULL;
 vector<wstring> CD2D_Font::m_FontNames;
 

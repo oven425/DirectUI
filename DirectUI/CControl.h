@@ -73,7 +73,7 @@ namespace Control
 		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
-		void SetBackground(shared_ptr<CD2D_Brush> data);
+		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		void SetEnabled(bool data);
 	protected:
 		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
@@ -94,7 +94,7 @@ namespace Control
 		static ID2D1Factory* m_pD2DFactory;
 		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
 		CDirectUI_Thinkness m_Margin;
-		shared_ptr<CD2D_Brush> m_Background;
+		shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);

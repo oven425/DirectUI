@@ -326,7 +326,7 @@ void CControl::SetMargin(CDirectUI_Thinkness& data)
 	this->m_Margin = data; 
 }
 
-void CControl::SetBackground(shared_ptr<CD2D_Brush> data)
+void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 {
 	if (this->m_Background && this->m_Background != data)
 	{

@@ -3,6 +3,10 @@
 //
 
 #pragma once
+//#include "../DirectUI/CD2D_Font.h"
+//using namespace DirectUI;
+//using namespace Direct2D;
+
 #include "../DirectUI/CWindow.h"
 #include "../DirectUI/CD2D_SolidColorBrush.h"
 #include "../DirectUI/CD2D_LinearGradientBrush.h"
@@ -16,6 +20,7 @@
 
 using namespace DirectUI;
 using namespace Control;
+using namespace Direct2D;
 
 // CMFCApplication1Dlg 對話方塊
 class CMFCApplication1Dlg : public CDialogEx

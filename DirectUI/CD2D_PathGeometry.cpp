@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CD2D_PathGeometry.h"
 using namespace DirectUI;
+using namespace Direct2D;
 
 void CD2D_PathGeometry::Refresh(ID2D1Factory* factory, ID2D1RenderTarget* target)
 {

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CD2D_ImageSource.h"
 using namespace DirectUI;
+using namespace Direct2D;
 IWICImagingFactory* CD2D_ImageSource::m_pIWICFactory = NULL;
 
 CD2D_ImageSource::CD2D_ImageSource()

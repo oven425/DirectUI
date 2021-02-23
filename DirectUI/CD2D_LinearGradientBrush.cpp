@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CD2D_LinearGradientBrush.h"
 using namespace DirectUI;
+using namespace Direct2D;
 
 CD2D_LinearGradientBrush::CD2D_LinearGradientBrush(D2D1_GRADIENT_STOP* data, int count)
 {

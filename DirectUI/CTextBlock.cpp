@@ -23,11 +23,11 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 		//CDirectUI_Rect rc(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 		pCompatibleRenderTarget->FillRectangle(rc, *this->m_Background);
 	}
-	if (this->Foreground)
+	if (this->m_Foreground)
 	{
-		this->Foreground->Refresh(pCompatibleRenderTarget);
+		this->m_Foreground->Refresh(pCompatibleRenderTarget);
 		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-		pCompatibleRenderTarget->DrawTextLayout(rc, *this->Font, *this->Foreground);
+		pCompatibleRenderTarget->DrawTextLayout(rc, *this->Font, *this->m_Foreground);
 		//rc = CDirectUI_Rect(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 		//pCompatibleRenderTarget->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, rc / this->m_DpiScale, *this->Foreground);
 	}
@@ -117,6 +117,15 @@ void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 void CTextBlock::Arrange(float x, float y, float width, float height)
 {
 	::CControl::Arrange(x, y, width, height);
+}
+
+void CTextBlock::SetForeground(shared_ptr<Direct2D::CD2D_Brush> data)
+{
+	if (this->m_Foreground)
+	{
+		this->m_Foreground->Release();
+	}
+	this->m_Foreground = data;
 }
 
 void CTextBlock::SetText(const wchar_t* data)

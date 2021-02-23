@@ -49,9 +49,11 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			for (auto oo : childs)
 			{
 				oo->OnMouseMove(mouseargs);
-				ww->MouseMoveHandler(oo, mouseargs);
+				if (oo->MouseMoveHandler)
+				{
+					oo->MouseMoveHandler(oo, mouseargs);
+				}
 			}
-			
 		}
 		ww->ReDraw();
 	}
@@ -70,9 +72,11 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			for (auto oo : childs)
 			{
 				oo->OnMouseMove(mouseargs);
-				ww->MouseMoveHandler(oo, mouseargs);
+				if (oo->MouseMoveHandler)
+				{
+					oo->MouseMoveHandler(oo, mouseargs);
+				}
 			}
-
 		}
 		ww->ReDraw();
 	}
@@ -90,9 +94,11 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			for (auto oo : childs)
 			{
 				oo->OnMouseMove(mouseargs);
-				ww->MouseMoveHandler(oo, mouseargs);
+				if (oo->MouseMoveHandler)
+				{
+					oo->MouseMoveHandler(oo, mouseargs);
+				}
 			}
-
 		}
 		::ReleaseCapture();
 	}
@@ -139,7 +145,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		UINT width = LOWORD(lParam);
 		UINT height = HIWORD(lParam);
 		UINT dpi = ::GetDpiForWindow(hWnd);
-		float dpiscale = dpi / 96.0;
+		float dpiscale = (float)(dpi / 96.0);
 		ww->OnSize(width, height, dpiscale);
 	}
 	break;
@@ -156,8 +162,10 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			::OutputDebugStringW(szFileName);
 		}
 		::DragFinish(hDrop);
-		auto aa = ww->shared_from_this();
-		ww->test(ww->shared_from_this(), dragfiles);
+		if (ww->DragHandler)
+		{
+			ww->DragHandler(ww->shared_from_this(), dragfiles);
+		}
 	}
 	break;
 	}
@@ -182,14 +190,12 @@ bool CWindow::Init(HWND hwnd)
 	GetClientRect(hwnd, &rc);
 
 	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
-	float dpiscale = dpi/96.0;
-	float width = rc.right - rc.left;
+	dpi = 96;
+	float dpiscale = (float)(dpi/96.0);
+	float width = (float)(rc.right - rc.left);
 	//width = width / dpiscale;
-	float height = rc.bottom - rc.top;
-	//height = height / dpiscale;
-	//CDirectUI_Rect rc(0, 0, rc.right, rc.bottom);
-	//rc = rc / dpiscale;
-	// Create a Direct2D render target          
+	float height = (float)(rc.bottom - rc.top);
+
 	hr = m_pD2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(
@@ -212,201 +218,23 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 
 }
 
-ID2D1PathGeometry* CWindow::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness)
-{
-	ID2D1PathGeometry* path = NULL;
-	HRESULT hr = m_pD2DFactory->CreatePathGeometry(&path);
-	if (SUCCEEDED(hr))
-	{
-		ID2D1GeometrySink *pSink = NULL;
-		hr = path->Open(&pSink);
-		if (SUCCEEDED(hr))
-		{
-			pSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-			if (corner_radius.GetTopLeft() > 0)
-			{
-				pSink->BeginFigure(
-					D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft() + thinkness.GetLeft(), rc.GetTop()),
-					D2D1_FIGURE_BEGIN_FILLED
-				);
-			}
-			else
-			{
-				pSink->BeginFigure(D2D1::Point2F(rc.GetLeft(), rc.GetTop()), D2D1_FIGURE_BEGIN_FILLED);
-			}
-			if (corner_radius.GetTopRight() > 0)
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetRight() - corner_radius.GetTopRight() - thinkness.GetRight(), rc.GetTop()));
-			}
-			else
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetTop()));
-			}
-			
-			if (corner_radius.GetTopRight() > 0)
-			{
-				pSink->AddArc(
-					D2D1::ArcSegment(
-						D2D1::Point2F(rc.GetRight(), rc.GetTop() + corner_radius.GetTopRight() + thinkness.GetRight()), // end point
-						D2D1::SizeF(corner_radius.GetTopRight() + thinkness.GetRight(), corner_radius.GetTopRight() + thinkness.GetRight()),
-						0.0f, // rotation angle
-						D2D1_SWEEP_DIRECTION_CLOCKWISE,
-						D2D1_ARC_SIZE_SMALL
-					));
-			}
-			if (corner_radius.GetBottomRight() > 0)
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetBottom() - corner_radius.GetBottomRight() - thinkness.GetBottom()));
-			}
-			else
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetRight(), rc.GetBottom()));
-			}
-
-			if (corner_radius.GetBottomRight() > 0)
-			{
-				pSink->AddArc(
-					D2D1::ArcSegment(
-						D2D1::Point2F(rc.GetRight() - corner_radius.GetBottomRight() - thinkness.GetRight(), rc.GetBottom()), // end point
-						D2D1::SizeF(corner_radius.GetBottomRight() + thinkness.GetRight(), corner_radius.GetBottomRight() + thinkness.GetBottom()),
-						0.0f, // rotation angle
-						D2D1_SWEEP_DIRECTION_CLOCKWISE,
-						D2D1_ARC_SIZE_SMALL
-					));
-			}
-			if (corner_radius.GetBottomLeft() > 0)
-			{
-				float max_x = rc.GetRight() - rc.GetWidth() / 2;
-				D2D_POINT_2F pp = D2D1::Point2F(rc.GetLeft() + corner_radius.GetBottomLeft() + thinkness.GetLeft(), rc.GetBottom());
-				if (pp.x > max_x)
-				{
-					pp.x = max_x;
-				}
-				pSink->AddLine(pp);
-			}
-			else
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetBottom()));
-			}
-
-			if (corner_radius.GetBottomLeft() > 0)
-			{
-				//D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft() +thinkness.GetLeft()
-				float min_y = rc.GetBottom() - rc.GetHeight() / 2;
-
-				D2D_POINT_2F pp = D2D1::Point2F(rc.GetLeft(), rc.GetBottom() - corner_radius.GetBottomLeft() + thinkness.GetLeft());
-				if (pp.y < min_y)
-				{
-					pp.y = min_y;
-				}
-				//CTrace::WriteLine(L"x:%f y:%f",pp.x, pp.y);
-				D2D_SIZE_F ss = D2D1::SizeF(corner_radius.GetBottomLeft() + thinkness.GetLeft(), corner_radius.GetBottomLeft() + thinkness.GetBottom());
-				pSink->AddArc(
-					D2D1::ArcSegment(
-						pp, // end point
-						D2D1::SizeF(corner_radius.GetBottomLeft() + thinkness.GetLeft(), corner_radius.GetBottomLeft() + thinkness.GetBottom()),
-						0.0f, // rotation angle
-						D2D1_SWEEP_DIRECTION_CLOCKWISE,
-						D2D1_ARC_SIZE_SMALL
-					));
-			}
-			if (corner_radius.GetTopLeft() > 0)
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetTop() + corner_radius.GetTopLeft() + thinkness.GetTop()));
-			}
-			else
-			{
-				pSink->AddLine(D2D1::Point2F(rc.GetLeft(), rc.GetTop()));
-			}
-			
-
-			if (corner_radius.GetTopLeft() > 0)
-			{
-				pSink->AddArc(
-					D2D1::ArcSegment(
-						D2D1::Point2F(rc.GetLeft() + corner_radius.GetTopLeft() + thinkness.GetLeft(), rc.GetTop()), // end point
-						D2D1::SizeF(corner_radius.GetTopLeft() + thinkness.GetLeft(), corner_radius.GetTopLeft() + thinkness.GetTop()),
-						0.0f, // rotation angle
-						D2D1_SWEEP_DIRECTION_CLOCKWISE,
-						D2D1_ARC_SIZE_SMALL
-					));
-			}
-			
-			pSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-		}
-
-		hr = pSink->Close();
-	}
-	return path;
-}
 
 void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	//RECT rc = { 0 };
+	//::GetClientRect(this->m_hWnd, &rc);
+	//CDirectUI_Rect rc1(10,10,20,20);
+	//
+	//rc1 = rc1 / this->m_DpiScale;
+	////rc1.SetLeft(10 / this->m_DpiScale);
+	////rc1.SetTop(10 / this->m_DpiScale);
+	////rc1.SetBottom(rc1.GetBottom() - 200);
+	//this->m_Background->Refresh(pRT);
+	//this->pRT->FillRectangle(rc1, *this->m_Background);
 	CContentControl::OnRender(this->pRT, calculate_dpi);
 
-	//CDirectUI_Rect rc = this->m_ActualRect;
-	//CDirectUI_Rect rc(100, 100, 300, 300);
-	//CDirectUI_CornerRadius m_CornerRadius(100, 100, 100, 250);
-	//if (m_CornerRadius.GetBottomLeft() > rc.GetWidth())
-	//{
-	//	m_CornerRadius.SetBottomLeft(rc.GetWidth());
-	//}
-
-	//rc = rc / this->m_DpiScale;
-	//m_CornerRadius = m_CornerRadius / this->m_DpiScale;
-
-	//CDirectUI_Thinkness m_BorderThickness(10);
-	//m_BorderThickness = m_BorderThickness / this->m_DpiScale;
-	//HRESULT hr = S_OK;
-	//ID2D1GeometrySink *pGeometrySink = NULL;
-
-
-	//ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
-	//CDirectUI_Thinkness thinkness = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, m_CornerRadius- thinkness, thinkness);
-
-	//CDirectUI_Thinkness thinkness1 = m_BorderThickness / 2;
-	//ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ m_BorderThickness, m_CornerRadius- thinkness, -thinkness1);
-
-
-
-	//if (SUCCEEDED(hr))
-	//{
-	//	//
-	//	// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
-	//	//
-	//	hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
-
-	//	if (SUCCEEDED(hr))
-	//	{
-	//		hr = m_pPathGeometryUnion->Open(&pGeometrySink);
-
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = m_pBorder->CombineWithGeometry(
-	//				m_pCircleGeometry2,
-	//				D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
-	//				NULL,
-	//				NULL,
-	//				pGeometrySink
-	//			);
-	//		}
-
-	//		if (SUCCEEDED(hr))
-	//		{
-	//			hr = pGeometrySink->Close();
-	//		}
-
-	//		//SafeRelease(&pGeometrySink);
-	//	}
-	//}
-	//this->Background->Refresh(pRT);
-	////this->pRT->FillGeometry(m_pPathGeometryUnion, *this->Background);
-	//pRT->DrawGeometry(m_pPathGeometryUnion, *this->Background);
-
-	////this->pRT->FillGeometry(m_pCircleGeometry2, *this->Background);
 	this->pRT->EndDraw();
 }
 

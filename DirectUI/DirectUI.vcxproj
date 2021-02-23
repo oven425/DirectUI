@@ -168,6 +168,7 @@
     <ClInclude Include="CD2D_PathGeometry.h" />
     <ClInclude Include="CD2D_SolidColorBrush.h" />
     <ClInclude Include="CDependencyObject.h" />
+    <ClInclude Include="CDirectUI_Color.h" />
     <ClInclude Include="CDirectUI_CornerRadius.h" />
     <ClInclude Include="CDirectUI_Point.h" />
     <ClInclude Include="CDirectUI_Rect.h" />
@@ -175,6 +176,8 @@
     <ClInclude Include="CDirectUI_Thinkness.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
+    <ClInclude Include="CKeyBoard.h" />
+    <ClInclude Include="CMouse.h" />
     <ClInclude Include="CPanel.h" />
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CTextBlock.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="CD2D_PathGeometry.cpp" />
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
     <ClCompile Include="CDependencyObject.cpp" />
+    <ClCompile Include="CDirectUI_Color.cpp" />
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
     <ClCompile Include="CDirectUI_Point.cpp" />
     <ClCompile Include="CDirectUI_Rect.cpp" />
@@ -204,6 +208,8 @@
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
+    <ClCompile Include="CKeyBoard.cpp" />
+    <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CPanel.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CTextBlock.cpp" />

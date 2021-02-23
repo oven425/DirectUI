@@ -17,15 +17,16 @@ namespace DirectUI
 			void Arrange(float x, float y, float width, float height) override;
 			void OnMouseMove(const MouseMoveArgs& args) override;
 			void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) override;
+			void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) override;
 		private:
-			shared_ptr<CD2D_Brush> m_NormalBK;
-			shared_ptr<CD2D_Brush> m_NormalBr;
-			shared_ptr<CD2D_Brush> m_HoverBK;
-			shared_ptr<CD2D_Brush> m_HoverBr;
-			shared_ptr<CD2D_Brush> m_PressBK;
-			shared_ptr<CD2D_Brush> m_PressBr;
-			shared_ptr<CD2D_Brush> m_DisableBK;
-			shared_ptr<CD2D_Brush> m_DisableBr;
+			shared_ptr<Direct2D::CD2D_Brush> m_NormalBK;
+			shared_ptr<Direct2D::CD2D_Brush> m_NormalBr;
+			shared_ptr<Direct2D::CD2D_Brush> m_HoverBK;
+			shared_ptr<Direct2D::CD2D_Brush> m_HoverBr;
+			shared_ptr<Direct2D::CD2D_Brush> m_PressBK;
+			shared_ptr<Direct2D::CD2D_Brush> m_PressBr;
+			shared_ptr<Direct2D::CD2D_Brush> m_DisableBK;
+			shared_ptr<Direct2D::CD2D_Brush> m_DisableBr;
 			shared_ptr<CBorder> m_Template;
 		};
 

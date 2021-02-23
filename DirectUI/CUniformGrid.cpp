@@ -57,7 +57,7 @@ void CUniformGrid::Measure(float width, float height, ID2D1RenderTarget* pRT)
 
 	vector<float> widths(this->m_CellColums,0);
 	vector<float> heights(this->m_CellRows, 0);
-	int index = 0;
+	unsigned int index = 0;
 	for (int row = 0; row < this->m_CellRows; row++)
 	{
 		for (int col = 0; col < this->m_CellColums; col++)
@@ -87,7 +87,7 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 	::CControl::Arrange(x, y, width, height);
 
 	this->CheckRowCol(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	int index = 0;
+	unsigned int index = 0;
 	float cellwidth = this->m_CellWidth;
 	for (int row = 0; row < this->m_CellRows; row++)
 	{

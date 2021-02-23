@@ -297,7 +297,7 @@ void CImage::Arrange(float x, float y, float width, float height)
 	::CControl::Arrange(x, y, width, height);
 }
 
-void CImage::SetSource(shared_ptr<CD2D_ImageSource> data)
+void CImage::SetSource(shared_ptr<Direct2D::CD2D_ImageSource> data)
 {
 	this->Release();
 	this->m_Source = data;

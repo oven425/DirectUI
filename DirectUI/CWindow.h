@@ -25,7 +25,7 @@ namespace DirectUI
 			bool Init(HWND hwnd);
 			void SetTitle(const wchar_t* data);
 			void SetAllowDropFiles(bool data);
-			std::function<void(const shared_ptr<CControl> sender, const CDragFilesArgs& args)> test;
+			std::function<void(const shared_ptr<CControl> sender, const CDragFilesArgs& args)> DragHandler;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
@@ -34,10 +34,7 @@ namespace DirectUI
 			static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 		protected:
 			void ReDraw();
-			
 			ID2D1HwndRenderTarget* pRT = NULL;
-
-			ID2D1PathGeometry* BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness);
 		};
 	}
 }
