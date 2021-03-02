@@ -211,7 +211,8 @@ bool CWindow::Init(HWND hwnd)
 
 void CWindow::OnSize(float width, float height, float dpiscale)
 {
-	this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
+	//this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
+	this->pRT->Resize(D2D1::SizeU(width, height));
 	CContentControl::OnSize(width, height, dpiscale);
 	this->Measure(width / dpiscale, height / dpiscale, this->pRT);
 	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
@@ -223,17 +224,15 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	//RECT rc = { 0 };
-	//::GetClientRect(this->m_hWnd, &rc);
-	//CDirectUI_Rect rc1(10,10,20,20);
-	//
-	//rc1 = rc1 / this->m_DpiScale;
-	////rc1.SetLeft(10 / this->m_DpiScale);
-	////rc1.SetTop(10 / this->m_DpiScale);
-	////rc1.SetBottom(rc1.GetBottom() - 200);
-	//this->m_Background->Refresh(pRT);
-	//this->pRT->FillRectangle(rc1, *this->m_Background);
-	CContentControl::OnRender(this->pRT, calculate_dpi);
+	RECT rc = { 0 };
+	::GetClientRect(this->m_hWnd, &rc);
+	CDirectUI_Rect rc1(0,0,rc.right,rc.bottom);
+	
+	rc1 = rc1 / 1.5;
+	rc1 = rc1 + CDirectUI_Thinkness(10);
+	this->m_Background->Refresh(pRT);
+	this->pRT->FillRectangle(rc1, *this->m_Background);
+	//CContentControl::OnRender(this->pRT, calculate_dpi);
 
 	this->pRT->EndDraw();
 }
