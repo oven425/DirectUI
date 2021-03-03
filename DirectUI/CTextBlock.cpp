@@ -12,46 +12,62 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 		return;
 	}
 #ifdef Test
-	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-	pCompatibleRenderTarget->BeginDraw();
-
-	if (this->m_Background)
+	
+	if (this->m_pRenderBuf != NULL)
 	{
-		this->m_Background->Refresh(pCompatibleRenderTarget);
-		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-		//CDirectUI_Rect rc(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-		pCompatibleRenderTarget->FillRectangle(rc, *this->m_Background);
+		D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
+		if (sz.width != this->DesiredSize.width || sz.height != this->DesiredSize.height)
+		{
+			this->m_pRenderBuf->Release();
+			this->m_pRenderBuf = NULL;
+		}
 	}
+	HRESULT hr = S_OK;
+	if (this->m_pRenderBuf == NULL)
+	{
+		hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &this->m_pRenderBuf);
+	}
+
+	this->m_pRenderBuf->BeginDraw();
+
+	//if (this->m_Background)
+	//{
+	//	this->m_Background->Refresh(this->m_pRenderBuf);
+	//	CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	//	//CDirectUI_Rect rc(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	//	this->m_pRenderBuf->FillRectangle(rc, *this->m_Background);
+	//}
 	if (this->m_Foreground)
 	{
-		this->m_Foreground->Refresh(pCompatibleRenderTarget);
+		this->m_Foreground->Refresh(this->m_pRenderBuf);
 		CDirectUI_Rect rc(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-		pCompatibleRenderTarget->DrawTextLayout(rc, *this->Font, *this->m_Foreground);
+		this->m_pRenderBuf->DrawTextLayout(rc, *this->Font, *this->m_Foreground);
 		//rc = CDirectUI_Rect(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 		//pCompatibleRenderTarget->DrawTextW(this->m_Text.c_str(), this->m_Text.length(), *this->Font, rc / this->m_DpiScale, *this->Foreground);
 	}
 
 
-	pCompatibleRenderTarget->EndDraw();
-	ID2D1Bitmap* bmp = NULL;
-	pCompatibleRenderTarget->GetBitmap(&bmp);
-	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
-	CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	//if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
-	//{
-	//	rc_src.SetX(this->DesiredSize.width - this->m_ActualRect.GetWidth());
-	//}
-	//CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
-	//float w1 = rc_dst.GetWidth();
-	//float w2 = rc_src.GetWidth();
-	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
+	this->m_pRenderBuf->EndDraw();
+	::CControl::OnRender(pRT, calculate_dpi);
+	//ID2D1Bitmap* bmp = NULL;
+	//this->m_pRenderBuf->GetBitmap(&bmp);
+	//CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
+	//CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	////CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	//rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	////if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
+	////{
+	////	rc_src.SetX(this->DesiredSize.width - this->m_ActualRect.GetWidth());
+	////}
+	////CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
+	////float w1 = rc_dst.GetWidth();
+	////float w2 = rc_src.GetWidth();
+	//pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
 
 
-	bmp->Release();
-	pCompatibleRenderTarget->Release();
+	//bmp->Release();
+	//this->m_pRenderBuf->Release();
+	//this->m_pRenderBuf = NULL;
 #else
 	if (this->Background)
 	{

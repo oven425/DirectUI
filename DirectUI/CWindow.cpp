@@ -223,16 +223,16 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
-	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	RECT rc = { 0 };
-	::GetClientRect(this->m_hWnd, &rc);
-	CDirectUI_Rect rc1(0,0,rc.right,rc.bottom);
-	
-	rc1 = rc1 / 1.5;
-	rc1 = rc1 + CDirectUI_Thinkness(10);
-	this->m_Background->Refresh(pRT);
-	this->pRT->FillRectangle(rc1, *this->m_Background);
-	//CContentControl::OnRender(this->pRT, calculate_dpi);
+	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
+	//RECT rc = { 0 };
+	//::GetClientRect(this->m_hWnd, &rc);
+	//CDirectUI_Rect rc1(0,0,rc.right,rc.bottom);
+	//
+	//rc1 = rc1 / 1.5;
+	//rc1 = rc1 + CDirectUI_Thinkness(10);
+	//this->m_Background->Refresh(pRT);
+	//this->pRT->FillRectangle(rc1, *this->m_Background);
+	CContentControl::OnRender(this->pRT, calculate_dpi);
 
 	this->pRT->EndDraw();
 }

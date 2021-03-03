@@ -227,53 +227,29 @@ void CControl::Arrange(float x, float y, float width, float height)
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
-#define Test
 void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
 		return;
 	}
-	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-#ifdef  Test
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-#else
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(D2D1::SizeF(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight()), &pCompatibleRenderTarget);
-#endif //  Test
-
-	
-	pCompatibleRenderTarget->BeginDraw();
-	
-	if (this->m_Background)
-	{
-		//this->Background->Release();
-		this->m_Background->Refresh(pCompatibleRenderTarget);
-#ifdef Test
-		CDirectUI_Rect rc(0,0, this->DesiredSize.width, this->DesiredSize.height);
-		pCompatibleRenderTarget->FillRectangle(rc, *m_Background);
-#else
-		CDirectUI_Rect rc = (this->m_ActualRect) / this->m_DpiScale;
-		pCompatibleRenderTarget->FillRectangle(rc, m_pBlackBrush);
-#endif
-		
-	}
-	pCompatibleRenderTarget->EndDraw();
 	ID2D1Bitmap* bmp = NULL;
-	pCompatibleRenderTarget->GetBitmap(&bmp);
-#ifdef Test
-	CDirectUI_Rect rc_dst = this->m_ActualRect;
-	if (calculate_dpi == true)
-	{
-		rc_dst = this->m_ActualRect / this->m_DpiScale;
-	}
-	CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	this->m_pRenderBuf->GetBitmap(&bmp);
+	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
+	CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	//if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
+	//{
+	//	rc_src.SetX(this->DesiredSize.width - this->m_ActualRect.GetWidth());
+	//}
+	//CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
+	//float w1 = rc_dst.GetWidth();
+	//float w2 = rc_src.GetWidth();
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc_src);
-#else
-	pRT->DrawBitmap(bmp);
-#endif
-	
+
+
 	bmp->Release();
-	pCompatibleRenderTarget->Release();
 }
 
 void CControl::SetWidth(float data) 

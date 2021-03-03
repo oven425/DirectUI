@@ -143,29 +143,29 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//canvas->AddChild(image);
 	//windows->SetChild(canvas);
 
-	shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
-	border->Name = L"border";
-	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
-	border->SetBorderThickness(CDirectUI_Thinkness(10));
-	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f)));
-	//border->SetWidth(200);
-	//border->SetHorizontalAlignment(HorizontalAlignments::Right);
-	border->SetMargin(CDirectUI_Thinkness(20));
-	//border->SetPadding(CDirectUI_Thinkness(40));
-	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//imgsource->Open(L"sample.jpg");
-	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::None);
-	////image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//image->Name = L"image";
-	////image->Margin = CDirectUI_Thinkness(10);
-	//border->SetChild(image);
-	windows->SetChild(border);
+	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
+	//border->Name = L"border";
+	////border->SetCornerRadius(CDirectUI_CornerRadius(20));
+	//border->SetBorderThickness(CDirectUI_Thinkness(10));
+	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
+	////border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f)));
+	////border->SetWidth(200);
+	////border->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//border->SetMargin(CDirectUI_Thinkness(20));
+	////border->SetPadding(CDirectUI_Thinkness(40));
+	////shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	////imgsource->Open(L"sample.jpg");
+	////shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	////image->SetSource(imgsource);
+	////image->SetStretch(Stretchs::None);
+	//////image->SetHieght(100);
+	////image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//////image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	////image->Name = L"image";
+	//////image->Margin = CDirectUI_Thinkness(10);
+	////border->SetChild(image);
+	//windows->SetChild(border);
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
@@ -243,27 +243,27 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	////image->SetMargin(CDirectUI_Thinkness(10));
 	//windows->SetChild(image);
 
-	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
- //   textblock->Font = ::make_shared<CD2D_Font>();
-	//textblock->Font->SetFontSize(32);
-	////textblock->Font->SetFontWeight();
-	////textblock->Font->SetFontStyle();
-	////textblock->Font->SetUnderLine(true);
-	//textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
-	////textblock->Font->SetTriming(DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_CHARACTER);
-	////textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
-	//textblock->SetText(L"白日依山盡,黃河入海流");
-	////textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
-	//textblock->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
-	//textblock->Foreground = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f));
-	//textblock->Name = L"textblock";
-	////textblock->Margin = CDirectUI_Thinkness(10,20,40,60);
-	////textblock->SetWidth(200);
-	////textblock->SetHieght(10);
+	shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
+    textblock->Font = ::make_shared<CD2D_Font>();
+	textblock->Font->SetFontSize(32);
+	//textblock->Font->SetFontWeight();
+	//textblock->Font->SetFontStyle();
+	//textblock->Font->SetUnderLine(true);
+	textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
+	//textblock->Font->SetTriming(DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_CHARACTER);
+	//textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
+	textblock->SetText(L"白日依山盡,黃河入海流");
+	//textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
+	textblock->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f)));
+	textblock->SetForeground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f)));
+	textblock->Name = L"textblock";
+	//textblock->Margin = CDirectUI_Thinkness(10,20,40,60);
+	//textblock->SetWidth(200);
+	//textblock->SetHieght(10);
 
-	////textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//windows.m_Child = textblock;
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+	windows->SetChild(textblock);
 
 
 

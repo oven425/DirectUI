@@ -52,11 +52,20 @@ namespace Control
 		int X;
 		int Y;
 	};
-	class __declspec(dllexport) CControl: public enable_shared_from_this<CControl>
+	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>
 	{
 	public:
 		CControl() {}
-		virtual ~CControl() { this->Release(); }
+
+		virtual ~CControl()
+		{
+			this->Release();
+			if (this->m_pRenderBuf != NULL)
+			{
+				this->m_pRenderBuf->Release();
+				this->m_pRenderBuf = NULL;
+			}
+		}
 		virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi);
 		virtual void OnSize(float width, float height, float dpiscale);
 		void SetWidth(float data);
@@ -96,6 +105,7 @@ namespace Control
 		CDirectUI_Thinkness m_Margin;
 		shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
+		ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
