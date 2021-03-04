@@ -125,6 +125,30 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 	return rc;
 }
 
+void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, D2D1_SIZE_F& data)
+{
+	if (this->m_pRenderBuf != NULL)
+	{
+		D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
+		if (sz.width != this->DesiredSize.width || sz.height != this->DesiredSize.height)
+		{
+			this->m_pRenderBuf->Release();
+			this->m_pRenderBuf = NULL;
+		}
+	}
+	if (this->m_pRenderBuf == NULL)
+	{
+		HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &this->m_pRenderBuf);
+	}
+	this->m_pRenderBuf->BeginDraw();
+	
+	if (this->m_Background)
+	{
+		this->m_Background->Refresh(this->m_pRenderBuf);
+		this->m_pRenderBuf->FillRectangle(D2D1::RectF(0, 0, data.width, data.height), *this->m_Background);
+	}
+}
+
 void CControl::Arrange(float x, float y, float width, float height)
 {
 	CDirectUI_Thinkness margin = this->m_Margin;
@@ -229,11 +253,13 @@ void CControl::Arrange(float x, float y, float width, float height)
 
 void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
+	this->m_pRenderBuf->EndDraw();
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
 		return;
 	}
-	ID2D1Bitmap* bmp = NULL;
+	ID2D1Bitmap* bmp = NULL;	
+	
 	this->m_pRenderBuf->GetBitmap(&bmp);
 	CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
 	CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);

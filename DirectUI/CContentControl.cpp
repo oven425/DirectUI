@@ -15,11 +15,12 @@ void CContentControl::OnSize(float width, float height, float dpiscale)
 
 void CContentControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	::CControl::OnRender(pRT, calculate_dpi);
+	this->CreateRenderBuf(pRT, this->DesiredSize);
 	if (this->m_Child != nullptr)
 	{
-		this->m_Child->OnRender(pRT, calculate_dpi);
+		this->m_Child->OnRender(this->m_pRenderBuf, calculate_dpi);
 	}
+	::CControl::OnRender(pRT, calculate_dpi);
 }
 
 void CContentControl::Arrange(float x, float y, float width, float height)

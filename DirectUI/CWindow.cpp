@@ -145,6 +145,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		UINT width = LOWORD(lParam);
 		UINT height = HIWORD(lParam);
 		UINT dpi = ::GetDpiForWindow(hWnd);
+		dpi = 96;
 		float dpiscale = (float)(dpi / 96.0);
 		ww->OnSize(width, height, dpiscale);
 	}

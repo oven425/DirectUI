@@ -13,22 +13,11 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	}
 #ifdef Test
 	
-	if (this->m_pRenderBuf != NULL)
-	{
-		D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
-		if (sz.width != this->DesiredSize.width || sz.height != this->DesiredSize.height)
-		{
-			this->m_pRenderBuf->Release();
-			this->m_pRenderBuf = NULL;
-		}
-	}
+	this->CreateRenderBuf(pRT, this->DesiredSize);
 	HRESULT hr = S_OK;
-	if (this->m_pRenderBuf == NULL)
-	{
-		hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &this->m_pRenderBuf);
-	}
+	
 
-	this->m_pRenderBuf->BeginDraw();
+	//this->m_pRenderBuf->BeginDraw();
 
 	//if (this->m_Background)
 	//{
@@ -47,7 +36,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	}
 
 
-	this->m_pRenderBuf->EndDraw();
+	//this->m_pRenderBuf->EndDraw();
 	::CControl::OnRender(pRT, calculate_dpi);
 	//ID2D1Bitmap* bmp = NULL;
 	//this->m_pRenderBuf->GetBitmap(&bmp);

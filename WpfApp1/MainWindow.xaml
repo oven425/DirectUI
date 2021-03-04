@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600"
-        Background="Purple"
+        Background="Red"
         >
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -27,8 +27,8 @@
             </Border>
             
         </local:DpiDecorator>
-    </Grid>
-    
+    </Grid>-->
+    <TextBlock Text="白日依山盡,黃河入海流" FontSize="32" Margin="10,20,40,60" Background="Black" Foreground="White"/>
     <!--<Canvas Background="Blue">
         <Image Source="sample.jpg" Stretch="Fill" Width="100"/>
         <TextBlock Text="123"/>

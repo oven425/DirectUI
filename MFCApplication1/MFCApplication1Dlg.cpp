@@ -120,7 +120,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//gradientStops[1].color = D2D1::ColorF(D2D1::ColorF::ForestGreen, 1);
 	//gradientStops[1].position = 1.0f;
 
-	windows->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White)));
+	windows->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
 	windows->Name = L"windows";
 
 	//shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
@@ -257,7 +257,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	textblock->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f)));
 	textblock->SetForeground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f)));
 	textblock->Name = L"textblock";
-	//textblock->Margin = CDirectUI_Thinkness(10,20,40,60);
+	textblock->SetMargin(CDirectUI_Thinkness(10,20,40,60));
 	//textblock->SetWidth(200);
 	//textblock->SetHieght(10);
 
