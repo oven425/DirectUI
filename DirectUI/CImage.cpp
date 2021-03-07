@@ -5,40 +5,53 @@ using namespace Control;
 
 void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-	pCompatibleRenderTarget->BeginDraw();
+	//ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
+	//HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
+	//pCompatibleRenderTarget->BeginDraw();
 
+	//if (this->m_pD2DBitmap != NULL)
+	//{
+	//	if (this->m_Stretch == Stretchs::None)
+	//	{
+	//		pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+	//	}
+	//	else
+	//	{
+	//		pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+	//	}
+	//}
+
+	//pCompatibleRenderTarget->EndDraw();
+	//ID2D1Bitmap* bmp = NULL;
+	//pCompatibleRenderTarget->GetBitmap(&bmp);
+
+	////CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
+	//CDirectUI_Rect rc_dst = this->m_ActualRect;
+	//if (calculate_dpi == true)
+	//{
+	//	rc_dst = this->m_ActualRect / this->m_DpiScale;
+	//}
+	////CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	//CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	////rc_src = rc_src / (this->m_DpiScale);
+	//pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
+
+
+	//bmp->Release();
+	//pCompatibleRenderTarget->Release();
+	this->CreateRenderBuf(pRT, this->DesiredSize);
 	if (this->m_pD2DBitmap != NULL)
 	{
 		if (this->m_Stretch == Stretchs::None)
 		{
-			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+			this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
 		}
 		else
 		{
-			pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+			this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		}
 	}
-
-	pCompatibleRenderTarget->EndDraw();
-	ID2D1Bitmap* bmp = NULL;
-	pCompatibleRenderTarget->GetBitmap(&bmp);
-
-	//CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
-	CDirectUI_Rect rc_dst = this->m_ActualRect;
-	if (calculate_dpi == true)
-	{
-		rc_dst = this->m_ActualRect / this->m_DpiScale;
-	}
-	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	//rc_src = rc_src / (this->m_DpiScale);
-	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-
-
-	bmp->Release();
-	pCompatibleRenderTarget->Release();
+	::CControl::OnRender(pRT, calculate_dpi);
 }
 
 D2D1_RECT_F CImage::Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)

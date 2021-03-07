@@ -21,7 +21,8 @@ CButton::CButton()
 
 void CButton::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	this->m_Template->OnRender(pRT, calculate_dpi);
+	//this->m_Template->OnRender(pRT, calculate_dpi);
+	::CContentControl::OnRender(pRT, calculate_dpi);
 }
 
 void CButton::Measure(float width, float height, ID2D1RenderTarget* pRT)

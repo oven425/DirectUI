@@ -145,7 +145,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		UINT width = LOWORD(lParam);
 		UINT height = HIWORD(lParam);
 		UINT dpi = ::GetDpiForWindow(hWnd);
-		dpi = 96;
+		//dpi = 96;
 		float dpiscale = (float)(dpi / 96.0);
 		ww->OnSize(width, height, dpiscale);
 	}
@@ -190,9 +190,7 @@ bool CWindow::Init(HWND hwnd)
 	RECT rc;
 	GetClientRect(hwnd, &rc);
 
-	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
-	dpi = 96;
-	float dpiscale = (float)(dpi/96.0);
+	
 	float width = (float)(rc.right - rc.left);
 	//width = width / dpiscale;
 	float height = (float)(rc.bottom - rc.top);
@@ -201,20 +199,25 @@ bool CWindow::Init(HWND hwnd)
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(
 			hwnd,
-			D2D1::SizeU((width/dpi, height/dpi))
+			D2D1::SizeU((width, height))
 		),
 		&pRT
 	);
 
+	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
+	//dpi = 96;
+	float dpiscale = (float)(dpi / 96.0);
 	this->OnSize(width, height, dpiscale);
 	return true;
 }
 
 void CWindow::OnSize(float width, float height, float dpiscale)
 {
+	
 	//this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
 	this->pRT->Resize(D2D1::SizeU(width, height));
 	CContentControl::OnSize(width, height, dpiscale);
+	//dpiscale = 1.5;
 	this->Measure(width / dpiscale, height / dpiscale, this->pRT);
 	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 

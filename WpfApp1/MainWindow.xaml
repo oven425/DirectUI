@@ -28,7 +28,7 @@
             
         </local:DpiDecorator>
     </Grid>-->
-    <TextBlock Text="白日依山盡,黃河入海流" FontSize="32" Margin="10,20,40,60" Background="Black" Foreground="White"/>
+    <!--<TextBlock Text="白日依山盡,黃河入海流" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="32" Margin="10,20,40,60" Background="Black" Foreground="White"/>-->
     <!--<Canvas Background="Blue">
         <Image Source="sample.jpg" Stretch="Fill" Width="100"/>
         <TextBlock Text="123"/>
@@ -40,8 +40,8 @@
         <Image Stretch="Uniform" Source="sample.jpg"/>
         <Image Stretch="UniformToFill" Source="sample.jpg"/>
     </UniformGrid>-->
-    <!--<Image x:Name="img" Source="sample.jpg" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="None" Margin="10,20,30,40"/>-->
-    <!--<Border Width="300" Height="300" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="Red"></Border>-->
+    <!--<Image x:Name="img" Source="sample.jpg" Stretch="None" Margin="10,20,30,40"/>-->
+    <Border BorderThickness="10" Margin="5" BorderBrush="Green" Background="Blue"></Border>
     <!--<TextBlock Text="白日依山盡,黃河入海流" Background="Black" Margin="0" FontSize="32" Foreground="White" FontFamily="Arial"  />-->
 
     <!--<StackPanel Margin="10" VerticalAlignment="Bottom" Orientation="Horizontal" Background="Red">

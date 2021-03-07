@@ -119,17 +119,18 @@ ID2D1PathGeometry* CBorder::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 
 void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-	pCompatibleRenderTarget->BeginDraw();
+	HRESULT hr = S_OK;
+	//ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
+	//HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
+	//pCompatibleRenderTarget->BeginDraw();
+	this->CreateRenderBuf(pRT, this->DesiredSize);
 	CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
 
 
-	rc = rc / this->m_DpiScale;
-	CDirectUI_CornerRadius cornerradius = this->m_CornerRadius / this->m_DpiScale;
+	CDirectUI_CornerRadius cornerradius = this->m_CornerRadius;
 
 	//CDirectUI_Thinkness m_BorderThickness(10);
-	CDirectUI_Thinkness borderthickness = this->m_BorderThickness / this->m_DpiScale;
+	CDirectUI_Thinkness borderthickness = this->m_BorderThickness;
 
 	ID2D1GeometrySink *pGeometrySink = NULL;
 
@@ -175,44 +176,46 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	}
 	if (this->m_BorderBrush)
 	{
-		this->m_BorderBrush->Refresh(pCompatibleRenderTarget);
-		pCompatibleRenderTarget->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
+		this->m_BorderBrush->Refresh(this->m_pRenderBuf);
+		this->m_pRenderBuf->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
 	}
 	if (this->m_Background)
 	{
-		this->m_Background->Refresh(pCompatibleRenderTarget);
+		this->m_Background->Refresh(this->m_pRenderBuf);
 
 		//pCompatibleRenderTarget->DrawGeometry(m_pPathGeometryUnion, *this->Background);
 
-		pCompatibleRenderTarget->FillGeometry(m_pCircleGeometry2, *this->m_Background);
+		this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->m_Background);
 	}
 	
 
 	if (this->m_Child)
 	{
-		this->m_Child->OnRender(pCompatibleRenderTarget, calculate_dpi);
+		this->m_Child->OnRender(this->m_pRenderBuf, calculate_dpi);
 	}
-	pCompatibleRenderTarget->EndDraw();
+
+	::CControl::OnRender(pRT, calculate_dpi);
+	//pCompatibleRenderTarget->EndDraw();
 
 
-	ID2D1Bitmap* bmp = NULL;
-	pCompatibleRenderTarget->GetBitmap(&bmp);
+	//ID2D1Bitmap* bmp = NULL;
+	//pCompatibleRenderTarget->GetBitmap(&bmp);
 
-	//CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
-	CDirectUI_Rect rc_dst = this->m_ActualRect;
-	if (calculate_dpi == true)
-	{
-		rc_dst = this->m_ActualRect / this->m_DpiScale;
-	}
-	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	
-	//rc_src = rc_src / (this->m_DpiScale);
-	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
+	////CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
+	//CDirectUI_Rect rc_dst = this->m_ActualRect;
+	//if (calculate_dpi == true)
+	//{
+	//	rc_dst = this->m_ActualRect / this->m_DpiScale;
+	//}
+	////CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	//CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
+	//
+	////rc_src = rc_src / (this->m_DpiScale);
+	//pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
 
 
-	bmp->Release();
-	pCompatibleRenderTarget->Release();
+	//bmp->Release();
+	//pCompatibleRenderTarget->Release();
 }
 
 void CBorder::Arrange(float x, float y, float width, float height)
