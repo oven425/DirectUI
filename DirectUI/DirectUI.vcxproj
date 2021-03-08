@@ -170,6 +170,7 @@
     <ClInclude Include="CDependencyObject.h" />
     <ClInclude Include="CDirectUI_Color.h" />
     <ClInclude Include="CDirectUI_CornerRadius.h" />
+    <ClInclude Include="CDirectUI_MouseManager.h" />
     <ClInclude Include="CDirectUI_Point.h" />
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Size.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="CDependencyObject.cpp" />
     <ClCompile Include="CDirectUI_Color.cpp" />
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
+    <ClCompile Include="CDirectUI_MouseManager.cpp" />
     <ClCompile Include="CDirectUI_Point.cpp" />
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Size.cpp" />

@@ -69,6 +69,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			MouseMoveArgs mouseargs = { 0 };
 			mouseargs.X = xPos;
 			mouseargs.Y = yPos;
+			ww->m_MouseStorage.leftbutton = childs.back();
 			for (auto oo : childs)
 			{
 				oo->OnMouseMove(mouseargs);

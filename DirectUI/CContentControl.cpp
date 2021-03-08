@@ -72,15 +72,4 @@ bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs
 		this->m_Child->HitTest(x, y, childs);
 	}
 	return result;
-	//if (temp && this->m_Child)
-	//{
-	//	shared_ptr<CControl> child = this->m_Child->HitTest(x, y);
-	//	if (child)
-	//	{
-	//		return child;
-	//	}
-	//	return temp;
-	//}
-
-	//return temp;
 }
