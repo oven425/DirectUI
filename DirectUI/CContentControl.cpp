@@ -67,6 +67,9 @@ bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs
 {
 	bool result = false;
 	result = CControl::HitTest(x, y, childs);
+	auto d_ptr = std::static_pointer_cast<CContentControl>(this->shared_from_this());
+
+
 	if (result == true && this->m_Child)
 	{
 		this->m_Child->HitTest(x, y, childs);

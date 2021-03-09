@@ -125,7 +125,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
 	button->SetContent(L"Test");
-	button->SetMargin(CDirectUI_Thinkness(10));
+	//button->SetMargin(CDirectUI_Thinkness(10));
 	windows->SetChild(button);
 
 	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();

@@ -15,11 +15,11 @@ namespace DirectUI
 {
 namespace Control
 {
-	enum class Trees
-	{
-		Logic,
-		Visual
-	};
+	//enum class Trees
+	//{
+	//	Logic,
+	//	Visual
+	//};
 	enum class VerticalAlignments
 	{
 		Top,
@@ -60,9 +60,9 @@ namespace Control
 	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>
 	{
 	public:
-		CControl(Trees tree= Trees::Logic)
-			: m_Tree(tree)
-		{}
+		//CControl(Trees tree= Trees::Logic)
+		//	: m_Tree(tree)
+		//{}
 
 		virtual ~CControl()
 		{
@@ -128,7 +128,7 @@ namespace Control
 		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseMoveHandler;
 		std::function<void(shared_ptr<CControl> sender, const MouseLeftButtonDownArgs& args)> MouseLeftButtonDownHandler;
 	private:
-		Trees m_Tree = Trees::Logic;
+		//Trees m_Tree = Trees::Logic;
 	};
 
 }
