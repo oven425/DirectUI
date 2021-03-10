@@ -16,13 +16,14 @@ namespace DirectUI
 {
 	namespace Control
 	{
-		struct CDragFilesArgs
+		struct DragFilesArgs
 		{
 			vector<wstring> files;
 		};
 		struct mouseevent_storage
 		{
 			shared_ptr<CControl> leftbutton;
+			shared_ptr<CControl> mouseon;
 		};
 		class __declspec(dllexport) CWindow :public CContentControl
 		{
@@ -30,7 +31,7 @@ namespace DirectUI
 			bool Init(HWND hwnd);
 			void SetTitle(const wchar_t* data);
 			void SetAllowDropFiles(bool data);
-			std::function<void(const shared_ptr<CControl> sender, const CDragFilesArgs& args)> DragHandler;
+			std::function<void(const shared_ptr<CControl> sender, const DragFilesArgs& args)> DragHandler;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;

@@ -15,11 +15,11 @@ namespace DirectUI
 {
 namespace Control
 {
-	//enum class Trees
-	//{
-	//	Logic,
-	//	Visual
-	//};
+	enum class Trees
+	{
+		Logic,
+		Visual
+	};
 	enum class VerticalAlignments
 	{
 		Top,
@@ -39,6 +39,12 @@ namespace Control
 		Visible,
 		Hidden,
 		Collapsed
+	};
+	struct MouseClickArgs
+	{
+		int X;
+		int Y;
+
 	};
 	struct MouseMoveArgs
 	{
@@ -122,13 +128,26 @@ namespace Control
 		D2D_SIZE_F DesiredSize = { 0 };
 	
 	public:
+		virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsHover = true; };
+		virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsHover = false; };
 		virtual void OnMouseMove(const MouseMoveArgs& args) {};
-		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) {};
-		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) {};
+		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) { this->m_IsPressed = true; };
+		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) { this->m_IsPressed = false; };
+		virtual void OnIsEnabled(bool data) { this->m_IsEnabled = data; }
+		std::function<void(shared_ptr<CControl> sender, const MouseClickArgs& args)> MouseClickHandler;
+		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseEnterHandler;
+		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseLeaveHandler;
 		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseMoveHandler;
 		std::function<void(shared_ptr<CControl> sender, const MouseLeftButtonDownArgs& args)> MouseLeftButtonDownHandler;
+		std::function<void(shared_ptr<CControl> sender, const MouseLeftButtonUpArgs& args)> MouseLeftButtonUpHandler;
+		void SetTree(Trees data) { this->m_Tree = data; }
+		Trees GetTree() { return this->m_Tree; }
+
+	protected:
+		bool m_IsHover = false;
+		bool m_IsPressed = false;
 	private:
-		//Trees m_Tree = Trees::Logic;
+		Trees m_Tree = Trees::Logic;
 	};
 
 }

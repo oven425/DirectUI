@@ -36,9 +36,6 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
-		//char msg[100] = { 0 };
-		//::sprintf_s(msg, "x:%d y:%d\r\n", xPos, yPos);
-		//::OutputDebugStringA(msg);
 		
 		vector<shared_ptr<CControl>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
@@ -54,6 +51,29 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 					oo->MouseMoveHandler(oo, mouseargs);
 				}
 			}
+			if (!ww->m_MouseStorage.mouseon)
+			{
+				ww->m_MouseStorage.mouseon = childs.back();
+				ww->m_MouseStorage.mouseon->OnMouseEnter(mouseargs);
+				if (ww->m_MouseStorage.mouseon->MouseEnterHandler)
+				{
+					ww->m_MouseStorage.mouseon->MouseEnterHandler(ww->m_MouseStorage.mouseon, mouseargs);
+				}
+			}
+			else if (ww->m_MouseStorage.mouseon && ww->m_MouseStorage.mouseon != childs.back())
+			{
+				ww->m_MouseStorage.mouseon->OnMouseLeave(mouseargs);
+				if (ww->m_MouseStorage.mouseon->MouseLeaveHandler)
+				{
+					ww->m_MouseStorage.mouseon->MouseLeaveHandler(ww->m_MouseStorage.mouseon, mouseargs);
+				}
+				ww->m_MouseStorage.mouseon = childs.back();
+				ww->m_MouseStorage.mouseon->OnMouseEnter(mouseargs);
+				if (ww->m_MouseStorage.mouseon->MouseEnterHandler)
+				{
+					ww->m_MouseStorage.mouseon->MouseEnterHandler(ww->m_MouseStorage.mouseon, mouseargs);
+				}
+			}
 		}
 		ww->ReDraw();
 	}
@@ -66,16 +86,16 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		vector<shared_ptr<CControl>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
-			MouseMoveArgs mouseargs = { 0 };
+			MouseLeftButtonDownArgs mouseargs = { 0 };
 			mouseargs.X = xPos;
 			mouseargs.Y = yPos;
 			ww->m_MouseStorage.leftbutton = childs.back();
 			for (auto oo : childs)
 			{
-				oo->OnMouseMove(mouseargs);
-				if (oo->MouseMoveHandler)
+				oo->OnMouseLeftButtonDown(mouseargs);
+				if (oo->MouseLeftButtonDownHandler)
 				{
-					oo->MouseMoveHandler(oo, mouseargs);
+					oo->MouseLeftButtonDownHandler(oo, mouseargs);
 				}
 			}
 		}
@@ -89,18 +109,26 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		vector<shared_ptr<CControl>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
-			MouseMoveArgs mouseargs = { 0 };
+			MouseLeftButtonUpArgs mouseargs = { 0 };
 			mouseargs.X = xPos;
 			mouseargs.Y = yPos;
 			for (auto oo : childs)
 			{
-				oo->OnMouseMove(mouseargs);
-				if (oo->MouseMoveHandler)
+				oo->OnMouseLeftButtonUp(mouseargs);
+				if (oo->MouseLeftButtonUpHandler)
 				{
-					oo->MouseMoveHandler(oo, mouseargs);
+					oo->MouseLeftButtonUpHandler(oo, mouseargs);
+				}
+			}
+			if (ww->m_MouseStorage.leftbutton && ww->m_MouseStorage.leftbutton == childs.back())
+			{
+				if (childs.back()->MouseClickHandler)
+				{
+					childs.back()->MouseClickHandler(childs.back(), MouseClickArgs());
 				}
 			}
 		}
+		ww->m_MouseStorage.leftbutton = nullptr;
 		::ReleaseCapture();
 	}
 	break;
@@ -155,7 +183,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		HDROP hDrop = (HDROP)wParam;
 		UINT nFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
-		CDragFilesArgs dragfiles;
+		DragFilesArgs dragfiles;
 		for (int i = 0; i < nFiles; i++)
 		{
 			wchar_t szFileName[MAX_PATH + 1] = { 0 };

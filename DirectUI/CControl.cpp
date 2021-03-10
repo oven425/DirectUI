@@ -275,8 +275,14 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	//float w1 = rc_dst.GetWidth();
 	//float w2 = rc_src.GetWidth();
 	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-
-
+	//::OutputDebugString(this->Name.c_str());
+	//::OutputDebugStringA(" rc_dst:");
+	//::OutputDebugString(rc_dst.ToString().c_str());
+	//::OutputDebugStringA("\r\n");
+	//::OutputDebugString(this->Name.c_str());
+	//::OutputDebugStringA(" rc_src:");
+	//::OutputDebugString(rc_src.ToString().c_str());
+	//::OutputDebugStringA("\r\n");
 	bmp->Release();
 }
 

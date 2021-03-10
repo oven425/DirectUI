@@ -51,6 +51,7 @@ void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 			this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		}
 	}
+	
 	::CControl::OnRender(pRT, calculate_dpi);
 }
 

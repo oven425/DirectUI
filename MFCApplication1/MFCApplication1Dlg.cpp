@@ -68,7 +68,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 END_MESSAGE_MAP()
 
-void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const CDragFilesArgs& args)
+void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const DragFilesArgs& args)
 {
 
 }
@@ -123,10 +123,31 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
 	windows->Name = L"windows";
 
-	shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
-	button->SetContent(L"Test");
-	//button->SetMargin(CDirectUI_Thinkness(10));
-	windows->SetChild(button);
+	//shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
+	//button->SetContent(L"Test");
+	//button->SetMargin(CDirectUI_Thinkness(50));
+	//button->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//button->MouseClickHandler = [](auto sender, auto args)
+	//{
+	//	::OutputDebugStringA("button mouse click\r\n");
+	//};
+	//button->MouseLeftButtonDownHandler = [](auto sender, auto args)
+	//{
+	//	::OutputDebugStringA("button left button dwon\r\n");
+	//};
+	//button->MouseLeftButtonUpHandler = [](auto sender, auto args)
+	//{
+	//	::OutputDebugStringA("button left button up\r\n");
+	//};
+	//button->MouseEnterHandler = [](auto sender, auto args)
+	//{
+	//	::OutputDebugStringA("button mouse enter up\r\n");
+	//};
+	//button->MouseLeaveHandler = [](auto sender, auto args)
+	//{
+	//	::OutputDebugStringA("button mouse leave\r\n");
+	//};
+	//windows->SetChild(button);
 
 	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
 	//canvas->SetBackground(::make_shared< CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue)));
@@ -143,29 +164,37 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//canvas->AddChild(image);
 	//windows->SetChild(canvas);
 
-	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
-	//border->Name = L"border";
-	////border->SetCornerRadius(CDirectUI_CornerRadius(20));
-	//border->SetBorderThickness(CDirectUI_Thinkness(10));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f)));
-	////border->SetWidth(200);
-	////border->SetHorizontalAlignment(HorizontalAlignments::Right);
-	//border->SetMargin(CDirectUI_Thinkness(20));
+	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
+	border->Name = L"border";
+	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
+	border->SetBorderThickness(CDirectUI_Thinkness(10));
+	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
+	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f)));
+	//border->SetWidth(200);
+	border->SetHorizontalAlignment(HorizontalAlignments::Right);
+	border->SetMargin(CDirectUI_Thinkness(20));
 	//border->SetPadding(CDirectUI_Thinkness(40));
-	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//imgsource->Open(L"sample.jpg");
-	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::None);
-	////image->SetHieght(100);
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	imgsource->Open(L"sample.jpg");
+	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	image->SetSource(imgsource);
+	image->SetStretch(Stretchs::None);
+	//image->SetHieght(100);
 	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//image->Name = L"image";
-	////image->Margin = CDirectUI_Thinkness(10);
-	//border->SetChild(image);
-	//windows->SetChild(border);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	image->Name = L"image";
+	//image->Margin = CDirectUI_Thinkness(10);
+	border->SetChild(image);
+
+	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>();
+	textblock->Name = L"text";
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
+	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
+	textblock->SetText(L"test");
+	//border->SetChild(textblock);
+	windows->SetChild(border);
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
@@ -224,7 +253,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
 	//border->SetBorderThickness(10);
 	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	//border->SetMargin(CDirectUI_Thinkness(5));
+	//border->SetMargin(CDirectUI_Thinkness(20));
 	////border->SetWidth(300);
 	////border->SetHieght(300);
 	//border->Name = L"border";
@@ -272,7 +301,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows.SetMaxWidth(500);
 	windows->Init(this->m_hWnd);
 	//windows->test = std::bind(&CMFCApplication1Dlg::DragFiles, this, std::placeholders::_1, std::placeholders::_2);
-	windows->DragHandler = [](const shared_ptr<CControl> sender, const CDragFilesArgs& args)
+	windows->DragHandler = [](const shared_ptr<CControl> sender, const DragFilesArgs& args)
 	{
 		for (auto oo : args.files)
 		{

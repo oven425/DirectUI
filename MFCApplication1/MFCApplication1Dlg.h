@@ -49,5 +49,5 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 
-	void DragFiles(const shared_ptr<CControl> sender, const CDragFilesArgs& args);
+	void DragFiles(const shared_ptr<CControl> sender, const DragFilesArgs& args);
 };

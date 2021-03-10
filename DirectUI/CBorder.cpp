@@ -195,42 +195,115 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	}
 
 	::CControl::OnRender(pRT, calculate_dpi);
-	//pCompatibleRenderTarget->EndDraw();
-
-
-	//ID2D1Bitmap* bmp = NULL;
-	//pCompatibleRenderTarget->GetBitmap(&bmp);
-
-	////CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
-	//CDirectUI_Rect rc_dst = this->m_ActualRect;
-	//if (calculate_dpi == true)
-	//{
-	//	rc_dst = this->m_ActualRect / this->m_DpiScale;
-	//}
-	////CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	//CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	//
-	////rc_src = rc_src / (this->m_DpiScale);
-	//pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-
-
-	//bmp->Release();
-	//pCompatibleRenderTarget->Release();
 }
 
 void CBorder::Arrange(float x, float y, float width, float height)
 {
+	//x = x + this->m_BorderThickness.GetLeft();
+	//y = y + this->m_BorderThickness.GetTop();
+	//float w = width - this->m_BorderThickness.GetLeft() - this->m_BorderThickness.GetRight();
+	//float h = height - this->m_BorderThickness.GetTop() - this->m_BorderThickness.GetBottom();
 
-	//float w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
-	//float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-	::CContentControl::Arrange(x, y, width, height);
+	CControl::Arrange(x, y, width, height);
+	if (this->m_Child)
+	{
+		CDirectUI_Rect rc = this->m_ActualRect;
+		
+		rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+		rc = rc + this->m_BorderThickness;
+		rc = rc + this->m_Padding;
+		
+		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
+	}
+
+	//::CContentControl::Arrange(x, y, w, h);
 }
 
 void CBorder::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
-	float w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
-	float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-	::CContentControl::Measure(w, h, pRT);
+	this->DesiredSize.width = this->DesiredSize.height = 0;
+	float w1 = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
+	float h1 = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
+	if (this->m_Child)
+	{
+		float child_w = w1 - this->m_Padding.GetLeft() - this->m_Padding.GetRight() - this->m_BorderThickness.GetLeft() - this->m_BorderThickness.GetRight();
+		float child_h = h1 - this->m_Padding.GetTop() - this->m_Padding.GetBottom() - this->m_BorderThickness.GetTop() - this->m_BorderThickness.GetBottom();
+		this->m_Child->Measure(child_w + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight(), child_h + this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom(), pRT);
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = w1;
+		}
+		else
+		{
+			this->DesiredSize.width = this->m_Child->DesiredSize.width;
+		}
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = h1;
+		}
+		else
+		{
+			this->DesiredSize.height = this->m_Child->DesiredSize.height;
+		}
+		
+		//CControl::Measure(this->m_Child->DesiredSize.width + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight(), this->m_Child->DesiredSize.height+ -this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom(), pRT);
+		//if (this->m_Width > 0 && this->m_Width < this->DesiredSize.width)
+		//{
+		//	this->DesiredSize.width = this->m_Width;
+		//}
+		//else if (this->DesiredSize.width < w1)
+		//{
+		//	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.width = w1;
+		//	}
+		//}
+		//else 
+		//{
+		//	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.width = w1;
+		//	}
+		//}
+		//if (this->m_Height > 0 && this->m_Height < this->DesiredSize.height)
+		//{
+		//	this->DesiredSize.height = this->m_Height;
+		//}
+		//else if (this->DesiredSize.height < h1)
+		//{
+		//	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.height = h1;
+		//	}
+		//}
+		//else
+		//{
+		//	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.height = h1;
+		//	}
+		//}
+	}
+	else
+	{
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = width;
+		}
+		else
+		{
+			this->DesiredSize.width = this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
+		}
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = height;
+		}
+		else
+		{
+			this->DesiredSize.height = this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
+		}
+		
+	}
 }
 
 void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)
@@ -240,7 +313,6 @@ void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)
 		this->m_CornerRadius = data;
 		this->Release();
 	}
-	
 }
 
 void CBorder::SetBorderBrush(shared_ptr<Direct2D::CD2D_Brush> data)
