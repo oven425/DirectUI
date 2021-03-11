@@ -37,14 +37,26 @@ void CContentControl::Arrange(float x, float y, float width, float height)
 	}
 }
 
-void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//{
+//	CControl::Measure(width, height, pRT);
+//	if (this->m_Child)
+//	{
+//		float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
+//		float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
+//		this->m_Child->Measure(w, h, pRT);
+//	}
+//}
+
+void CContentControl::Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
-	CControl::Measure(width, height, pRT);
+	CControl::Measure(data, pRT);
 	if (this->m_Child)
 	{
-		float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
-		float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
-		this->m_Child->Measure(w, h, pRT);
+		CDirectUI_Size sz = data + this->m_Padding;
+		//float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
+		//float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
+		this->m_Child->Measure(sz, pRT);
 	}
 }
 

@@ -165,14 +165,14 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(canvas);
 
 	shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
+	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
 	border->Name = L"border";
 	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
 	border->SetBorderThickness(CDirectUI_Thinkness(10));
 	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
-	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f)));
+	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
 	//border->SetWidth(200);
-	border->SetHorizontalAlignment(HorizontalAlignments::Right);
+	border->SetHorizontalAlignment(HorizontalAlignments::Left);
 	border->SetMargin(CDirectUI_Thinkness(20));
 	//border->SetPadding(CDirectUI_Thinkness(40));
 	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
@@ -181,7 +181,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	image->SetSource(imgsource);
 	image->SetStretch(Stretchs::None);
 	//image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	image->SetHorizontalAlignment(HorizontalAlignments::Right);
 	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
 	image->Name = L"image";
 	//image->Margin = CDirectUI_Thinkness(10);
@@ -192,7 +192,8 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
 	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
 	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
-	textblock->SetText(L"test");
+	//textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
+	textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	//border->SetChild(textblock);
 	windows->SetChild(border);
 

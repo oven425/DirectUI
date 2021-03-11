@@ -15,23 +15,6 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		ww->ReDraw();
 	}
 	break;
-	case WM_MOUSEHOVER:
-	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
-		
-	}
-	break;
-	case WM_SETFOCUS:
-	{
-
-	}
-	break;
-	case WM_KILLFOCUS:
-	{
-
-	}
-	break;
 	case WM_MOUSEMOVE:
 	{
 		int xPos = GET_X_LPARAM(lParam);
@@ -169,6 +152,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		}
 	}
 	break;
+	
 	case WM_SIZE:
 	{
 		UINT width = LOWORD(lParam);
@@ -177,6 +161,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		//dpi = 96;
 		float dpiscale = (float)(dpi / 96.0);
 		ww->OnSize(width, height, dpiscale);
+		
 	}
 	break;
 	case WM_DROPFILES:
@@ -247,7 +232,8 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 	this->pRT->Resize(D2D1::SizeU(width, height));
 	CContentControl::OnSize(width, height, dpiscale);
 	//dpiscale = 1.5;
-	this->Measure(width / dpiscale, height / dpiscale, this->pRT);
+	CDirectUI_Size sz(width / dpiscale, height / dpiscale);
+	this->Measure(sz, this->pRT);
 	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 
 }
@@ -257,14 +243,7 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
-	//RECT rc = { 0 };
-	//::GetClientRect(this->m_hWnd, &rc);
-	//CDirectUI_Rect rc1(0,0,rc.right,rc.bottom);
-	//
-	//rc1 = rc1 / 1.5;
-	//rc1 = rc1 + CDirectUI_Thinkness(10);
-	//this->m_Background->Refresh(pRT);
-	//this->pRT->FillRectangle(rc1, *this->m_Background);
+	
 	CContentControl::OnRender(this->pRT, calculate_dpi);
 
 	this->pRT->EndDraw();

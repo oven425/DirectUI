@@ -24,6 +24,34 @@ void CControl::OnSize(float width, float height, float dpiscale)
 	this->m_DpiScale = dpiscale;
 }
 
+void CControl::Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+{
+	if (this->m_Visibility == Visibilitys::Collapsed)
+	{
+		this->DesiredSize.width = this->DesiredSize.height = 0;
+	}
+	else
+	{
+		//this->DesiredSize.width = this->DesiredSize.height = 0;
+		//CDirectUI_Thinkness margin = this->m_Margin;
+		//width = width - margin.GetLeft() - margin.GetRight();
+		//height = height - margin.GetTop() - margin.GetBottom();
+		//float w = width;
+		//float h = height;
+
+		//if (this->m_Width > 0)
+		//{
+		//	w = this->m_Width;
+		//}
+		//if (this->m_Height > 0)
+		//{
+		//	h = this->m_Height;
+		//}
+		//this->DesiredSize = this->GetSize(w, h);
+		this->DesiredSize = this->GetSize(data.GetWidth(), data.GetHeight());
+	}
+}
+
 void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	if (this->m_Visibility == Visibilitys::Collapsed)
@@ -274,15 +302,16 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	//CTrace::WriteLine(L"%s render: %s  rc_dst %s", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
 	//float w1 = rc_dst.GetWidth();
 	//float w2 = rc_src.GetWidth();
-	pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-	//::OutputDebugString(this->Name.c_str());
-	//::OutputDebugStringA(" rc_dst:");
-	//::OutputDebugString(rc_dst.ToString().c_str());
-	//::OutputDebugStringA("\r\n");
-	//::OutputDebugString(this->Name.c_str());
-	//::OutputDebugStringA(" rc_src:");
-	//::OutputDebugString(rc_src.ToString().c_str());
-	//::OutputDebugStringA("\r\n");
+	pRT->DrawBitmap(bmp, rc_dst, this->m_Opacity, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
+	::OutputDebugStringA("onrender: ");
+	::OutputDebugString(this->Name.c_str());
+	::OutputDebugStringA("\r\n");
+	::OutputDebugStringA("rc_dst:");
+	::OutputDebugString(rc_dst.ToString().c_str());
+	::OutputDebugStringA("\r\n");
+	::OutputDebugStringA("rc_src:");
+	::OutputDebugString(rc_src.ToString().c_str());
+	::OutputDebugStringA("\r\n");
 	bmp->Release();
 }
 

@@ -15,7 +15,7 @@ void CButton::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	float w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
 	float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-	::CContentControl::Measure(w, h, pRT);
+	//::CContentControl::Measure(w, h, pRT);
 }
 
 void CButton::Arrange(float x, float y, float width, float height)

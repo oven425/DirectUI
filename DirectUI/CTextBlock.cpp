@@ -75,6 +75,51 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 
 }
 
+void CTextBlock::Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+{
+	this->DesiredSize.width = this->DesiredSize.height = 0;
+	//CDirectUI_Thinkness margin = this->m_Margin;
+	CDirectUI_Size sz1 = data + this->m_Margin;
+	//width = width - margin.GetLeft() - margin.GetRight();
+	//height = height - margin.GetTop() - margin.GetBottom();
+	float w = sz1.GetWidth();
+	float h = sz1.GetHeight();
+
+	if (this->m_Width > 0)
+	{
+		w = this->m_Width;
+	}
+	if (this->m_Height > 0)
+	{
+		h = this->m_Height;
+	}
+	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str(), w, h);
+	this->DesiredSize.width = sz.width;
+	if (this->m_Width > 0 && this->m_Width < sz.width)
+	{
+		this->DesiredSize.width = this->m_Width;
+	}
+	else if (sz.width < sz1.GetWidth())
+	{
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = sz1.GetWidth();
+		}
+	}
+	this->DesiredSize.height = sz.height;
+	if (this->m_Height > 0 && this->m_Height < sz.height)
+	{
+		this->DesiredSize.height = this->m_Height;
+	}
+	else if (sz.height < sz1.GetHeight())
+	{
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = sz1.GetHeight();
+		}
+	}
+}
+
 void CTextBlock::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;

@@ -1,5 +1,6 @@
 #pragma once
 #include <d2d1.h>
+#include "CDirectUI_Thinkness.h"
 
 namespace DirectUI
 {
@@ -17,6 +18,14 @@ namespace DirectUI
 			D2D1_SIZE_F sz;
 			sz.width = this->m_Width;
 			sz.height = this->m_Height;
+			return sz;
+		}
+
+		CDirectUI_Size operator+(CDirectUI_Thinkness& data) const throw()
+		{
+			CDirectUI_Size sz;
+			sz.m_Width= this->m_Width - data.GetLeft() - data.GetRight();
+			sz.m_Height = this->m_Height - data.GetTop() - data.GetBottom();
 			return sz;
 		}
 	protected:

@@ -124,6 +124,7 @@ namespace Control
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
+		virtual void Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
 		D2D_SIZE_F DesiredSize = { 0 };
 	
@@ -146,6 +147,7 @@ namespace Control
 	protected:
 		bool m_IsHover = false;
 		bool m_IsPressed = false;
+		float m_Opacity = 1.0;
 	private:
 		Trees m_Tree = Trees::Logic;
 	};

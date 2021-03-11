@@ -204,18 +204,27 @@ void CBorder::Arrange(float x, float y, float width, float height)
 	//float w = width - this->m_BorderThickness.GetLeft() - this->m_BorderThickness.GetRight();
 	//float h = height - this->m_BorderThickness.GetTop() - this->m_BorderThickness.GetBottom();
 
-	CControl::Arrange(x, y, width, height);
+	CDirectUI_Rect rc(x, y, x + width, y + height);
+	rc = rc + this->m_Margin;
 	if (this->m_Child)
 	{
+		CControl::Arrange(x, y, width, height);
 		CDirectUI_Rect rc = this->m_ActualRect;
 		
-		rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+		//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+		rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
 		rc = rc + this->m_BorderThickness;
 		rc = rc + this->m_Padding;
 		
 		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
-	}
 
+
+		
+	}
+	else
+	{
+		CControl::Arrange(x, y, width, height);
+	}
 	//::CContentControl::Arrange(x, y, w, h);
 }
 
@@ -235,7 +244,7 @@ void CBorder::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		}
 		else
 		{
-			this->DesiredSize.width = this->m_Child->DesiredSize.width;
+			this->DesiredSize.width = this->m_Child->DesiredSize.width+ this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
 		}
 		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
 		{
@@ -243,7 +252,7 @@ void CBorder::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		}
 		else
 		{
-			this->DesiredSize.height = this->m_Child->DesiredSize.height;
+			this->DesiredSize.height = this->m_Child->DesiredSize.height+ this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
 		}
 		
 		//CControl::Measure(this->m_Child->DesiredSize.width + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight(), this->m_Child->DesiredSize.height+ -this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom(), pRT);
