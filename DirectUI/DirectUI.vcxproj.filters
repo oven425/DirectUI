@@ -81,9 +81,6 @@
     <ClInclude Include="CButton.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CCanvas.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="CDependencyObject.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -171,9 +168,6 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CButton.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="CCanvas.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CDependencyObject.cpp">

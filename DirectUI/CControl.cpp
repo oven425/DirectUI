@@ -24,7 +24,7 @@ void CControl::OnSize(float width, float height, float dpiscale)
 	this->m_DpiScale = dpiscale;
 }
 
-void CControl::Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+void CControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	if (this->m_Visibility == Visibilitys::Collapsed)
 	{
@@ -32,22 +32,6 @@ void CControl::Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 	else
 	{
-		//this->DesiredSize.width = this->DesiredSize.height = 0;
-		//CDirectUI_Thinkness margin = this->m_Margin;
-		//width = width - margin.GetLeft() - margin.GetRight();
-		//height = height - margin.GetTop() - margin.GetBottom();
-		//float w = width;
-		//float h = height;
-
-		//if (this->m_Width > 0)
-		//{
-		//	w = this->m_Width;
-		//}
-		//if (this->m_Height > 0)
-		//{
-		//	h = this->m_Height;
-		//}
-		//this->DesiredSize = this->GetSize(w, h);
 		this->DesiredSize = this->GetSize(data.GetWidth(), data.GetHeight());
 	}
 }
@@ -60,22 +44,7 @@ void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	}
 	else
 	{
-		//this->DesiredSize.width = this->DesiredSize.height = 0;
-		//CDirectUI_Thinkness margin = this->m_Margin;
-		//width = width - margin.GetLeft() - margin.GetRight();
-		//height = height - margin.GetTop() - margin.GetBottom();
-		//float w = width;
-		//float h = height;
 
-		//if (this->m_Width > 0)
-		//{
-		//	w = this->m_Width;
-		//}
-		//if (this->m_Height > 0)
-		//{
-		//	h = this->m_Height;
-		//}
-		//this->DesiredSize = this->GetSize(w, h);
 		this->DesiredSize = this->GetSize(width, height);
 	}
 }
@@ -153,12 +122,12 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 	return rc;
 }
 
-void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, D2D1_SIZE_F& data)
+void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data)
 {
 	if (this->m_pRenderBuf != NULL)
 	{
 		D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
-		if (sz.width != data.width || sz.height != data.height)
+		if (data != sz)
 		{
 			this->m_pRenderBuf->Release();
 			this->m_pRenderBuf = NULL;
@@ -173,8 +142,13 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, D2D1_SIZE_F& data)
 	if (this->m_Background)
 	{
 		this->m_Background->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillRectangle(D2D1::RectF(0, 0, data.width, data.height), *this->m_Background);
+		this->m_pRenderBuf->FillRectangle(data, *this->m_Background);
 	}
+}
+
+void CControl::Arrange(const CDirectUI_Rect& data)
+{
+
 }
 
 void CControl::Arrange(float x, float y, float width, float height)
@@ -291,7 +265,7 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	this->m_pRenderBuf->GetBitmap(&bmp);
 	//CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
 	CDirectUI_Rect rc_dst = this->m_ActualRect;
-	CDirectUI_Rect rc_src(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	CDirectUI_Rect rc_src = this->DesiredSize;
 	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
 	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
 	//if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
@@ -303,15 +277,15 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	//float w1 = rc_dst.GetWidth();
 	//float w2 = rc_src.GetWidth();
 	pRT->DrawBitmap(bmp, rc_dst, this->m_Opacity, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-	::OutputDebugStringA("onrender: ");
-	::OutputDebugString(this->Name.c_str());
-	::OutputDebugStringA("\r\n");
-	::OutputDebugStringA("rc_dst:");
-	::OutputDebugString(rc_dst.ToString().c_str());
-	::OutputDebugStringA("\r\n");
-	::OutputDebugStringA("rc_src:");
-	::OutputDebugString(rc_src.ToString().c_str());
-	::OutputDebugStringA("\r\n");
+	//::OutputDebugStringA("onrender: ");
+	//::OutputDebugString(this->Name.c_str());
+	//::OutputDebugStringA("\r\n");
+	//::OutputDebugStringA("rc_dst:");
+	//::OutputDebugString(rc_dst.ToString().c_str());
+	//::OutputDebugStringA("\r\n");
+	//::OutputDebugStringA("rc_src:");
+	//::OutputDebugString(rc_src.ToString().c_str());
+	//::OutputDebugStringA("\r\n");
 	bmp->Release();
 }
 

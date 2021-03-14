@@ -14,7 +14,8 @@ namespace DirectUI
 			void SetBorderThickness(const CDirectUI_Thinkness& data);
 			void SetCornerRadius(CDirectUI_CornerRadius& data);
 			virtual void Arrange(float x, float y, float width, float height) override;
-			virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			//virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Release() override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
 		protected:

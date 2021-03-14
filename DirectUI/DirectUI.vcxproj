@@ -159,7 +159,6 @@
   <ItemGroup>
     <ClInclude Include="CBorder.h" />
     <ClInclude Include="CButton.h" />
-    <ClInclude Include="CCanvas.h" />
     <ClInclude Include="CContentControl.h" />
     <ClInclude Include="CControl.h" />
     <ClInclude Include="CD2D_Brush.h" />
@@ -192,7 +191,6 @@
   <ItemGroup>
     <ClCompile Include="CBorder.cpp" />
     <ClCompile Include="CButton.cpp" />
-    <ClCompile Include="CCanvas.cpp" />
     <ClCompile Include="CContentControl.cpp" />
     <ClCompile Include="CControl.cpp" />
     <ClCompile Include="CD2D_Brush.cpp" />

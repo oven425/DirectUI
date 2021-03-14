@@ -10,7 +10,7 @@ namespace DirectUI
 		public:
 			virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
 			virtual void Arrange(float x, float y, float width, float height) override;
-			void Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
+			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			//virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void SetPadding(CDirectUI_Thinkness& data);
 			virtual void SetChild(shared_ptr<CControl> data);

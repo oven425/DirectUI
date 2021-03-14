@@ -35,10 +35,12 @@ namespace DirectUI
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
+			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
 			HWND m_hWnd = NULL;
 		private:
 			static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 			mouseevent_storage m_MouseStorage;
+			bool m_TrackMouse = false;
 		protected:
 			void ReDraw();
 			ID2D1HwndRenderTarget* pRT = NULL;

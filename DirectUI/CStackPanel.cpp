@@ -56,6 +56,64 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	pCompatibleRenderTarget->Release();
 }
 
+void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+{
+	this->DesiredSize.width = this->DesiredSize.height = 0;
+	CDirectUI_Size stackpanel_sz = data + this->m_Margin;
+	//width = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
+	//height = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
+	switch (this->m_Orientation)
+	{
+	case Orientations::Vertical:
+	{
+		for (auto oo : this->m_Childs)
+		{
+			oo->Measure(CDirectUI_Size(stackpanel_sz.GetWidth(), 0), pRT);
+			this->DesiredSize.height = this->DesiredSize.height + oo->DesiredSize.height;
+		}
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.width > c2->DesiredSize.width; });
+		this->DesiredSize.width = (*aaa)->DesiredSize.width;
+	}
+	break;
+	case Orientations::Horizontal:
+	{
+		this->DesiredSize.height = stackpanel_sz.GetHeight();
+		for (auto oo : this->m_Childs)
+		{
+			oo->Measure(CDirectUI_Size(0, stackpanel_sz.GetHeight()), pRT);
+			this->DesiredSize.width = this->DesiredSize.width + oo->DesiredSize.width;
+		}
+
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.height > c2->DesiredSize.height; });
+		this->DesiredSize.height = (*aaa)->DesiredSize.height;
+	}
+	break;
+	}
+
+	if (this->m_Width > 0 && this->m_Width < this->DesiredSize.width)
+	{
+		this->DesiredSize.width = this->m_Width;
+	}
+	else if (this->DesiredSize.width < stackpanel_sz.GetWidth())
+	{
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = stackpanel_sz.GetWidth();
+		}
+	}
+	if (this->m_Height > 0 && this->m_Height < this->DesiredSize.height)
+	{
+		this->DesiredSize.height = this->m_Height;
+	}
+	else if (this->DesiredSize.height < stackpanel_sz.GetHeight())
+	{
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = stackpanel_sz.GetHeight();
+		}
+	}
+}
+
 void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;

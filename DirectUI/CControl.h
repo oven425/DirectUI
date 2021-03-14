@@ -66,10 +66,6 @@ namespace Control
 	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>
 	{
 	public:
-		//CControl(Trees tree= Trees::Logic)
-		//	: m_Tree(tree)
-		//{}
-
 		virtual ~CControl()
 		{
 			this->Release();
@@ -107,7 +103,6 @@ namespace Control
 		float m_MaxWidth = 0;
 		float m_MaxHeight = 0;
 		CDirectUI_Rect m_ActualRect;
-		CDirectUI_Point m_ActualOffset;
 		Visibilitys m_Visibility = Visibilitys::Visible;
 		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
 		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
@@ -118,16 +113,17 @@ namespace Control
 		CDirectUI_Thinkness m_Margin;
 		shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
-		void CreateRenderBuf(ID2D1RenderTarget* pRT, D2D1_SIZE_F& data);
+		void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data);
 		ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
-		virtual void Measure(CDirectUI_Size& data, ID2D1RenderTarget* pRT);
+		virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
+		virtual void Arrange(const CDirectUI_Rect& data);
 		D2D_SIZE_F DesiredSize = { 0 };
-	
+		CDirectUI_Size RenderSize;
 	public:
 		virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsHover = true; };
 		virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsHover = false; };

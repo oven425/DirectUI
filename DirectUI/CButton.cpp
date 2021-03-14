@@ -11,12 +11,23 @@ CButton::CButton()
 	
 }
 
-void CButton::Measure(float width, float height, ID2D1RenderTarget* pRT)
+bool CButton::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
-	float w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
-	float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-	//::CContentControl::Measure(w, h, pRT);
+	return ::CContentControl::HitTest(x, y, childs);
 }
+
+void CButton::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+{
+	//CDirectUI_Size sz = data + this->m_Margin;
+	::CContentControl::Measure(data, pRT);
+}
+
+//void CButton::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//{
+//	float w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
+//	float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
+//	//::CContentControl::Measure(w, h, pRT);
+//}
 
 void CButton::Arrange(float x, float y, float width, float height)
 {
@@ -64,6 +75,7 @@ void CButton::SetContent(const wchar_t* data)
 	if (!this->m_Template)
 	{
 		this->m_Template = make_shared<CBorder>();
+		this->m_Template->Name = L"button_border";
 		this->m_Template->SetTree(Trees::Visual);
 		this->m_Template->SetBorderThickness(CDirectUI_Thinkness(1.0));
 		this->m_NormalBr = ::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(217, 217, 217));
@@ -83,6 +95,7 @@ void CButton::SetContent(const wchar_t* data)
 	textblock->SetVerticalAlignment(VerticalAlignments::Center);
 	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
 	textblock->SetText(data);
+	textblock->Name = L"button_border_textblock";
 	m_Template->SetChild(textblock);
 
 

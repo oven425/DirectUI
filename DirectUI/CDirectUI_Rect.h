@@ -20,6 +20,20 @@ namespace DirectUI
 			this->m_Right = data.m_Right;
 			this->m_Bottom = data.m_Bottom;
 		}
+		CDirectUI_Rect(const D2D1_SIZE_F& data)
+		{
+			this->m_Left = 0;
+			this->m_Top = 0;
+			this->m_Right = data.width;
+			this->m_Bottom = data.height;
+		}
+		CDirectUI_Rect(const CDirectUI_Size& data)
+		{
+			this->m_Left = 0;
+			this->m_Top = 0;
+			this->m_Right = data.GetWidth();
+			this->m_Bottom = data.GetHeight();
+		}
 		CDirectUI_Rect(float left, float top, float right, float bottom)
 		{
 			this->m_Left = left;
@@ -103,6 +117,11 @@ namespace DirectUI
 			rc.m_Top = this->m_Top / data;
 			rc.m_Bottom = this->m_Bottom / data;
 			return rc;
+		}
+
+		CDirectUI_Rect operator=(float data) const throw()
+		{
+			return CDirectUI_Rect(data, data, data, data);
 		}
 
 		bool PtInRect(float x, float y)

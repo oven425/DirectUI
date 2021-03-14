@@ -15,11 +15,28 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		ww->ReDraw();
 	}
 	break;
+	case WM_MOUSELEAVE:
 	case WM_MOUSEMOVE:
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
-		
+		//char msg[256] = { 0 };
+		//::sprintf_s(msg, "mouse move x:%d y%d\r\n", xPos, yPos);
+		//::OutputDebugStringA(msg);
+		if (uMsg == WM_MOUSELEAVE)
+		{
+			ww->m_TrackMouse = false;
+		}
+		else if (ww->m_TrackMouse == false)
+		{
+			TRACKMOUSEEVENT tme;
+			tme.cbSize = sizeof(TRACKMOUSEEVENT);
+			tme.dwFlags = TME_LEAVE | TME_HOVER;
+			tme.hwndTrack = ww->m_hWnd;
+			tme.dwHoverTime = 100;
+			BOOL bb = ::TrackMouseEvent(&tme);
+			ww->m_TrackMouse == true;
+		}
 		vector<shared_ptr<CControl>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
@@ -199,6 +216,8 @@ bool CWindow::Init(HWND hwnd)
 
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
 
+	
+
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
 
 	RECT rc;
@@ -225,17 +244,20 @@ bool CWindow::Init(HWND hwnd)
 	return true;
 }
 
+bool CWindow::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+{
+	float x_dpi = x / this->m_DpiScale;
+	float y_dpi = y / this->m_DpiScale;
+	return ::CContentControl::HitTest(x_dpi, y_dpi, childs);
+}
+
 void CWindow::OnSize(float width, float height, float dpiscale)
 {
-	
-	//this->pRT->Resize(D2D1::SizeU(width/ dpiscale, height/ dpiscale));
 	this->pRT->Resize(D2D1::SizeU(width, height));
 	CContentControl::OnSize(width, height, dpiscale);
-	//dpiscale = 1.5;
-	CDirectUI_Size sz(width / dpiscale, height / dpiscale);
-	this->Measure(sz, this->pRT);
-	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 
+	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
+	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
 }
 
 

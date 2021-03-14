@@ -34,11 +34,11 @@ namespace DirectUI
 			void SetSource(shared_ptr<Direct2D::CD2D_ImageSource> data);
 			void SetStretch(Stretchs data);
 			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
-
-			void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
+			//void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
 			void Arrange(float x, float y, float width, float height) override;
 		protected:
-			D2D1_SIZE_F GetSize(float width, float height) override;
+			//D2D1_SIZE_F GetSize(float width, float height) override;
 			D2D1_RECT_F Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst);
 			D2D1_RECT_F Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst);
 			void Release() override;

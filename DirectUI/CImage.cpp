@@ -5,40 +5,6 @@ using namespace Control;
 
 void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	//ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	//HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-	//pCompatibleRenderTarget->BeginDraw();
-
-	//if (this->m_pD2DBitmap != NULL)
-	//{
-	//	if (this->m_Stretch == Stretchs::None)
-	//	{
-	//		pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
-	//	}
-	//	else
-	//	{
-	//		pCompatibleRenderTarget->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
-	//	}
-	//}
-
-	//pCompatibleRenderTarget->EndDraw();
-	//ID2D1Bitmap* bmp = NULL;
-	//pCompatibleRenderTarget->GetBitmap(&bmp);
-
-	////CDirectUI_Rect rc_dst = this->m_ActualRect / (this->m_DpiScale);
-	//CDirectUI_Rect rc_dst = this->m_ActualRect;
-	//if (calculate_dpi == true)
-	//{
-	//	rc_dst = this->m_ActualRect / this->m_DpiScale;
-	//}
-	////CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
-	//CDirectUI_Rect rc_src = MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	////rc_src = rc_src / (this->m_DpiScale);
-	//pRT->DrawBitmap(bmp, rc_dst, 1, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-
-
-	//bmp->Release();
-	//pCompatibleRenderTarget->Release();
 	this->CreateRenderBuf(pRT, this->DesiredSize);
 	if (this->m_pD2DBitmap != NULL)
 	{
@@ -157,26 +123,29 @@ D2D1_RECT_F CImage::Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1
 	return rc;
 }
 
-
-void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
+void CImage::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
 	//CDirectUI_Thinkness margin = this->Margin * this->m_DpiScale;
 	CDirectUI_Thinkness margin = this->m_Margin;
-	width = width - margin.GetLeft() - margin.GetRight();
-	height = height - margin.GetTop() - margin.GetBottom();
-	float w = width;
-	float h = height;
-	
+	//width = width - margin.GetLeft() - margin.GetRight();
+	//height = height - margin.GetTop() - margin.GetBottom();
+
+	CDirectUI_Size sz = data + this->m_Margin;
+	//float w = width;
+	//float h = height;
+
 	if (this->m_Width > 0)
 	{
-		w = this->m_Width;
+		//w = this->m_Width;
+		sz.SetWidth(this->m_Width);
 	}
 	if (this->m_Height > 0)
 	{
-		h = this->m_Height;
+		//h = this->m_Height;
+		sz.SetHeight(this->m_Height);
 	}
-	
+
 	if (this->m_pD2DBitmap == NULL)
 	{
 		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
@@ -192,20 +161,21 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	if (this->m_Source && this->m_pD2DBitmap != NULL)
 	{
 		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
-		if (w == 0 && h == 0)
+		if (sz == 0)
 		{
-			w = ss.width;
-			h = ss.height;
+			//w = ss.width;
+			//h = ss.height;
+			sz = ss;
 		}
-		else if (w == 0)
+		else if (sz.GetWidth() == 0)
 		{
-			float h_ = h / ss.height;
-			w = ss.width * h_;
+			float h_ = sz.GetHeight() / ss.height;
+			sz.SetWidth(ss.width * h_);
 		}
-		else if (h == 0)
+		else if (sz.GetHeight() == 0)
 		{
-			float w_ = w / ss.width;
-			h = ss.height * w_;
+			float w_ = sz.GetWidth() / ss.width;
+			sz.SetHeight(ss.height * w_);
 		}
 		switch (this->m_Stretch)
 		{
@@ -214,9 +184,9 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			D2D1_RECT_F src = { 0 };
 			src.right = ss.width;
 			src.bottom = ss.height;
-			D2D1_RECT_F dst = { 0 };
-			dst.right = w;
-			dst.bottom = h;
+			D2D1_RECT_F dst = sz;
+			//dst.right = w;
+			//dst.bottom = h;
 			D2D1_RECT_F rrc = Calculate_Uniform(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
@@ -224,8 +194,9 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 		break;
 		case Stretchs::Fill:
 		{
-			this->DesiredSize.width = w;
-			this->DesiredSize.height = h;
+			//this->DesiredSize.width = w;
+			//this->DesiredSize.height = h;
+			this->DesiredSize = sz;
 		}
 		break;
 		case Stretchs::None:
@@ -250,13 +221,13 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			{
 				if (ss.height < this->m_Height)
 				{
-					this->DesiredSize.height =ss.height;
+					this->DesiredSize.height = ss.height;
 				}
 				else
 				{
 					this->DesiredSize.height = this->m_Height;
 				}
-				
+
 			}
 			else
 			{
@@ -269,9 +240,9 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 			D2D1_RECT_F src = { 0 };
 			src.right = ss.width;
 			src.bottom = ss.height;
-			D2D1_RECT_F dst = { 0 };
-			dst.right = w;
-			dst.bottom = h;
+			D2D1_RECT_F dst = sz;
+			//dst.right = w;
+			//dst.bottom = h;
 			D2D1_RECT_F rrc = Calculate_UniformToFill(src, dst);
 			this->DesiredSize.width = rrc.right - rrc.left;
 			this->DesiredSize.height = rrc.bottom - rrc.top;
@@ -281,8 +252,9 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	}
 	else
 	{
-		this->DesiredSize.width = width;
-		this->DesiredSize.height = height;
+		//this->DesiredSize.width = width;
+		//this->DesiredSize.height = height;
+		this->DesiredSize = data;
 	}
 	if (this->DesiredSize.width < 0)
 	{
@@ -294,20 +266,156 @@ void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
 	}
 }
 
-D2D1_SIZE_F CImage::GetSize(float width, float height)
-{
-	//D2D1_SIZE_F sz = { 0 };
-	//sz.width = this->DesiredSize.width;
-	//sz.height = this->DesiredSize.height;
 
-	//return sz;
+//void CImage::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//{
+//	this->DesiredSize.width = this->DesiredSize.height = 0;
+//	//CDirectUI_Thinkness margin = this->Margin * this->m_DpiScale;
+//	CDirectUI_Thinkness margin = this->m_Margin;
+//	width = width - margin.GetLeft() - margin.GetRight();
+//	height = height - margin.GetTop() - margin.GetBottom();
+//	float w = width;
+//	float h = height;
+//	
+//	if (this->m_Width > 0)
+//	{
+//		w = this->m_Width;
+//	}
+//	if (this->m_Height > 0)
+//	{
+//		h = this->m_Height;
+//	}
+//	
+//	if (this->m_pD2DBitmap == NULL)
+//	{
+//		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
+//		pp.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+//		pp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+//		double dpix = 0;
+//		double dpiy = 0;
+//		(*this->m_Source).operator IWICFormatConverter*()->GetResolution(&dpix, &dpiy);
+//		pp.dpiX = dpix;
+//		pp.dpiY = dpiy;
+//		pRT->CreateBitmapFromWicBitmap(*this->m_Source, pp, &this->m_pD2DBitmap);
+//	}
+//	if (this->m_Source && this->m_pD2DBitmap != NULL)
+//	{
+//		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+//		if (w == 0 && h == 0)
+//		{
+//			w = ss.width;
+//			h = ss.height;
+//		}
+//		else if (w == 0)
+//		{
+//			float h_ = h / ss.height;
+//			w = ss.width * h_;
+//		}
+//		else if (h == 0)
+//		{
+//			float w_ = w / ss.width;
+//			h = ss.height * w_;
+//		}
+//		switch (this->m_Stretch)
+//		{
+//		case Stretchs::Uniform:
+//		{
+//			D2D1_RECT_F src = { 0 };
+//			src.right = ss.width;
+//			src.bottom = ss.height;
+//			D2D1_RECT_F dst = { 0 };
+//			dst.right = w;
+//			dst.bottom = h;
+//			D2D1_RECT_F rrc = Calculate_Uniform(src, dst);
+//			this->DesiredSize.width = rrc.right - rrc.left;
+//			this->DesiredSize.height = rrc.bottom - rrc.top;
+//		}
+//		break;
+//		case Stretchs::Fill:
+//		{
+//			this->DesiredSize.width = w;
+//			this->DesiredSize.height = h;
+//		}
+//		break;
+//		case Stretchs::None:
+//		{
+//			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+//			if (this->m_Width > 0)
+//			{
+//				if (this->m_Width < this->DesiredSize.width)
+//				{
+//					this->DesiredSize.width = this->m_Width;
+//				}
+//				else
+//				{
+//					this->DesiredSize.width = ss.width;
+//				}
+//			}
+//			else
+//			{
+//				this->DesiredSize.width = ss.width;
+//			}
+//			if (this->m_Height > 0)
+//			{
+//				if (ss.height < this->m_Height)
+//				{
+//					this->DesiredSize.height =ss.height;
+//				}
+//				else
+//				{
+//					this->DesiredSize.height = this->m_Height;
+//				}
+//				
+//			}
+//			else
+//			{
+//				this->DesiredSize.height = ss.height;
+//			}
+//		}
+//		break;
+//		case Stretchs::UniformToFill:
+//		{
+//			D2D1_RECT_F src = { 0 };
+//			src.right = ss.width;
+//			src.bottom = ss.height;
+//			D2D1_RECT_F dst = { 0 };
+//			dst.right = w;
+//			dst.bottom = h;
+//			D2D1_RECT_F rrc = Calculate_UniformToFill(src, dst);
+//			this->DesiredSize.width = rrc.right - rrc.left;
+//			this->DesiredSize.height = rrc.bottom - rrc.top;
+//		}
+//		break;
+//		}
+//	}
+//	else
+//	{
+//		this->DesiredSize.width = width;
+//		this->DesiredSize.height = height;
+//	}
+//	if (this->DesiredSize.width < 0)
+//	{
+//		this->DesiredSize.width = 0;
+//	}
+//	if (this->DesiredSize.height < 0)
+//	{
+//		this->DesiredSize.height = 0;
+//	}
+//}
 
-	return ::CControl::GetSize(width, height);
-}
+//D2D1_SIZE_F CImage::GetSize(float width, float height)
+//{
+//	//D2D1_SIZE_F sz = { 0 };
+//	//sz.width = this->DesiredSize.width;
+//	//sz.height = this->DesiredSize.height;
+//
+//	//return sz;
+//
+//	return ::CControl::GetSize(width, height);
+//}
 
 void CImage::Arrange(float x, float y, float width, float height)
 {
-	
 	::CControl::Arrange(x, y, width, height);
 }
 

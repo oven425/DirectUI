@@ -12,12 +12,14 @@ namespace DirectUI
 			CButton();
 			void SetContent(const wchar_t* data);
 			void SetContent(shared_ptr<CControl> data);
-			void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			//void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(float x, float y, float width, float height) override;
 			void OnMouseEnter(const MouseMoveArgs& args) override;
 			void OnMouseLeave(const MouseMoveArgs& args) override;
 			void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) override;
 			void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) override;
+			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
 		private:
 			shared_ptr<Direct2D::CD2D_Brush> m_NormalBK;
 			shared_ptr<Direct2D::CD2D_Brush> m_NormalBr;

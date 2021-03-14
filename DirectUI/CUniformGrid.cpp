@@ -46,6 +46,11 @@ void CUniformGrid::CheckRowCol(float width, float height)
 	this->m_CellHeight = height / this->m_CellRows;
 }
 
+void CUniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+{
+
+}
+
 void CUniformGrid::Measure(float width, float height, ID2D1RenderTarget* pRT)
 {
 	::CControl::Measure(width, height, pRT);
