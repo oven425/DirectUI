@@ -50,12 +50,14 @@ void CButton::OnMouseLeave(const MouseMoveArgs& args)
 
 void CButton::OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args)
 {
+	this->m_IsCaptureMouse = true;
 	this->m_Template->SetBackground(this->m_PressBK);
 	this->m_Template->SetBorderBrush(this->m_PressBr);
 }
 
 void CButton::OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args)
 {
+	this->m_IsCaptureMouse = false;
 	if (this->m_IsHover == true)
 	{
 		this->m_Template->SetBackground(this->m_HoverBK);

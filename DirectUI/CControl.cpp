@@ -36,18 +36,18 @@ void CControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 }
 
-void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
-{
-	if (this->m_Visibility == Visibilitys::Collapsed)
-	{
-		this->DesiredSize.width = this->DesiredSize.height = 0;
-	}
-	else
-	{
-
-		this->DesiredSize = this->GetSize(width, height);
-	}
-}
+//void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//{
+//	if (this->m_Visibility == Visibilitys::Collapsed)
+//	{
+//		this->DesiredSize.width = this->DesiredSize.height = 0;
+//	}
+//	else
+//	{
+//
+//		this->DesiredSize = this->GetSize(width, height);
+//	}
+//}
 
 D2D1_SIZE_F CControl::GetSize(float width, float height)
 {
@@ -65,7 +65,7 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 	return sz;
 }
 
-CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x, bool ignore_y)
+CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
 {
 	CDirectUI_Rect rc = CDirectUI_Rect(0,0,actual_rect.GetWidth(), actual_rect.GetHeight());
 	if (ignore_x == false)
@@ -74,9 +74,9 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 		{
 		case HorizontalAlignments::Center:
 		{
-			if (rc.GetWidth() < measure_size.width)
+			if (rc.GetWidth() < measure_size.GetWidth())
 			{
-				float offset_x = measure_size.width - rc.GetWidth();
+				float offset_x = measure_size.GetWidth() - rc.GetWidth();
 				offset_x = offset_x / 2;
 				rc.SetX(offset_x);
 			}
@@ -84,9 +84,9 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 		break;
 		case HorizontalAlignments::Right:
 		{
-			if (rc.GetWidth() < measure_size.width)
+			if (rc.GetWidth() < measure_size.GetWidth())
 			{
-				float offset_x = measure_size.width - rc.GetWidth();
+				float offset_x = measure_size.GetWidth() - rc.GetWidth();
 				rc.SetX(offset_x);
 			}
 		}
@@ -99,9 +99,9 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 		{
 		case VerticalAlignments::Center:
 		{
-			if (rc.GetHeight() < measure_size.height)
+			if (rc.GetHeight() < measure_size.GetHeight())
 			{
-				float offset_y = measure_size.height - rc.GetHeight();
+				float offset_y = measure_size.GetHeight() - rc.GetHeight();
 				offset_y = offset_y / 2;
 				rc.SetY(offset_y);
 			}
@@ -109,9 +109,9 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZ
 		break;
 		case VerticalAlignments::Bottom:
 		{
-			if (rc.GetHeight() < measure_size.height)
+			if (rc.GetHeight() < measure_size.GetHeight())
 			{
-				float offset_y = measure_size.height - rc.GetHeight();
+				float offset_y = measure_size.GetHeight() - rc.GetHeight();
 				rc.SetY(offset_y);
 			}
 		}
@@ -351,4 +351,9 @@ void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 void CControl::SetEnabled(bool data)
 {
 	this->m_IsEnabled = data;
+}
+
+void CControl::SetCaptureMouse(bool data)
+{
+	this->m_IsCaptureMouse = data;
 }

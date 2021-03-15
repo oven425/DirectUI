@@ -6,11 +6,13 @@ using namespace Control;
 
 void CUniformGrid::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 {
-	::CControl::OnRender(pRT, calculate_dpi);
+	this->CreateRenderBuf(pRT, this->DesiredSize);
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(pRT, calculate_dpi);
+		oo->OnRender(this->m_pRenderBuf, calculate_dpi);
 	}
+
+	::CControl::OnRender(pRT, calculate_dpi);
 }
 
 void CUniformGrid::CheckRowCol(float width, float height)
@@ -48,19 +50,15 @@ void CUniformGrid::CheckRowCol(float width, float height)
 
 void CUniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
-
-}
-
-void CUniformGrid::Measure(float width, float height, ID2D1RenderTarget* pRT)
-{
-	::CControl::Measure(width, height, pRT);
-	this->CheckRowCol(this->DesiredSize.width, this->DesiredSize.height);
+	//::CControl::Measure(width, height, pRT);
+	CDirectUI_Size sz = data + this->m_Margin;
+	this->CheckRowCol(sz.GetWidth(), sz.GetHeight());
 	for (auto oo : this->m_Childs)
 	{
-		oo->Measure(this->m_CellWidth, this->m_CellHeight, pRT);
+		oo->Measure(CDirectUI_Size(this->m_CellWidth, this->m_CellHeight), pRT);
 	}
 
-	vector<float> widths(this->m_CellColums,0);
+	vector<float> widths(this->m_CellColums, 0);
 	vector<float> heights(this->m_CellRows, 0);
 	unsigned int index = 0;
 	for (int row = 0; row < this->m_CellRows; row++)
@@ -89,9 +87,24 @@ void CUniformGrid::Measure(float width, float height, ID2D1RenderTarget* pRT)
 
 void CUniformGrid::Arrange(float x, float y, float width, float height)
 {
-	::CControl::Arrange(x, y, width, height);
-
-	this->CheckRowCol(this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+	CDirectUI_Rect rc = CDirectUI_Rect(x, y, x + width, y + height);
+	rc = rc + this->m_Margin;
+	if (rc.GetWidth() > this->DesiredSize.width)
+	{
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			this->DesiredSize.width = rc.GetWidth();
+		}
+	}
+	if (rc.GetHeight() > this->DesiredSize.height)
+	{
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			this->DesiredSize.height = rc.GetHeight();
+		}
+	}
+	
+	this->CheckRowCol(rc.GetWidth(), rc.GetHeight());
 	unsigned int index = 0;
 	float cellwidth = this->m_CellWidth;
 	for (int row = 0; row < this->m_CellRows; row++)
@@ -104,12 +117,14 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 			{
 				float cellwidth = this->m_CellWidth;
 				float cellheight = this->m_CellHeight;
-				float x1 = this->m_ActualRect.GetX() + col * cellwidth;
-				float y1 = this->m_ActualRect.GetY() + row * cellheight;
+				float x1 = x + col * cellwidth;
+				float y1 = y + row * cellheight;
 				this->m_Childs[index]->Arrange(x1,y1, cellwidth, cellheight);
 			}
 		}
 	}
+
+	::CControl::Arrange(x, y, width, height);
 }
 
 void CUniformGrid::OnSize(float width, float height, float dpiscale)

@@ -8,6 +8,7 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
+    <Thumb Width="50" Height="50" DragStarted="Thumb_DragStarted" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
     <!--<Button Click="Button_Click_1" IsEnabledChanged="Button_IsEnabledChanged" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp">Test</Button>-->
     <!--<Grid>
         <Grid.RowDefinitions>
@@ -42,9 +43,9 @@
         <Image Stretch="UniformToFill" Source="sample.jpg"/>
     </UniformGrid>-->
     <!--<Image x:Name="img" Source="sample.jpg" Stretch="None" Margin="10,20,30,40"/>-->
-    <Border BorderThickness="10" Margin="5" BorderBrush="Green" Background="Blue" HorizontalAlignment="Right">
+    <!--<Border BorderThickness="10" Margin="5" BorderBrush="Green" Background="Blue" HorizontalAlignment="Right">
         <Image Source="sample.jpg"/>
-    </Border>
+    </Border>-->
     <!--<TextBlock Text="白日依山盡,黃河入海流" Background="Black" Margin="0" FontSize="32" Foreground="White" FontFamily="Arial"  />-->
 
     <!--<StackPanel Margin="10" VerticalAlignment="Bottom" Orientation="Horizontal" Background="Red">

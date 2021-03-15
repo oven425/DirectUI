@@ -40,6 +40,11 @@ namespace Control
 		Hidden,
 		Collapsed
 	};
+	enum class Orientations
+	{
+		Horizontal,
+		Vertical
+	};
 	struct MouseClickArgs
 	{
 		int X;
@@ -94,6 +99,7 @@ namespace Control
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		void SetEnabled(bool data);
 	protected:
+		static CDependencyObject<wstring, void*> m_Dependcty;
 		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
 		float m_Width = 0;
 		float m_Height = 0;
@@ -109,7 +115,7 @@ namespace Control
 		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;
-		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, D2D1_SIZE_F& measure_size, bool ignore_x=false, bool ignore_y=false);
+		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x=false, bool ignore_y=false);
 		CDirectUI_Thinkness m_Margin;
 		shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
@@ -118,7 +124,7 @@ namespace Control
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
-		virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
+		//virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
 		virtual void Arrange(float x, float y, float width, float height);
 		virtual void Arrange(const CDirectUI_Rect& data);
@@ -139,10 +145,12 @@ namespace Control
 		std::function<void(shared_ptr<CControl> sender, const MouseLeftButtonUpArgs& args)> MouseLeftButtonUpHandler;
 		void SetTree(Trees data) { this->m_Tree = data; }
 		Trees GetTree() { return this->m_Tree; }
-
+		bool GetCaptureMouse() { return this->m_IsCaptureMouse; }
+		void SetCaptureMouse(bool data);
 	protected:
 		bool m_IsHover = false;
 		bool m_IsPressed = false;
+		bool m_IsCaptureMouse = false;
 		float m_Opacity = 1.0;
 	private:
 		Trees m_Tree = Trees::Logic;

@@ -181,6 +181,7 @@
     <ClInclude Include="CPanel.h" />
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CTextBlock.h" />
+    <ClInclude Include="CThumb.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CUniformGrid.h" />
     <ClInclude Include="CWindow.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="CPanel.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CTextBlock.cpp" />
+    <ClCompile Include="CThumb.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CUniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />

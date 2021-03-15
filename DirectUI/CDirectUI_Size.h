@@ -13,10 +13,11 @@ namespace DirectUI
 		CDirectUI_Size(D2D1_SIZE_F data) { this->m_Width = data.width; this->m_Height = data.height; }
 		CDirectUI_Size(float width, float height) { this->m_Width = width, this->m_Height = height; }
 		void SetWidth(float data) { this->m_Width = data; }
-		CDirectUI_Size* SetWidth1(float data) { this->m_Width = data; return this; }
+		const CDirectUI_Size&  SetWidth1(float data) { this->m_Width = data; return *this; }
 		void SetHeight(float data) { this->m_Height = data; }
 		float GetWidth() const { return this->m_Width; }
 		float GetHeight() const { return this->m_Height; }
+		void Clear() { this->m_Width = this->m_Height = 0; }
 		operator D2D1_SIZE_F() const throw()
 		{
 			D2D1_SIZE_F sz = { 0 };

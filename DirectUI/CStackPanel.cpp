@@ -114,62 +114,62 @@ void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 }
 
-void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
-{
-	this->DesiredSize.width = this->DesiredSize.height = 0;
-	width = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
-	height = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-	switch (this->m_Orientation)
-	{
-	case Orientations::Vertical:
-	{
-		for (auto oo : this->m_Childs)
-		{
-			oo->Measure(width, 0, pRT);
-			this->DesiredSize.height = this->DesiredSize.height + oo->DesiredSize.height;
-		}
-		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.width > c2->DesiredSize.width; });
-		this->DesiredSize.width = (*aaa)->DesiredSize.width;
-	}
-	break;
-	case Orientations::Horizontal:
-	{
-		this->DesiredSize.height = height;
-		for (auto oo : this->m_Childs)
-		{
-			oo->Measure(0, height, pRT);
-			this->DesiredSize.width = this->DesiredSize.width + oo->DesiredSize.width;
-		}
-
-		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.height>c2->DesiredSize.height; });
-		this->DesiredSize.height = (*aaa)->DesiredSize.height;
-	}
-	break;
-	}
-
-	if (this->m_Width > 0 && this->m_Width < this->DesiredSize.width)
-	{
-		this->DesiredSize.width = this->m_Width;
-	}
-	else if (this->DesiredSize.width < width)
-	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-		{
-			this->DesiredSize.width = width;
-		}
-	}
-	if (this->m_Height > 0 && this->m_Height < this->DesiredSize.height)
-	{
-		this->DesiredSize.height = this->m_Height;
-	}
-	else if (this->DesiredSize.height < height)
-	{
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-		{
-			this->DesiredSize.height = height;
-		}
-	}
-}
+//void CStackPanel::Measure(float width, float height, ID2D1RenderTarget* pRT)
+//{
+//	this->DesiredSize.width = this->DesiredSize.height = 0;
+//	width = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
+//	height = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
+//	switch (this->m_Orientation)
+//	{
+//	case Orientations::Vertical:
+//	{
+//		for (auto oo : this->m_Childs)
+//		{
+//			oo->Measure(width, 0, pRT);
+//			this->DesiredSize.height = this->DesiredSize.height + oo->DesiredSize.height;
+//		}
+//		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.width > c2->DesiredSize.width; });
+//		this->DesiredSize.width = (*aaa)->DesiredSize.width;
+//	}
+//	break;
+//	case Orientations::Horizontal:
+//	{
+//		this->DesiredSize.height = height;
+//		for (auto oo : this->m_Childs)
+//		{
+//			oo->Measure(0, height, pRT);
+//			this->DesiredSize.width = this->DesiredSize.width + oo->DesiredSize.width;
+//		}
+//
+//		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<CControl> c1, shared_ptr<CControl> c2) {return c1->DesiredSize.height>c2->DesiredSize.height; });
+//		this->DesiredSize.height = (*aaa)->DesiredSize.height;
+//	}
+//	break;
+//	}
+//
+//	if (this->m_Width > 0 && this->m_Width < this->DesiredSize.width)
+//	{
+//		this->DesiredSize.width = this->m_Width;
+//	}
+//	else if (this->DesiredSize.width < width)
+//	{
+//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+//		{
+//			this->DesiredSize.width = width;
+//		}
+//	}
+//	if (this->m_Height > 0 && this->m_Height < this->DesiredSize.height)
+//	{
+//		this->DesiredSize.height = this->m_Height;
+//	}
+//	else if (this->DesiredSize.height < height)
+//	{
+//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+//		{
+//			this->DesiredSize.height = height;
+//		}
+//	}
+//}
 
 void CStackPanel::Arrange(float x, float y, float width, float height)
 {
