@@ -8,7 +8,8 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
-    <Thumb Width="50" Height="50" DragStarted="Thumb_DragStarted" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
+    <Canvas Background="Green"/>
+    <!--<Thumb Width="50" Height="50" DragStarted="Thumb_DragStarted" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>-->
     <!--<Button Click="Button_Click_1" IsEnabledChanged="Button_IsEnabledChanged" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp">Test</Button>-->
     <!--<Grid>
         <Grid.RowDefinitions>

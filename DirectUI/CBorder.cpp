@@ -117,7 +117,7 @@ ID2D1PathGeometry* CBorder::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 }
 
 
-void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+void CBorder::OnRender(ID2D1RenderTarget* pRT)
 {
 	HRESULT hr = S_OK;
 	//ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
@@ -191,15 +191,42 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 
 	if (this->m_Child)
 	{
-		this->m_Child->OnRender(this->m_pRenderBuf, calculate_dpi);
+		this->m_Child->OnRender(this->m_pRenderBuf);
 	}
 
-	::CControl::OnRender(pRT, calculate_dpi);
+	::CControl::OnRender(pRT);
 }
 
-void CBorder::Arrange(float x, float y, float width, float height)
+//void CBorder::Arrange(float x, float y, float width, float height)
+//{
+//	CDirectUI_Size border_sz = CDirectUI_Size(width, height) + this->m_Margin;
+//	if (this->m_Child)
+//	{
+//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+//		{
+//			this->DesiredSize.width = border_sz.GetWidth();
+//		}
+//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+//		{
+//			this->DesiredSize.height = border_sz.GetHeight();
+//		}
+//		CControl::Arrange(x, y, width, height);
+//		
+//		CDirectUI_Rect rc = this->DesiredSize;
+//		rc = rc + this->m_BorderThickness;
+//		rc = rc + this->m_Padding;
+//		
+//		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
+//	}
+//	else
+//	{
+//		CControl::Arrange(x, y, width, height);
+//	}
+//}
+
+void CBorder::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Size border_sz = CDirectUI_Size(width, height) + this->m_Margin;
+	CDirectUI_Size border_sz = data + this->m_Margin;
 	if (this->m_Child)
 	{
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
@@ -210,17 +237,17 @@ void CBorder::Arrange(float x, float y, float width, float height)
 		{
 			this->DesiredSize.height = border_sz.GetHeight();
 		}
-		CControl::Arrange(x, y, width, height);
+		CControl::Arrange(data);
 		
 		CDirectUI_Rect rc = this->DesiredSize;
 		rc = rc + this->m_BorderThickness;
 		rc = rc + this->m_Padding;
 		
-		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
+		this->m_Child->Arrange(data);
 	}
 	else
 	{
-		CControl::Arrange(x, y, width, height);
+		CControl::Arrange(data);
 	}
 }
 

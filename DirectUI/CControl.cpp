@@ -148,28 +148,24 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 
 void CControl::Arrange(const CDirectUI_Rect& data)
 {
-
-}
-
-void CControl::Arrange(float x, float y, float width, float height)
-{
 	CDirectUI_Thinkness margin = this->m_Margin;
-	x = x + margin.GetLeft();
-	y = y + margin.GetTop();
-	width = width - margin.GetLeft() - margin.GetRight();
-	height = height - margin.GetTop() - margin.GetBottom();
-	D2D1_SIZE_F sz = this->GetSize(width, height);
-	float left = x;
-	float top = y;
+	//x = x + margin.GetLeft();
+	//y = y + margin.GetTop();
+	//width = width - margin.GetLeft() - margin.GetRight();
+	//height = height - margin.GetTop() - margin.GetBottom();
+	CDirectUI_Rect rc = data + this->m_Margin;
+	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
+	float left = rc.GetLeft();
+	float top = rc.GetTop();
 	float right = left + sz.width;
-	if (width < sz.width)
+	if (rc.GetWidth() < sz.width)
 	{
-		right = left + width;
+		right = left + rc.GetWidth();
 	}
 	float bottom = top + sz.height;
-	if (height < sz.height)
+	if (rc.GetHeight() < sz.height)
 	{
-		bottom = top + height;
+		bottom = top + rc.GetHeight();
 	}
 	float w = right - left;
 	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
@@ -192,16 +188,16 @@ void CControl::Arrange(float x, float y, float width, float height)
 	case HorizontalAlignments::Stretch:
 	{
 		//left = left + (width - w) / 2;
-		if (width > this->DesiredSize.width)
+		if (rc.GetWidth() > this->DesiredSize.width)
 		{
-			left = left + (width - w) / 2;
+			left = left + (rc.GetWidth() - w) / 2;
 		}
 	}
 	break;
 	case HorizontalAlignments::Center:
 	{
 		//w = this->DesiredSize.width;
-		left = left + (width - w) / 2;
+		left = left + (rc.GetWidth() - w) / 2;
 	}
 	break;
 	case HorizontalAlignments::Left:
@@ -212,7 +208,7 @@ void CControl::Arrange(float x, float y, float width, float height)
 	case HorizontalAlignments::Right:
 	{
 		//w = this->DesiredSize.width;
-		left = left + (width - w);
+		left = left + (rc.GetWidth() - w);
 	}
 	break;
 	}
@@ -220,27 +216,20 @@ void CControl::Arrange(float x, float y, float width, float height)
 	{
 	case VerticalAlignments::Stretch:
 	{
-		if (height > this->DesiredSize.height)
+		if (rc.GetHeight() > this->DesiredSize.height)
 		{
-			top = top + (height - h) / 2;
+			top = top + (rc.GetHeight() - h) / 2;
 		}
 	}
 	break;
 	case VerticalAlignments::Center:
 	{
-		top = top + (height - h) / 2;
-	}
-	break;
-	
-	case VerticalAlignments::Top:
-	{
-		//h = this->DesiredSize.height;
+		top = top + (rc.GetHeight() - h) / 2;
 	}
 	break;
 	case VerticalAlignments::Bottom:
 	{
-		//h = this->DesiredSize.height;
-		top = top + (height - h);
+		top = top + (rc.GetHeight() - h);
 	}
 	break;
 	}
@@ -253,7 +242,109 @@ void CControl::Arrange(float x, float y, float width, float height)
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
-void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+//void CControl::Arrange(float x, float y, float width, float height)
+//{
+//	CDirectUI_Thinkness margin = this->m_Margin;
+//	x = x + margin.GetLeft();
+//	y = y + margin.GetTop();
+//	width = width - margin.GetLeft() - margin.GetRight();
+//	height = height - margin.GetTop() - margin.GetBottom();
+//	D2D1_SIZE_F sz = this->GetSize(width, height);
+//	float left = x;
+//	float top = y;
+//	float right = left + sz.width;
+//	if (width < sz.width)
+//	{
+//		right = left + width;
+//	}
+//	float bottom = top + sz.height;
+//	if (height < sz.height)
+//	{
+//		bottom = top + height;
+//	}
+//	float w = right - left;
+//	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
+//	{
+//		if (w > this->DesiredSize.width)
+//		{
+//			w = this->DesiredSize.width;
+//		}
+//	}
+//	float h = bottom - top;
+//	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
+//	{
+//		if (h > this->DesiredSize.height)
+//		{
+//			h = this->DesiredSize.height;
+//		}
+//	}
+//	switch (this->m_HorizontalAlignment)
+//	{
+//	case HorizontalAlignments::Stretch:
+//	{
+//		//left = left + (width - w) / 2;
+//		if (width > this->DesiredSize.width)
+//		{
+//			left = left + (width - w) / 2;
+//		}
+//	}
+//	break;
+//	case HorizontalAlignments::Center:
+//	{
+//		//w = this->DesiredSize.width;
+//		left = left + (width - w) / 2;
+//	}
+//	break;
+//	case HorizontalAlignments::Left:
+//	{
+//		//w = this->DesiredSize.width;
+//	}
+//	break;
+//	case HorizontalAlignments::Right:
+//	{
+//		//w = this->DesiredSize.width;
+//		left = left + (width - w);
+//	}
+//	break;
+//	}
+//	switch (this->m_VerticalAlignment)
+//	{
+//	case VerticalAlignments::Stretch:
+//	{
+//		if (height > this->DesiredSize.height)
+//		{
+//			top = top + (height - h) / 2;
+//		}
+//	}
+//	break;
+//	case VerticalAlignments::Center:
+//	{
+//		top = top + (height - h) / 2;
+//	}
+//	break;
+//	
+//	case VerticalAlignments::Top:
+//	{
+//		//h = this->DesiredSize.height;
+//	}
+//	break;
+//	case VerticalAlignments::Bottom:
+//	{
+//		//h = this->DesiredSize.height;
+//		top = top + (height - h);
+//	}
+//	break;
+//	}
+//
+//	this->m_ActualRect.SetLeft(left);
+//	this->m_ActualRect.SetTop(top);
+//	this->m_ActualRect.SetWidth(w);
+//	this->m_ActualRect.SetHeight(h);
+//
+//	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+//}
+
+void CControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->m_pRenderBuf->EndDraw();
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
@@ -263,19 +354,12 @@ void CControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 	ID2D1Bitmap* bmp = NULL;	
 	
 	this->m_pRenderBuf->GetBitmap(&bmp);
-	//CDirectUI_Rect rc_dst = this->m_ActualRect / this->m_DpiScale;
+
 	CDirectUI_Rect rc_dst = this->m_ActualRect;
 	CDirectUI_Rect rc_src = this->DesiredSize;
-	//CDirectUI_Rect rc_src(0, 0, this->m_ActualRect.GetWidth(), this->m_ActualRect.GetHeight());
+
 	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
-	//if (this->m_ActualRect.GetWidth() < this->DesiredSize.width)
-	//{
-	//	rc_src.SetX(this->DesiredSize.width - this->m_ActualRect.GetWidth());
-	//}
-	//CTrace::WriteLine(L"%s render: %s  Desire w:%f h:%f", this->Name.c_str(), rc_dst.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
-	//CTrace::WriteLine(L"%s render: %s  rc_dst %s", this->Name.c_str(), rc_src.ToString().c_str(), rc_src.GetWidth(), rc_src.GetHeight());
-	//float w1 = rc_dst.GetWidth();
-	//float w2 = rc_src.GetWidth();
+
 	pRT->DrawBitmap(bmp, rc_dst, this->m_Opacity, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
 	//::OutputDebugStringA("onrender: ");
 	//::OutputDebugString(this->Name.c_str());

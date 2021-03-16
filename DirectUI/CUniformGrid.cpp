@@ -4,15 +4,15 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CUniformGrid::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+void CUniformGrid::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->CreateRenderBuf(pRT, this->DesiredSize);
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(this->m_pRenderBuf, calculate_dpi);
+		oo->OnRender(this->m_pRenderBuf);
 	}
 
-	::CControl::OnRender(pRT, calculate_dpi);
+	::CControl::OnRender(pRT);
 }
 
 void CUniformGrid::CheckRowCol(float width, float height)
@@ -85,10 +85,10 @@ void CUniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	this->DesiredSize.height = height1 * this->m_CellRows;
 }
 
-void CUniformGrid::Arrange(float x, float y, float width, float height)
+void CUniformGrid::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Rect rc = CDirectUI_Rect(x, y, x + width, y + height);
-	rc = rc + this->m_Margin;
+	CDirectUI_Rect rc = data + this->m_Margin;
+	rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
 	if (rc.GetWidth() > this->DesiredSize.width)
 	{
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
@@ -103,7 +103,7 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 			this->DesiredSize.height = rc.GetHeight();
 		}
 	}
-	
+
 	this->CheckRowCol(rc.GetWidth(), rc.GetHeight());
 	unsigned int index = 0;
 	float cellwidth = this->m_CellWidth;
@@ -112,20 +112,62 @@ void CUniformGrid::Arrange(float x, float y, float width, float height)
 		for (int col = 0; col < this->m_CellColums; col++)
 		{
 			index = row * this->m_CellColums + col;
-			
+
 			if (index < this->m_Childs.size())
 			{
 				float cellwidth = this->m_CellWidth;
 				float cellheight = this->m_CellHeight;
-				float x1 = x + col * cellwidth;
-				float y1 = y + row * cellheight;
-				this->m_Childs[index]->Arrange(x1,y1, cellwidth, cellheight);
+				float x1 = rc.GetX() + col * cellwidth;
+				float y1 = rc.GetY() + row * cellheight;
+				this->m_Childs[index]->Arrange(CDirectUI_Rect(x1, y1, x1+cellwidth, y1+cellheight));
 			}
 		}
 	}
 
-	::CControl::Arrange(x, y, width, height);
+	::CControl::Arrange(data);
 }
+
+//void CUniformGrid::Arrange(float x, float y, float width, float height)
+//{
+//	CDirectUI_Rect rc = CDirectUI_Rect(x, y, x + width, y + height);
+//	rc = rc + this->m_Margin;
+//	if (rc.GetWidth() > this->DesiredSize.width)
+//	{
+//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+//		{
+//			this->DesiredSize.width = rc.GetWidth();
+//		}
+//	}
+//	if (rc.GetHeight() > this->DesiredSize.height)
+//	{
+//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+//		{
+//			this->DesiredSize.height = rc.GetHeight();
+//		}
+//	}
+//	
+//	this->CheckRowCol(rc.GetWidth(), rc.GetHeight());
+//	unsigned int index = 0;
+//	float cellwidth = this->m_CellWidth;
+//	for (int row = 0; row < this->m_CellRows; row++)
+//	{
+//		for (int col = 0; col < this->m_CellColums; col++)
+//		{
+//			index = row * this->m_CellColums + col;
+//			
+//			if (index < this->m_Childs.size())
+//			{
+//				float cellwidth = this->m_CellWidth;
+//				float cellheight = this->m_CellHeight;
+//				float x1 = x + col * cellwidth;
+//				float y1 = y + row * cellheight;
+//				this->m_Childs[index]->Arrange(x1,y1, cellwidth, cellheight);
+//			}
+//		}
+//	}
+//
+//	::CControl::Arrange(x, y, width, height);
+//}
 
 void CUniformGrid::OnSize(float width, float height, float dpiscale)
 {

@@ -34,7 +34,7 @@ namespace DirectUI
 			std::function<void(const shared_ptr<CControl> sender, const DragFilesArgs& args)> DragHandler;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
-			void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
+			void OnRender(ID2D1RenderTarget* pRT) override;
 			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
 			HWND m_hWnd = NULL;
 		private:

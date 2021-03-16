@@ -48,6 +48,12 @@ namespace WpfApp1
 
         }
 
+        (string first, string middle, string last) LookupName(long id) // tuple return type
+        {
+    //... // retrieve first, middle and last from data storage
+    return ("first", "middle", "last"); // tuple literal
+        }
+
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -70,17 +76,17 @@ namespace WpfApp1
 
         private void Thumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
-
+            System.Diagnostics.Trace.WriteLine($"Started HorizontalOffset: {e.HorizontalOffset} VerticalOffset:{e.VerticalOffset}");
         }
 
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-
+            System.Diagnostics.Trace.WriteLine($"Delta HorizontalChange: {e.HorizontalChange} VerticalChange:{e.VerticalChange}");
         }
 
         private void Thumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-
+            System.Diagnostics.Trace.WriteLine($"Delta HorizontalChange: {e.HorizontalChange} VerticalChange:{e.VerticalChange}");
         }
     }
 

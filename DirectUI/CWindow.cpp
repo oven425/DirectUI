@@ -51,6 +51,13 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 					oo->MouseMoveHandler(oo, mouseargs);
 				}
 			}
+			if (ww->m_MouseStorage.leftbutton)
+			{
+				if (ww->m_MouseStorage.leftbutton->GetCaptureMouse() == true)
+				{
+					ww->m_MouseStorage.leftbutton->OnMouseMove(mouseargs);
+				}
+			}
 			if (!ww->m_MouseStorage.mouseon)
 			{
 				ww->m_MouseStorage.mouseon = childs.back();
@@ -74,6 +81,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 					ww->m_MouseStorage.mouseon->MouseEnterHandler(ww->m_MouseStorage.mouseon, mouseargs);
 				}
 			}
+
 		}
 		ww->ReDraw();
 	}
@@ -126,6 +134,10 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 				{
 					childs.back()->MouseClickHandler(childs.back(), MouseClickArgs());
 				}
+			}
+			else if(ww->m_MouseStorage.leftbutton)
+			{
+				ww->m_MouseStorage.leftbutton->OnMouseLeftButtonUp(mouseargs);
 			}
 		}
 		ww->m_MouseStorage.leftbutton = nullptr;
@@ -204,7 +216,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 
 void CWindow::ReDraw()
 {
-	this->OnRender(this->pRT, true);
+	this->OnRender(this->pRT);
 }
 
 bool CWindow::Init(HWND hwnd)
@@ -255,16 +267,16 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 	CContentControl::OnSize(width, height, dpiscale);
 
 	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
-	this->Arrange(0, 0, width / dpiscale, height / dpiscale);
+	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
 }
 
 
-void CWindow::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
 	this->pRT->BeginDraw();
 	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	
-	CContentControl::OnRender(this->pRT, calculate_dpi);
+	CContentControl::OnRender(this->pRT);
 
 	this->pRT->EndDraw();
 }

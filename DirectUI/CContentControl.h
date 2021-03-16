@@ -8,10 +8,10 @@ namespace DirectUI
 		class __declspec(dllexport) CContentControl : public CControl
 		{
 		public:
-			virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi) override;
-			virtual void Arrange(float x, float y, float width, float height) override;
-			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
-			//virtual void Measure(float width, float height, ID2D1RenderTarget* pRT) override;
+			virtual void OnRender(ID2D1RenderTarget* pRT) override;
+			//virtual void Arrange(float x, float y, float width, float height) override;
+			virtual void Arrange(const CDirectUI_Rect& data) override;
+			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void SetPadding(CDirectUI_Thinkness& data);
 			virtual void SetChild(shared_ptr<CControl> data);
 			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;

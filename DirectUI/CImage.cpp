@@ -3,7 +3,7 @@
 using namespace DirectUI;
 using namespace Control;
 
-void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+void CImage::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->CreateRenderBuf(pRT, this->DesiredSize);
 	if (this->m_pD2DBitmap != NULL)
@@ -18,7 +18,7 @@ void CImage::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
 		}
 	}
 	
-	::CControl::OnRender(pRT, calculate_dpi);
+	::CControl::OnRender(pRT);
 }
 
 D2D1_RECT_F CImage::Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)
@@ -414,9 +414,14 @@ void CImage::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 //	return ::CControl::GetSize(width, height);
 //}
 
-void CImage::Arrange(float x, float y, float width, float height)
+//void CImage::Arrange(float x, float y, float width, float height)
+//{
+//	::CControl::Arrange(x, y, width, height);
+//}
+
+void CImage::Arrange(const CDirectUI_Rect& data)
 {
-	::CControl::Arrange(x, y, width, height);
+	::CControl::Arrange(data);
 }
 
 void CImage::SetSource(shared_ptr<Direct2D::CD2D_ImageSource> data)

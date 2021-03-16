@@ -14,46 +14,70 @@ void CContentControl::OnSize(float width, float height, float dpiscale)
 	}
 }
 
-void CContentControl::OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi)
+void CContentControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->CreateRenderBuf(pRT, this->DesiredSize);
 	if (this->m_Child != nullptr)
 	{
-		this->m_Child->OnRender(this->m_pRenderBuf, calculate_dpi);
+		this->m_Child->OnRender(this->m_pRenderBuf);
 	}
-	::CControl::OnRender(pRT, calculate_dpi);
+	::CControl::OnRender(pRT);
 }
 
-void CContentControl::Arrange(float x, float y, float width, float height)
+void CContentControl::Arrange(const CDirectUI_Rect& data)
 {
 	if (this->m_Child)
 	{
-		CControl::Arrange(x, y, width, height);
-		CDirectUI_Rect rc = this->m_ActualRect;
+		CControl::Arrange(data);
 
-		//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+		CDirectUI_Rect rc = this->m_ActualRect;
+		//if (this->DesiredSize.width < rc.GetWidth())
+		//{
+		//	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.width = rc.GetWidth();
+		//	}
+		//}
+		//if (this->DesiredSize.height < rc.GetHeight())
+		//{
+		//	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		//	{
+		//		this->DesiredSize.height = rc.GetHeight();
+		//	}
+		//}
+
 		rc = this->DesiredSize;
 		rc = rc + this->m_Padding;
 
-		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
-
-
-
+		this->m_Child->Arrange(rc);
 	}
 	else
 	{
-		CControl::Arrange(x, y, width, height);
+		CControl::Arrange(data);
 	}
-	//CControl::Arrange(x, y, width, height);
-	//if (this->m_Child)
-	//{
-	//	CDirectUI_Rect rc = this->m_ActualRect;
-	//	
-	//	rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
-	//	rc = rc + this->m_Padding;
-	//	this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
-	//}
 }
+
+//void CContentControl::Arrange(float x, float y, float width, float height)
+//{
+//	if (this->m_Child)
+//	{
+//		CControl::Arrange(x, y, width, height);
+//		CDirectUI_Rect rc = this->m_ActualRect;
+//
+//		//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+//		rc = this->DesiredSize;
+//		rc = rc + this->m_Padding;
+//
+//		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
+//
+//
+//
+//	}
+//	else
+//	{
+//		CControl::Arrange(x, y, width, height);
+//	}
+//}
 
 //void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
 //{

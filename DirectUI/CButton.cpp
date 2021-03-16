@@ -28,11 +28,14 @@ void CButton::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 //	float h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
 //	//::CContentControl::Measure(w, h, pRT);
 //}
-
-void CButton::Arrange(float x, float y, float width, float height)
+void CButton::Arrange(const CDirectUI_Rect& data)
 {
-	::CContentControl::Arrange(x, y, width, height);
+	::CContentControl::Arrange(data);
 }
+//void CButton::Arrange(float x, float y, float width, float height)
+//{
+//	::CContentControl::Arrange(x, y, width, height);
+//}
 
 void CButton::OnMouseEnter(const MouseMoveArgs& args)
 {

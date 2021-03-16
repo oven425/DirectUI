@@ -57,7 +57,6 @@ namespace DirectUI
 		float GetTop() { return this->m_Top; }
 		float GetRight() { return this->m_Right; }
 		float GetBottom() { return this->m_Bottom; }
-
 		CDirectUI_Rect SetXY(float x, float y)
 		{
 			CDirectUI_Rect rc(this->m_Left, this->m_Top, this->m_Right, this->m_Bottom);
@@ -87,6 +86,10 @@ namespace DirectUI
 			rc.left = this->m_Left;
 			rc.top = this->m_Top;
 			return rc;
+		}
+		operator CDirectUI_Size() const throw()
+		{
+			return CDirectUI_Size(this->m_Right - this->m_Left, this->m_Bottom - this->m_Top);
 		}
 
 		CDirectUI_Rect operator+(CDirectUI_Thinkness data) const throw()

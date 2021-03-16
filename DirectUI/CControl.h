@@ -51,6 +51,7 @@ namespace Control
 		int Y;
 
 	};
+
 	struct MouseMoveArgs
 	{
 		int X;
@@ -80,7 +81,7 @@ namespace Control
 				this->m_pRenderBuf = NULL;
 			}
 		}
-		virtual void OnRender(ID2D1RenderTarget* pRT, bool calculate_dpi);
+		virtual void OnRender(ID2D1RenderTarget* pRT);
 		virtual void OnSize(float width, float height, float dpiscale);
 		void SetWidth(float data);
 		void SetHieght(float data);
@@ -89,6 +90,8 @@ namespace Control
 		void SetMaxWidth(float data);
 		void SetMaxHieght(float data);
 		void SetVisibility(Visibilitys data);
+		float GetWidth() { return this->m_Width; }
+		float GetHieght() { return this->m_Height; }
 		Visibilitys GetVisibility() { return this->m_Visibility; }
 		void SetVerticalAlignment(VerticalAlignments data);
 		VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
@@ -124,9 +127,8 @@ namespace Control
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
-		//virtual void Measure(float width, float height, ID2D1RenderTarget* pRT);
 		virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
-		virtual void Arrange(float x, float y, float width, float height);
+		//virtual void Arrange(float x, float y, float width, float height);
 		virtual void Arrange(const CDirectUI_Rect& data);
 		D2D_SIZE_F DesiredSize = { 0 };
 		CDirectUI_Size RenderSize;
