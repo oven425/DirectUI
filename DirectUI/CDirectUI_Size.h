@@ -47,6 +47,11 @@ namespace DirectUI
 			return this->m_Height !=data.height  || this->m_Width != data.width;
 		}
 
+		bool operator!=(const CDirectUI_Size& data) const throw()
+		{
+			return this->m_Height != data.m_Height || this->m_Width != data.m_Width;
+		}
+
 		bool operator==(float data) const throw()
 		{
 			return this->m_Height == data && this->m_Width == data;

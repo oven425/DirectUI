@@ -51,14 +51,18 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 					oo->MouseMoveHandler(oo, mouseargs);
 				}
 			}
-			if (ww->m_MouseStorage.leftbutton)
+			if (ww->m_MouseStorage.leftbutton && ww->m_MouseStorage.leftbutton->GetCaptureMouse() == true)
 			{
-				if (ww->m_MouseStorage.leftbutton->GetCaptureMouse() == true)
+				if (ww->m_MouseStorage.mouseon != childs.back() && ww->m_MouseStorage.leftbutton->GetIsMouseOver() == true)
 				{
-					ww->m_MouseStorage.leftbutton->OnMouseMove(mouseargs);
+					ww->m_MouseStorage.leftbutton->OnMouseLeave(mouseargs);
+				}
+				else if(ww->m_MouseStorage.mouseon == childs.back() && ww->m_MouseStorage.leftbutton->GetIsMouseOver() == false)
+				{
+					ww->m_MouseStorage.leftbutton->OnMouseEnter(mouseargs);
 				}
 			}
-			if (!ww->m_MouseStorage.mouseon)
+			else if (!ww->m_MouseStorage.mouseon)
 			{
 				ww->m_MouseStorage.mouseon = childs.back();
 				ww->m_MouseStorage.mouseon->OnMouseEnter(mouseargs);

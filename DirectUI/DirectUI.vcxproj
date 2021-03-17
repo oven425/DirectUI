@@ -175,6 +175,7 @@
     <ClInclude Include="CDirectUI_Rect.h" />
     <ClInclude Include="CDirectUI_Size.h" />
     <ClInclude Include="CDirectUI_Thinkness.h" />
+    <ClInclude Include="CGrid.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
     <ClInclude Include="CKeyBoard.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="CDirectUI_Rect.cpp" />
     <ClCompile Include="CDirectUI_Size.cpp" />
     <ClCompile Include="CDirectUI_Thinkness.cpp" />
+    <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
     <ClCompile Include="CKeyBoard.cpp" />

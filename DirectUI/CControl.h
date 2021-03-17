@@ -131,13 +131,12 @@ namespace Control
 		//virtual void Arrange(float x, float y, float width, float height);
 		virtual void Arrange(const CDirectUI_Rect& data);
 		D2D_SIZE_F DesiredSize = { 0 };
-		CDirectUI_Size RenderSize;
 	public:
-		virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsHover = true; };
-		virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsHover = false; };
+		virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsMouseOver = true; };
+		virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsMouseOver = false; };
 		virtual void OnMouseMove(const MouseMoveArgs& args) {};
-		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) { this->m_IsPressed = true; };
-		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) { this->m_IsPressed = false; };
+		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) { ::OutputDebugStringA("CControl::OnMouseLeftButtonDown\r\n"); this->m_IsPressed = true; };
+		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) { ::OutputDebugStringA("CControl::OnMouseLeftButtonUp\r\n"); this->m_IsPressed = false; };
 		virtual void OnIsEnabled(bool data) { this->m_IsEnabled = data; }
 		std::function<void(shared_ptr<CControl> sender, const MouseClickArgs& args)> MouseClickHandler;
 		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseEnterHandler;
@@ -149,8 +148,9 @@ namespace Control
 		Trees GetTree() { return this->m_Tree; }
 		bool GetCaptureMouse() { return this->m_IsCaptureMouse; }
 		void SetCaptureMouse(bool data);
+		bool GetIsMouseOver() { return this->m_IsMouseOver; }
 	protected:
-		bool m_IsHover = false;
+		bool m_IsMouseOver = false;
 		bool m_IsPressed = false;
 		bool m_IsCaptureMouse = false;
 		float m_Opacity = 1.0;

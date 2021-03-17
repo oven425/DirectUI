@@ -8,7 +8,17 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
-    <Canvas Background="Green"/>
+    <!--<Canvas Background="Green"/>-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            
+        </Grid.RowDefinitions>
+    </Grid>
     <!--<Thumb Width="50" Height="50" DragStarted="Thumb_DragStarted" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>-->
     <!--<Button Click="Button_Click_1" IsEnabledChanged="Button_IsEnabledChanged" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp">Test</Button>-->
     <!--<Grid>
@@ -37,7 +47,7 @@
         <TextBlock Text="123"/>
         <Border Background="Red" Width="100" Height="100" Canvas.Top="100"></Border>
     </Canvas>-->
-    <!--<UniformGrid x:Name="uniformgrid" HorizontalAlignment="Center" Background="Red">
+    <!--<UniformGrid Background="Green">
         <Image Stretch="None" VerticalAlignment="Top" Source="sample.jpg"/>
         <Image Stretch="Fill" Source="sample.jpg"/>
         <Image Stretch="Uniform" Source="sample.jpg"/>

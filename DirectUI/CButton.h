@@ -9,12 +9,10 @@ namespace DirectUI
 		class __declspec(dllexport) CButton : public CContentControl
 		{
 		public:
-			CButton();
 			void SetContent(const wchar_t* data);
 			void SetContent(shared_ptr<CControl> data);
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;
-			//void Arrange(float x, float y, float width, float height) override;
 			void OnMouseEnter(const MouseMoveArgs& args) override;
 			void OnMouseLeave(const MouseMoveArgs& args) override;
 			void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) override;
