@@ -278,28 +278,27 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//}
 	//windows->SetChild(uniformgrid);
 
-	shared_ptr<CGrid> grid = ::make_shared<CGrid>();
-	grid->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	vector<shared_ptr<CGridColumnDefinition>> cols;
-	cols.push_back(::make_shared<CGridColumnDefinition>());
-	cols.push_back(::make_shared<CGridColumnDefinition>());
-	vector<shared_ptr<CGridRowDefintion>> rows;
-	rows.push_back(::make_shared<CGridRowDefintion>());
-	rows.push_back(::make_shared<CGridRowDefintion>());
-	grid->SetRowDefinitions(rows);
-	grid->SetColumnDefinitions(cols);
-	for (int i = 0; i < 4; i++)
-	{
-		shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
-		wchar_t name[265] = { 0 };
-		::swprintf_s(name, L"button_%d", i);
-		button->SetContent(name);
-		button->Name = name;
-		grid->AddCild(button);
-		
-	}
-
-	windows->SetChild(grid);
+	//shared_ptr<CGrid> grid = ::make_shared<CGrid>();
+	//grid->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
+	//vector<shared_ptr<CGridColumnDefinition>> cols;
+	//cols.push_back(::make_shared<CGridColumnDefinition>());
+	//cols.push_back(::make_shared<CGridColumnDefinition>());
+	//vector<shared_ptr<CGridRowDefintion>> rows;
+	//rows.push_back(::make_shared<CGridRowDefintion>());
+	//rows.push_back(::make_shared<CGridRowDefintion>());
+	//grid->SetRowDefinitions(rows);
+	//grid->SetColumnDefinitions(cols);
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
+	//	wchar_t name[265] = { 0 };
+	//	::swprintf_s(name, L"button_%d", i);
+	//	button->SetContent(name);
+	//	button->Name = name;
+	//	grid->AddCild(button);
+	//	
+	//}
+	//windows->SetChild(grid);
 
 	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
 	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
@@ -373,18 +372,18 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(thumb);
 
 
-	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
-	//canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	////for (int i = 0; i < 2; i++)
-	////{
-	////	shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	////	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	////	border->SetWidth(100);
-	////	border->SetHieght(100);
-	////	CCanvas::SetLeft(border, i * 100);
-	////	CCanvas::SetTop(border, i * 100);
-	////	canvas->AddChild(border);
-	////}
+	shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
+	canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
+	for (int i = 0; i < 5; i++)
+	{
+		shared_ptr<CBorder> border = ::make_shared<CBorder>();
+		border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		border->SetWidth(100);
+		border->SetHieght(100);
+		CCanvas::SetLeft(border, i * 100);
+		//CCanvas::SetTop(border, i * 100);
+		canvas->AddChild(border);
+	}
 
 	//shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
 	//thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
@@ -409,8 +408,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//	::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
 	//	::OutputDebugStringA(msg);
 	//};
-	//windows->SetChild(canvas);
-
+	windows->SetChild(canvas);
+	shared_ptr<CCanvas> canvas1 = ::make_shared<CCanvas>();
+	CCanvas::SetLeft(nullptr, 100);
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);
 	windows->Init(this->m_hWnd);

@@ -8,7 +8,8 @@
 #include <functional>
 #include <vector>
 using namespace std;
-
+#include "DependencyObject.h"
+using namespace DirectUI;
 #include "CDependencyObject.h"
 
 namespace DirectUI
@@ -69,7 +70,7 @@ namespace Control
 		int X;
 		int Y;
 	};
-	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>
+	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>, public DependencyObject
 	{
 	public:
 		virtual ~CControl()
@@ -102,8 +103,8 @@ namespace Control
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		void SetEnabled(bool data);
 	protected:
-		static CDependencyObject<wstring, void*> m_Dependcty;
-		static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
+		//static CDependencyObject<wstring, void*> m_Dependcty;
+		//static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
 		float m_Width = 0;
 		float m_Height = 0;
 		float m_DpiScale = 1.0;

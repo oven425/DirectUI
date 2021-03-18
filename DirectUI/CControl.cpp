@@ -4,7 +4,7 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
-CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
+//CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
 
 bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
