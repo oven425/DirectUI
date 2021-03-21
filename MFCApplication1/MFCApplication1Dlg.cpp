@@ -72,10 +72,18 @@ void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const Dra
 {
 
 }
+
+void CMFCApplication1Dlg::TestUnique(const CTT*  data)
+{
+	map<const CTT*, int> mm;
+	mm[data] = 1;
+}
 // CMFCApplication1Dlg 訊息處理常式
 #include <array>
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	//unique_ptr<CTT> iint = ::make_unique<CTT>();
+	//this->TestUnique(&*iint);
 	//array<int, 4> tt{ 1,2,3,4 };
 	//array<int, 4> tt2;
 	//tt2 = tt;
@@ -111,7 +119,20 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	
+	shared_ptr<CD2D_SolidColorBrush> br = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
+	shared_ptr<void> aa = br;
+	shared_ptr<CD2D_SolidColorBrush> br1 = static_pointer_cast<CD2D_SolidColorBrush>(aa);
+
+	shared_ptr<float> ff = ::make_shared<float>(5);
+	float& ii = *ff;
+	ii = 100;
+	shared_ptr<void> ff_save = ff;
+	*ff = 10;
+	if (ff_save == ff)
+	{
+		::OutputDebugStringA("");
+	}
+
 	//CDirectUI_Size sz1(100, 200);
 	//CDirectUI_Size sz2 = sz1.SetWidth1(300);
 	
@@ -381,7 +402,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		border->SetWidth(100);
 		border->SetHieght(100);
 		CCanvas::SetLeft(border, i * 100);
-		//CCanvas::SetTop(border, i * 100);
+		CCanvas::SetTop(border, i * 100);
 		canvas->AddChild(border);
 	}
 
@@ -410,7 +431,16 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//};
 	windows->SetChild(canvas);
 	shared_ptr<CCanvas> canvas1 = ::make_shared<CCanvas>();
-	CCanvas::SetLeft(nullptr, 100);
+	for (int i = 0; i < 2; i++)
+	{
+		shared_ptr<CBorder> border = ::make_shared<CBorder>();
+		border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		border->SetWidth(100);
+		border->SetHieght(100);
+		CCanvas::SetLeft(border, i * 100);
+		CCanvas::SetTop(border, i * 100);
+		canvas1->AddChild(border);
+	}
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);
 	windows->Init(this->m_hWnd);

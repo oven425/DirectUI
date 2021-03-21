@@ -200,7 +200,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		HDROP hDrop = (HDROP)wParam;
 		UINT nFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
 		DragFilesArgs dragfiles;
-		for (int i = 0; i < nFiles; i++)
+		for (UINT i = 0; i < nFiles; i++)
 		{
 			wchar_t szFileName[MAX_PATH + 1] = { 0 };
 			DragQueryFile(hDrop, i, szFileName, MAX_PATH);
@@ -210,7 +210,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		::DragFinish(hDrop);
 		if (ww->DragHandler)
 		{
-			ww->DragHandler(ww->shared_from_this(), dragfiles);
+			ww->DragHandler(static_pointer_cast<CControl>(ww->shared_from_this()), dragfiles);
 		}
 	}
 	break;

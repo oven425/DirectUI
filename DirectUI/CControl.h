@@ -70,9 +70,10 @@ namespace Control
 		int X;
 		int Y;
 	};
-	class __declspec(dllexport) CControl : public enable_shared_from_this<CControl>, public DependencyObject
+	class __declspec(dllexport) CControl : public DependencyObject
 	{
 	public:
+		CControl();
 		virtual ~CControl()
 		{
 			this->Release();
@@ -157,6 +158,8 @@ namespace Control
 		float m_Opacity = 1.0;
 	private:
 		Trees m_Tree = Trees::Logic;
+	public:
+		static shared_ptr<DependencyProperty> BackgroundProperty;
 	};
 
 }

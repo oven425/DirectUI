@@ -39,7 +39,7 @@ void CThumb::OnMouseMove(const MouseMoveArgs& args)
 		DragDeltaEventArgs event_args;
 		event_args.HorizontalChange = pt.GetX();
 		event_args.VerticalChange = pt.GetY();
-		this->DragDeltaHandler(this->shared_from_this(), event_args);
+		this->DragDeltaHandler(static_pointer_cast<CControl>(this->shared_from_this()), event_args);
 	}
 }
 
@@ -52,7 +52,7 @@ void CThumb::OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args)
 		DragStartedEventArgs event_args;
 		event_args.HorizontalOffset = this->m_ActualRect.GetX() - args.X;
 		event_args.VerticalOffset = this->m_ActualRect.GetY() - args.Y;
-		this->DragStartedHandler(this->shared_from_this(), event_args);
+		this->DragStartedHandler(static_pointer_cast<CControl>(this->shared_from_this()), event_args);
 		this->m_LastPoint.SetXY(args.X, args.Y);
 	}
 }
@@ -67,6 +67,6 @@ void CThumb::OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args)
 		DragCompletedEventArgs event_args;
 		event_args.HorizontalChange = pt.GetX();
 		event_args.VerticalChange = pt.GetY();
-		this->DragCompletedHandler(this->shared_from_this(), event_args);
+		this->DragCompletedHandler(static_pointer_cast<CControl>(this->shared_from_this()), event_args);
 	}
 }

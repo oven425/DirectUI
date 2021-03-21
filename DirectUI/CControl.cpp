@@ -5,14 +5,23 @@ using namespace Control;
 
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
 //CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
+shared_ptr<DependencyProperty> CControl::BackgroundProperty;
+
+CControl::CControl()
+{
+	if (!BackgroundProperty)
+	{
+		BackgroundProperty = ::make_shared<DependencyProperty>();
+	}
+}
 
 bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
 	bool result = false;
-	//shared_ptr<CControl> result;
+
 	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
 	{
-		childs.push_back(this->shared_from_this());
+		childs.push_back(static_pointer_cast<CControl>(this->shared_from_this()));
 		result = true;
 	}
 
@@ -35,19 +44,6 @@ void CControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 		this->DesiredSize = this->GetSize(data.GetWidth(), data.GetHeight());
 	}
 }
-
-//void CControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
-//{
-//	if (this->m_Visibility == Visibilitys::Collapsed)
-//	{
-//		this->DesiredSize.width = this->DesiredSize.height = 0;
-//	}
-//	else
-//	{
-//
-//		this->DesiredSize = this->GetSize(width, height);
-//	}
-//}
 
 D2D1_SIZE_F CControl::GetSize(float width, float height)
 {
@@ -242,108 +238,6 @@ void CControl::Arrange(const CDirectUI_Rect& data)
 	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
-//void CControl::Arrange(float x, float y, float width, float height)
-//{
-//	CDirectUI_Thinkness margin = this->m_Margin;
-//	x = x + margin.GetLeft();
-//	y = y + margin.GetTop();
-//	width = width - margin.GetLeft() - margin.GetRight();
-//	height = height - margin.GetTop() - margin.GetBottom();
-//	D2D1_SIZE_F sz = this->GetSize(width, height);
-//	float left = x;
-//	float top = y;
-//	float right = left + sz.width;
-//	if (width < sz.width)
-//	{
-//		right = left + width;
-//	}
-//	float bottom = top + sz.height;
-//	if (height < sz.height)
-//	{
-//		bottom = top + height;
-//	}
-//	float w = right - left;
-//	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
-//	{
-//		if (w > this->DesiredSize.width)
-//		{
-//			w = this->DesiredSize.width;
-//		}
-//	}
-//	float h = bottom - top;
-//	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
-//	{
-//		if (h > this->DesiredSize.height)
-//		{
-//			h = this->DesiredSize.height;
-//		}
-//	}
-//	switch (this->m_HorizontalAlignment)
-//	{
-//	case HorizontalAlignments::Stretch:
-//	{
-//		//left = left + (width - w) / 2;
-//		if (width > this->DesiredSize.width)
-//		{
-//			left = left + (width - w) / 2;
-//		}
-//	}
-//	break;
-//	case HorizontalAlignments::Center:
-//	{
-//		//w = this->DesiredSize.width;
-//		left = left + (width - w) / 2;
-//	}
-//	break;
-//	case HorizontalAlignments::Left:
-//	{
-//		//w = this->DesiredSize.width;
-//	}
-//	break;
-//	case HorizontalAlignments::Right:
-//	{
-//		//w = this->DesiredSize.width;
-//		left = left + (width - w);
-//	}
-//	break;
-//	}
-//	switch (this->m_VerticalAlignment)
-//	{
-//	case VerticalAlignments::Stretch:
-//	{
-//		if (height > this->DesiredSize.height)
-//		{
-//			top = top + (height - h) / 2;
-//		}
-//	}
-//	break;
-//	case VerticalAlignments::Center:
-//	{
-//		top = top + (height - h) / 2;
-//	}
-//	break;
-//	
-//	case VerticalAlignments::Top:
-//	{
-//		//h = this->DesiredSize.height;
-//	}
-//	break;
-//	case VerticalAlignments::Bottom:
-//	{
-//		//h = this->DesiredSize.height;
-//		top = top + (height - h);
-//	}
-//	break;
-//	}
-//
-//	this->m_ActualRect.SetLeft(left);
-//	this->m_ActualRect.SetTop(top);
-//	this->m_ActualRect.SetWidth(w);
-//	this->m_ActualRect.SetHeight(h);
-//
-//	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
-//}
-
 void CControl::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->m_pRenderBuf->EndDraw();
@@ -430,6 +324,8 @@ void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 		this->m_Background->Release();
 	}
 	this->m_Background = data;
+	//this->SetValue(BackgroundProperty, data);
+	//auto br = this->GetValue<Direct2D::CD2D_Brush>(BackgroundProperty);
 }
 
 void CControl::SetEnabled(bool data)

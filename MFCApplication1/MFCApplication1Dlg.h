@@ -24,6 +24,12 @@ using namespace DirectUI;
 using namespace Control;
 using namespace Direct2D;
 
+class CTT
+{
+public:
+	int m_A = 10;
+};
+
 // CMFCApplication1Dlg 對話方塊
 class CMFCApplication1Dlg : public CDialogEx
 {
@@ -52,4 +58,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	void DragFiles(const shared_ptr<CControl> sender, const DragFilesArgs& args);
+	void TestUnique(const CTT*  data);
 };
