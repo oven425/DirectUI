@@ -42,12 +42,18 @@ namespace DirectUI
 		class __declspec(dllexport) CGrid : public CPanel
 		{
 		public:
+			CGrid();
 			void AddCild(shared_ptr<CControl> data);
 			void OnRender(ID2D1RenderTarget* pRT) override;
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;
 			void SetRowDefinitions(vector<shared_ptr<CGridRowDefintion>> datas);
 			void SetColumnDefinitions(vector<shared_ptr<CGridColumnDefinition>> datas);
+			static shared_ptr<DependencyProperty> RowProperty;
+			static shared_ptr<DependencyProperty> RowSpanProperty;
+			static shared_ptr<DependencyProperty> ColumnProperty;
+			static shared_ptr<DependencyProperty> ColumnSpanProperty;
+			static void PropertyChange(const DependencyObject& sender);
 		protected:
 			vector<shared_ptr<CGridColumnDefinition>> m_ColumnDefinitions;
 			vector<shared_ptr<CGridRowDefintion>> m_RowDefinitions;

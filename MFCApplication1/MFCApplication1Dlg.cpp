@@ -80,8 +80,18 @@ void CMFCApplication1Dlg::TestUnique(const CTT*  data)
 }
 // CMFCApplication1Dlg 訊息處理常式
 #include <array>
+#include <variant>
+using namespace std;
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	
+	std::variant<int, string, shared_ptr<void>> a,b,c;
+	a = 10;
+	a = "321";
+	a = 1.1111;
+	b = "123";
+	c = ::make_shared<CCanvas>();
+	auto aaaa = std::get<shared_ptr<void>>(c);
 	//unique_ptr<CTT> iint = ::make_unique<CTT>();
 	//this->TestUnique(&*iint);
 	//array<int, 4> tt{ 1,2,3,4 };
@@ -437,6 +447,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
 		border->SetWidth(100);
 		border->SetHieght(100);
+		CCanvas::SetLeft(border, i * 90);
 		CCanvas::SetLeft(border, i * 100);
 		CCanvas::SetTop(border, i * 100);
 		canvas1->AddChild(border);

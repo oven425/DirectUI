@@ -15,17 +15,19 @@ CCanvas::CCanvas()
 	{
 		//LeftProperty = ::make_shared<int>(std::bind(LeftPropertyChange, std::placeholders::_1));
 		LeftProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
+		//LeftProperty = ::make_shared<DependencyProperty>();
+
 	}
 	if (!TopProperty)
 	{
-		//TopProperty = ::make_shared<DependencyProperty>(std::bind(&CCanvas::LeftPropertyChange, this));
+		TopProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
 	}
 	
 }
 
-void CCanvas::LeftPropertyChange(shared_ptr<DependencyProperty> sender)
+void CCanvas::LeftPropertyChange(const DependencyObject& sender)
 {
-	//
+	CControl& cc = (CControl&)sender;
 }
 
 void CCanvas::OnRender(ID2D1RenderTarget* pRT)
@@ -69,32 +71,28 @@ void CCanvas::AddChild(shared_ptr<CControl> data)
 
 void CCanvas::SetLeft(shared_ptr<CControl> element, float data)
 {
-	element->SetValue(LeftProperty, make_shared<float>(data));
+	element->SetValue<float>(LeftProperty, data);
 }
 
 float CCanvas::GetLeft(shared_ptr<CControl> element)
 {
-	shared_ptr<float> aa = element->GetValue<float>(LeftProperty);
-	if (aa == nullptr)
-	{
-		return 0;
-	}
-	return *aa;
+	return element->GetValue<float>(LeftProperty);
 }
 
 void CCanvas::SetTop(shared_ptr<CControl> element, float data)
 {
-	//element->SetValue(TopProperty, make_shared<float>(data));
+	element->SetValue(TopProperty, data);
 }
 
 float CCanvas::GetTop(shared_ptr<CControl> element)
 {
-	shared_ptr<float> aa = element->GetValue<float>(TopProperty);
-	if (aa == nullptr)
-	{
-		return 0;
-	}
-	return *aa;
+	return element->GetValue<float>(TopProperty);
+	//shared_ptr<float> aa = element->GetValue<float>(TopProperty);
+	//if (aa == nullptr)
+	//{
+	//	return 0;
+	//}
+	//return *aa;
 }
 
 //void CCanvas::SetRight(shared_ptr<CControl> element, float data)

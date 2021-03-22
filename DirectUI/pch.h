@@ -9,5 +9,5 @@
 
 // 請於此新增您要先行編譯的標頭
 #include "framework.h"
-
+#define _HAS_STD_BYTE  0
 #endif //PCH_H

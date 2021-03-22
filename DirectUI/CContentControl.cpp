@@ -31,20 +31,7 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 		CControl::Arrange(data);
 
 		CDirectUI_Rect rc = this->m_ActualRect;
-		//if (this->DesiredSize.width < rc.GetWidth())
-		//{
-		//	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-		//	{
-		//		this->DesiredSize.width = rc.GetWidth();
-		//	}
-		//}
-		//if (this->DesiredSize.height < rc.GetHeight())
-		//{
-		//	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-		//	{
-		//		this->DesiredSize.height = rc.GetHeight();
-		//	}
-		//}
+
 
 		rc = this->DesiredSize;
 		rc = rc + this->m_Padding;
@@ -56,39 +43,6 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 		CControl::Arrange(data);
 	}
 }
-
-//void CContentControl::Arrange(float x, float y, float width, float height)
-//{
-//	if (this->m_Child)
-//	{
-//		CControl::Arrange(x, y, width, height);
-//		CDirectUI_Rect rc = this->m_ActualRect;
-//
-//		//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
-//		rc = this->DesiredSize;
-//		rc = rc + this->m_Padding;
-//
-//		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
-//
-//
-//
-//	}
-//	else
-//	{
-//		CControl::Arrange(x, y, width, height);
-//	}
-//}
-
-//void CContentControl::Measure(float width, float height, ID2D1RenderTarget* pRT)
-//{
-//	CControl::Measure(width, height, pRT);
-//	if (this->m_Child)
-//	{
-//		float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
-//		float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
-//		this->m_Child->Measure(w, h, pRT);
-//	}
-//}
 
 void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
@@ -136,14 +90,6 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 		}
 
 	}
-	//CControl::Measure(data, pRT);
-	//if (this->m_Child)
-	//{
-	//	CDirectUI_Size sz = data + this->m_Padding;
-	//	//float w = this->DesiredSize.width - this->m_Padding.GetLeft() - this->m_Padding.GetRight();
-	//	//float h = this->DesiredSize.height - this->m_Padding.GetTop() - this->m_Padding.GetBottom();
-	//	this->m_Child->Measure(sz, pRT);
-	//}
 }
 
 void CContentControl::SetPadding(CDirectUI_Thinkness& data)

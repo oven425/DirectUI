@@ -103,9 +103,9 @@ namespace Control
 		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		void SetEnabled(bool data);
+		void Invalidate() { if (this->m_Root) { this->m_Root->Invalidate(); } };
 	protected:
-		//static CDependencyObject<wstring, void*> m_Dependcty;
-		//static CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> m_Parent;
+		shared_ptr<CControl> m_Root;
 		float m_Width = 0;
 		float m_Height = 0;
 		float m_DpiScale = 1.0;
@@ -130,7 +130,6 @@ namespace Control
 		void SetMargin(CDirectUI_Thinkness& data);
 		wstring Name = L"";
 		virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
-		//virtual void Arrange(float x, float y, float width, float height);
 		virtual void Arrange(const CDirectUI_Rect& data);
 		D2D_SIZE_F DesiredSize = { 0 };
 	public:

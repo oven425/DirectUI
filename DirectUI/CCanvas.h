@@ -25,7 +25,7 @@ namespace DirectUI
 			static shared_ptr<DependencyProperty> LeftProperty;
 			static shared_ptr<DependencyProperty> TopProperty;
 		protected:
-			static void LeftPropertyChange(shared_ptr<DependencyProperty> sender);
+			static void LeftPropertyChange(const DependencyObject& sender);
 			
 			//static CDependencyObject<shared_ptr<CControl>, float> m_Left;
 			//static CDependencyObject<shared_ptr<CControl>, float> m_Top;

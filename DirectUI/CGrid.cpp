@@ -3,6 +3,36 @@
 using namespace DirectUI;
 using namespace Control;
 
+shared_ptr<DependencyProperty> CGrid::RowProperty;
+shared_ptr<DependencyProperty> CGrid::RowSpanProperty;
+shared_ptr<DependencyProperty> CGrid::ColumnProperty;
+shared_ptr<DependencyProperty> CGrid::ColumnSpanProperty;
+
+CGrid::CGrid()
+{
+	if (!RowProperty)
+	{
+		RowProperty = DependencyProperty::Register(std::bind(PropertyChange, std::placeholders::_1));
+	}
+	if (!RowSpanProperty)
+	{
+		RowSpanProperty = DependencyProperty::Register(std::bind(PropertyChange, std::placeholders::_1));
+	}
+	if (!ColumnProperty)
+	{
+		ColumnProperty = DependencyProperty::Register(std::bind(PropertyChange, std::placeholders::_1));
+	}
+	if (!ColumnSpanProperty)
+	{
+		ColumnSpanProperty = DependencyProperty::Register(std::bind(PropertyChange, std::placeholders::_1));
+	}
+}
+
+void CGrid::PropertyChange(const DependencyObject& sender)
+{
+
+}
+
 void CGrid::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->CreateRenderBuf(pRT, this->DesiredSize);
