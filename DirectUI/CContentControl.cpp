@@ -103,13 +103,12 @@ void CContentControl::SetPadding(CDirectUI_Thinkness& data)
 void CContentControl::SetChild(shared_ptr<CControl> data)
 {
 	this->m_Child = data;
-	//m_Parent.SetValue(data, this->shared_from_this());
+	this->SetRoot(this->m_Root);
 }
 
 bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 {
 	bool result = false;
-	//auto parent = this->m_Parent.GetValue(this->shared_from_this());
 
 	result = CControl::HitTest(x, y, childs);
 	
@@ -119,4 +118,13 @@ bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs
 		this->m_Child->HitTest(x, y, childs);
 	}
 	return result;
+}
+
+void CContentControl::SetRoot(weak_ptr<CControl> data)
+{
+	this->m_Root = data;
+	if (this->m_Child)
+	{
+		this->m_Child->SetRoot(data);
+	}
 }

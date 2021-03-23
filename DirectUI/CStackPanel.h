@@ -10,7 +10,6 @@ namespace DirectUI
 		class __declspec(dllexport) CStackPanel :public CPanel
 		{
 		public:
-			void AddChild(shared_ptr<CControl> data);
 			void SetOrientation(Orientations data);
 			Orientations GetOrientation() { return this->m_Orientation; };
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;

@@ -179,14 +179,17 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 		this->m_BorderBrush->Refresh(this->m_pRenderBuf);
 		this->m_pRenderBuf->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
 	}
-	if (this->m_Background)
+	//if (this->m_Background)
+	//{
+	//	this->m_Background->Refresh(this->m_pRenderBuf);
+	//	this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->m_Background);
+	//}
+	if (this->Background)
 	{
-		this->m_Background->Refresh(this->m_pRenderBuf);
-
-		//pCompatibleRenderTarget->DrawGeometry(m_pPathGeometryUnion, *this->Background);
-
-		this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->m_Background);
+		this->Background->Refresh(this->m_pRenderBuf);
+		this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->Background);
 	}
+
 	
 
 	if (this->m_Child)

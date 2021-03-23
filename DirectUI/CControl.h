@@ -102,10 +102,13 @@ namespace Control
 		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
+		shared_ptr<Direct2D::CD2D_Brush> GetBackground();
 		void SetEnabled(bool data);
-		void Invalidate() { if (this->m_Root) { this->m_Root->Invalidate(); } };
+		virtual void Invalidate();
+		virtual void SetRoot(weak_ptr<CControl> data) { this->m_Root = data; }
+		__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 	protected:
-		shared_ptr<CControl> m_Root;
+		weak_ptr<CControl> m_Root;
 		float m_Width = 0;
 		float m_Height = 0;
 		float m_DpiScale = 1.0;
@@ -122,7 +125,7 @@ namespace Control
 		static ID2D1Factory* m_pD2DFactory;
 		CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x=false, bool ignore_y=false);
 		CDirectUI_Thinkness m_Margin;
-		shared_ptr<Direct2D::CD2D_Brush> m_Background;
+		//shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
 		void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data);
 		ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
@@ -159,6 +162,7 @@ namespace Control
 		Trees m_Tree = Trees::Logic;
 	public:
 		static shared_ptr<DependencyProperty> BackgroundProperty;
+		static void BackgroundPropertyChange(const DependencyObject& sender);
 	};
 
 }

@@ -11,8 +11,14 @@ CControl::CControl()
 {
 	if (!BackgroundProperty)
 	{
-		BackgroundProperty = ::make_shared<DependencyProperty>();
+		BackgroundProperty = DependencyProperty::Register(std::bind(BackgroundPropertyChange, std::placeholders::_1));
 	}
+}
+
+void CControl::BackgroundPropertyChange(const DependencyObject& sender)
+{
+	CControl& aa = (CControl&)sender;
+	aa.Invalidate();
 }
 
 bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
@@ -135,11 +141,18 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 	}
 	this->m_pRenderBuf->BeginDraw();
 	
-	if (this->m_Background)
+	//if (this->m_Background)
+	//{
+	//	this->m_Background->Refresh(this->m_pRenderBuf);
+	//	this->m_pRenderBuf->FillRectangle(data, *this->m_Background);
+	//}
+
+	if (this->Background)
 	{
-		this->m_Background->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillRectangle(data, *this->m_Background);
+		this->Background->Refresh(this->m_pRenderBuf);
+		this->m_pRenderBuf->FillRectangle(data, *this->Background);
 	}
+
 }
 
 void CControl::Arrange(const CDirectUI_Rect& data)
@@ -319,13 +332,21 @@ void CControl::SetMargin(CDirectUI_Thinkness& data)
 
 void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 {
-	if (this->m_Background && this->m_Background != data)
-	{
-		this->m_Background->Release();
-	}
-	this->m_Background = data;
-	//this->SetValue(BackgroundProperty, data);
-	//auto br = this->GetValue<Direct2D::CD2D_Brush>(BackgroundProperty);
+	//if (this->m_Background && this->m_Background != data)
+	//{
+	//	this->m_Background->Release();
+	//}
+	//this->m_Background = data;
+	
+	this->SetValue(BackgroundProperty, data);
+	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+	//shared_ptr<Direct2D::CD2D_Brush> br = static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+}
+
+shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
+{
+	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
 
 void CControl::SetEnabled(bool data)
@@ -336,4 +357,13 @@ void CControl::SetEnabled(bool data)
 void CControl::SetCaptureMouse(bool data)
 {
 	this->m_IsCaptureMouse = data;
+}
+
+void CControl::Invalidate()
+{
+	auto wp = this->m_Root.lock();
+	if (wp)
+	{
+		wp->Invalidate();
+	}
 }

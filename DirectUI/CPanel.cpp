@@ -20,5 +20,19 @@ bool CPanel::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 	}
 	
 	return result;
-	//return nullptr;
+}
+
+void CPanel::AddChild(shared_ptr<CControl> data)
+{
+	this->m_Childs.push_back(data);
+	data->SetRoot(this->m_Root);
+}
+
+void CPanel::SetRoot(weak_ptr<CControl> data)
+{
+	this->m_Root = data;
+	for (auto oo : this->m_Childs)
+	{
+		oo->SetRoot(data);
+	}
 }

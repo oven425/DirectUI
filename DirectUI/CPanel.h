@@ -11,6 +11,8 @@ namespace DirectUI
 		{
 		public:
 			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
+			void AddChild(shared_ptr<CControl> data);
+			void SetRoot(weak_ptr<CControl> data) override;
 		protected:
 			vector<shared_ptr<CControl>> m_Childs;
 		};

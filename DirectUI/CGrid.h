@@ -43,7 +43,6 @@ namespace DirectUI
 		{
 		public:
 			CGrid();
-			void AddCild(shared_ptr<CControl> data);
 			void OnRender(ID2D1RenderTarget* pRT) override;
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;
@@ -54,6 +53,14 @@ namespace DirectUI
 			static shared_ptr<DependencyProperty> ColumnProperty;
 			static shared_ptr<DependencyProperty> ColumnSpanProperty;
 			static void PropertyChange(const DependencyObject& sender);
+			static void SetRow(shared_ptr<CControl> element, int data);
+			static void SetRowSpan(shared_ptr<CControl> element, int data);
+			static void SetColumn(shared_ptr<CControl> element, int data);
+			static void SetColumnSpan(shared_ptr<CControl> element, int data);
+			static int GetRow(shared_ptr<CControl> element);
+			static int GetRowSpan(shared_ptr<CControl> element);
+			static int GetColumn(shared_ptr<CControl> element);
+			static int GetColumnSpan(shared_ptr<CControl> element);
 		protected:
 			vector<shared_ptr<CGridColumnDefinition>> m_ColumnDefinitions;
 			vector<shared_ptr<CGridRowDefintion>> m_RowDefinitions;

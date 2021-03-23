@@ -51,11 +51,6 @@ void CGrid::Arrange(const CDirectUI_Rect& data)
 	::CControl::Arrange(data);
 }
 
-void CGrid::AddCild(shared_ptr<CControl> data)
-{
-	this->m_Childs.push_back(data);
-}
-
 void CGrid::SetRowDefinitions(vector<shared_ptr<CGridRowDefintion>> datas)
 {
 	this->m_RowDefinitions.clear();
@@ -66,4 +61,44 @@ void CGrid::SetColumnDefinitions(vector<shared_ptr<CGridColumnDefinition>> datas
 {
 	this->m_ColumnDefinitions.clear();
 	this->m_ColumnDefinitions = datas;
+}
+
+void CGrid::SetRow(shared_ptr<CControl> element, int data)
+{
+	element->SetValue(RowProperty, data);
+}
+
+void CGrid::SetRowSpan(shared_ptr<CControl> element, int data)
+{
+	element->SetValue(RowSpanProperty, data);
+}
+
+void CGrid::SetColumn(shared_ptr<CControl> element, int data)
+{
+	element->SetValue(ColumnProperty, data);
+}
+
+void CGrid::SetColumnSpan(shared_ptr<CControl> element, int data)
+{
+	element->SetValue(ColumnSpanProperty, data);
+}
+
+int CGrid::GetRow(shared_ptr<CControl> element)
+{
+	return element->GetValue<int>(RowProperty);
+}
+
+int CGrid::GetRowSpan(shared_ptr<CControl> element)
+{
+	return element->GetValue<int>(RowSpanProperty);
+}
+
+int CGrid::GetColumn(shared_ptr<CControl> element)
+{
+	return element->GetValue<int>(ColumnProperty);
+}
+
+int CGrid::GetColumnSpan(shared_ptr<CControl> element)
+{
+	return element->GetValue<int>(ColumnSpanProperty);
 }

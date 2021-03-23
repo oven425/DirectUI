@@ -82,16 +82,48 @@ void CMFCApplication1Dlg::TestUnique(const CTT*  data)
 #include <array>
 #include <variant>
 using namespace std;
+std::weak_ptr<int> gw;
+map<int, weak_ptr<int>> mm;
+
+void observe()
+{
+	shared_ptr<int> pp = ::make_shared<int>(5);
+	int pp_use_count = pp.use_count();
+	mm[1] = pp;
+	pp_use_count = pp.use_count();
+	std::cout << "pp use_count == " << pp.use_count() << ": ";
+	std::cout << "use_count == " << gw.use_count() << ": ";
+	if (auto spt = gw.lock()) { // Has to be copied into a shared_ptr before usage
+		std::cout << *spt << "\n";
+	}
+	else {
+		std::cout << "gw is expired\n";
+	}
+}
+
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
 	
-	std::variant<int, string, shared_ptr<void>> a,b,c;
+	{
+		auto sp = std::make_shared<int>(42);
+		gw = sp;
+		std::weak_ptr<int> gw1 = gw;
+		observe();
+		if (gw.lock())
+		{
+
+		}
+	}
+	observe();
+	auto pp = mm[1];
+	auto lll = pp.lock();
+	std::variant<int, string, weak_ptr<void>> a,b,c;
 	a = 10;
 	a = "321";
 	a = 1.1111;
 	b = "123";
 	c = ::make_shared<CCanvas>();
-	auto aaaa = std::get<shared_ptr<void>>(c);
+	auto aaaa = std::get<weak_ptr<void>>(c);
 	//unique_ptr<CTT> iint = ::make_unique<CTT>();
 	//this->TestUnique(&*iint);
 	//array<int, 4> tt{ 1,2,3,4 };
@@ -408,7 +440,13 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	for (int i = 0; i < 5; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		border->MouseLeftButtonDownHandler = [](const shared_ptr<CControl> sender, auto args)
+		{
+			//sender->Invalidate();
+			sender->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f));
+		};
+		//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 		border->SetWidth(100);
 		border->SetHieght(100);
 		CCanvas::SetLeft(border, i * 100);
@@ -444,7 +482,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	for (int i = 0; i < 2; i++)
 	{
 		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		
+		//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+		border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
 		border->SetWidth(100);
 		border->SetHieght(100);
 		CCanvas::SetLeft(border, i * 90);
@@ -452,6 +492,10 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		CCanvas::SetTop(border, i * 100);
 		canvas1->AddChild(border);
 	}
+	//windows->MouseLeftButtonDownHandler = [](const shared_ptr<CControl> sender, auto args)
+	//{
+	//	sender->Invalidate();
+	//};
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);
 	windows->Init(this->m_hWnd);

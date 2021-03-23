@@ -10,7 +10,6 @@ namespace DirectUI
 		{
 		public:
 			CCanvas();
-			void AddChild(shared_ptr<CControl> data);
 			void OnRender(ID2D1RenderTarget* pRT) override;
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;

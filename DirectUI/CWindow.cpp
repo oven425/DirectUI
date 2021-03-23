@@ -12,7 +12,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	case WM_ERASEBKGND:
 	case WM_PAINT:
 	{
-		ww->ReDraw();
+		ww->Invalidate();
 	}
 	break;
 	case WM_MOUSELEAVE:
@@ -87,7 +87,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			}
 
 		}
-		ww->ReDraw();
+		//ww->Invalidate();
 	}
 	break;
 	case WM_LBUTTONDOWN:
@@ -111,7 +111,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 				}
 			}
 		}
-		ww->ReDraw();
+		//ww->Invalidate();
 	}
 	break;
 	case WM_LBUTTONUP:
@@ -218,11 +218,6 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-void CWindow::ReDraw()
-{
-	this->OnRender(this->pRT);
-}
-
 bool CWindow::Init(HWND hwnd)
 {
 	this->m_hWnd = hwnd;
@@ -250,6 +245,9 @@ bool CWindow::Init(HWND hwnd)
 		),
 		&pRT
 	);
+	auto owner = static_pointer_cast<CControl>(this->shared_from_this());
+	this->m_Root = owner;
+	this->SetRoot(this->m_Root);
 
 	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
 	//dpi = 96;
@@ -277,12 +275,15 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 
 void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
-	this->pRT->BeginDraw();
-	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
-	
-	CContentControl::OnRender(this->pRT);
+	if (pRT != NULL)
+	{
+		this->pRT->BeginDraw();
+		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 
-	this->pRT->EndDraw();
+		CContentControl::OnRender(this->pRT);
+
+		this->pRT->EndDraw();
+	}
 }
 
 void CWindow::SetTitle(const wchar_t* data)
@@ -293,4 +294,9 @@ void CWindow::SetTitle(const wchar_t* data)
 void CWindow::SetAllowDropFiles(bool data)
 {
 	DragAcceptFiles(this->m_hWnd, data==true?TRUE:FALSE);
+}
+
+void CWindow::Invalidate()
+{
+	this->OnRender(this->pRT);
 }

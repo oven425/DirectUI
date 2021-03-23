@@ -24,6 +24,7 @@ namespace DirectUI
 				else
 				{
 					this->m_Save1[dp] = data;
+					dp->DependencyChangeHandler(*this->shared_from_this());
 				}
 			}
 		}

@@ -11,7 +11,6 @@ namespace DirectUI
 		class __declspec(dllexport) CUniformGrid : public CPanel
 		{
 		public:
-			void AddChild(shared_ptr<CControl> data);
 			virtual void OnRender(ID2D1RenderTarget* pRT) override;
 			virtual void OnSize(float width, float height, float dpiscale) override;
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;

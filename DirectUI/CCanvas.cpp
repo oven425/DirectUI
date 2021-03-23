@@ -64,11 +64,6 @@ void CCanvas::Arrange(const CDirectUI_Rect& data)
 	}
 }
 
-void CCanvas::AddChild(shared_ptr<CControl> data)
-{
-	this->m_Childs.push_back(data);
-}
-
 void CCanvas::SetLeft(shared_ptr<CControl> element, float data)
 {
 	element->SetValue<float>(LeftProperty, data);

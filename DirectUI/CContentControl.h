@@ -15,6 +15,7 @@ namespace DirectUI
 			void SetPadding(CDirectUI_Thinkness& data);
 			virtual void SetChild(shared_ptr<CControl> data);
 			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
+			void SetRoot(weak_ptr<CControl> data) override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			CDirectUI_Thinkness m_Padding;

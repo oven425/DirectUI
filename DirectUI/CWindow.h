@@ -32,6 +32,7 @@ namespace DirectUI
 			void SetTitle(const wchar_t* data);
 			void SetAllowDropFiles(bool data);
 			std::function<void(const shared_ptr<CControl> sender, const DragFilesArgs& args)> DragHandler;
+			void Invalidate();
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT) override;
@@ -42,7 +43,6 @@ namespace DirectUI
 			mouseevent_storage m_MouseStorage;
 			bool m_TrackMouse = false;
 		protected:
-			void ReDraw();
 			ID2D1HwndRenderTarget* pRT = NULL;
 		};
 	}
