@@ -158,10 +158,6 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 void CControl::Arrange(const CDirectUI_Rect& data)
 {
 	CDirectUI_Thinkness margin = this->m_Margin;
-	//x = x + margin.GetLeft();
-	//y = y + margin.GetTop();
-	//width = width - margin.GetLeft() - margin.GetRight();
-	//height = height - margin.GetTop() - margin.GetBottom();
 	CDirectUI_Rect rc = data + this->m_Margin;
 	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
 	float left = rc.GetLeft();
@@ -248,7 +244,7 @@ void CControl::Arrange(const CDirectUI_Rect& data)
 	this->m_ActualRect.SetWidth(w);
 	this->m_ActualRect.SetHeight(h);
 
-	CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
+	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
 void CControl::OnRender(ID2D1RenderTarget* pRT)
@@ -365,5 +361,23 @@ void CControl::Invalidate()
 	if (wp)
 	{
 		wp->Invalidate();
+	}
+}
+
+void CControl::InvalidateArrange()
+{
+	auto wp = this->m_Root.lock();
+	if (wp)
+	{
+		wp->InvalidateArrange();
+	}
+}
+
+void CControl::InvalidateMeasurce()
+{
+	auto wp = this->m_Root.lock();
+	if (wp)
+	{
+		wp->InvalidateMeasurce();
 	}
 }

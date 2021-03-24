@@ -53,6 +53,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			}
 			if (ww->m_MouseStorage.leftbutton && ww->m_MouseStorage.leftbutton->GetCaptureMouse() == true)
 			{
+				
 				if (ww->m_MouseStorage.mouseon != childs.back() && ww->m_MouseStorage.leftbutton->GetIsMouseOver() == true)
 				{
 					ww->m_MouseStorage.leftbutton->OnMouseLeave(mouseargs);
@@ -60,6 +61,10 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 				else if(ww->m_MouseStorage.mouseon == childs.back() && ww->m_MouseStorage.leftbutton->GetIsMouseOver() == false)
 				{
 					ww->m_MouseStorage.leftbutton->OnMouseEnter(mouseargs);
+				}
+				else if(ww->m_MouseStorage.leftbutton != childs.back())
+				{
+					ww->m_MouseStorage.leftbutton->OnMouseMove(mouseargs);
 				}
 			}
 			else if (!ww->m_MouseStorage.mouseon)
@@ -234,7 +239,6 @@ bool CWindow::Init(HWND hwnd)
 
 	
 	float width = (float)(rc.right - rc.left);
-	//width = width / dpiscale;
 	float height = (float)(rc.bottom - rc.top);
 
 	hr = m_pD2DFactory->CreateHwndRenderTarget(
@@ -299,4 +303,28 @@ void CWindow::SetAllowDropFiles(bool data)
 void CWindow::Invalidate()
 {
 	this->OnRender(this->pRT);
+}
+
+void CWindow::InvalidateArrange()
+{
+	RECT rc;
+	GetClientRect(this->m_hWnd, &rc);
+	float width = (float)(rc.right - rc.left);
+	float height = (float)(rc.bottom - rc.top);
+	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
+	float dpiscale = (float)(dpi / 96.0);
+
+	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
+}
+
+void CWindow::InvalidateMeasurce()
+{
+	RECT rc;
+	GetClientRect(this->m_hWnd, &rc);
+	float width = (float)(rc.right - rc.left);
+	float height = (float)(rc.bottom - rc.top);
+	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
+	float dpiscale = (float)(dpi / 96.0);
+
+	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
 }

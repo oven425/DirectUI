@@ -28,6 +28,8 @@ CCanvas::CCanvas()
 void CCanvas::LeftPropertyChange(const DependencyObject& sender)
 {
 	CControl& cc = (CControl&)sender;
+	cc.InvalidateArrange();
+	cc.Invalidate();
 }
 
 void CCanvas::OnRender(ID2D1RenderTarget* pRT)

@@ -8,8 +8,28 @@
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
-    <!--<Canvas Background="Green"/>-->
-    <Grid>
+    <Window.Resources>
+        <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">
+            <Grid x:Name="bg">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0.2,0" EndPoint="0.77,0.9">
+                        <GradientStop Color="#aa0311" Offset="0.1"/>
+                        <GradientStop Color="#cccccc" Offset="0.62"/>
+                        <GradientStop Color="#82C3FF" Offset="0.89"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsDragging" Value="True">
+                    <Setter TargetName="bg" Property="Background" Value="Gray"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Canvas Background="Green">
+        <Thumb Canvas.Left="0" Canvas.Top="0" Width="50" Height="50" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted"/>
+    </Canvas>
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="1*"/>
@@ -18,8 +38,7 @@
         <Grid.RowDefinitions>
             
         </Grid.RowDefinitions>
-    </Grid>
-    <!--<Thumb Width="50" Height="50" DragStarted="Thumb_DragStarted" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>-->
+    </Grid>-->
     <!--<Button Click="Button_Click_1" IsEnabledChanged="Button_IsEnabledChanged" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp">Test</Button>-->
     <!--<Grid>
         <Grid.RowDefinitions>

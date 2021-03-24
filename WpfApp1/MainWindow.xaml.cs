@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -82,6 +83,23 @@ namespace WpfApp1
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             System.Diagnostics.Trace.WriteLine($"Delta HorizontalChange: {e.HorizontalChange} VerticalChange:{e.VerticalChange}");
+            Thumb myThumb = (Thumb)sender;
+            double nTop = Canvas.GetTop(myThumb) + e.VerticalChange;
+            double nLeft = Canvas.GetLeft(myThumb) + e.HorizontalChange;
+            ////防止Thumb控件被拖出容器。
+            //if (nTop <= 0)
+            //    nTop = 0;
+            //if (nTop >= (g.Height - myThumb.Height))
+            //    nTop = g.Height - myThumb.Height;
+            //if (nLeft <= 0)
+            //    nLeft = 0;
+            //if (nLeft >= (g.Width - myThumb.Width))
+            //    nLeft = g.Width - myThumb.Width;
+
+            //System.Diagnostics.Trace.WriteLine($"nTop:{nTop} nLeft:{nLeft}");
+            Canvas.SetTop(myThumb, nTop);
+            Canvas.SetLeft(myThumb, nLeft);
+
         }
 
         private void Thumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)

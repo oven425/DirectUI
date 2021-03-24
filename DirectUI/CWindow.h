@@ -32,7 +32,9 @@ namespace DirectUI
 			void SetTitle(const wchar_t* data);
 			void SetAllowDropFiles(bool data);
 			std::function<void(const shared_ptr<CControl> sender, const DragFilesArgs& args)> DragHandler;
-			void Invalidate();
+			void Invalidate() override;
+			void InvalidateArrange() override;
+			void InvalidateMeasurce() override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT) override;

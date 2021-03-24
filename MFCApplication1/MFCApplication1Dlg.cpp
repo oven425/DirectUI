@@ -437,65 +437,39 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
 	canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	for (int i = 0; i < 5; i++)
-	{
-		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		border->MouseLeftButtonDownHandler = [](const shared_ptr<CControl> sender, auto args)
-		{
-			//sender->Invalidate();
-			sender->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Yellow, 1.0f));
-		};
-		//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-		border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-		border->SetWidth(100);
-		border->SetHieght(100);
-		CCanvas::SetLeft(border, i * 100);
-		CCanvas::SetTop(border, i * 100);
-		canvas->AddChild(border);
-	}
 
-	//shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
-	//thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	//thumb->SetWidth(100);
-	//thumb->SetHieght(100);
-	//canvas->AddChild(thumb);
-	//thumb->DragStartedHandler = [](auto sender, auto args)
-	//{
-	//	char msg[256] = { 0 };
-	//	::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%d\r\n", args.HorizontalOffset, args.VerticalOffset);
-	//	::OutputDebugStringA(msg);
-	//};
-	//thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
-	//{
-	//	char msg[256] = { 0 };
-	//	::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-	//	::OutputDebugStringA(msg);
-	//};
-	//thumb->DragCompletedHandler=[](auto sender, auto args)
-	//{
-	//	char msg[256] = { 0 };
-	//	::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-	//	::OutputDebugStringA(msg);
-	//};
-	windows->SetChild(canvas);
-	shared_ptr<CCanvas> canvas1 = ::make_shared<CCanvas>();
-	for (int i = 0; i < 2; i++)
+	shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
+	thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+	thumb->SetWidth(100);
+	thumb->SetHieght(100);
+	canvas->AddChild(thumb);
+	thumb->DragStartedHandler = [](auto sender, auto args)
 	{
-		shared_ptr<CBorder> border = ::make_shared<CBorder>();
-		
-		//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-		border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-		border->SetWidth(100);
-		border->SetHieght(100);
-		CCanvas::SetLeft(border, i * 90);
-		CCanvas::SetLeft(border, i * 100);
-		CCanvas::SetTop(border, i * 100);
-		canvas1->AddChild(border);
-	}
-	//windows->MouseLeftButtonDownHandler = [](const shared_ptr<CControl> sender, auto args)
-	//{
-	//	sender->Invalidate();
-	//};
+		char msg[256] = { 0 };
+		::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%d\r\n", args.HorizontalOffset, args.VerticalOffset);
+		//::OutputDebugStringA(msg);
+	};
+	thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
+	{
+		//char msg[256] = { 0 };
+		//::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+		//::OutputDebugStringA(msg);
+		float pos_left = CCanvas::GetLeft(sender) + args.HorizontalChange;
+		float pos_top = CCanvas::GetTop(sender) + args.VerticalChange;
+		char msg[256] = { 0 };
+		::sprintf_s(msg, "pos_left:%f, pos_top:%f\r\n", pos_left, pos_top);
+		::OutputDebugStringA(msg);
+		CCanvas::SetLeft(sender, pos_left);
+		CCanvas::SetTop(sender, pos_top);
+	};
+	thumb->DragCompletedHandler=[](auto sender, auto args)
+	{
+		char msg[256] = { 0 };
+		::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+		//::OutputDebugStringA(msg);
+	};
+	windows->SetChild(canvas);
+
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);
 	windows->Init(this->m_hWnd);

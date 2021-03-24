@@ -105,6 +105,8 @@ namespace Control
 		shared_ptr<Direct2D::CD2D_Brush> GetBackground();
 		void SetEnabled(bool data);
 		virtual void Invalidate();
+		virtual void InvalidateArrange();
+		virtual void InvalidateMeasurce();
 		virtual void SetRoot(weak_ptr<CControl> data) { this->m_Root = data; }
 		__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 	protected:
@@ -139,8 +141,8 @@ namespace Control
 		virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsMouseOver = true; };
 		virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsMouseOver = false; };
 		virtual void OnMouseMove(const MouseMoveArgs& args) {};
-		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) { ::OutputDebugStringA("CControl::OnMouseLeftButtonDown\r\n"); this->m_IsPressed = true; };
-		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) { ::OutputDebugStringA("CControl::OnMouseLeftButtonUp\r\n"); this->m_IsPressed = false; };
+		virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) { this->m_IsPressed = true; };
+		virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) { this->m_IsPressed = false; };
 		virtual void OnIsEnabled(bool data) { this->m_IsEnabled = data; }
 		std::function<void(shared_ptr<CControl> sender, const MouseClickArgs& args)> MouseClickHandler;
 		std::function<void(shared_ptr<CControl> sender, const MouseMoveArgs& args)> MouseEnterHandler;
