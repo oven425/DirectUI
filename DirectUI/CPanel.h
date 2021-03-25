@@ -15,6 +15,7 @@ namespace DirectUI
 			void SetRoot(weak_ptr<CControl> data) override;
 		protected:
 			vector<shared_ptr<CControl>> m_Childs;
+			void OnSize(float width, float height, float dpiscale) override;
 		};
 	}
 }

@@ -30,6 +30,7 @@ CGrid::CGrid()
 
 void CGrid::PropertyChange(const DependencyObject& sender)
 {
+	CControl& aa = (CControl&)sender;
 
 }
 
@@ -43,6 +44,15 @@ void CGrid::OnRender(ID2D1RenderTarget* pRT)
 void CGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	CDirectUI_Size sz = data + this->m_Margin;
+	vector<CDirectUI_Size> size_col;
+	vector<CDirectUI_Size> size_row;
+	for (auto oo : this->m_ColumnDefinitions)
+	{
+
+	}
+
+
+
 	this->DesiredSize = sz;
 }
 

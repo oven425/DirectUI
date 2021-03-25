@@ -32,7 +32,6 @@ namespace DirectUI
 			virtual void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) override;
 			virtual void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) override;
 		protected:
-			CDirectUI_Point m_LastPoint;
 			CDirectUI_Point m_Offset;
 		};
 	}

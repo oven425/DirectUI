@@ -22,6 +22,14 @@ bool CPanel::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
 	return result;
 }
 
+void CPanel::OnSize(float width, float height, float dpiscale)
+{
+	for (auto oo : this->m_Childs)
+	{
+		oo->OnSize(width, height, dpiscale);
+	}
+}
+
 void CPanel::AddChild(shared_ptr<CControl> data)
 {
 	this->m_Childs.push_back(data);
