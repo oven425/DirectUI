@@ -120,6 +120,18 @@
     <ClInclude Include="DependencyProperty.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CRepeatButton.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -222,6 +234,18 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="DependencyProperty.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CRepeatButton.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

@@ -175,6 +175,8 @@
     <ClInclude Include="CDependencyObject.h" />
     <ClInclude Include="CDirectUI_Color.h" />
     <ClInclude Include="CDirectUI_CornerRadius.h" />
+    <ClInclude Include="CRepeatButton.h" />
+    <ClInclude Include="CTimer.h" />
     <ClInclude Include="DependencyObject.h" />
     <ClInclude Include="DependencyProperty.h" />
     <ClInclude Include="CDirectUI_MouseManager.h" />
@@ -196,7 +198,9 @@
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RadioButton.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Track.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBorder.cpp" />
@@ -212,6 +216,8 @@
     <ClCompile Include="CDependencyObject.cpp" />
     <ClCompile Include="CDirectUI_Color.cpp" />
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
+    <ClCompile Include="CRepeatButton.cpp" />
+    <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="DependencyObject.cpp" />
     <ClCompile Include="DependencyProperty.cpp" />
     <ClCompile Include="CDirectUI_MouseManager.cpp" />
@@ -238,6 +244,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RadioButton.cpp" />
+    <ClCompile Include="Track.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectUI.rc" />
