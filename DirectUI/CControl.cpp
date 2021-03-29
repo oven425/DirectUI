@@ -6,7 +6,7 @@ using namespace Control;
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
 //CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
 shared_ptr<DependencyProperty> CControl::BackgroundProperty;
-
+shared_ptr<DependencyProperty1<Direct2D::CD2D_Brush>> CControl::BackgroundProperty1;
 CControl::CControl()
 {
 	if (!BackgroundProperty)

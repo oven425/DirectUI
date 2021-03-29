@@ -163,6 +163,7 @@ namespace Control
 	private:
 		Trees m_Tree = Trees::Logic;
 	public:
+		static shared_ptr<DependencyProperty1<Direct2D::CD2D_Brush>> BackgroundProperty1;
 		static shared_ptr<DependencyProperty> BackgroundProperty;
 		static void BackgroundPropertyChange(const DependencyObject& sender);
 	};

@@ -132,6 +132,9 @@
     <ClInclude Include="Track.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Ellipse.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -246,6 +249,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Track.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellipse.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

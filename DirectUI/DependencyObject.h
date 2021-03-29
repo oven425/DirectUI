@@ -10,6 +10,21 @@ namespace DirectUI
 	class DependencyObject:public enable_shared_from_this<DependencyObject>
 	{
 	public:
+		void SetValue(char data);
+		void SetValue(unsigned char data);
+		void SetValue(short data);
+		void SetValue(unsigned short data);
+		template <typename T>
+		void SetValue(shared_ptr<DependencyProperty1<T>> dp, int data)
+		{
+
+		}
+		void SetValue(unsigned int data);
+		void SetValue(__int64 data);
+		void SetValue(unsigned __int64 data);
+		void SetValue(string data);
+		void SetValue(wstring data);
+		void SetValue(shared_ptr<void> data);
 		template <typename T>
 		void SetValue(shared_ptr<DependencyProperty> dp, T data)
 		{
@@ -45,7 +60,6 @@ namespace DirectUI
 
 	protected:
 		map<shared_ptr<DependencyProperty>, std::variant<char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, shared_ptr<void>>> m_Save1;
-		//map<shared_ptr<DependencyProperty>, shared_ptr<void>> m_Save;
 	};
 }
 

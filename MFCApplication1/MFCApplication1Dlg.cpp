@@ -8,6 +8,8 @@
 #include "MFCApplication1Dlg.h"
 #include "afxdialogex.h"
 
+#include"CTT.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -73,66 +75,46 @@ void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const Dra
 
 }
 
-void CMFCApplication1Dlg::TestUnique(const CTT*  data)
-{
-	map<const CTT*, int> mm;
-	mm[data] = 1;
-}
 // CMFCApplication1Dlg 訊息處理常式
 #include <array>
 #include <variant>
 using namespace std;
-std::weak_ptr<int> gw;
-map<int, weak_ptr<int>> mm;
 
-void observe()
-{
-	shared_ptr<int> pp = ::make_shared<int>(5);
-	int pp_use_count = pp.use_count();
-	mm[1] = pp;
-	pp_use_count = pp.use_count();
-	std::cout << "pp use_count == " << pp.use_count() << ": ";
-	std::cout << "use_count == " << gw.use_count() << ": ";
-	if (auto spt = gw.lock()) { // Has to be copied into a shared_ptr before usage
-		std::cout << *spt << "\n";
-	}
-	else {
-		std::cout << "gw is expired\n";
-	}
-}
+shared_ptr<CD2D_Brush> s1;
+shared_ptr<CD2D_Brush> s2;
+
+//template<typename T>
+//typename std::enable_if<std::is_integral<T>::value|| std::is_floating_point<T>::value, void>::type
+//SetValue(T data)
+//{
+//	//T aa = std::get<T>(test);
+//	//if (aa != data)
+//	//{
+//
+//	//}
+//}
+
+CTT test;
+
+
 
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
-	
-	{
-		auto sp = std::make_shared<int>(42);
-		gw = sp;
-		std::weak_ptr<int> gw1 = gw;
-		observe();
-		if (gw.lock())
-		{
+	s1 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
+	s2 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
+	float f = 1.1;
+	int use_count = s1.use_count();
+	test.SetValue(s1);
+	use_count = s1.use_count();
+	test.GetValue<shared_ptr<void>>();
+	test.SetValue(s2);
+	use_count = s1.use_count();
 
-		}
-	}
-	observe();
-	auto pp = mm[1];
-	auto lll = pp.lock();
-	std::variant<int, string, weak_ptr<void>> a,b,c;
-	a = 10;
-	a = "321";
-	a = 1.1111;
-	b = "123";
-	c = ::make_shared<CCanvas>();
-	auto aaaa = std::get<weak_ptr<void>>(c);
-	//unique_ptr<CTT> iint = ::make_unique<CTT>();
-	//this->TestUnique(&*iint);
-	//array<int, 4> tt{ 1,2,3,4 };
-	//array<int, 4> tt2;
-	//tt2 = tt;
-	//int ss = tt.size();
-	//int tt1[4] = { 0 };
-	//auto aa = &(*tt.begin());
-	//::memcpy(tt1, aa, ss*sizeof(int));
+
+	//auto weak = std::get<weak_ptr<CD2D_Brush>>(test);
+	//auto ss = *weak.lock();
+	//test = 1;
+
 	CDialogEx::OnInitDialog();
 
 	// 將 [關於...] 功能表加入系統功能表。

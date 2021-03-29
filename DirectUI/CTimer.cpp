@@ -4,7 +4,7 @@ using namespace DirectUI;
 
 void CTimer::Start()
 {
-
+	
 }
 
 void CTimer::Stop()
