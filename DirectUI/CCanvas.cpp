@@ -4,8 +4,8 @@ using namespace DirectUI;
 using namespace Control;
 
 
-shared_ptr<DependencyProperty> CCanvas::LeftProperty;
-shared_ptr<DependencyProperty> CCanvas::TopProperty;
+shared_ptr<DependencyProperty<float>> CCanvas::LeftProperty;
+shared_ptr<DependencyProperty<float>> CCanvas::TopProperty;
 //CDependencyObject<shared_ptr<CControl>, float> CCanvas::m_Right;
 //CDependencyObject<shared_ptr<CControl>, float> CCanvas::m_Bottom;
 
@@ -14,13 +14,13 @@ CCanvas::CCanvas()
 	if (!LeftProperty)
 	{
 		//LeftProperty = ::make_shared<int>(std::bind(LeftPropertyChange, std::placeholders::_1));
-		LeftProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
+		//LeftProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
 		//LeftProperty = ::make_shared<DependencyProperty>();
 
 	}
 	if (!TopProperty)
 	{
-		TopProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
+		//TopProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
 	}
 	
 }
@@ -68,7 +68,7 @@ void CCanvas::Arrange(const CDirectUI_Rect& data)
 
 void CCanvas::SetLeft(shared_ptr<CControl> element, float data)
 {
-	element->SetValue<float>(LeftProperty, data);
+	//element->SetValue<float>(LeftProperty, data);
 }
 
 float CCanvas::GetLeft(shared_ptr<CControl> element)
@@ -78,7 +78,7 @@ float CCanvas::GetLeft(shared_ptr<CControl> element)
 
 void CCanvas::SetTop(shared_ptr<CControl> element, float data)
 {
-	element->SetValue(TopProperty, data);
+	//element->SetValue(TopProperty, data);
 }
 
 float CCanvas::GetTop(shared_ptr<CControl> element)

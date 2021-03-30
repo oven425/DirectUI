@@ -10,56 +10,95 @@ namespace DirectUI
 	class DependencyObject:public enable_shared_from_this<DependencyObject>
 	{
 	public:
-		void SetValue(char data);
-		void SetValue(unsigned char data);
-		void SetValue(short data);
-		void SetValue(unsigned short data);
-		template <typename T>
-		void SetValue(shared_ptr<DependencyProperty1<T>> dp, int data)
+		template<typename T>
+		void SetValue(shared_ptr<DependencyProperty<T>> dp, shared_ptr<T> data)
 		{
+			shared_ptr<void> old;
+			bool hasold = false;
+			auto find = this->m_Save.find(dp);
+			if (find != this->m_Save.end())
+			{
+				try
+				{
+					old = std::get<weak_ptr<void>>(find->second).lock();
+					if (old)
+					{
+						hasold = true;
+					}
+				}
+				catch (const std::bad_variant_access&)
+				{
+				}
+			}
 
-		}
-		void SetValue(unsigned int data);
-		void SetValue(__int64 data);
-		void SetValue(unsigned __int64 data);
-		void SetValue(string data);
-		void SetValue(wstring data);
-		void SetValue(shared_ptr<void> data);
-		template <typename T>
-		void SetValue(shared_ptr<DependencyProperty> dp, T data)
-		{
-			if (dp)
+			if (hasold == true && data != old)
 			{
-				auto ff = this->m_Save1.find(dp);
-				if (ff != this->m_Save1.end())
+				auto args = dp->Create();
+				args.OldValue = *static_pointer_cast<T>(old);
+				args.NewValue = *static_pointer_cast<T>(data);
+				if (dp->DependencyChangeHandler)
 				{
-					this->m_Save1[dp] = data;
-					dp->DependencyChangeHandler(*this->shared_from_this());
-				}
-				else
-				{
-					this->m_Save1[dp] = data;
-					dp->DependencyChangeHandler(*this->shared_from_this());
+					dp->DependencyChangeHandler(*this, args);
 				}
 			}
+			m_Save[dp] = data;
 		}
-		template <typename T>
-		T GetValue(shared_ptr<DependencyProperty> dp)
+
+		template<typename T>
+		void SetValue(shared_ptr<DependencyProperty<T>> dp, int data)
 		{
-			if (dp)
+			int old;
+			bool hasold = false;
+			auto find = this->m_Save.find(dp);
+			if (find != this->m_Save.end())
 			{
-				auto ff = this->m_Save1.find(dp);
-				if (ff != this->m_Save1.end())
+				try
 				{
-					return std::get<T>(ff->second);
+					old = std::get<int>(find->second);
+					hasold = true;
+				}
+				catch (const std::bad_variant_access&)
+				{
 				}
 			}
-			
+
+			if (hasold == true && data != old)
+			{
+				auto args = dp->Create();
+				args.OldValue = old;
+				args.NewValue = data;
+				if (dp->DependencyChangeHandler)
+				{
+					dp->DependencyChangeHandler(*this, args);
+				}
+			}
+			m_Save[dp] = data;
+		}
+		
+		template<typename T, typename T1>
+		T GetValue(shared_ptr<DependencyProperty<T1>> dp)
+		{
+			auto find = this->m_Save.find(dp);
+			if (find != this->m_Save.end())
+			{
+				try
+				{
+					auto aa = std::get<T>(find->second).lock();
+					if (aa)
+					{
+						return aa;
+					}
+					//return std::get<T>(find->second);
+				}
+				catch (const std::bad_variant_access&)
+				{
+				}
+			}
 			return T{};
 		}
 
 	protected:
-		map<shared_ptr<DependencyProperty>, std::variant<char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, shared_ptr<void>>> m_Save1;
+		map<shared_ptr<DependencyPropertyBase>, std::variant<char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, weak_ptr<void>>> m_Save;
 	};
 }
 

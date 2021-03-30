@@ -36,6 +36,9 @@
     <ClInclude Include="CTT.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CTT_Propoerty.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication1.cpp">
@@ -48,6 +51,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CTT.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CTT_Propoerty.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

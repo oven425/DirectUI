@@ -1,34 +1,120 @@
 #pragma once
 #include <memory>
 #include <variant>
+#include <functional>
+#include <map>
 using namespace std;
 
-template<class T>
-struct CTTChangeArgs
-{
-	T OldValue;
-	T NewValue;
-};
+#include "CTT_Propoerty.h"
 
-class CTT
+
+
+class CTT_Object :public enable_shared_from_this<CTT_Object>
 {
 public:
+	template<typename T>
+	void SetValue(shared_ptr<CTT_Propoerty<T>> dp, shared_ptr<T> data)
+	{
+		shared_ptr<void> old;
+		bool hasold = false;
+		auto find = this->test.find(dp);
+		if (find != this->test.end())
+		{
+			try
+			{
+				old = std::get<weak_ptr<void>>(find->second).lock();
+				if (old)
+				{
+					hasold = true;
+				}
+			}
+			catch (const std::bad_variant_access&)
+			{
+			}
+		}
 
-	void SetValue(shared_ptr<void> data);
-	void SetValue(int data);
-	void SetValue(float data);
-	void SetValue(double data);
+		if (hasold == true && data != old)
+		{
+			auto args = dp->Create();
+			args.OldValue = *static_pointer_cast<T>(old);
+			args.NewValue = *static_pointer_cast<T>(data);
+			if (dp->Handler)
+			{
+				dp->Handler(*this, args);
+			}
+		}
+		test[dp] = data;
+	}
 
 	template<typename T>
-	T GetValue()
+	void SetValue(shared_ptr<CTT_Propoerty<T>> dp, int data)
 	{
-		if (test.index() > 0)
+		int old;
+		bool hasold = false;
+		auto find = this->test.find(dp);
+		if (find != this->test.end())
 		{
-			return std::get<T>(test);
+			try
+			{
+				old = std::get<int>(find->second);
+				hasold = true;
+			}
+			catch (const std::bad_variant_access&)
+			{
+			}
+		}
+
+		if (hasold == true && data != old)
+		{
+			auto args = dp->Create();
+			args.OldValue = old;
+			args.NewValue = data;
+			if (dp->Handler)
+			{
+				dp->Handler(*this, args);
+			}
+		}
+		test[dp] = data;
+	}
+	//void SetValue(shared_ptr<CTT_Propoerty> dp, float data);
+	//void SetValue(shared_ptr<CTT_Propoerty> dp, double data);
+
+	template<typename T, typename T1>
+	T GetValue(shared_ptr<CTT_Propoerty<T1>> dp)
+	{
+		auto find = this->test.find(dp);
+		if (find != this->test.end())
+		{
+			try
+			{
+				auto aa = std::get<T>(find->second).lock();
+				if (aa)
+				{
+					return aa;
+				}
+				//return std::get<T>(find->second);
+			}
+			catch (const std::bad_variant_access&)
+			{
+			}
 		}
 		return T{};
 	}
+
 protected:
-	std::variant<int, float, double, shared_ptr<void>> test;
+	template<class _Ty1, class _Ty2>
+	_NODISCARD shared_ptr<_Ty1> static_pointer_cast11(const shared_ptr<_Ty2>& _Other) noexcept
+	{	// static_cast for shared_ptr that properly respects the reference count control block
+		const auto _Ptr = static_cast<typename shared_ptr<_Ty1>::element_type *>(_Other.get());
+		return (shared_ptr<_Ty1>(_Other, _Ptr));
+	}
+
+	template<typename T>
+	shared_ptr<T> Trans(shared_ptr<void> src)
+	{
+		const auto _Ptr = static_cast<typename shared_ptr<T>::element_type *>(src.get());
+		return shared_ptr<T>(src, _Ptr);
+	}
+	map<shared_ptr<CTT_PropoertyBase>, std::variant<int, float, double, weak_ptr<void>>> test;
 };
 

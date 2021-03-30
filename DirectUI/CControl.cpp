@@ -5,17 +5,18 @@ using namespace Control;
 
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
 //CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
-shared_ptr<DependencyProperty> CControl::BackgroundProperty;
-shared_ptr<DependencyProperty1<Direct2D::CD2D_Brush>> CControl::BackgroundProperty1;
+shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> CControl::BackgroundProperty;
 CControl::CControl()
 {
 	if (!BackgroundProperty)
 	{
-		BackgroundProperty = DependencyProperty::Register(std::bind(BackgroundPropertyChange, std::placeholders::_1));
+		//BackgroundProperty = DependencyProperty::Register(std::bind(BackgroundPropertyChange, std::placeholders::_1));
+		BackgroundProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
+		BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 }
 
-void CControl::BackgroundPropertyChange(const DependencyObject& sender)
+void CControl::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
 {
 	CControl& aa = (CControl&)sender;
 	aa.Invalidate();
@@ -341,8 +342,9 @@ void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 
 shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
 {
-	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+	return nullptr;
+	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+	//return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
 
 void CControl::SetEnabled(bool data)

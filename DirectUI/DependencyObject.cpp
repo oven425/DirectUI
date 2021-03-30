@@ -18,58 +18,58 @@ using namespace DirectUI;
 //	
 //}
 
-void DependencyObject::SetValue(char data)
-{
-
-}
-
-void DependencyObject::SetValue(unsigned char data)
-{
-
-}
-
-void DependencyObject::SetValue(short data)
-{
-
-}
-
-void DependencyObject::SetValue(unsigned short data)
-{
-
-}
-
-//void DependencyObject::SetValue(int data)
+//void DependencyObject::SetValue(char data)
 //{
 //
 //}
-
-void DependencyObject::SetValue(unsigned int data)
-{
-
-}
-
-void DependencyObject::SetValue(__int64 data)
-{
-
-}
-
-void DependencyObject::SetValue(unsigned __int64 data)
-{
-
-}
-
-void DependencyObject::SetValue(string data)
-{
-
-}
-
-void DependencyObject::SetValue(wstring data)
-{
-
-}
-
-void DependencyObject::SetValue(shared_ptr<void> data)
-{
-
-}
+//
+//void DependencyObject::SetValue(unsigned char data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(short data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(unsigned short data)
+//{
+//
+//}
+//
+////void DependencyObject::SetValue(int data)
+////{
+////
+////}
+//
+//void DependencyObject::SetValue(unsigned int data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(__int64 data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(unsigned __int64 data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(string data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(wstring data)
+//{
+//
+//}
+//
+//void DependencyObject::SetValue(shared_ptr<void> data)
+//{
+//
+//}
 

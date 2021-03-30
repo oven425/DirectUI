@@ -21,8 +21,8 @@ namespace DirectUI
 			//static float GetRight(shared_ptr<CControl> element);
 			//static void SetBottom(shared_ptr<CControl> element, float data);
 			//static float GetBottom(shared_ptr<CControl> element);
-			static shared_ptr<DependencyProperty> LeftProperty;
-			static shared_ptr<DependencyProperty> TopProperty;
+			static shared_ptr<DependencyProperty<float>> LeftProperty;
+			static shared_ptr<DependencyProperty<float>> TopProperty;
 		protected:
 			static void LeftPropertyChange(const DependencyObject& sender);
 			
