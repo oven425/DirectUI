@@ -465,40 +465,48 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(thumb);
 
 
-	shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
-	canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
+	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
+	//canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
 
-	shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
-	thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	thumb->SetWidth(100);
-	thumb->SetHieght(100);
-	canvas->AddChild(thumb);
-	thumb->DragStartedHandler = [](auto sender, auto args)
-	{
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%d\r\n", args.HorizontalOffset, args.VerticalOffset);
-		//::OutputDebugStringA(msg);
-	};
-	thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
-	{
-		//char msg[256] = { 0 };
-		//::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-		//::OutputDebugStringA(msg);
-		float pos_left = CCanvas::GetLeft(sender) + args.HorizontalChange;
-		float pos_top = CCanvas::GetTop(sender) + args.VerticalChange;
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "pos_left:%f, pos_top:%f\r\n", pos_left, pos_top);
-		::OutputDebugStringA(msg);
-		CCanvas::SetLeft(sender, pos_left);
-		CCanvas::SetTop(sender, pos_top);
-	};
-	thumb->DragCompletedHandler=[](auto sender, auto args)
-	{
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-		//::OutputDebugStringA(msg);
-	};
-	windows->SetChild(canvas);
+	//shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
+	//thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+	//thumb->SetWidth(100);
+	//thumb->SetHieght(100);
+	//canvas->AddChild(thumb);
+	//thumb->DragStartedHandler = [](auto sender, auto args)
+	//{
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%f\r\n", args.HorizontalOffset, args.VerticalOffset);
+	//	::OutputDebugStringA(msg);
+	//};
+	//thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
+	//{
+	//	//char msg[256] = { 0 };
+	//	//::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+	//	//::OutputDebugStringA(msg);
+	//	float pos_left = CCanvas::GetLeft(sender) + args.HorizontalChange;
+	//	float top = CCanvas::GetTop(sender);
+	//	float pos_top = top + args.VerticalChange;
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "pos_left:%f, top:%f,  ver:%f\r\n", pos_left, top, args.VerticalChange);
+	//	::OutputDebugStringA(msg);
+	//	CCanvas::SetLeft(sender, pos_left);
+	//	CCanvas::SetTop(sender, pos_top);
+	//};
+	//thumb->DragCompletedHandler=[](auto sender, auto args)
+	//{
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "Stop ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+	//	::OutputDebugStringA(msg);
+	//};
+	//windows->SetChild(canvas);
+
+
+	shared_ptr<Shapes::Ellipse> ellipse = make_shared<Shapes::Ellipse>();
+	ellipse->Background = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+	ellipse->Stroke = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	ellipse->StrokeThickness = 20;
+	windows->SetChild(ellipse);
 
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);

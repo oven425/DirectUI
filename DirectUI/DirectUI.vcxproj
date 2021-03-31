@@ -187,8 +187,6 @@
     <ClInclude Include="CGrid.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CD2D_ImageSource.h" />
-    <ClInclude Include="CKeyBoard.h" />
-    <ClInclude Include="CMouse.h" />
     <ClInclude Include="CPanel.h" />
     <ClInclude Include="CStackPanel.h" />
     <ClInclude Include="CTextBlock.h" />
@@ -229,8 +227,6 @@
     <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CD2D_ImageSource.cpp" />
-    <ClCompile Include="CKeyBoard.cpp" />
-    <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CPanel.cpp" />
     <ClCompile Include="CStackPanel.cpp" />
     <ClCompile Include="CTextBlock.cpp" />

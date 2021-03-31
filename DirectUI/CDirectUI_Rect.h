@@ -87,6 +87,15 @@ namespace DirectUI
 			rc.top = this->m_Top;
 			return rc;
 		}
+		operator D2D1_ELLIPSE() const throw()
+		{
+			D2D1_ELLIPSE ellipse = { 0 };
+			ellipse.radiusX = (this->m_Right - this->m_Left) / 2;
+			ellipse.radiusY = (this->m_Bottom - this->m_Top) / 2;
+			ellipse.point.x = this->m_Left + ellipse.radiusX;
+			ellipse.point.y = this->m_Top + ellipse.radiusY;
+			return ellipse;
+		}
 		operator CDirectUI_Size() const throw()
 		{
 			return CDirectUI_Size(this->m_Right - this->m_Left, this->m_Bottom - this->m_Top);

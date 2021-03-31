@@ -9,10 +9,29 @@ namespace DirectUI
 {
 	class DependencyObject:public enable_shared_from_this<DependencyObject>
 	{
+	protected:
+		template<typename T>
+		void Change(shared_ptr<DependencyProperty<T>> dp, T old_val, T new_val)
+		{
+			if (dp && new_val != old_val)
+			{
+				auto args = DependencyPropertyChangeArgs<T>();
+				args.OldValue = old_val;
+				args.NewValue = new_val;
+				if (dp->DependencyChangeHandler)
+				{
+					dp->DependencyChangeHandler(*this, args);
+				}
+			}
+		}
 	public:
 		template<typename T>
 		void SetValue(shared_ptr<DependencyProperty<T>> dp, shared_ptr<T> data)
 		{
+			if (!dp)
+			{
+				return;
+			}
 			shared_ptr<void> old;
 			bool hasold = false;
 			auto find = this->m_Save.find(dp);
@@ -20,7 +39,7 @@ namespace DirectUI
 			{
 				try
 				{
-					old = std::get<weak_ptr<void>>(find->second).lock();
+					old = std::get<shared_ptr<void>>(find->second);
 					if (old)
 					{
 						hasold = true;
@@ -30,12 +49,11 @@ namespace DirectUI
 				{
 				}
 			}
-
 			if (hasold == true && data != old)
 			{
-				auto args = dp->Create();
+				auto args = DependencyPropertyChangeArgs<T>();
 				args.OldValue = *static_pointer_cast<T>(old);
-				args.NewValue = *static_pointer_cast<T>(data);
+				args.NewValue = *data;
 				if (dp->DependencyChangeHandler)
 				{
 					dp->DependencyChangeHandler(*this, args);
@@ -45,26 +63,29 @@ namespace DirectUI
 		}
 
 		template<typename T>
-		void SetValue(shared_ptr<DependencyProperty<T>> dp, int data)
+		void SetValue(shared_ptr<DependencyProperty<T>> dp, T data)
 		{
-			int old;
+			if (!dp)
+			{
+				return;
+			}
+			T old;
 			bool hasold = false;
 			auto find = this->m_Save.find(dp);
 			if (find != this->m_Save.end())
 			{
 				try
 				{
-					old = std::get<int>(find->second);
+					old = std::get<T>(find->second);
 					hasold = true;
 				}
 				catch (const std::bad_variant_access&)
 				{
 				}
 			}
-
 			if (hasold == true && data != old)
 			{
-				auto args = dp->Create();
+				auto args = DependencyPropertyChangeArgs<T>();
 				args.OldValue = old;
 				args.NewValue = data;
 				if (dp->DependencyChangeHandler)
@@ -72,33 +93,34 @@ namespace DirectUI
 					dp->DependencyChangeHandler(*this, args);
 				}
 			}
+
 			m_Save[dp] = data;
 		}
 		
 		template<typename T, typename T1>
 		T GetValue(shared_ptr<DependencyProperty<T1>> dp)
 		{
-			auto find = this->m_Save.find(dp);
-			if (find != this->m_Save.end())
+			if (dp)
 			{
-				try
+				auto find = this->m_Save.find(dp);
+				if (find != this->m_Save.end())
 				{
-					auto aa = std::get<T>(find->second).lock();
-					if (aa)
+					try
 					{
-						return aa;
+						return std::get<T>(find->second);
 					}
-					//return std::get<T>(find->second);
-				}
-				catch (const std::bad_variant_access&)
-				{
+					catch (const std::bad_variant_access& err)
+					{
+						::OutputDebugStringA("");
+					}
 				}
 			}
+			
 			return T{};
 		}
 
 	protected:
-		map<shared_ptr<DependencyPropertyBase>, std::variant<char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, weak_ptr<void>>> m_Save;
+		map<shared_ptr<DependencyPropertyBase>, std::variant<bool, char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, shared_ptr<void>>> m_Save;
 	};
 }
 

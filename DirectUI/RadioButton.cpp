@@ -3,9 +3,20 @@
 using namespace DirectUI;
 using namespace Control;
 
-//DependencyProperty RadioButton::IsCheckedProperty;
-//DependencyProperty RadioButton::GroupNameProperty;
+shared_ptr<DependencyProperty<bool>> RadioButton::IsCheckedProperty;
+shared_ptr<DependencyProperty<wstring>> RadioButton::GroupNameProperty;
 
+RadioButton::RadioButton()
+{
+	if (!IsCheckedProperty)
+	{
+		IsCheckedProperty = ::make_shared<DependencyProperty<bool>>();
+	}
+	if (!GroupNameProperty)
+	{
+		GroupNameProperty = ::make_shared<DependencyProperty<wstring>>();
+	}
+}
 
 void RadioButton::OnRender(ID2D1RenderTarget* pRT)
 {
@@ -29,5 +40,14 @@ void RadioButton::SetContent(const wchar_t* data)
 	{
 
 	}
+}
 
+void RadioButton::SetIsChecked(bool data)
+{
+	this->SetValue(IsCheckedProperty, data);
+}
+
+bool RadioButton::GetIsChecked()
+{
+	return this->GetValue<bool>(IsCheckedProperty);
 }

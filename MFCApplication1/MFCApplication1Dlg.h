@@ -19,9 +19,11 @@
 #include "../DirectUI/CThumb.h"
 #include "../DirectUI/CCanvas.h"
 #include "../DirectUI/CGrid.h"
+#include "../DirectUI/Ellipse.h"
 
 using namespace DirectUI;
 using namespace Control;
+using namespace Shapes;
 using namespace Direct2D;
 
 

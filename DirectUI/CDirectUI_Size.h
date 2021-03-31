@@ -42,6 +42,14 @@ namespace DirectUI
 			return sz;
 		}
 
+		CDirectUI_Size operator-(float data) const throw()
+		{
+			CDirectUI_Size sz;
+			sz.m_Width = this->m_Width - data;
+			sz.m_Height = this->m_Height - data;
+			return sz;
+		}
+
 		bool operator!=(const D2D1_SIZE_F& data) const throw()
 		{
 			return this->m_Height !=data.height  || this->m_Width != data.width;

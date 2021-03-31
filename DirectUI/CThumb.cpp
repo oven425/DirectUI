@@ -27,8 +27,13 @@ void CThumb::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void CThumb::Arrange(const CDirectUI_Rect& data)
 {
+	float old_y = this->m_ActualRect.GetY();
 	::CControl::Arrange(data);
-	//this->m_LastPoint.SetXY(this->m_ActualRect.GetX(), this->m_ActualRect.GetY());
+	float new_y = this->m_ActualRect.GetY();
+	if (new_y < old_y)
+	{
+		::OutputDebugStringA("");
+	}
 }
 
 void CThumb::OnMouseMove(const MouseMoveArgs& args)
@@ -38,17 +43,16 @@ void CThumb::OnMouseMove(const MouseMoveArgs& args)
 	{
 		DragDeltaEventArgs event_args;
 		
-		//event_args.HorizontalChange = args.X - this->m_ActualRect.GetX() - this->m_Offset.GetX();
-		//event_args.VerticalChange = args.Y - this->m_ActualRect.GetY() - this->m_Offset.GetY();
-
 		float x_dpi = args.X;
 		x_dpi = x_dpi / this->m_DpiScale;
 		float y_dpi = args.Y;
 		y_dpi = y_dpi / this->m_DpiScale;
-		event_args.HorizontalChange = x_dpi - this->m_ActualRect.GetX() - this->m_Offset.GetX();
-		event_args.VerticalChange = y_dpi - this->m_ActualRect.GetY() - this->m_Offset.GetY();
+		//event_args.HorizontalChange = x_dpi - this->m_ActualRect.GetX() - this->m_Offset.GetX();
+		//event_args.VerticalChange = y_dpi - this->m_ActualRect.GetY() - this->m_Offset.GetY();
 
-
+		event_args.HorizontalChange = x_dpi - this->m_BeginPos.GetX();
+		event_args.VerticalChange = y_dpi - this->m_BeginPos.GetY();
+		this->m_BeginPos.SetXY(x_dpi, y_dpi);
 		//char msg[512] = { 0 };
 		//::sprintf_s(msg, "args.X:%f, args.Y:%f X:%f Y:%f hor:%f ver:%f\r\n", x_dpi, y_dpi, this->m_ActualRect.GetX(), this->m_ActualRect.GetY(), event_args.HorizontalChange, event_args.VerticalChange);
 		//::OutputDebugStringA(msg);
@@ -75,6 +79,8 @@ void CThumb::OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args)
 
 		this->DragStartedHandler(static_pointer_cast<CControl>(this->shared_from_this()), event_args);
 		this->m_Offset.SetXY(event_args.HorizontalOffset, event_args.VerticalOffset);
+
+		this->m_BeginPos.SetXY(x_dpi, y_dpi);
 	}
 }
 

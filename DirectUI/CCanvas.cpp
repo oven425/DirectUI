@@ -13,19 +13,18 @@ CCanvas::CCanvas()
 {
 	if (!LeftProperty)
 	{
-		//LeftProperty = ::make_shared<int>(std::bind(LeftPropertyChange, std::placeholders::_1));
-		//LeftProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
-		//LeftProperty = ::make_shared<DependencyProperty>();
-
+		LeftProperty = ::make_shared<DependencyProperty<float>>();
+		LeftProperty->DependencyChangeHandler = std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 	if (!TopProperty)
 	{
-		//TopProperty = DependencyProperty::Register(std::bind(LeftPropertyChange, std::placeholders::_1));
+		TopProperty = ::make_shared<DependencyProperty<float>>();
+		TopProperty->DependencyChangeHandler = std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 	
 }
 
-void CCanvas::LeftPropertyChange(const DependencyObject& sender)
+void CCanvas::LeftPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs<float>& args)
 {
 	CControl& cc = (CControl&)sender;
 	cc.InvalidateArrange();
@@ -61,6 +60,9 @@ void CCanvas::Arrange(const CDirectUI_Rect& data)
 	{
 		float child_x = GetLeft(oo);
 		float child_y = GetTop(oo);
+		//char msg[256] = { 0 };
+		//::sprintf_s(msg, "child_x:%f child_y:%f\r\n", child_x, child_y);
+		//::OutputDebugStringA(msg);
 		CDirectUI_Rect child_rc(child_x, child_y, child_x+oo->GetWidth(), child_y+oo->GetHieght());
 		oo->Arrange(child_rc);
 	}
@@ -68,7 +70,7 @@ void CCanvas::Arrange(const CDirectUI_Rect& data)
 
 void CCanvas::SetLeft(shared_ptr<CControl> element, float data)
 {
-	//element->SetValue<float>(LeftProperty, data);
+	element->SetValue(LeftProperty, data);
 }
 
 float CCanvas::GetLeft(shared_ptr<CControl> element)
@@ -78,18 +80,12 @@ float CCanvas::GetLeft(shared_ptr<CControl> element)
 
 void CCanvas::SetTop(shared_ptr<CControl> element, float data)
 {
-	//element->SetValue(TopProperty, data);
+	element->SetValue(TopProperty, data);
 }
 
 float CCanvas::GetTop(shared_ptr<CControl> element)
 {
 	return element->GetValue<float>(TopProperty);
-	//shared_ptr<float> aa = element->GetValue<float>(TopProperty);
-	//if (aa == nullptr)
-	//{
-	//	return 0;
-	//}
-	//return *aa;
 }
 
 //void CCanvas::SetRight(shared_ptr<CControl> element, float data)

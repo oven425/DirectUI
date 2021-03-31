@@ -2,6 +2,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 using namespace std;
 
 namespace DirectUI
@@ -14,15 +15,12 @@ namespace DirectUI
 	class DependencyPropertyBase
 	{
 	public:
-		static shared_ptr<DependencyPropertyBase> Register(std::function<void(const DependencyObject& sender)> handler);
-		//{
-		//	shared_ptr<DependencyProperty> property = ::make_shared< DependencyProperty>();
-		//	property->DependencyChangeHandler = handler;
-		//	return property;
-		//}
-
 		wstring m_Name;
-		//std::function<void(const DependencyObject& sender)> DependencyChangeHandler;
+		bool AffectsArrange = false;
+		bool AffectsMeasure = false;
+		bool AffectsParentArrange = false;
+		bool AffectsParentMeasure = false;
+		bool AffectsRender = false;
 	public:
 		DependencyPropertyBase() {}
 	};
@@ -33,25 +31,28 @@ namespace DirectUI
 		T OldValue;
 		T NewValue;
 	};
+
+	template<class T_Sender, class T_Args>
+	class EventHandler
+	{
+	public:
+		void operator+=(std::function<void(const T_Sender& sender, const DependencyPropertyChangeArgs<T_Args>& args)> data)
+		{
+			this->m_Handlers.push_back(data);
+		}
+		
+	protected:
+		vector<std::function<void(const T_Sender& sender, const DependencyPropertyChangeArgs<T_Args>& args)>> m_Handlers;
+	};
 	
 	template<class T>
 	class DependencyProperty : public DependencyPropertyBase
 	{
 	public:
-		//static shared_ptr<DependencyProperty> Register(std::function<void(const DependencyObject& sender)> handler)
-		//{
-		//	shared_ptr<DependencyProperty> property = ::make_shared< DependencyProperty>();
-		//	property->DependencyChangeHandler = handler;
-		//	return property;
-		//}
-
+		EventHandler<DependencyObject, T> Handler;
 		std::function<void(const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)> DependencyChangeHandler;
 	public:
 		DependencyProperty() {}
-		DependencyProperty<T> Create()
-		{
-			return DependencyProperty<T>();
-		}
 	};
 }
 

@@ -129,7 +129,7 @@ namespace Control
 		CDirectUI_Thinkness m_Margin;
 		//shared_ptr<Direct2D::CD2D_Brush> m_Background;
 		bool m_IsEnabled = true;
-		void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data);
+		void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground=true);
 		ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
 	public:
 		void SetMargin(CDirectUI_Thinkness& data);

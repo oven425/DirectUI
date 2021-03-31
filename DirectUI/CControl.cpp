@@ -4,15 +4,15 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* CControl::m_pD2DFactory = NULL;
-//CDependencyObject<shared_ptr<CControl>, shared_ptr<CControl>> CControl::m_Parent;
 shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> CControl::BackgroundProperty;
+
 CControl::CControl()
 {
 	if (!BackgroundProperty)
 	{
-		//BackgroundProperty = DependencyProperty::Register(std::bind(BackgroundPropertyChange, std::placeholders::_1));
 		BackgroundProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
 		BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
+		BackgroundProperty->m_Name = L"Background";
 	}
 }
 
@@ -125,7 +125,7 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, const CD
 	return rc;
 }
 
-void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data)
+void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground)
 {
 	if (this->m_pRenderBuf != NULL)
 	{
@@ -151,7 +151,10 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 	if (this->Background)
 	{
 		this->Background->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillRectangle(data, *this->Background);
+		if (autofillbackground == true)
+		{
+			this->m_pRenderBuf->FillRectangle(data, *this->Background);
+		}
 	}
 
 }
@@ -342,9 +345,8 @@ void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 
 shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
 {
-	return nullptr;
-	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-	//return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
 
 void CControl::SetEnabled(bool data)

@@ -96,12 +96,6 @@
     <ClInclude Include="CDirectUI_Color.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CKeyBoard.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CMouse.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="CDirectUI_MouseManager.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -213,12 +207,6 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CDirectUI_Color.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="CKeyBoard.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="CMouse.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CDirectUI_MouseManager.cpp">
