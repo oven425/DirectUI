@@ -20,8 +20,10 @@
 #include "../DirectUI/CCanvas.h"
 #include "../DirectUI/CGrid.h"
 #include "../DirectUI/Ellipse.h"
+#include "../DirectUI/Dispatcher.h"
 
 using namespace DirectUI;
+using namespace Threading;
 using namespace Control;
 using namespace Shapes;
 using namespace Direct2D;

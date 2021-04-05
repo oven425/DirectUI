@@ -123,6 +123,7 @@ shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>(
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+
 	TestProperty->Handler = std::bind(PropertyChange, std::placeholders::_1, std::placeholders::_2);
 	Test1Property->Handler = std::bind(Property1Change, std::placeholders::_1, std::placeholders::_2);
 	s1 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
@@ -297,35 +298,19 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(border);
 
 
-	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
-	//stackpanel->SetMargin(CDirectUI_Thinkness(10));
-	//stackpanel->SetOrientation(Orientations::Horizontal);
-	////stackpanel->SetHorizontalAlignment(HorizontalAlignments::Center);
-	////stackpanel->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//stackpanel->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple, 1.0f)));
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//	//imgsource->Open(L"sample.jpg");
-	//	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//	//image->SetSource(imgsource);
-	//	////image->SetStretch((Stretchs)i);
-	//	////image->SetVerticalAlignment((VerticalAlignments)i);
-	//	////image->SetVerticalAlignment((VerticalAlignments::Bottom));
-	//	////image->SetHieght(150);
+	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	stackpanel->SetMargin(CDirectUI_Thinkness(10));
+	stackpanel->SetOrientation(Orientations::Horizontal);
+	shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
+	ellipse->SetWidth(12);
+	ellipse->SetHieght(12);
+	ellipse->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	stackpanel->AddChild(ellipse);
 
-	//	////image->SetHorizontalAlignment((HorizontalAlignments)i);
-	//	////image->SetWidth(150);
-	//	//image->SetStretch(Stretchs::Fill);
-	//	//stackpanel->AddChild(image);
-	//	shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
-	//	wchar_t name[265] = { 0 };
-	//	::swprintf_s(name, L"button_%d", i);
-	//	button->SetContent(name);
-	//	stackpanel->AddChild(button);
-	//}
-	//
-	//windows->SetChild(stackpanel);
+	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(L"test");
+	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
+	stackpanel->AddChild(textblock);
+	windows->SetChild(stackpanel);
 
 	//shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
 	//uniformgrid->Name = L"uniformgrid";
@@ -502,11 +487,11 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(canvas);
 
 
-	shared_ptr<Shapes::Ellipse> ellipse = make_shared<Shapes::Ellipse>();
-	ellipse->Background = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
-	ellipse->Stroke = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
-	ellipse->StrokeThickness = 20;
-	windows->SetChild(ellipse);
+	//shared_ptr<Shapes::Ellipse> ellipse = make_shared<Shapes::Ellipse>();
+	//ellipse->Background = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+	//ellipse->Stroke = make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	//ellipse->StrokeThickness = 20;
+	//windows->SetChild(ellipse);
 
 	//windows.SetMinWidth(300);
 	//windows.SetMaxWidth(500);

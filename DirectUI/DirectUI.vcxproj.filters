@@ -117,9 +117,6 @@
     <ClInclude Include="CRepeatButton.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CTimer.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="RadioButton.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -127,6 +124,15 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Ellipse.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispatcher.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="DispatcherTimer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="DispatcherObject.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -230,9 +236,6 @@
     <ClCompile Include="CRepeatButton.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="CTimer.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
     <ClCompile Include="RadioButton.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
@@ -240,6 +243,15 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Ellipse.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispatcher.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="DispatcherTimer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="DispatcherObject.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

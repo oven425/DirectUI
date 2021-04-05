@@ -3,6 +3,11 @@
 using namespace DirectUI;
 using namespace Control;
 
+CTextBlock::CTextBlock(const wchar_t* data)
+{
+	this->m_Text = data;
+}
+
 void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 {
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
@@ -74,25 +79,6 @@ void CTextBlock::Arrange(const CDirectUI_Rect& data)
 	}
 	::CControl::Arrange(data);
 }
-
-//void CTextBlock::Arrange(float x, float y, float width, float height)
-//{
-//	if (this->DesiredSize.width < width)
-//	{
-//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-//		{
-//			this->DesiredSize.width = width;
-//		}
-//	}
-//	if(this->DesiredSize.height < height)
-//	{
-//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-//		{
-//			this->DesiredSize.height = height;
-//		}
-//	}
-//	::CControl::Arrange(x, y, width, height);
-//}
 
 void CTextBlock::SetForeground(shared_ptr<Direct2D::CD2D_Brush> data)
 {
