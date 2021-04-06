@@ -10,11 +10,11 @@ namespace DirectUI
 		class __declspec(dllexport) CPanel : public CControl
 		{
 		public:
-			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
-			void AddChild(shared_ptr<CControl> data);
-			void SetRoot(weak_ptr<CControl> data) override;
+			bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs) override;
+			void AddChild(shared_ptr<UIElement> data);
+			void SetRoot(weak_ptr<UIElement> data) override;
 		protected:
-			vector<shared_ptr<CControl>> m_Childs;
+			vector<shared_ptr<UIElement>> m_Childs;
 			void OnSize(float width, float height, float dpiscale) override;
 		};
 	}

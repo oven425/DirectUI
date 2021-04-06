@@ -17,7 +17,7 @@ namespace DirectUI
 			void OnMouseLeave(const MouseMoveArgs& args) override;
 			void OnMouseLeftButtonDown(const MouseLeftButtonDownArgs& args) override;
 			void OnMouseLeftButtonUp(const MouseLeftButtonUpArgs& args) override;
-			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
+			bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs) override;
 		private:
 			shared_ptr<Direct2D::CD2D_Brush> m_NormalBK;
 			shared_ptr<Direct2D::CD2D_Brush> m_NormalBr;

@@ -13,13 +13,13 @@ namespace DirectUI
 			virtual void Arrange(const CDirectUI_Rect& data) override;
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void SetPadding(CDirectUI_Thinkness& data);
-			virtual void SetChild(shared_ptr<CControl> data);
-			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
-			void SetRoot(weak_ptr<CControl> data) override;
+			virtual void SetChild(shared_ptr<UIElement> data);
+			bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs) override;
+			void SetRoot(weak_ptr<UIElement> data) override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			CDirectUI_Thinkness m_Padding;
-			shared_ptr<CControl> m_Child;
+			shared_ptr<UIElement> m_Child;
 			
 		};
 

@@ -73,7 +73,7 @@ void CCanvas::SetLeft(shared_ptr<CControl> element, float data)
 	element->SetValue(LeftProperty, data);
 }
 
-float CCanvas::GetLeft(shared_ptr<CControl> element)
+float CCanvas::GetLeft(shared_ptr<UIElement> element)
 {
 	return element->GetValue<float>(LeftProperty);
 }
@@ -83,7 +83,7 @@ void CCanvas::SetTop(shared_ptr<CControl> element, float data)
 	element->SetValue(TopProperty, data);
 }
 
-float CCanvas::GetTop(shared_ptr<CControl> element)
+float CCanvas::GetTop(shared_ptr<UIElement> element)
 {
 	return element->GetValue<float>(TopProperty);
 }

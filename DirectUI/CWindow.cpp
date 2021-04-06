@@ -37,7 +37,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 			BOOL bb = ::TrackMouseEvent(&tme);
 			ww->m_TrackMouse == true;
 		}
-		vector<shared_ptr<CControl>> childs;
+		vector<shared_ptr<UIElement>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
 			MouseMoveArgs mouseargs = { 0 };
@@ -100,7 +100,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
 		::SetCapture(ww->m_hWnd);
-		vector<shared_ptr<CControl>> childs;
+		vector<shared_ptr<UIElement>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
 			MouseLeftButtonDownArgs mouseargs = { 0 };
@@ -123,7 +123,7 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 	{
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
-		vector<shared_ptr<CControl>> childs;
+		vector<shared_ptr<UIElement>> childs;
 		if (ww->HitTest(xPos, yPos, childs) == true)
 		{
 			MouseLeftButtonUpArgs mouseargs = { 0 };
@@ -260,7 +260,7 @@ bool CWindow::Init(HWND hwnd)
 	return true;
 }
 
-bool CWindow::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+bool CWindow::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 {
 	float x_dpi = x / this->m_DpiScale;
 	float y_dpi = y / this->m_DpiScale;

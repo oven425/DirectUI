@@ -38,7 +38,7 @@ namespace DirectUI
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			void OnRender(ID2D1RenderTarget* pRT) override;
-			bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs) override;
+			bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs) override;
 			HWND m_hWnd = NULL;
 		private:
 			static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);

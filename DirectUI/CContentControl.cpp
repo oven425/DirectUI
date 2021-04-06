@@ -100,13 +100,13 @@ void CContentControl::SetPadding(CDirectUI_Thinkness& data)
 	}
 }
 
-void CContentControl::SetChild(shared_ptr<CControl> data)
+void CContentControl::SetChild(shared_ptr<UIElement> data)
 {
 	this->m_Child = data;
 	this->SetRoot(this->m_Root);
 }
 
-bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+bool CContentControl::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 {
 	bool result = false;
 
@@ -120,7 +120,7 @@ bool CContentControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs
 	return result;
 }
 
-void CContentControl::SetRoot(weak_ptr<CControl> data)
+void CContentControl::SetRoot(weak_ptr<UIElement> data)
 {
 	this->m_Root = data;
 	if (this->m_Child)

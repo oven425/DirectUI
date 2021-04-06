@@ -14,9 +14,9 @@ namespace DirectUI
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;
 			static void SetLeft(shared_ptr<CControl> element, float data);
-			static float GetLeft(shared_ptr<CControl> element);
+			static float GetLeft(shared_ptr<UIElement> element);
 			static void SetTop(shared_ptr<CControl> element, float data);
-			static float GetTop(shared_ptr<CControl> element);
+			static float GetTop(shared_ptr<UIElement> element);
 			//static void SetRight(shared_ptr<CControl> element, float data);
 			//static float GetRight(shared_ptr<CControl> element);
 			//static void SetBottom(shared_ptr<CControl> element, float data);

@@ -22,18 +22,18 @@ void CControl::BackgroundPropertyChange(const DependencyObject& sender, const De
 	aa.Invalidate();
 }
 
-bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
-{
-	bool result = false;
-
-	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
-	{
-		childs.push_back(static_pointer_cast<CControl>(this->shared_from_this()));
-		result = true;
-	}
-
-	return result;
-}
+//bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+//{
+//	bool result = false;
+//
+//	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
+//	{
+//		childs.push_back(static_pointer_cast<CControl>(this->shared_from_this()));
+//		result = true;
+//	}
+//
+//	return result;
+//}
 
 void CControl::OnSize(float width, float height, float dpiscale)
 {

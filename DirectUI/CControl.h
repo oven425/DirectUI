@@ -45,17 +45,17 @@ namespace Control
 		//void SetHorizontalAlignment(HorizontalAlignments data);
 		//HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 		//CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
-		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
+		//virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		shared_ptr<Direct2D::CD2D_Brush> GetBackground();
 		//void SetEnabled(bool data);
 		virtual void Invalidate();
 		virtual void InvalidateArrange();
 		virtual void InvalidateMeasurce();
-		virtual void SetRoot(weak_ptr<CControl> data) { this->m_Root = data; }
+		//virtual void SetRoot(weak_ptr<CControl> data) { this->m_Root = data; }
 		__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 	protected:
-		weak_ptr<CControl> m_Root;
+		//weak_ptr<CControl> m_Root;
 		//float m_Width = 0;
 		//float m_Height = 0;
 		//float m_DpiScale = 1.0;

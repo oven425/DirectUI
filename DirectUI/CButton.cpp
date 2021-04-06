@@ -6,7 +6,7 @@ using namespace DirectUI;
 using namespace Direct2D;
 using namespace Control;
 
-bool CButton::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+bool CButton::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 {
 	return ::CContentControl::HitTest(x, y, childs);
 }
