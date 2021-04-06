@@ -29,12 +29,12 @@ void Ellipse::StrokePropertyChange(const DependencyObject& sender, const Depende
 
 void Ellipse::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
-	::Control::CControl::Measure(data, pRT);
+	::Control::UIElement::Measure(data, pRT);
 }
 
 void Ellipse::Arrange(const CDirectUI_Rect& data)
 {
-	::Control::CControl::Arrange(data);
+	::Control::UIElement::Arrange(data);
 }
 
 void Ellipse::OnRender(ID2D1RenderTarget* pRT)
@@ -51,7 +51,7 @@ void Ellipse::OnRender(ID2D1RenderTarget* pRT)
 		this->m_pRenderBuf->DrawEllipse(this->m_ActualRect+this->StrokeThickness/2, *this->Stroke, this->StrokeThickness);
 	}
 
-	Control::CControl::OnRender(pRT);
+	Control::UIElement::OnRender(pRT);
 	
 }
 

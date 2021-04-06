@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "CControl.h"
+#include "UIElement.h"
 using namespace DirectUI;
 using namespace Control;
 
-ID2D1Factory* CControl::m_pD2DFactory = NULL;
-shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> CControl::BackgroundProperty;
+ID2D1Factory* UIElement::m_pD2DFactory = NULL;
+shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> UIElement::BackgroundProperty;
 
-CControl::CControl()
+UIElement::UIElement()
 {
 	if (!BackgroundProperty)
 	{
@@ -16,31 +16,31 @@ CControl::CControl()
 	}
 }
 
-void CControl::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
+void UIElement::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
 {
-	CControl& aa = (CControl&)sender;
+	UIElement& aa = (UIElement&)sender;
 	aa.Invalidate();
 }
 
-bool CControl::HitTest(int x, int y, vector<shared_ptr<CControl>>& childs)
+bool UIElement::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 {
 	bool result = false;
 
 	if (this->m_Visibility == Visibilitys::Visible && this->m_ActualRect.PtInRect(x, y) == true)
 	{
-		childs.push_back(static_pointer_cast<CControl>(this->shared_from_this()));
+		childs.push_back(static_pointer_cast<UIElement>(this->shared_from_this()));
 		result = true;
 	}
 
 	return result;
 }
 
-void CControl::OnSize(float width, float height, float dpiscale)
+void UIElement::OnSize(float width, float height, float dpiscale)
 {
 	this->m_DpiScale = dpiscale;
 }
 
-void CControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+void UIElement::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	if (this->m_Visibility == Visibilitys::Collapsed)
 	{
@@ -52,7 +52,7 @@ void CControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 }
 
-D2D1_SIZE_F CControl::GetSize(float width, float height)
+D2D1_SIZE_F UIElement::GetSize(float width, float height)
 {
 	D2D1_SIZE_F sz = { 0 };
 	sz.width = width;
@@ -68,9 +68,9 @@ D2D1_SIZE_F CControl::GetSize(float width, float height)
 	return sz;
 }
 
-CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
+CDirectUI_Rect UIElement::MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
 {
-	CDirectUI_Rect rc = CDirectUI_Rect(0,0,actual_rect.GetWidth(), actual_rect.GetHeight());
+	CDirectUI_Rect rc = CDirectUI_Rect(0, 0, actual_rect.GetWidth(), actual_rect.GetHeight());
 	if (ignore_x == false)
 	{
 		switch (this->m_HorizontalAlignment)
@@ -121,11 +121,11 @@ CDirectUI_Rect CControl::MappingRenderRect(CDirectUI_Rect& actual_rect, const CD
 		break;
 		}
 	}
-	
+
 	return rc;
 }
 
-void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground)
+void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground)
 {
 	if (this->m_pRenderBuf != NULL)
 	{
@@ -141,7 +141,7 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 		HRESULT hr = pRT->CreateCompatibleRenderTarget(data, &this->m_pRenderBuf);
 	}
 	this->m_pRenderBuf->BeginDraw();
-	
+
 	//if (this->m_Background)
 	//{
 	//	this->m_Background->Refresh(this->m_pRenderBuf);
@@ -159,7 +159,7 @@ void CControl::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& dat
 
 }
 
-void CControl::Arrange(const CDirectUI_Rect& data)
+void UIElement::Arrange(const CDirectUI_Rect& data)
 {
 	CDirectUI_Thinkness margin = this->m_Margin;
 	CDirectUI_Rect rc = data + this->m_Margin;
@@ -251,15 +251,15 @@ void CControl::Arrange(const CDirectUI_Rect& data)
 	//CTrace::WriteLine(L"%s: %s  Desire w:%f h:%f", this->Name.c_str(), this->m_ActualRect.ToString().c_str(), this->DesiredSize.width, this->DesiredSize.height);
 }
 
-void CControl::OnRender(ID2D1RenderTarget* pRT)
+void UIElement::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->m_pRenderBuf->EndDraw();
 	if (this->m_ActualRect.GetWidth() <= 0 || this->m_ActualRect.GetHeight() <= 0 || this->m_Visibility != Visibilitys::Visible)
 	{
 		return;
 	}
-	ID2D1Bitmap* bmp = NULL;	
-	
+	ID2D1Bitmap* bmp = NULL;
+
 	this->m_pRenderBuf->GetBitmap(&bmp);
 
 	CDirectUI_Rect rc_dst = this->m_ActualRect;
@@ -280,86 +280,86 @@ void CControl::OnRender(ID2D1RenderTarget* pRT)
 	bmp->Release();
 }
 
-//void CControl::SetWidth(float data) 
-//{ 
-//	this->m_Width = data; 
-//}
-//
-//void CControl::SetHieght(float data) 
-//{ 
-//	this->m_Height = data; 
-//}
-//
-//void CControl::SetMinWidth(float data) 
-//{ 
-//	this->m_MinWidth = data; 
-//}
-//
-//void CControl::SetMinHieght(float data) 
-//{ 
-//	this->m_MinHeight = data; 
-//}
-//
-//void CControl::SetMaxWidth(float data) 
-//{ 
-//	this->m_MaxWidth = data; 
-//}
-//
-//void CControl::SetMaxHieght(float data) 
-//{ 
-//	this->m_MaxHeight = data; 
-//}
-//
-//void CControl::SetVisibility(Visibilitys data) 
-//{ 
-//	this->m_Visibility = data; 
-//}
-//
-//void CControl::SetVerticalAlignment(VerticalAlignments data) 
-//{ 
-//	this->m_VerticalAlignment = data; 
-//}
-//
-//void CControl::SetHorizontalAlignment(HorizontalAlignments data)
-//{
-//	this->m_HorizontalAlignment = data;
-//}
-
-void CControl::SetMargin(CDirectUI_Thinkness& data)
-{ 
-	this->m_Margin = data; 
+void UIElement::SetWidth(float data)
+{
+	this->m_Width = data;
 }
 
-void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
+void UIElement::SetHieght(float data)
+{
+	this->m_Height = data;
+}
+
+void UIElement::SetMinWidth(float data)
+{
+	this->m_MinWidth = data;
+}
+
+void UIElement::SetMinHieght(float data)
+{
+	this->m_MinHeight = data;
+}
+
+void UIElement::SetMaxWidth(float data)
+{
+	this->m_MaxWidth = data;
+}
+
+void UIElement::SetMaxHieght(float data)
+{
+	this->m_MaxHeight = data;
+}
+
+void UIElement::SetVisibility(Visibilitys data)
+{
+	this->m_Visibility = data;
+}
+
+void UIElement::SetVerticalAlignment(VerticalAlignments data)
+{
+	this->m_VerticalAlignment = data;
+}
+
+void UIElement::SetHorizontalAlignment(HorizontalAlignments data)
+{
+	this->m_HorizontalAlignment = data;
+}
+
+void UIElement::SetMargin(CDirectUI_Thinkness& data)
+{
+	this->m_Margin = data;
+}
+
+void UIElement::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 {
 	//if (this->m_Background && this->m_Background != data)
 	//{
 	//	this->m_Background->Release();
 	//}
 	//this->m_Background = data;
-	
+
 	this->SetValue(BackgroundProperty, data);
 	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
 	//shared_ptr<Direct2D::CD2D_Brush> br = static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
 
-shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
+shared_ptr<Direct2D::CD2D_Brush> UIElement::GetBackground()
 {
 	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
 	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
 
-//void CControl::SetEnabled(bool data)
-//{
-//	this->m_IsEnabled = data;
-//}
+void UIElement::SetEnabled(bool data)
+{
+	this->m_IsEnabled = data;
+}
 
-void CControl::SetCaptureMouse(bool data)
+void UIElement::SetCaptureMouse(bool data)
 {
 	this->m_IsCaptureMouse = data;
 }
 
-void CControl::Invalidate()
+void UIElement::Invalidate()
 {
 	auto wp = this->m_Root.lock();
 	if (wp)
@@ -368,7 +368,7 @@ void CControl::Invalidate()
 	}
 }
 
-void CControl::InvalidateArrange()
+void UIElement::InvalidateArrange()
 {
 	auto wp = this->m_Root.lock();
 	if (wp)
@@ -377,7 +377,7 @@ void CControl::InvalidateArrange()
 	}
 }
 
-void CControl::InvalidateMeasurce()
+void UIElement::InvalidateMeasurce()
 {
 	auto wp = this->m_Root.lock();
 	if (wp)

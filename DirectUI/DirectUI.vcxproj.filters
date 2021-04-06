@@ -135,6 +135,12 @@
     <ClInclude Include="DispatcherObject.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -252,6 +258,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="DispatcherObject.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

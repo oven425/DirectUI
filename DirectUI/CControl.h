@@ -1,6 +1,5 @@
 #pragma once
-#include "CD2D_Brush.h"
-#include "CDirectUI_Rect.h"
+
 #include "CTrace.h"
 #include <memory>
 #include <string>
@@ -8,69 +7,15 @@
 #include <functional>
 #include <vector>
 using namespace std;
-#include "DependencyObject.h"
-using namespace DirectUI;
-#include "CDependencyObject.h"
+#include "UIElement.h"
+//#include "CDependencyObject.h"
 
 namespace DirectUI
 {
 namespace Control
 {
-	enum class Trees
-	{
-		Logic,
-		Visual
-	};
-	enum class VerticalAlignments
-	{
-		Top,
-		Center,
-		Bottom,
-		Stretch
-	};
-	enum class HorizontalAlignments
-	{
-		Left,
-		Center,
-		Right,
-		Stretch
-	};
-	enum class Visibilitys
-	{
-		Visible,
-		Hidden,
-		Collapsed
-	};
-	enum class Orientations
-	{
-		Horizontal,
-		Vertical
-	};
-	struct MouseClickArgs
-	{
-		int X;
-		int Y;
-
-	};
-
-	struct MouseMoveArgs
-	{
-		int X;
-		int Y;
-
-	};
-
-	struct MouseLeftButtonDownArgs
-	{
-		int X;
-		int Y;
-	};
-	struct MouseLeftButtonUpArgs
-	{
-		int X;
-		int Y;
-	};
-	class __declspec(dllexport) CControl : public DependencyObject
+	
+	class __declspec(dllexport) CControl : public UIElement
 	{
 	public:
 		CControl();
@@ -83,27 +28,27 @@ namespace Control
 				this->m_pRenderBuf = NULL;
 			}
 		}
-		virtual void OnRender(ID2D1RenderTarget* pRT);
-		virtual void OnSize(float width, float height, float dpiscale);
-		void SetWidth(float data);
-		void SetHieght(float data);
-		void SetMinWidth(float data);
-		void SetMinHieght(float data);
-		void SetMaxWidth(float data);
-		void SetMaxHieght(float data);
-		void SetVisibility(Visibilitys data);
-		float GetWidth() { return this->m_Width; }
-		float GetHieght() { return this->m_Height; }
-		Visibilitys GetVisibility() { return this->m_Visibility; }
-		void SetVerticalAlignment(VerticalAlignments data);
-		VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
-		void SetHorizontalAlignment(HorizontalAlignments data);
-		HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
-		CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
+		void OnRender(ID2D1RenderTarget* pRT) override;
+		void OnSize(float width, float height, float dpiscale) override;
+		//void SetWidth(float data);
+		//void SetHieght(float data);
+		//void SetMinWidth(float data);
+		//void SetMinHieght(float data);
+		//void SetMaxWidth(float data);
+		//void SetMaxHieght(float data);
+		//void SetVisibility(Visibilitys data);
+		//float GetWidth() { return this->m_Width; }
+		//float GetHieght() { return this->m_Height; }
+		//Visibilitys GetVisibility() { return this->m_Visibility; }
+		//void SetVerticalAlignment(VerticalAlignments data);
+		//VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
+		//void SetHorizontalAlignment(HorizontalAlignments data);
+		//HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
+		//CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 		virtual bool HitTest(int x, int y, vector<shared_ptr<CControl>>& childs);
 		void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
 		shared_ptr<Direct2D::CD2D_Brush> GetBackground();
-		void SetEnabled(bool data);
+		//void SetEnabled(bool data);
 		virtual void Invalidate();
 		virtual void InvalidateArrange();
 		virtual void InvalidateMeasurce();
@@ -111,17 +56,17 @@ namespace Control
 		__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 	protected:
 		weak_ptr<CControl> m_Root;
-		float m_Width = 0;
-		float m_Height = 0;
-		float m_DpiScale = 1.0;
-		float m_MinWidth = 0;
-		float m_MinHeight = 0;
-		float m_MaxWidth = 0;
-		float m_MaxHeight = 0;
+		//float m_Width = 0;
+		//float m_Height = 0;
+		//float m_DpiScale = 1.0;
+		//float m_MinWidth = 0;
+		//float m_MinHeight = 0;
+		//float m_MaxWidth = 0;
+		//float m_MaxHeight = 0;
 		CDirectUI_Rect m_ActualRect;
-		Visibilitys m_Visibility = Visibilitys::Visible;
-		VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
-		HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
+		//Visibilitys m_Visibility = Visibilitys::Visible;
+		//VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
+		//HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
 		virtual D2D1_SIZE_F GetSize(float width, float height);
 		virtual void Release() {};
 		static ID2D1Factory* m_pD2DFactory;

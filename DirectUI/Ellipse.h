@@ -1,10 +1,13 @@
 #pragma once
-#include "CControl.h"
+#include "Shape.h"
+using namespace DirectUI;
+using namespace Control;
+
 namespace DirectUI
 {
 	namespace Shapes
 	{
-		class __declspec(dllexport) Ellipse : public Control::CControl
+		class __declspec(dllexport) Ellipse : public Shape
 		{
 		public:
 			Ellipse();
