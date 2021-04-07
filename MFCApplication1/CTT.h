@@ -7,7 +7,26 @@ using namespace std;
 
 #include "CTT_Propoerty.h"
 
+template<class T>
+class Event
+{
+public:
+	void operator+=(const T& data) 
+	{
 
+		this->m_Handlers.push_back(data);
+	}
+
+	void Fire(int data) 
+	{
+		for (auto oo : this->m_Handlers)
+		{
+			oo(data);
+		}
+	}
+protected:
+	vector<T> m_Handlers;
+};
 
 class CTT_Object :public enable_shared_from_this<CTT_Object>
 {

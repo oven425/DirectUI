@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
@@ -26,11 +27,12 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
-    <Canvas Background="Green">
+    <!--<Canvas Background="Green" Visibility="Collapsed">
         <Thumb Visibility="Collapsed" Canvas.Left="0" Canvas.Top="0" Width="50" Height="50" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted"/>
 
         <RadioButton>123445</RadioButton>
-    </Canvas>
+    </Canvas>-->
+    <Ellipse Stretch="Uniform" Fill="Blue"/>
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

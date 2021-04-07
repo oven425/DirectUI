@@ -119,10 +119,28 @@ shared_ptr<T> Trans(shared_ptr<void> src)
 	return shared_ptr<T>(src, _Ptr);
 }
 
+template<typename T, typename = typename enable_if<is_integral<T>::value, void>::type>
+void Test(T x)
+{
+	//return T;
+}
+
 shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	//Test(1);
+	//Test(1.0);
+	Event <std::function<void(int a)>> evt;
+	evt += [](int a)
+	{
+
+	};
+	evt += [](int a)
+	{
+
+	};
+	evt.Fire(10);
 
 	TestProperty->Handler = std::bind(PropertyChange, std::placeholders::_1, std::placeholders::_2);
 	Test1Property->Handler = std::bind(Property1Change, std::placeholders::_1, std::placeholders::_2);
@@ -216,7 +234,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//gradientStops[1].color = D2D1::ColorF(D2D1::ColorF::ForestGreen, 1);
 	//gradientStops[1].position = 1.0f;
 
-	windows->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
+	windows->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
 	windows->Name = L"windows";
 
 
@@ -298,19 +316,26 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(border);
 
 
-	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
-	stackpanel->SetMargin(CDirectUI_Thinkness(10));
-	stackpanel->SetOrientation(Orientations::Horizontal);
-	shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
-	ellipse->SetWidth(12);
-	ellipse->SetHieght(12);
-	ellipse->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
-	stackpanel->AddChild(ellipse);
+	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	//stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
+	//stackpanel->SetOrientation(Orientations::Horizontal);
+	//shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
+	//ellipse->SetWidth(12);
+	//ellipse->SetHieght(12);
+	//ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	//stackpanel->AddChild(ellipse);
 
-	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(L"test");
-	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
-	stackpanel->AddChild(textblock);
-	windows->SetChild(stackpanel);
+	//shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(L"test");
+	//textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
+	//stackpanel->AddChild(textblock);
+	//windows->SetChild(stackpanel);
+
+	shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
+	//ellipse->SetWidth(12);
+	//ellipse->SetHieght(12);
+	ellipse->Stretch = Stretchs::Uniform;
+	ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	windows->SetChild(ellipse);
 
 	//shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
 	//uniformgrid->Name = L"uniformgrid";

@@ -22,8 +22,8 @@ namespace DirectUI
 		};
 		struct mouseevent_storage
 		{
-			shared_ptr<CControl> leftbutton;
-			shared_ptr<CControl> mouseon;
+			shared_ptr<UIElement> leftbutton;
+			shared_ptr<UIElement> mouseon;
 		};
 		class __declspec(dllexport) CWindow :public CContentControl
 		{

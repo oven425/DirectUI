@@ -24,9 +24,10 @@
 
 using namespace DirectUI;
 using namespace Threading;
+using namespace Direct2D;
 using namespace Control;
 using namespace Shapes;
-using namespace Direct2D;
+
 
 
 

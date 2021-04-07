@@ -69,7 +69,7 @@ namespace DirectUI
 			int X;
 			int Y;
 		};
-		class UIElement : public DependencyObject
+		class __declspec(dllexport) UIElement : public DependencyObject
 		{
 		public:
 			UIElement();
@@ -100,14 +100,14 @@ namespace DirectUI
 			HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
 			CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 			virtual bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs);
-			void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
-			shared_ptr<Direct2D::CD2D_Brush> GetBackground();
+			//void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
+			//shared_ptr<Direct2D::CD2D_Brush> GetBackground();
 			void SetEnabled(bool data);
 			virtual void Invalidate();
 			virtual void InvalidateArrange();
 			virtual void InvalidateMeasurce();
 			virtual void SetRoot(weak_ptr<UIElement> data) { this->m_Root = data; }
-			__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
+			//__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 		protected:
 			weak_ptr<UIElement> m_Root;
 			float m_Width = 0;
@@ -126,9 +126,8 @@ namespace DirectUI
 			static ID2D1Factory* m_pD2DFactory;
 			CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y = false);
 			CDirectUI_Thinkness m_Margin;
-			//shared_ptr<Direct2D::CD2D_Brush> m_Background;
 			bool m_IsEnabled = true;
-			void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground = true);
+			virtual void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, shared_ptr<Direct2D::CD2D_Brush> background);
 			ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
 		public:
 			void SetMargin(CDirectUI_Thinkness& data);
@@ -162,8 +161,8 @@ namespace DirectUI
 		private:
 			Trees m_Tree = Trees::Logic;
 		public:
-			static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundProperty;
-			static void BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args);
+			//static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundProperty;
+			//static void BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args);
 		};
 	}
 }

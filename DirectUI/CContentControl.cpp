@@ -4,6 +4,17 @@
 using namespace DirectUI;
 using namespace Control;
 
+shared_ptr<DependencyProperty<CDirectUI_Thinkness>> CContentControl::PaddingProperty;
+
+CContentControl::CContentControl()
+{
+	if (!PaddingProperty)
+	{
+		PaddingProperty = ::make_shared<DependencyProperty<CDirectUI_Thinkness>>();
+
+	}
+}
+
 void CContentControl::OnSize(float width, float height, float dpiscale)
 {
 	::CControl::OnSize(width, height, dpiscale);
@@ -34,7 +45,11 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 
 
 		rc = this->DesiredSize;
-		rc = rc + this->m_Padding;
+		if (this->Padding)
+		{
+			rc = rc + *this->Padding;
+		}
+		
 
 		this->m_Child->Arrange(rc);
 	}
@@ -50,7 +65,11 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 	CDirectUI_Size border_sz = data + this->m_Margin;
 	if (this->m_Child)
 	{
-		CDirectUI_Size child_sz = border_sz + this->m_Padding;
+		CDirectUI_Size child_sz = border_sz;
+		if (this->Padding)
+		{
+			border_sz + *this->Padding;
+		}
 		this->m_Child->Measure(child_sz, pRT);
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
@@ -92,13 +111,24 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 	}
 }
 
-void CContentControl::SetPadding(CDirectUI_Thinkness& data)
+void CContentControl::SetPadding(shared_ptr<CDirectUI_Thinkness> data)
 {
-	if (this->m_Padding != data)
-	{
-		this->m_Padding = data;
-	}
+	this->SetValue(PaddingProperty, data);
 }
+
+shared_ptr<CDirectUI_Thinkness> CContentControl::GetPadding()
+{
+	auto obj = this->GetValue<shared_ptr<void>>(PaddingProperty);
+	return  static_pointer_cast<CDirectUI_Thinkness>(obj);
+}
+
+//void CContentControl::SetPadding(CDirectUI_Thinkness& data)
+//{
+//	if (this->m_Padding != data)
+//	{
+//		this->m_Padding = data;
+//	}
+//}
 
 void CContentControl::SetChild(shared_ptr<UIElement> data)
 {

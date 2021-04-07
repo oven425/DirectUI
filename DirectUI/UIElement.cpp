@@ -4,23 +4,23 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* UIElement::m_pD2DFactory = NULL;
-shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> UIElement::BackgroundProperty;
+//shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> UIElement::BackgroundProperty;
 
 UIElement::UIElement()
 {
-	if (!BackgroundProperty)
-	{
-		BackgroundProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
-		BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
-		BackgroundProperty->m_Name = L"Background";
-	}
+	//if (!BackgroundProperty)
+	//{
+	//	BackgroundProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
+	//	BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
+	//	BackgroundProperty->m_Name = L"Background";
+	//}
 }
 
-void UIElement::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
-{
-	UIElement& aa = (UIElement&)sender;
-	aa.Invalidate();
-}
+//void UIElement::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
+//{
+//	UIElement& aa = (UIElement&)sender;
+//	aa.Invalidate();
+//}
 
 bool UIElement::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 {
@@ -125,7 +125,7 @@ CDirectUI_Rect UIElement::MappingRenderRect(CDirectUI_Rect& actual_rect, const C
 	return rc;
 }
 
-void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, bool autofillbackground)
+void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, shared_ptr<Direct2D::CD2D_Brush> background)
 {
 	if (this->m_pRenderBuf != NULL)
 	{
@@ -142,19 +142,11 @@ void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& da
 	}
 	this->m_pRenderBuf->BeginDraw();
 
-	//if (this->m_Background)
-	//{
-	//	this->m_Background->Refresh(this->m_pRenderBuf);
-	//	this->m_pRenderBuf->FillRectangle(data, *this->m_Background);
-	//}
 
-	if (this->Background)
+	if (background)
 	{
-		this->Background->Refresh(this->m_pRenderBuf);
-		if (autofillbackground == true)
-		{
-			this->m_pRenderBuf->FillRectangle(data, *this->Background);
-		}
+		background->Refresh(this->m_pRenderBuf);
+		this->m_pRenderBuf->FillRectangle(data, *background);
 	}
 
 }
@@ -330,24 +322,24 @@ void UIElement::SetMargin(CDirectUI_Thinkness& data)
 	this->m_Margin = data;
 }
 
-void UIElement::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
-{
-	//if (this->m_Background && this->m_Background != data)
-	//{
-	//	this->m_Background->Release();
-	//}
-	//this->m_Background = data;
-
-	this->SetValue(BackgroundProperty, data);
-	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-	//shared_ptr<Direct2D::CD2D_Brush> br = static_pointer_cast<Direct2D::CD2D_Brush>(obj);
-}
-
-shared_ptr<Direct2D::CD2D_Brush> UIElement::GetBackground()
-{
-	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
-}
+//void UIElement::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
+//{
+//	//if (this->m_Background && this->m_Background != data)
+//	//{
+//	//	this->m_Background->Release();
+//	//}
+//	//this->m_Background = data;
+//
+//	this->SetValue(BackgroundProperty, data);
+//	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+//	//shared_ptr<Direct2D::CD2D_Brush> br = static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+//}
+//
+//shared_ptr<Direct2D::CD2D_Brush> UIElement::GetBackground()
+//{
+//	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
+//	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+//}
 
 void UIElement::SetEnabled(bool data)
 {

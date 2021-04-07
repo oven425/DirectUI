@@ -244,7 +244,7 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 		
 		CDirectUI_Rect rc = this->DesiredSize;
 		rc = rc + this->m_BorderThickness;
-		rc = rc + this->m_Padding;
+		rc = rc + *this->Padding;
 		
 		this->m_Child->Arrange(data);
 	}
@@ -260,7 +260,7 @@ void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	CDirectUI_Size border_sz = data + this->m_Margin;
 	if (this->m_Child)
 	{
-		CDirectUI_Size child_sz = border_sz + this->m_Padding + this->m_BorderThickness;
+		CDirectUI_Size child_sz = border_sz + *this->Padding + this->m_BorderThickness;
 		this->m_Child->Measure(child_sz, pRT);
 		
 		//else
