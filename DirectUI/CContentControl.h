@@ -10,10 +10,8 @@ namespace DirectUI
 		public:
 			CContentControl();
 			virtual void OnRender(ID2D1RenderTarget* pRT) override;
-			//virtual void Arrange(float x, float y, float width, float height) override;
 			virtual void Arrange(const CDirectUI_Rect& data) override;
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
-			//void SetPadding(CDirectUI_Thinkness& data);
 
 			void SetPadding(shared_ptr<CDirectUI_Thinkness> data);
 			shared_ptr<CDirectUI_Thinkness> GetPadding();
@@ -24,7 +22,6 @@ namespace DirectUI
 			void SetRoot(weak_ptr<UIElement> data) override;
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
-			//CDirectUI_Thinkness m_Padding;
 			shared_ptr<UIElement> m_Child;
 			static shared_ptr < DependencyProperty<CDirectUI_Thinkness>> PaddingProperty;
 		};

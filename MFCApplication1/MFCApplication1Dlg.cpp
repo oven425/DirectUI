@@ -125,10 +125,25 @@ void Test(T x)
 	//return T;
 }
 
+//template <typename F,
+//	typename = typename std::enable_if<
+//	std::is_function<
+//	typename std::remove_pointer<F>::type
+//	>::value
+//>::type>
+//int fun(F f)
+//{
+//	return f(3);
+//}
+
 shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	//auto l = [](int x) -> int {
+	//	return x % 7;
+	//};
+	//fun(l);
 	//Test(1);
 	//Test(1.0);
 	Event <std::function<void(int a)>> evt;
@@ -331,9 +346,10 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(stackpanel);
 
 	shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
-	//ellipse->SetWidth(12);
+	ellipse->SetWidth(100);
 	//ellipse->SetHieght(12);
 	ellipse->Stretch = Stretchs::Uniform;
+	//ellipse->SetHorizontalAlignment(HorizontalAlignments::Right);
 	ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
 	windows->SetChild(ellipse);
 

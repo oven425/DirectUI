@@ -26,6 +26,7 @@ Shape::Shape()
 		StretchProperty = ::make_shared<DependencyProperty<int>>();
 		StrokeProperty->m_Name = L"Stretch";
 	}
+	this->SetValue(StretchProperty, int(Control::Stretchs::Fill));
 	if (!StrokeThicknessProperty)
 	{
 		StrokeThicknessProperty = ::make_shared <DependencyProperty<float>>();

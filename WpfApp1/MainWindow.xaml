@@ -32,7 +32,7 @@
 
         <RadioButton>123445</RadioButton>
     </Canvas>-->
-    <Ellipse Stretch="Uniform" Fill="Blue"/>
+    <Ellipse Width="100" Stretch="Uniform" Fill="Blue" />
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

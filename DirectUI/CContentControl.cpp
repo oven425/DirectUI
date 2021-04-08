@@ -122,14 +122,6 @@ shared_ptr<CDirectUI_Thinkness> CContentControl::GetPadding()
 	return  static_pointer_cast<CDirectUI_Thinkness>(obj);
 }
 
-//void CContentControl::SetPadding(CDirectUI_Thinkness& data)
-//{
-//	if (this->m_Padding != data)
-//	{
-//		this->m_Padding = data;
-//	}
-//}
-
 void CContentControl::SetChild(shared_ptr<UIElement> data)
 {
 	this->m_Child = data;

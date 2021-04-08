@@ -16,6 +16,7 @@ namespace DirectUI
 			void SetIsChecked(bool data);
 			bool GetIsChecked();
 			__declspec(property(get = GetIsChecked, put = SetIsChecked)) bool IsChecked;
+		protected:
 			static shared_ptr<DependencyProperty<bool>> IsCheckedProperty;
 			static shared_ptr<DependencyProperty<wstring>> GroupNameProperty;
 		};

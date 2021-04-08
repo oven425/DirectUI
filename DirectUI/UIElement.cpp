@@ -4,16 +4,23 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* UIElement::m_pD2DFactory = NULL;
-//shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> UIElement::BackgroundProperty;
+//shared_ptr<DependencyProperty<int>> UIElement::HorizontalAlignmentProperty;
+//shared_ptr<DependencyProperty<int>> UIElement::VerticalAlignmentProperty;
 
 UIElement::UIElement()
 {
-	//if (!BackgroundProperty)
+	//if (!HorizontalAlignmentProperty)
 	//{
-	//	BackgroundProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
-	//	BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
-	//	BackgroundProperty->m_Name = L"Background";
+	//	HorizontalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
+	//	HorizontalAlignmentProperty->m_Name = L"HorizontalAlignment";
 	//}
+	//this->SetValue(HorizontalAlignmentProperty, (int)HorizontalAlignments::Stretch);
+	//if (!VerticalAlignmentProperty)
+	//{
+	//	VerticalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
+	//	VerticalAlignmentProperty->m_Name = L"VerticalAlignment";
+	//}
+	//this->SetValue(VerticalAlignmentProperty, (int)VerticalAlignments::Stretch);
 }
 
 //void UIElement::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
@@ -321,25 +328,6 @@ void UIElement::SetMargin(CDirectUI_Thinkness& data)
 {
 	this->m_Margin = data;
 }
-
-//void UIElement::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
-//{
-//	//if (this->m_Background && this->m_Background != data)
-//	//{
-//	//	this->m_Background->Release();
-//	//}
-//	//this->m_Background = data;
-//
-//	this->SetValue(BackgroundProperty, data);
-//	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-//	//shared_ptr<Direct2D::CD2D_Brush> br = static_pointer_cast<Direct2D::CD2D_Brush>(obj);
-//}
-//
-//shared_ptr<Direct2D::CD2D_Brush> UIElement::GetBackground()
-//{
-//	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-//	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
-//}
 
 void UIElement::SetEnabled(bool data)
 {

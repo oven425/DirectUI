@@ -97,17 +97,14 @@ namespace DirectUI
 			void SetVerticalAlignment(VerticalAlignments data);
 			VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
 			void SetHorizontalAlignment(HorizontalAlignments data);
-			HorizontalAlignments GetHorizontalAlignment() { return this->m_HorizontalAlignment; }
+			HorizontalAlignments GetHorizontalAlignment();
 			CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 			virtual bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs);
-			//void SetBackground(shared_ptr<Direct2D::CD2D_Brush> data);
-			//shared_ptr<Direct2D::CD2D_Brush> GetBackground();
 			void SetEnabled(bool data);
 			virtual void Invalidate();
 			virtual void InvalidateArrange();
 			virtual void InvalidateMeasurce();
 			virtual void SetRoot(weak_ptr<UIElement> data) { this->m_Root = data; }
-			//__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 		protected:
 			weak_ptr<UIElement> m_Root;
 			float m_Width = 0;
@@ -160,9 +157,9 @@ namespace DirectUI
 			float m_Opacity = 1.0;
 		private:
 			Trees m_Tree = Trees::Logic;
-		public:
-			//static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundProperty;
-			//static void BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args);
+		protected:
+			//static shared_ptr<DependencyProperty<int>> HorizontalAlignmentProperty;
+			//static shared_ptr<DependencyProperty<int>> VerticalAlignmentProperty;
 		};
 	}
 }

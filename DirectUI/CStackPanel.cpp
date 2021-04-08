@@ -3,6 +3,18 @@
 using namespace DirectUI;
 using namespace Control;
 
+shared_ptr<DependencyProperty<int>> CStackPanel::OrientationProperty;
+
+
+CStackPanel::CStackPanel()
+{
+	if (!OrientationProperty)
+	{
+		OrientationProperty = ::make_shared<DependencyProperty<int>>();
+	}
+	this->Orientation = Orientations::Vertical;
+}
+
 void CStackPanel::OnSize(float width, float height, float dpiscale)
 {
 	::CControl::OnSize(width, height, dpiscale);
@@ -28,7 +40,7 @@ void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
 	CDirectUI_Size stackpanel_sz = data + this->m_Margin;
-	switch (this->m_Orientation)
+	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
 	{
@@ -99,7 +111,7 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 			h = rc.GetHeight();
 		}
 	}
-	switch (this->m_Orientation)
+	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
 	{
@@ -126,52 +138,12 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 	CControl::Arrange(data);
 }
 
-//void CStackPanel::Arrange(float x, float y, float width, float height)
-//{
-//	float w = this->DesiredSize.width;
-//	float h = this->DesiredSize.height;
-//	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-//	{
-//		if (w > width - this->m_Margin.GetLeft() - this->m_Margin.GetRight())
-//		{
-//			w = width - this->m_Margin.GetLeft() - this->m_Margin.GetRight();
-//		}
-//	}
-//	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-//	{
-//		if (h > height - this->m_Margin.GetTop() - this->m_Margin.GetBottom())
-//		{
-//			h = height - this->m_Margin.GetTop() - this->m_Margin.GetBottom();
-//		}
-//	}
-//	switch (this->m_Orientation)
-//	{
-//	case Orientations::Vertical:
-//	{
-//		float y = 0;
-//		for (auto oo : this->m_Childs)
-//		{
-//			oo->Arrange(0, y, w, oo->DesiredSize.height);
-//			y = y + oo->GetActualRect().GetHeight();
-//		}
-//	}
-//	break;
-//	case Orientations::Horizontal:
-//	{
-//		float x = 0;
-//		for (auto oo : this->m_Childs)
-//		{
-//			oo->Arrange(x, 0, oo->DesiredSize.width, h);
-//			x = x + oo->GetActualRect().GetWidth();
-//		}
-//	}
-//	break;
-//	}
-//
-//	CControl::Arrange(x, y, width, height);
-//}
-
 void CStackPanel::SetOrientation(Orientations data)
 {
-	this->m_Orientation = data;
+	this->SetValue(OrientationProperty, (int)data);
+}
+
+Orientations CStackPanel::GetOrientation() 
+{ 
+	return (Orientations)this->GetValue<int>(OrientationProperty);
 }

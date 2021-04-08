@@ -138,6 +138,9 @@
     <ClInclude Include="Shape.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -258,6 +261,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
