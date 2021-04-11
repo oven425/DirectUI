@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        
+        Loaded="Window_Loaded"
         Title="MainWindow" Height="600" Width="600"
         Background="Red"
         >
@@ -32,7 +32,12 @@
 
         <RadioButton>123445</RadioButton>
     </Canvas>-->
-    <Ellipse Width="100" Stretch="Uniform" Fill="Blue" />
+    <!--<StackPanel>
+        <CheckBox x:Name="checkbox_src">Source</CheckBox>
+        <CheckBox x:Name="checkbox_dst">Distance</CheckBox>
+    </StackPanel>-->
+    <!--<Ellipse Width="100" Height="200" Stretch="Uniform" Fill="Blue" />-->
+    <Rectangle RadiusX="50" RadiusY="10" Width="100" Height="200" Stretch="Uniform" Fill="Blue"/>
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

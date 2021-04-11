@@ -20,6 +20,7 @@
 #include "../DirectUI/CCanvas.h"
 #include "../DirectUI/CGrid.h"
 #include "../DirectUI/Ellipse.h"
+#include "../DirectUI/Rectangle.h"
 #include "../DirectUI/Dispatcher.h"
 
 using namespace DirectUI;

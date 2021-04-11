@@ -28,6 +28,25 @@ protected:
 	vector<T> m_Handlers;
 };
 
+
+
+class CValueConvertBase
+{
+
+};
+
+class CBindingBase
+{
+
+};
+
+template<typename T>
+class CBinding :CBindingBase
+{
+public:
+	CValueConvertBase Convert;
+};
+
 class CTT_Object :public enable_shared_from_this<CTT_Object>
 {
 public:
@@ -121,19 +140,6 @@ public:
 	}
 
 protected:
-	template<class _Ty1, class _Ty2>
-	_NODISCARD shared_ptr<_Ty1> static_pointer_cast11(const shared_ptr<_Ty2>& _Other) noexcept
-	{	// static_cast for shared_ptr that properly respects the reference count control block
-		const auto _Ptr = static_cast<typename shared_ptr<_Ty1>::element_type *>(_Other.get());
-		return (shared_ptr<_Ty1>(_Other, _Ptr));
-	}
-
-	template<typename T>
-	shared_ptr<T> Trans(shared_ptr<void> src)
-	{
-		const auto _Ptr = static_cast<typename shared_ptr<T>::element_type *>(src.get());
-		return shared_ptr<T>(src, _Ptr);
-	}
 	map<shared_ptr<CTT_PropoertyBase>, std::variant<int, float, double, weak_ptr<void>>> test;
 };
 

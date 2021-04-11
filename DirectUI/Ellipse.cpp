@@ -36,34 +36,36 @@ void Ellipse::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 		}
 	}
 
-	
-	switch (this->Stretch)
-	{
-	
-	case Stretchs::Fill:
-	{
-		this->DesiredSize = sz;
-	}
-	break;
-	case Stretchs::Uniform:
-	{
-		this->DesiredSize = sz;
-		this->DesiredSize.width = this->DesiredSize.height =min(this->DesiredSize.width, this->DesiredSize.height);
-	}
-	break;
-	case Stretchs::UniformToFill:
-	{
-		this->DesiredSize = sz;
-		this->DesiredSize.width = this->DesiredSize.height = max(this->DesiredSize.width, this->DesiredSize.height);
-	}
-	break;
-	case Stretchs::None:
-	default:
-	{
+	this->DesiredSize = sz;
 
-	}
-	break;
-	}
+	
+	//switch (this->Stretch)
+	//{
+	//
+	//case Stretchs::Fill:
+	//{
+	//	this->DesiredSize = sz;
+	//}
+	//break;
+	//case Stretchs::Uniform:
+	//{
+	//	this->DesiredSize = sz;
+	//	this->DesiredSize.width = this->DesiredSize.height =min(this->DesiredSize.width, this->DesiredSize.height);
+	//}
+	//break;
+	//case Stretchs::UniformToFill:
+	//{
+	//	this->DesiredSize = sz;
+	//	this->DesiredSize.width = this->DesiredSize.height = max(this->DesiredSize.width, this->DesiredSize.height);
+	//}
+	//break;
+	//case Stretchs::None:
+	//default:
+	//{
+
+	//}
+	//break;
+	//}
 }
 
 void Ellipse::Arrange(const CDirectUI_Rect& data)
@@ -163,10 +165,24 @@ void Ellipse::Arrange(const CDirectUI_Rect& data)
 void Ellipse::OnRender(ID2D1RenderTarget* pRT)
 {
 	this->CreateRenderBuf(pRT, this->DesiredSize, false);
+	CDirectUI_Rect render_rc = this->DesiredSize;
+	switch (this->Stretch)
+	{
+	case Stretchs::Uniform:
+	{
+		render_rc = CDirectUI_Rect(min(this->DesiredSize.width, this->DesiredSize.height));
+	}
+	break;
+	case Stretchs::UniformToFill:
+	{
+		render_rc = CDirectUI_Rect(max(this->DesiredSize.width, this->DesiredSize.height));
+	}
+	break;
+	}
 	if (this->Fill)
 	{
 		this->Fill->Refresh(pRT);
-		this->m_pRenderBuf->FillEllipse(CDirectUI_Rect(this->DesiredSize), *this->Fill);
+		this->m_pRenderBuf->FillEllipse(render_rc, *this->Fill);
 	}
 	if (this->StrokeThickness>0 && this->Stroke)
 	{

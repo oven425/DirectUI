@@ -11,6 +11,7 @@ namespace DirectUI
 		CDirectUI_Size() {}
 		CDirectUI_Size(std::function<void(CDirectUI_Size* data)> action) { action(this); }
 		CDirectUI_Size(D2D1_SIZE_F data) { this->m_Width = data.width; this->m_Height = data.height; }
+		CDirectUI_Size(float data) { this->m_Width = this->m_Height = data; }
 		CDirectUI_Size(float width, float height) { this->m_Width = width, this->m_Height = height; }
 		void SetWidth(float data) { this->m_Width = data; }
 		void SetHeight(float data) { this->m_Height = data; }

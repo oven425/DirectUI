@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Binding.h" />
     <ClInclude Include="CBorder.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCanvas.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="CD2D_SolidColorBrush.h" />
     <ClInclude Include="CDirectUI_Color.h" />
     <ClInclude Include="CDirectUI_CornerRadius.h" />
+    <ClInclude Include="CDirectUI_RoundedRect.h" />
     <ClInclude Include="CRepeatButton.h" />
     <ClInclude Include="DispatcherObject.h" />
     <ClInclude Include="DispatcherTimer.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Ellipse.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="Rectangle.h" />
@@ -206,6 +209,7 @@
     <ClInclude Include="UIElement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Binding.cpp" />
     <ClCompile Include="CBorder.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCanvas.cpp" />
@@ -218,6 +222,7 @@
     <ClCompile Include="CD2D_SolidColorBrush.cpp" />
     <ClCompile Include="CDirectUI_Color.cpp" />
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
+    <ClCompile Include="CDirectUI_RoundedRect.cpp" />
     <ClCompile Include="CRepeatButton.cpp" />
     <ClCompile Include="DispatcherObject.cpp" />
     <ClCompile Include="DispatcherTimer.cpp" />
@@ -241,6 +246,7 @@
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Ellipse.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

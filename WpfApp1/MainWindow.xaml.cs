@@ -106,6 +106,13 @@ namespace WpfApp1
         {
             System.Diagnostics.Trace.WriteLine($"Delta HorizontalChange: {e.HorizontalChange} VerticalChange:{e.VerticalChange}");
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Binding myBinding = BindingOperations.GetBinding(this.checkbox_dst, CheckBox.IsCheckedProperty);
+            //myBinding.Source = this.checkbox_src;
+            
+        }
     }
 
     public class DpiDecorator : Decorator

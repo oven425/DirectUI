@@ -345,13 +345,23 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//stackpanel->AddChild(textblock);
 	//windows->SetChild(stackpanel);
 
-	shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
-	ellipse->SetWidth(100);
-	//ellipse->SetHieght(12);
-	ellipse->Stretch = Stretchs::Uniform;
+	//shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
+	//ellipse->SetWidth(100);
+	//ellipse->SetHieght(200);
+	//ellipse->Stretch = Stretchs::Uniform;
 	//ellipse->SetHorizontalAlignment(HorizontalAlignments::Right);
-	ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
-	windows->SetChild(ellipse);
+	//ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	//windows->SetChild(ellipse);
+
+	shared_ptr<Shapes::Rectangle> rectangle = ::make_shared<Shapes::Rectangle>();
+	rectangle->RadiusX = 50;
+	rectangle->RadiusY = 50;
+	rectangle->SetWidth(200);
+	rectangle->SetHieght(200);
+	//rectangle->Stretch = Stretchs::Uniform;
+	rectangle->SetHorizontalAlignment(HorizontalAlignments::Right);
+	rectangle->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	windows->SetChild(rectangle);
 
 	//shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
 	//uniformgrid->Name = L"uniformgrid";
