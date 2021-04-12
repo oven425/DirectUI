@@ -27,7 +27,8 @@ namespace Control
 	protected:
 		virtual void Release() {};
 	public:
-		static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundProperty;
+		static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundPropertyInstance();
+		static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> BackgroundProperty;		
 		static void BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args);
 	};
 

@@ -125,21 +125,76 @@ void Test(T x)
 	//return T;
 }
 
-//template <typename F,
-//	typename = typename std::enable_if<
-//	std::is_function<
-//	typename std::remove_pointer<F>::type
-//	>::value
-//>::type>
-//int fun(F f)
-//{
-//	return f(3);
-//}
+template<class T>
+struct is_shared_ptr : std::false_type {};
+
+template<class T>
+struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
+
+std::variant<int, float, shared_ptr<void>> var;
+template<typename T>
+void SetValue(T data)
+{
+	bool bb = is_shared_ptr<T>::value;
+	if (bb == true)
+	{
+		
+		//var = static_pointer_cast<void>(data);
+	}
+	else
+	{
+		var = data;
+	}
+}
+
+template<typename T>
+void SetValue(shared_ptr<T> data)
+{
+	var = data;
+}
+
+template <class T>
+struct getValue {
+	getValue() {
+		printf("not shared!\n");
+	}
+};
+
+template <class T>
+struct getValue<std::shared_ptr<T> > {
+	getValue() {
+		printf("shared!\n");
+	}
+};
+
+template<typename T>
+T GetValue()
+{
+	bool bb = is_shared_ptr<T>::value;
+	if (bb == true)
+	{
+		return T{};
+	}
+	else
+	{
+		return std::get<T>(var);
+	}
+	return T{};
+}
 
 shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
+	SetValue(make_shared<int>(10));
+	getValue<int>();
+	getValue<shared_ptr<int>>();
+	SetValue(1);
+	int temp = GetValue<int>();
+	bool bb = is_shared_ptr<int>::value;
+
+	shared_ptr<int> ss;
+	bb = is_shared_ptr<shared_ptr<int>>::value;
 	//auto l = [](int x) -> int {
 	//	return x % 7;
 	//};
@@ -252,6 +307,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
 	windows->Name = L"windows";
 
+	shared_ptr<Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>> bind = ::make_shared<Data::Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>>();
+	bind->SetSource(CControl::BackgroundPropertyInstance(), windows);
+	windows->SetBinding(CControl::BackgroundPropertyInstance(), bind);
 
 	//shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
 	//button->SetContent(L"Test Test Test");

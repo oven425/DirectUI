@@ -32,25 +32,34 @@ namespace DirectUI
 		T NewValue;
 	};
 
-	//template<class T_Sender, class T_Args>
-	//class EventHandler
-	//{
-	//public:
-	//	void operator+=(std::function<void(const T_Sender& sender, const DependencyPropertyChangeArgs<T_Args>& args)> data)
-	//	{
-	//		this->m_Handlers.push_back(data);
-	//	}
-	//	
-	//protected:
-	//	vector<std::function<void(const T_Sender& sender, const DependencyPropertyChangeArgs<T_Args>& args)>> m_Handlers;
-	//};
+	template<typename T>
+	class EventHandler
+	{
+	public:
+		void operator+=(const T& data)
+		{
+
+			this->m_Handlers.push_back(data);
+		}
+
+		void Fire(int data)
+		{
+			for (auto oo : this->m_Handlers)
+			{
+				oo(data);
+			}
+		}
+	protected:
+		vector<T> m_Handlers;
+	};
 	
 	template<class T>
 	class DependencyProperty : public DependencyPropertyBase
 	{
 	public:
-		//EventHandler<DependencyObject, T> Handler;
+		//EventHandler<std::function<void(const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)>> DependencyChangeHandler;
 		std::function<void(const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)> DependencyChangeHandler;
+		
 	public:
 		DependencyProperty() {}
 	};

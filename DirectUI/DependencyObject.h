@@ -2,28 +2,17 @@
 #include <map>
 #include <variant>
 using namespace std;
+#include "Binding.h"
+using namespace DirectUI;
+using namespace Data;
 
 #include "DependencyProperty.h"
+
 
 namespace DirectUI
 {
 	class DependencyObject:public enable_shared_from_this<DependencyObject>
 	{
-	//protected:
-	//	template<typename T>
-	//	void Change(shared_ptr<DependencyProperty<T>> dp, T old_val, T new_val)
-	//	{
-	//		if (dp && new_val != old_val)
-	//		{
-	//			auto args = DependencyPropertyChangeArgs<T>();
-	//			args.OldValue = old_val;
-	//			args.NewValue = new_val;
-	//			if (dp->DependencyChangeHandler)
-	//			{
-	//				dp->DependencyChangeHandler(*this, args);
-	//			}
-	//		}
-	//	}
 	public:
 		template<typename T>
 		void SetValue(shared_ptr<DependencyProperty<T>> dp, shared_ptr<T> data)
@@ -139,9 +128,36 @@ namespace DirectUI
 			}
 		}
 
+		template<typename T>
+		void SetBinding(shared_ptr<DependencyProperty<T>> dp, shared_ptr<BindingBase> data)
+		{
+			this->ClearValue(dp);
+			this->m_SaveBinding[dp] = data;
+		}
+
+		template<typename T>
+		void ClearBinding(shared_ptr<DependencyProperty<T>> dp)
+		{
+			if (dp)
+			{
+				auto find = this->m_SaveBinding.find(dp);
+				if (find != this->m_SaveBinding.end())
+				{
+					try
+					{
+						this->m_SaveBinding.erase(find);
+					}
+					catch (const std::bad_variant_access& err)
+					{
+						//::OutputDebugStringA("");
+					}
+				}
+			}
+		}
 
 	protected:
 		map<shared_ptr<DependencyPropertyBase>, std::variant<bool, char, unsigned char, short, unsigned short, int, unsigned int, __int64, unsigned __int64, float, double, string, wstring, shared_ptr<void>>> m_Save;
+		map<shared_ptr<DependencyPropertyBase>, shared_ptr<BindingBase>> m_SaveBinding;
 	};
 }
 

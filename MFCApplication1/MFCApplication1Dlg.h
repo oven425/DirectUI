@@ -22,9 +22,11 @@
 #include "../DirectUI/Ellipse.h"
 #include "../DirectUI/Rectangle.h"
 #include "../DirectUI/Dispatcher.h"
-
+#include "../DirectUI/Binding.h"
+#include "../DirectUI/CControl.h"
 using namespace DirectUI;
 using namespace Threading;
+using namespace Data;
 using namespace Direct2D;
 using namespace Control;
 using namespace Shapes;

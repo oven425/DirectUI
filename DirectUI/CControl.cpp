@@ -44,3 +44,8 @@ shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
 	auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
 	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 }
+
+shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> CControl::BackgroundPropertyInstance()
+{
+	return BackgroundProperty;
+}
