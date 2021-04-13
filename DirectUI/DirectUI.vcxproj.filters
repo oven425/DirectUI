@@ -150,6 +150,12 @@
     <ClInclude Include="Path.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -282,6 +288,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Path.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

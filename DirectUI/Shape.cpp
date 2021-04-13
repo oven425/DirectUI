@@ -3,8 +3,8 @@
 using namespace DirectUI;
 using namespace Shapes;
 
-shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> Shape::StrokeProperty;
-shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> Shape::FillProperty;
+shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> Shape::StrokeProperty;
+shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> Shape::FillProperty;
 shared_ptr<DependencyProperty<float>> Shape::StrokeThicknessProperty;
 shared_ptr<DependencyProperty<int>> Shape::StretchProperty;
 
@@ -12,13 +12,13 @@ Shape::Shape()
 {
 	if (!StrokeProperty)
 	{
-		StrokeProperty = ::make_shared <DependencyProperty<Direct2D::CD2D_Brush>>();
+		StrokeProperty = ::make_shared <DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>>();
 		StrokeProperty->m_Name = L"Stroke";
 		//StrokeProperty->DependencyChangeHandler = std::bind(StrokePropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 	if (!FillProperty)
 	{
-		FillProperty = ::make_shared<DependencyProperty<Direct2D::CD2D_Brush>>();
+		FillProperty = ::make_shared<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>>();
 		StrokeProperty->m_Name = L"Fill";
 	}
 	if (!StretchProperty)
@@ -51,8 +51,10 @@ void Shape::SetFill(shared_ptr<DirectUI::Direct2D::CD2D_Brush> data)
 
 shared_ptr<Direct2D::CD2D_Brush> Shape::GetFill()
 {
-	auto obj = this->GetValue<shared_ptr<void>>(FillProperty);
-	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+	//auto obj = this->GetValue<shared_ptr<void>>(FillProperty);
+	//return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+	return  this->GetValue<shared_ptr<Direct2D::CD2D_Brush>>(FillProperty);
+	return nullptr;
 }
 
 void Shape::SetStroke(shared_ptr<Direct2D::CD2D_Brush> data)
@@ -62,8 +64,9 @@ void Shape::SetStroke(shared_ptr<Direct2D::CD2D_Brush> data)
 
 shared_ptr<Direct2D::CD2D_Brush> Shape::GetStroke()
 {
-	auto obj = this->GetValue<shared_ptr<void>>(StrokeProperty);
-	return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
+	//auto obj = this->GetValue<shared_ptr<void>>(StrokeProperty);
+	return  this->GetValue<shared_ptr<Direct2D::CD2D_Brush>>(StrokeProperty);
+	return nullptr;
 }
 
 void Shape::SetStrokeThickness(float data)

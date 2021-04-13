@@ -24,9 +24,9 @@ namespace DirectUI
 			float GetStrokeThickness();
 			__declspec(property(get = GetStrokeThickness, put = SetStrokeThickness)) float StrokeThickness;
 		protected:
-			static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> FillProperty;
+			static shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> FillProperty;
 			static shared_ptr<DependencyProperty<int>> StretchProperty;
-			static shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>> StrokeProperty;
+			static shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> StrokeProperty;
 			static shared_ptr<DependencyProperty<float>> StrokeThicknessProperty;
 		};
 	}

@@ -23,7 +23,7 @@ namespace DirectUI
 		protected:
 			void OnSize(float width, float height, float dpiscale) override;
 			shared_ptr<UIElement> m_Child;
-			static shared_ptr < DependencyProperty<CDirectUI_Thinkness>> PaddingProperty;
+			static shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> PaddingProperty;
 		};
 
 	}

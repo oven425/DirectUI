@@ -8,7 +8,24 @@ using namespace std;
 #include "CTT_Propoerty.h"
 
 template<class T>
-class Event
+struct is_std_function : std::false_type {};
+
+template<class T>
+struct is_std_function<std::function<T>> : std::true_type {};
+
+// the partial specialization of A is enabled via a template parameter
+template<class T, class Enable = void>
+class A {}; // primary template
+
+template<class T>
+class A<T, typename std::enable_if<std::is_floating_point<T>::value>::type> {
+}; // specialization for floating point types
+
+
+template<class T, class Enable = void>
+class Event {}; // primary template
+template<class T>
+class Event<T, typename std::enable_if<is_std_function<T>::value>::type>
 {
 public:
 	void operator+=(const T& data) 

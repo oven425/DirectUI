@@ -125,82 +125,107 @@ void Test(T x)
 	//return T;
 }
 
-template<class T>
-struct is_shared_ptr : std::false_type {};
+//template<class T>
+//struct is_shared_ptr : std::false_type {};
+//
+//template<class T>
+//struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
+//
+//
+//std::variant<int, float, string, shared_ptr<void>> var;
+//
+//template<typename T>
+//inline typename std::enable_if<is_shared_ptr<T>::value, void>::type
+// SetValue(T data)
+//{
+//	var = static_pointer_cast<void>(data);
+//}
+//
+//template<typename T>
+//inline typename std::enable_if<!is_shared_ptr<T>::value, void>::type
+// SetValue(T data)
+//{
+//	var = data;
+//}
+//
+//
+//template<typename T>
+//inline typename std::enable_if<!is_shared_ptr<T>::value, T>::type
+// GetValue()
+//{
+//	try
+//	{
+//		return std::get<T>(var);
+//	}
+//	catch (...)
+//	{
+//
+//	}
+//	return T{};
+//}
+//
+//template<typename T, typename T1>
+//inline typename std::enable_if<is_shared_ptr<T>::value, T>::type
+//GetValue()
+//{
+//	try
+//	{
+//		auto aa = std::get<shared_ptr<void>>(var);
+//		//T src = aa;
+//		const auto _Ptr = static_cast<typename T::element_type *>(aa.get());
+//		return (T(aa, _Ptr));
+//		//const char* ddd = typeid(src).raw_name();
+//		//return static_pointer_cast<T1>(aa);
+//		//return std::get<T>(var);
+//	}
+//	catch (...)
+//	{
+//
+//	}
+//	return T{};
+//}
 
-template<class T>
-struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
-
-std::variant<int, float, shared_ptr<void>> var;
-template<typename T>
-void SetValue(T data)
-{
-	bool bb = is_shared_ptr<T>::value;
-	if (bb == true)
-	{
-		
-		//var = static_pointer_cast<void>(data);
-	}
-	else
-	{
-		var = data;
-	}
+template <typename T, class F>
+inline typename std::enable_if<std::is_same<T, int>::value, void>::type
+typed_foo(const F& f) {
+	std::cout << ">>> messing with ints! " << f << std::endl;
 }
 
-template<typename T>
-void SetValue(shared_ptr<T> data)
-{
-	var = data;
+template <typename T, class F>
+inline typename std::enable_if<std::is_same<T, float>::value, void>::type
+typed_foo(const F& f) {
+	std::cout << ">>> messing with floats! " << f << std::endl;
 }
 
-template <class T>
-struct getValue {
-	getValue() {
-		printf("not shared!\n");
-	}
-};
-
-template <class T>
-struct getValue<std::shared_ptr<T> > {
-	getValue() {
-		printf("shared!\n");
-	}
-};
-
-template<typename T>
-T GetValue()
-{
-	bool bb = is_shared_ptr<T>::value;
-	if (bb == true)
-	{
-		return T{};
-	}
-	else
-	{
-		return std::get<T>(var);
-	}
-	return T{};
+template <typename T, class F>
+inline typename std::enable_if<std::is_same<T, shared_ptr<T>>::value, void>::type
+typed_foo(const F& f) {
+	std::cout << ">>> messing with floats! " << f << std::endl;
 }
 
 shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
-	SetValue(make_shared<int>(10));
-	getValue<int>();
-	getValue<shared_ptr<int>>();
-	SetValue(1);
-	int temp = GetValue<int>();
-	bool bb = is_shared_ptr<int>::value;
 
-	shared_ptr<int> ss;
-	bb = is_shared_ptr<shared_ptr<int>>::value;
-	//auto l = [](int x) -> int {
-	//	return x % 7;
-	//};
-	//fun(l);
-	//Test(1);
-	//Test(1.0);
+	Event<int> evtt;
+	float fff = 1.3;
+	//typed_foo<shared_ptr<int>>(make_shared<int>(10));
+	//SetValue("123");
+	//auto strr = GetValue<string>();
+	shared_ptr<int> tt;
+	
+	//SetValue(make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
+	//auto bbrq =  GetValue<shared_ptr<CD2D_SolidColorBrush>, CD2D_SolidColorBrush>();
+	//auto use_count = bbrq.use_count();
+	////GetValue<shared_ptr<int>>();
+	////SetValue(1);
+	//int temp = GetValue<int>();
+
+
+
+
+
 	Event <std::function<void(int a)>> evt;
 	evt += [](int a)
 	{
@@ -307,9 +332,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	windows->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
 	windows->Name = L"windows";
 
-	shared_ptr<Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>> bind = ::make_shared<Data::Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>>();
-	bind->SetSource(CControl::BackgroundPropertyInstance(), windows);
-	windows->SetBinding(CControl::BackgroundPropertyInstance(), bind);
+	//shared_ptr<Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>> bind = ::make_shared<Data::Binding<shared_ptr<DependencyProperty<Direct2D::CD2D_Brush>>>>();
+	//bind->SetSource(CControl::BackgroundPropertyInstance(), windows);
+	//windows->SetBinding(CControl::BackgroundPropertyInstance(), bind);
 
 	//shared_ptr<DirectUI::Control::CButton> button = ::make_shared<DirectUI::Control::CButton>();
 	//button->SetContent(L"Test Test Test");

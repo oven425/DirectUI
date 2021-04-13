@@ -4,13 +4,13 @@
 using namespace DirectUI;
 using namespace Control;
 
-shared_ptr<DependencyProperty<CDirectUI_Thinkness>> CContentControl::PaddingProperty;
+shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> CContentControl::PaddingProperty;
 
 CContentControl::CContentControl()
 {
 	if (!PaddingProperty)
 	{
-		PaddingProperty = ::make_shared<DependencyProperty<CDirectUI_Thinkness>>();
+		PaddingProperty = ::make_shared<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>>();
 
 	}
 }
@@ -113,13 +113,14 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 
 void CContentControl::SetPadding(shared_ptr<CDirectUI_Thinkness> data)
 {
-	this->SetValue(PaddingProperty, data);
+	//this->SetValue(PaddingProperty, data);
 }
 
 shared_ptr<CDirectUI_Thinkness> CContentControl::GetPadding()
 {
-	auto obj = this->GetValue<shared_ptr<void>>(PaddingProperty);
-	return  static_pointer_cast<CDirectUI_Thinkness>(obj);
+	//auto obj = this->GetValue<shared_ptr<void>>(PaddingProperty);
+	//return  static_pointer_cast<CDirectUI_Thinkness>(obj);
+	return nullptr;
 }
 
 void CContentControl::SetChild(shared_ptr<UIElement> data)
