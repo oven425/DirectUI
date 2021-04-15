@@ -276,13 +276,34 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
 }
 
-
+#include "CD2D_SolidColorBrush.h"
 void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
 	if (pRT != NULL)
 	{
 		this->pRT->BeginDraw();
-		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
+		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+		
+
+		//pRT->PushAxisAlignedClip(
+		//	D2D1::RectF(20, 20, 120, 120),
+		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+		//);
+
+		//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
+		//br.Refresh(pRT);
+		//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
+		////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
+		////pRT->PopAxisAlignedClip();
+
+		//pRT->PushAxisAlignedClip(
+		//	D2D1::RectF(40, 40, 100, 100),
+		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+		//);
+
+		//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
+		//pRT->PopAxisAlignedClip();
+		//pRT->PopAxisAlignedClip();
 
 		CContentControl::OnRender(this->pRT);
 

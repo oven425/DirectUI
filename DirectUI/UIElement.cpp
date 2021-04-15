@@ -134,28 +134,28 @@ CDirectUI_Rect UIElement::MappingRenderRect(CDirectUI_Rect& actual_rect, const C
 
 void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, shared_ptr<Direct2D::CD2D_Brush> background)
 {
-	if (this->m_pRenderBuf != NULL)
-	{
-		D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
-		if (data != sz)
-		{
-			this->m_pRenderBuf->Release();
-			this->m_pRenderBuf = NULL;
-		}
-	}
-	if (this->m_pRenderBuf == NULL)
-	{
-		HRESULT hr = pRT->CreateCompatibleRenderTarget(data, &this->m_pRenderBuf);
-	}
-	this->m_pRenderBuf->BeginDraw();
+	//if (this->m_pRenderBuf != NULL)
+	//{
+	//	D2D1_SIZE_F sz = this->m_pRenderBuf->GetSize();
+	//	if (data != sz)
+	//	{
+	//		this->m_pRenderBuf->Release();
+	//		this->m_pRenderBuf = NULL;
+	//	}
+	//}
+	//if (this->m_pRenderBuf == NULL)
+	//{
+	//	HRESULT hr = pRT->CreateCompatibleRenderTarget(data, &this->m_pRenderBuf);
+	//}
+	//this->m_pRenderBuf->BeginDraw();
 
 
-	if (background)
-	{
-		background->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillRectangle(data, *background);
-	}
-
+	//if (background)
+	//{
+	//	background->Refresh(this->m_pRenderBuf);
+	//	this->m_pRenderBuf->FillRectangle(data, *background);
+	//}
+	
 }
 
 void UIElement::Arrange(const CDirectUI_Rect& data)
@@ -267,15 +267,7 @@ void UIElement::OnRender(ID2D1RenderTarget* pRT)
 	rc_src = this->MappingRenderRect(this->m_ActualRect, this->DesiredSize);
 
 	pRT->DrawBitmap(bmp, rc_dst, this->m_Opacity, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rc_src);
-	//::OutputDebugStringA("onrender: ");
-	//::OutputDebugString(this->Name.c_str());
-	//::OutputDebugStringA("\r\n");
-	//::OutputDebugStringA("rc_dst:");
-	//::OutputDebugString(rc_dst.ToString().c_str());
-	//::OutputDebugStringA("\r\n");
-	//::OutputDebugStringA("rc_src:");
-	//::OutputDebugString(rc_src.ToString().c_str());
-	//::OutputDebugStringA("\r\n");
+
 	bmp->Release();
 }
 

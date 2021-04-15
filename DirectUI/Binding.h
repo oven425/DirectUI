@@ -26,6 +26,13 @@ namespace DirectUI
 {
 	namespace Data
 	{
+		enum class BindingModes
+		{
+			TwoWay,
+			OneWay,
+			OneTime,
+			OneWayToSource
+		};
 		template<typename T_Dst, typename T_Src>
 		class __declspec(dllexport) IValueConverter
 		{

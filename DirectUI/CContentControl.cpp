@@ -27,12 +27,13 @@ void CContentControl::OnSize(float width, float height, float dpiscale)
 
 void CContentControl::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
-	if (this->m_Child != nullptr)
-	{
-		this->m_Child->OnRender(this->m_pRenderBuf);
-	}
-	::CControl::OnRender(pRT);
+	
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//if (this->m_Child != nullptr)
+	//{
+	//	this->m_Child->OnRender(this->m_pRenderBuf);
+	//}
+	//::CControl::OnRender(pRT);
 }
 
 void CContentControl::Arrange(const CDirectUI_Rect& data)

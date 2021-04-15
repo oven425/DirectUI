@@ -37,7 +37,10 @@
         <CheckBox x:Name="checkbox_dst">Distance</CheckBox>
     </StackPanel>-->
     <!--<Ellipse Width="100" Height="200" Stretch="Uniform" Fill="Blue" />-->
-    <Rectangle RadiusX="50" RadiusY="10" Width="100" Height="200" Stretch="Uniform" Fill="Blue"/>
+    <Border Width="100" Height="100" BorderThickness="5" BorderBrush="Green">
+        <Button Height="50" Margin="-100,0"/>
+    </Border>
+    <!--<Rectangle RadiusX="50" RadiusY="10" Width="100" Height="200" Stretch="Uniform" Fill="Blue"/>-->
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
