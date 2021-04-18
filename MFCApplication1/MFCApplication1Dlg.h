@@ -32,6 +32,7 @@ using namespace Control;
 using namespace Shapes;
 
 
+#include <d2d1_1helper.h>
 
 
 // CMFCApplication1Dlg 對話方塊
