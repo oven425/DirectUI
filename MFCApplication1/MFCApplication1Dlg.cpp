@@ -208,74 +208,74 @@ shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoert
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
 
-	Event<int> evtt;
-	float fff = 1.3;
-	//typed_foo<shared_ptr<int>>(make_shared<int>(10));
-	//SetValue("123");
-	//auto strr = GetValue<string>();
-	shared_ptr<int> tt;
-	
-	//SetValue(make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
-	//auto bbrq =  GetValue<shared_ptr<CD2D_SolidColorBrush>, CD2D_SolidColorBrush>();
-	//auto use_count = bbrq.use_count();
-	////GetValue<shared_ptr<int>>();
-	////SetValue(1);
-	//int temp = GetValue<int>();
+	//Event<int> evtt;
+	//float fff = 1.3;
+	////typed_foo<shared_ptr<int>>(make_shared<int>(10));
+	////SetValue("123");
+	////auto strr = GetValue<string>();
+	//shared_ptr<int> tt;
+	//
+	////SetValue(make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
+	////auto bbrq =  GetValue<shared_ptr<CD2D_SolidColorBrush>, CD2D_SolidColorBrush>();
+	////auto use_count = bbrq.use_count();
+	//////GetValue<shared_ptr<int>>();
+	//////SetValue(1);
+	////int temp = GetValue<int>();
 
 
 
 
 
-	Event <std::function<void(int a)>> evt;
-	evt += [](int a)
-	{
+	//Event <std::function<void(int a)>> evt;
+	//evt += [](int a)
+	//{
 
-	};
-	evt += [](int a)
-	{
+	//};
+	//evt += [](int a)
+	//{
 
-	};
-	evt.Fire(10);
+	//};
+	//evt.Fire(10);
 
-	TestProperty->Handler = std::bind(PropertyChange, std::placeholders::_1, std::placeholders::_2);
-	Test1Property->Handler = std::bind(Property1Change, std::placeholders::_1, std::placeholders::_2);
-	s1 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
-	s2 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
+	//TestProperty->Handler = std::bind(PropertyChange, std::placeholders::_1, std::placeholders::_2);
+	//Test1Property->Handler = std::bind(Property1Change, std::placeholders::_1, std::placeholders::_2);
+	//s1 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
+	//s2 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
 
-	int usecount = s1.use_count();
-	weak_ptr<void> vv = s1;
-	usecount = s1.use_count();
-	usecount = vv.use_count();
-	//s1.reset();
-	auto vb = vv.lock();
-	usecount = vv.use_count();
-	//std::shared_ptr<void> pointer = s1;
-	//auto ptr = std::make_shared<std::remove_reference<decltype(*s1)>::type>();
+	//int usecount = s1.use_count();
+	//weak_ptr<void> vv = s1;
+	//usecount = s1.use_count();
+	//usecount = vv.use_count();
+	////s1.reset();
+	//auto vb = vv.lock();
+	//usecount = vv.use_count();
+	////std::shared_ptr<void> pointer = s1;
+	////auto ptr = std::make_shared<std::remove_reference<decltype(*s1)>::type>();
 
-	auto hh1 = dynamic_pointer_cast<shared_ptr<CD2D_Brush>>(s1);
-	//auto hhr = Trans<CD2D_Brush>(vv);
-	//auto tt1 = static_pointer_cast11<CD2D_Brush>(vv);
-	//const auto _Ptr = static_cast<typename shared_ptr<CD2D_Brush>::element_type *>(vv.get());
-	//auto tt2 = shared_ptr<CD2D_Brush>(vv, _Ptr);
-	//test.SetValue(Test1Property, 1);
-	//test.SetValue(TestProperty, 2);
-	test.SetValue(Test1Property, s1);
-	test.SetValue(Test1Property, s2);
-	//s2.reset();
-	auto getbr = test.GetValue<weak_ptr<void>>(Test1Property);
-	//float f = 1.1;
-	//int use_count = s1.use_count();
-	//test.SetValue(TestProperty, s1);
-	//use_count = s1.use_count();
-	//test.GetValue<shared_ptr<void>>();
-	//test.SetValue(TestProperty, s2);
-	//use_count = s1.use_count();
-	//dynamic_pointer_cast<shared_ptr<CD2D_SolidColorBrush>>(s1);
-	
+	//auto hh1 = dynamic_pointer_cast<shared_ptr<CD2D_Brush>>(s1);
+	////auto hhr = Trans<CD2D_Brush>(vv);
+	////auto tt1 = static_pointer_cast11<CD2D_Brush>(vv);
+	////const auto _Ptr = static_cast<typename shared_ptr<CD2D_Brush>::element_type *>(vv.get());
+	////auto tt2 = shared_ptr<CD2D_Brush>(vv, _Ptr);
+	////test.SetValue(Test1Property, 1);
+	////test.SetValue(TestProperty, 2);
+	//test.SetValue(Test1Property, s1);
+	//test.SetValue(Test1Property, s2);
+	////s2.reset();
+	//auto getbr = test.GetValue<weak_ptr<void>>(Test1Property);
+	////float f = 1.1;
+	////int use_count = s1.use_count();
+	////test.SetValue(TestProperty, s1);
+	////use_count = s1.use_count();
+	////test.GetValue<shared_ptr<void>>();
+	////test.SetValue(TestProperty, s2);
+	////use_count = s1.use_count();
+	////dynamic_pointer_cast<shared_ptr<CD2D_SolidColorBrush>>(s1);
+	//
 
-	//auto weak = std::get<weak_ptr<CD2D_Brush>>(test);
-	//auto ss = *weak.lock();
-	//test = 1;
+	////auto weak = std::get<weak_ptr<CD2D_Brush>>(test);
+	////auto ss = *weak.lock();
+	////test = 1;
 
 	CDialogEx::OnInitDialog();
 
@@ -305,19 +305,19 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	shared_ptr<CD2D_SolidColorBrush> br = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
-	shared_ptr<void> aa = br;
-	shared_ptr<CD2D_SolidColorBrush> br1 = static_pointer_cast<CD2D_SolidColorBrush>(aa);
+	//shared_ptr<CD2D_SolidColorBrush> br = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
+	//shared_ptr<void> aa = br;
+	//shared_ptr<CD2D_SolidColorBrush> br1 = static_pointer_cast<CD2D_SolidColorBrush>(aa);
 
-	shared_ptr<float> ff = ::make_shared<float>(5);
-	float& ii = *ff;
-	ii = 100;
-	shared_ptr<void> ff_save = ff;
-	*ff = 10;
-	if (ff_save == ff)
-	{
-		::OutputDebugStringA("");
-	}
+	//shared_ptr<float> ff = ::make_shared<float>(5);
+	//float& ii = *ff;
+	//ii = 100;
+	//shared_ptr<void> ff_save = ff;
+	//*ff = 10;
+	//if (ff_save == ff)
+	//{
+	//	::OutputDebugStringA("");
+	//}
 
 	//CDirectUI_Size sz1(100, 200);
 	//CDirectUI_Size sz2 = sz1.SetWidth1(300);

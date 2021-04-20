@@ -8,7 +8,6 @@
 #include <vector>
 using namespace std;
 #include "UIElement.h"
-//#include "CDependencyObject.h"
 
 namespace DirectUI
 {

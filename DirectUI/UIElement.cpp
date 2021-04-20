@@ -9,6 +9,10 @@ ID2D1Factory* UIElement::m_pD2DFactory = NULL;
 
 UIElement::UIElement()
 {
+	
+
+
+
 	//if (!HorizontalAlignmentProperty)
 	//{
 	//	HorizontalAlignmentProperty = ::make_shared<DependencyProperty<int>>();

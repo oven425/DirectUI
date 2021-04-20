@@ -11,7 +11,7 @@ using namespace std;
 #include "CDirectUI_CornerRadius.h"
 #include "CDirectUI_MouseManager.h"
 #include <d2d1.h>
-
+#include <d2d1_1.h>
 namespace DirectUI
 {
 	namespace Control

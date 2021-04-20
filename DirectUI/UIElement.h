@@ -3,6 +3,10 @@
 #include "CDirectUI_Rect.h"
 #include "DependencyObject.h"
 using namespace DirectUI;
+#include <d2d1_1.h>
+#include <d3d11.h>
+#include <wrl/client.h>
+using namespace Microsoft::WRL;
 
 namespace DirectUI
 {
@@ -71,6 +75,9 @@ namespace DirectUI
 		};
 		class __declspec(dllexport) UIElement : public DependencyObject
 		{
+		public:
+			ComPtr<ID3D11Device> device;
+			ComPtr<ID3D11DeviceContext> context;
 		public:
 			UIElement();
 			virtual ~UIElement()

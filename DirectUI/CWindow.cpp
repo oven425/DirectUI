@@ -234,6 +234,48 @@ bool CWindow::Init(HWND hwnd)
 
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
 
+	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
+	};
+
+	D3D_FEATURE_LEVEL m_featureLevel = D3D_FEATURE_LEVEL_11_1;
+
+	hr = D3D11CreateDevice(
+		nullptr,                    // specify null to use the default adapter
+		D3D_DRIVER_TYPE_HARDWARE,
+		0,
+		creationFlags,              // optionally set debug and Direct2D compatibility flags
+		featureLevels,              // list of feature levels this app can support
+		ARRAYSIZE(featureLevels),   // number of possible feature levels
+		D3D11_SDK_VERSION,
+		&device,                    // returns the Direct3D device created
+		&m_featureLevel,            // returns feature level of device created
+		&context                    // returns the device immediate context
+	);
+	ComPtr<IDXGIDevice> dxgiDevice;
+	hr = device.As(&dxgiDevice);
+
+	D2D1_FACTORY_OPTIONS options{};
+	ID2D1Factory1* factory = NULL;
+	hr = D2D1CreateFactory(
+		D2D1_FACTORY_TYPE_SINGLE_THREADED,
+		options,
+		&factory);
+	ID2D1Device* m_d2dDevice = NULL;
+	hr = factory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice);
+
+
+
+
+
 	RECT rc;
 	GetClientRect(hwnd, &rc);
 
