@@ -12,6 +12,7 @@ using namespace std;
 #include "CDirectUI_MouseManager.h"
 #include <d2d1.h>
 #include <d2d1_1.h>
+#include <dxgi1_2.h>
 namespace DirectUI
 {
 	namespace Control

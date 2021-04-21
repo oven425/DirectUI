@@ -229,7 +229,8 @@ bool CWindow::Init(HWND hwnd)
 	
 
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
-
+	RECT rc;
+	GetClientRect(hwnd, &rc);
 	
 
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
@@ -260,7 +261,7 @@ bool CWindow::Init(HWND hwnd)
 		&m_featureLevel,            // returns feature level of device created
 		&context                    // returns the device immediate context
 	);
-	ComPtr<IDXGIDevice> dxgiDevice;
+	ComPtr<IDXGIDevice1> dxgiDevice;
 	hr = device.As(&dxgiDevice);
 
 	D2D1_FACTORY_OPTIONS options{};
@@ -272,12 +273,87 @@ bool CWindow::Init(HWND hwnd)
 	ID2D1Device* m_d2dDevice = NULL;
 	hr = factory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice);
 
+	ComPtr<ID2D1DeviceContext> m_d2dContext;
+	m_d2dDevice->CreateDeviceContext(
+		D2D1_DEVICE_CONTEXT_OPTIONS_NONE,
+		&m_d2dContext
+	);
 
 
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
+	swapChainDesc.Width = 0;                           // use automatic sizing
+	swapChainDesc.Height = 0;
+	swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; // this is the most common swapchain format
+	swapChainDesc.Stereo = false;
+	swapChainDesc.SampleDesc.Count = 1;                // don't use multi-sampling
+	swapChainDesc.SampleDesc.Quality = 0;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = 2;                     // use double buffering to enable flip
+	swapChainDesc.Scaling = DXGI_SCALING_NONE;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL; // all apps must use this SwapEffect
+	swapChainDesc.Flags = 0;
+	ComPtr<IDXGIAdapter> dxgiAdapter;
+	hr = dxgiDevice->GetAdapter(&dxgiAdapter);
 
+	ComPtr<IDXGIFactory2> dxgiFactory;
+	hr = dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory));
+	ComPtr<IDXGISwapChain1> m_swapChain;
+	ComPtr<IDXGIOutput> m_dxgioutput;
+	
+	hr = dxgiFactory->CreateSwapChainForHwnd(
+		device.Get(),
+		this->m_hWnd,
+		&swapChainDesc,
+		nullptr,    // allow on all displays
+		m_dxgioutput.Get(),
+		&m_swapChain
+	);
 
-	RECT rc;
-	GetClientRect(hwnd, &rc);
+	hr = dxgiDevice->SetMaximumFrameLatency(1);
+	ComPtr<ID3D11Texture2D> backBuffer;
+	hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+
+	//D2D1_BITMAP_PROPERTIES1 bitmapProperties =
+	//	BitmapProperties1(
+	//		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+	//		PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE),
+	//		m_dpi,
+	//		m_dpi
+	//	);
+	D2D1_BITMAP_PROPERTIES1 bitmapProperties = D2D1::BitmapProperties1(D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW, D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE), 96, 96);
+
+	ComPtr<IDXGISurface> dxgiBackBuffer;
+	m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer));
+	ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
+	hr = m_d2dContext->CreateBitmapFromDxgiSurface(
+		dxgiBackBuffer.Get(),
+		&bitmapProperties,
+		&m_d2dTargetBitmap
+	);
+
+	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
+
+	ComPtr<ID2D1SolidColorBrush> pBlackBrush;
+	m_d2dContext->CreateSolidColorBrush(
+		D2D1::ColorF(D2D1::ColorF::Black),
+		&pBlackBrush
+	);
+
+	m_d2dContext->BeginDraw();
+
+	m_d2dContext->DrawRectangle(
+		D2D1::RectF(
+			rc.left + 100.0f,
+			rc.top + 100.0f,
+			rc.right - 100.0f,
+			rc.bottom - 100.0f),
+		pBlackBrush);
+
+	m_d2dContext->EndDraw();
+
+	m_swapChain->Present1(1, 0, &parameters);;
+
+	
 
 	
 	float width = (float)(rc.right - rc.left);
