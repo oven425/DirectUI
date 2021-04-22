@@ -76,9 +76,6 @@ namespace DirectUI
 		class __declspec(dllexport) UIElement : public DependencyObject
 		{
 		public:
-			ComPtr<ID3D11Device> device;
-			ComPtr<ID3D11DeviceContext> context;
-		public:
 			UIElement();
 			virtual ~UIElement()
 			{

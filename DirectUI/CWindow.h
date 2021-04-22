@@ -13,6 +13,7 @@ using namespace std;
 #include <d2d1.h>
 #include <d2d1_1.h>
 #include <dxgi1_2.h>
+#include <d2d1_3.h>
 namespace DirectUI
 {
 	namespace Control
@@ -46,7 +47,22 @@ namespace DirectUI
 			mouseevent_storage m_MouseStorage;
 			bool m_TrackMouse = false;
 		protected:
+			ComPtr<ID3D11Device> device;
+			ComPtr<ID3D11DeviceContext> context;
+			ID3D11Texture2D* d3d_texture = nullptr;
 			ID2D1HwndRenderTarget* pRT = NULL;
+			ComPtr<IDXGIDevice1> dxgiDevice;
+			ID2D1Factory3* factory = NULL;
+			ID2D1Device2* m_d2dDevice = NULL;
+			ComPtr<ID2D1DeviceContext2> m_d2dContext;
+			ComPtr<IDXGIAdapter> dxgiAdapter;
+			ComPtr<IDXGIFactory2> dxgiFactory;
+			ComPtr<IDXGISwapChain1> m_swapChain;
+			ComPtr<IDXGIOutput> m_dxgioutput;
+			ComPtr<ID3D11Texture2D> backBuffer;
+			ComPtr<IDXGISurface> dxgiBackBuffer;
+			ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
+			bool createD3DTexture(void* bytes, int width, int height);
 		};
 	}
 }

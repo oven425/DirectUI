@@ -156,6 +156,12 @@
     <ClInclude Include="CheckBox.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -294,6 +300,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CheckBox.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Array.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
     <ClInclude Include="Binding.h" />
     <ClInclude Include="CBorder.h" />
     <ClInclude Include="CButton.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Ellipse.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Path.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="UIElement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Array.cpp" />
     <ClCompile Include="Binding.cpp" />
     <ClCompile Include="CBorder.cpp" />
     <ClCompile Include="CButton.cpp" />
@@ -249,6 +252,7 @@
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Ellipse.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="pch.cpp">

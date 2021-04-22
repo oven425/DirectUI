@@ -261,19 +261,19 @@ bool CWindow::Init(HWND hwnd)
 		&m_featureLevel,            // returns feature level of device created
 		&context                    // returns the device immediate context
 	);
-	ComPtr<IDXGIDevice1> dxgiDevice;
+	
 	hr = device.As(&dxgiDevice);
 
 	D2D1_FACTORY_OPTIONS options{};
-	ID2D1Factory1* factory = NULL;
+	
 	hr = D2D1CreateFactory(
 		D2D1_FACTORY_TYPE_SINGLE_THREADED,
 		options,
 		&factory);
-	ID2D1Device* m_d2dDevice = NULL;
+	
 	hr = factory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice);
 
-	ComPtr<ID2D1DeviceContext> m_d2dContext;
+	
 	m_d2dDevice->CreateDeviceContext(
 		D2D1_DEVICE_CONTEXT_OPTIONS_NONE,
 		&m_d2dContext
@@ -292,13 +292,12 @@ bool CWindow::Init(HWND hwnd)
 	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL; // all apps must use this SwapEffect
 	swapChainDesc.Flags = 0;
-	ComPtr<IDXGIAdapter> dxgiAdapter;
+	
 	hr = dxgiDevice->GetAdapter(&dxgiAdapter);
 
-	ComPtr<IDXGIFactory2> dxgiFactory;
+	
 	hr = dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory));
-	ComPtr<IDXGISwapChain1> m_swapChain;
-	ComPtr<IDXGIOutput> m_dxgioutput;
+	
 	
 	hr = dxgiFactory->CreateSwapChainForHwnd(
 		device.Get(),
@@ -310,21 +309,15 @@ bool CWindow::Init(HWND hwnd)
 	);
 
 	hr = dxgiDevice->SetMaximumFrameLatency(1);
-	ComPtr<ID3D11Texture2D> backBuffer;
+	
 	hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
 
-	//D2D1_BITMAP_PROPERTIES1 bitmapProperties =
-	//	BitmapProperties1(
-	//		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
-	//		PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE),
-	//		m_dpi,
-	//		m_dpi
-	//	);
+
 	D2D1_BITMAP_PROPERTIES1 bitmapProperties = D2D1::BitmapProperties1(D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW, D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE), 96, 96);
 
-	ComPtr<IDXGISurface> dxgiBackBuffer;
+	
 	m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer));
-	ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
+	
 	hr = m_d2dContext->CreateBitmapFromDxgiSurface(
 		dxgiBackBuffer.Get(),
 		&bitmapProperties,
@@ -333,25 +326,7 @@ bool CWindow::Init(HWND hwnd)
 
 	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
 
-	ComPtr<ID2D1SolidColorBrush> pBlackBrush;
-	m_d2dContext->CreateSolidColorBrush(
-		D2D1::ColorF(D2D1::ColorF::Black),
-		&pBlackBrush
-	);
-
-	m_d2dContext->BeginDraw();
-
-	m_d2dContext->DrawRectangle(
-		D2D1::RectF(
-			rc.left + 100.0f,
-			rc.top + 100.0f,
-			rc.right - 100.0f,
-			rc.bottom - 100.0f),
-		pBlackBrush);
-
-	m_d2dContext->EndDraw();
-
-	m_swapChain->Present1(1, 0, &parameters);;
+	
 
 	
 
@@ -359,14 +334,14 @@ bool CWindow::Init(HWND hwnd)
 	float width = (float)(rc.right - rc.left);
 	float height = (float)(rc.bottom - rc.top);
 
-	hr = m_pD2DFactory->CreateHwndRenderTarget(
-		D2D1::RenderTargetProperties(),
-		D2D1::HwndRenderTargetProperties(
-			hwnd,
-			D2D1::SizeU((width, height))
-		),
-		&pRT
-	);
+	//hr = m_pD2DFactory->CreateHwndRenderTarget(
+	//	D2D1::RenderTargetProperties(),
+	//	D2D1::HwndRenderTargetProperties(
+	//		hwnd,
+	//		D2D1::SizeU((width, height))
+	//	),
+	//	&pRT
+	//);
 	auto owner = static_pointer_cast<CControl>(this->shared_from_this());
 	this->m_Root = owner;
 	this->SetRoot(this->m_Root);
@@ -387,46 +362,106 @@ bool CWindow::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 
 void CWindow::OnSize(float width, float height, float dpiscale)
 {
-	this->pRT->Resize(D2D1::SizeU(width, height));
-	CContentControl::OnSize(width, height, dpiscale);
+	//this->pRT->Resize(D2D1::SizeU(width, height));
+	//CContentControl::OnSize(width, height, dpiscale);
 
 	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
 	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
 }
 
+bool CWindow::createD3DTexture(void* bytes, int width, int height)
+{
+	D3D11_TEXTURE2D_DESC desc;
+
+	desc.Width = width;
+
+	desc.Height = height;
+
+	desc.MipLevels = 1;
+
+	desc.ArraySize = 1;
+
+	desc.Format = DXGI_FORMAT::DXGI_FORMAT_NV12;
+
+	desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+
+	desc.SampleDesc.Count = 1;
+
+	desc.SampleDesc.Quality = 0;
+
+	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
+
+	desc.CPUAccessFlags = 0;
+
+	desc.MiscFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA data;
+
+	data.pSysMem = bytes;
+
+	data.SysMemPitch = width;
+
+	HRESULT result = device->CreateTexture2D(&desc, &data, &d3d_texture);
+
+	return (result == S_OK) ? true : false;
+}
+
+#include "File.h"
 #include "CD2D_SolidColorBrush.h"
 void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
-	if (pRT != NULL)
-	{
-		this->pRT->BeginDraw();
-		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-		
+	IO::File::ReadAllBytes(L"");
+	RECT rc;
+	GetClientRect(this->m_hWnd, &rc);
+	ComPtr<ID2D1SolidColorBrush> pBlackBrush;
+	m_d2dContext->CreateSolidColorBrush(
+		D2D1::ColorF(D2D1::ColorF::Red),
+		&pBlackBrush
+	);
+	m_d2dContext->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+	m_d2dContext->BeginDraw();
 
-		//pRT->PushAxisAlignedClip(
-		//	D2D1::RectF(20, 20, 120, 120),
-		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
-		//);
+	m_d2dContext->DrawRectangle(
+		D2D1::RectF(
+			rc.left + 100.0f,
+			rc.top + 100.0f,
+			rc.right - 100.0f,
+			rc.bottom - 100.0f),
+		pBlackBrush.Get());
 
-		//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
-		//br.Refresh(pRT);
-		//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
-		////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
-		////pRT->PopAxisAlignedClip();
+	m_d2dContext->EndDraw();
+	DXGI_PRESENT_PARAMETERS parameters = { 0 };
+	HRESULT hr = m_swapChain->Present1(1, 0, &parameters);
+	//if (pRT != NULL)
+	//{
+	//	this->pRT->BeginDraw();
+	//	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	//	
 
-		//pRT->PushAxisAlignedClip(
-		//	D2D1::RectF(40, 40, 100, 100),
-		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
-		//);
+	//	//pRT->PushAxisAlignedClip(
+	//	//	D2D1::RectF(20, 20, 120, 120),
+	//	//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+	//	//);
 
-		//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
-		//pRT->PopAxisAlignedClip();
-		//pRT->PopAxisAlignedClip();
+	//	//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
+	//	//br.Refresh(pRT);
+	//	//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
+	//	////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
+	//	////pRT->PopAxisAlignedClip();
 
-		CContentControl::OnRender(this->pRT);
+	//	//pRT->PushAxisAlignedClip(
+	//	//	D2D1::RectF(40, 40, 100, 100),
+	//	//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+	//	//);
 
-		this->pRT->EndDraw();
-	}
+	//	//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
+	//	//pRT->PopAxisAlignedClip();
+	//	//pRT->PopAxisAlignedClip();
+
+	//	CContentControl::OnRender(this->pRT);
+
+	//	this->pRT->EndDraw();
+	//}
 }
 
 void CWindow::SetTitle(const wchar_t* data)
