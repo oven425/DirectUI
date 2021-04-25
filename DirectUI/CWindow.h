@@ -1,3 +1,5 @@
+//#define D2D1_Ex
+
 #pragma once
 #include <vector>
 #include <functional>
@@ -47,10 +49,11 @@ namespace DirectUI
 			mouseevent_storage m_MouseStorage;
 			bool m_TrackMouse = false;
 		protected:
+			ID2D1HwndRenderTarget* pRT = NULL;
+#ifdef D2D1_Ex
 			ComPtr<ID3D11Device> device;
 			ComPtr<ID3D11DeviceContext> context;
 			ID3D11Texture2D* d3d_texture = nullptr;
-			ID2D1HwndRenderTarget* pRT = NULL;
 			ComPtr<IDXGIDevice1> dxgiDevice;
 			ID2D1Factory3* factory = NULL;
 			ID2D1Device2* m_d2dDevice = NULL;
@@ -63,6 +66,7 @@ namespace DirectUI
 			ComPtr<IDXGISurface> dxgiBackBuffer;
 			ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
 			bool createD3DTexture(void* bytes, int width, int height);
+#endif
 		};
 	}
 }

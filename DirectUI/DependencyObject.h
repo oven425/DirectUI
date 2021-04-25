@@ -3,8 +3,10 @@
 #include <variant>
 using namespace std;
 #include "Binding.h"
+#include "DispatcherObject.h"
 using namespace DirectUI;
 using namespace Data;
+using namespace Threading;
 
 #include "DependencyProperty.h"
 
@@ -24,7 +26,7 @@ namespace DirectUI
 {
 	
 
-	class DependencyObject:public enable_shared_from_this<DependencyObject>
+	class DependencyObject:public DispatcherObject, public enable_shared_from_this<DependencyObject>
 	{
 	public:
 		template<typename T>

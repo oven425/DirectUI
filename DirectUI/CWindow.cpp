@@ -234,7 +234,7 @@ bool CWindow::Init(HWND hwnd)
 	
 
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
-
+#ifdef D2D1_Ex
 	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 	D3D_FEATURE_LEVEL featureLevels[] =
 	{
@@ -325,7 +325,7 @@ bool CWindow::Init(HWND hwnd)
 	);
 
 	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
-
+#endif
 	
 
 	
@@ -334,14 +334,14 @@ bool CWindow::Init(HWND hwnd)
 	float width = (float)(rc.right - rc.left);
 	float height = (float)(rc.bottom - rc.top);
 
-	//hr = m_pD2DFactory->CreateHwndRenderTarget(
-	//	D2D1::RenderTargetProperties(),
-	//	D2D1::HwndRenderTargetProperties(
-	//		hwnd,
-	//		D2D1::SizeU((width, height))
-	//	),
-	//	&pRT
-	//);
+	hr = m_pD2DFactory->CreateHwndRenderTarget(
+		D2D1::RenderTargetProperties(),
+		D2D1::HwndRenderTargetProperties(
+			hwnd,
+			D2D1::SizeU((width, height))
+		),
+		&pRT
+	);
 	auto owner = static_pointer_cast<CControl>(this->shared_from_this());
 	this->m_Root = owner;
 	this->SetRoot(this->m_Root);
@@ -368,7 +368,7 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
 	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
 }
-
+#ifdef D2D1_Ex
 bool CWindow::createD3DTexture(void* bytes, int width, int height)
 {
 	D3D11_TEXTURE2D_DESC desc;
@@ -405,11 +405,13 @@ bool CWindow::createD3DTexture(void* bytes, int width, int height)
 
 	return (result == S_OK) ? true : false;
 }
+#endif
 
 #include "File.h"
 #include "CD2D_SolidColorBrush.h"
 void CWindow::OnRender(ID2D1RenderTarget* pRT)
 {	
+#ifdef D2D1_Ex
 	IO::File::ReadAllBytes(L"");
 	RECT rc;
 	GetClientRect(this->m_hWnd, &rc);
@@ -432,36 +434,40 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 	m_d2dContext->EndDraw();
 	DXGI_PRESENT_PARAMETERS parameters = { 0 };
 	HRESULT hr = m_swapChain->Present1(1, 0, &parameters);
-	//if (pRT != NULL)
-	//{
-	//	this->pRT->BeginDraw();
-	//	this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	//	
+#else
+	if (pRT != NULL)
+	{
+		this->pRT->BeginDraw();
+		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+	
 
-	//	//pRT->PushAxisAlignedClip(
-	//	//	D2D1::RectF(20, 20, 120, 120),
-	//	//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
-	//	//);
+		//pRT->PushAxisAlignedClip(
+		//	D2D1::RectF(20, 20, 120, 120),
+		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+		//);
 
-	//	//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
-	//	//br.Refresh(pRT);
-	//	//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
-	//	////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
-	//	////pRT->PopAxisAlignedClip();
+		//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
+		//br.Refresh(pRT);
+		//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
+		////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
+		////pRT->PopAxisAlignedClip();
 
-	//	//pRT->PushAxisAlignedClip(
-	//	//	D2D1::RectF(40, 40, 100, 100),
-	//	//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
-	//	//);
+		//pRT->PushAxisAlignedClip(
+		//	D2D1::RectF(40, 40, 100, 100),
+		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+		//);
 
-	//	//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
-	//	//pRT->PopAxisAlignedClip();
-	//	//pRT->PopAxisAlignedClip();
+		//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
+		//pRT->PopAxisAlignedClip();
+		//pRT->PopAxisAlignedClip();
 
-	//	CContentControl::OnRender(this->pRT);
+		CContentControl::OnRender(this->pRT);
 
-	//	this->pRT->EndDraw();
-	//}
+		this->pRT->EndDraw();
+	}
+
+
+#endif
 }
 
 void CWindow::SetTitle(const wchar_t* data)
