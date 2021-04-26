@@ -11,7 +11,6 @@ CContentControl::CContentControl()
 	if (!PaddingProperty)
 	{
 		PaddingProperty = ::make_shared<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>>();
-
 	}
 }
 
@@ -34,6 +33,11 @@ void CContentControl::OnRender(ID2D1RenderTarget* pRT)
 	//	this->m_Child->OnRender(this->m_pRenderBuf);
 	//}
 	//::CControl::OnRender(pRT);
+
+	if (this->m_Child)
+	{
+		this->m_Child->OnRender(pRT);
+	}
 }
 
 void CContentControl::Arrange(const CDirectUI_Rect& data)

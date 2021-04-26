@@ -21,6 +21,7 @@ namespace DirectUI
 			ID2D1Bitmap* m_pD2DBitmap = NULL;
 			shared_ptr<Direct2D::CD2D_ImageSource> m_Source;
 			Stretchs m_Stretch = Stretchs::Uniform;
+			CDirectUI_Rect MappingToSource(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y=false);
 		};
 	}
 }

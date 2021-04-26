@@ -14,12 +14,12 @@ CCanvas::CCanvas()
 	if (!LeftProperty)
 	{
 		LeftProperty = ::make_shared<DependencyProperty<float>>();
-		LeftProperty->DependencyChangeHandler = std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
+		LeftProperty->DependencyChangeHandler += std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 	if (!TopProperty)
 	{
 		TopProperty = ::make_shared<DependencyProperty<float>>();
-		TopProperty->DependencyChangeHandler = std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
+		TopProperty->DependencyChangeHandler += std::bind(LeftPropertyChange, std::placeholders::_1, std::placeholders::_2);
 	}
 	
 }

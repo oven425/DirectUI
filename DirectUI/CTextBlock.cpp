@@ -15,16 +15,31 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		return;
 	}
 	
-	this->CreateRenderBuf(pRT, this->DesiredSize);
-	HRESULT hr = S_OK;
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//HRESULT hr = S_OK;
+	//if (this->m_Foreground)
+	//{
+	//	this->m_Foreground->Refresh(this->m_pRenderBuf);
+	//	CDirectUI_Rect rc = this->DesiredSize;
+	//	this->m_pRenderBuf->DrawTextLayout(rc, *this->Font, *this->m_Foreground);
+	//}
+
+	//::CControl::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
 	if (this->m_Foreground)
 	{
-		this->m_Foreground->Refresh(this->m_pRenderBuf);
-		CDirectUI_Rect rc = this->DesiredSize;
-		this->m_pRenderBuf->DrawTextLayout(rc, *this->Font, *this->m_Foreground);
+		this->m_Foreground->Refresh(pRT);
+		
+		pRT->DrawTextLayout(MappingRenderRect1(this->m_ActualRect, this->DesiredSize) , *this->Font, *this->m_Foreground);
 	}
-
-	::CControl::OnRender(pRT);
+	
+	pRT->PopAxisAlignedClip();
 }
 
 void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)

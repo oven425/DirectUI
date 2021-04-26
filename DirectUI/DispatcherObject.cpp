@@ -11,3 +11,8 @@ DispatcherObject::DispatcherObject()
 		m_Dispatcher = ::make_shared<Dispatcher>();
 	}
 }
+
+Dispatcher& DispatcherObject::GetDispatcher()
+{ 
+	return *m_Dispatcher; 
+}

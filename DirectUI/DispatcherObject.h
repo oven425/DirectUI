@@ -12,8 +12,8 @@ namespace DirectUI
 		{
 		public:
 			DispatcherObject();
-			const Dispatcher& GetDispatcher() { return *this->m_Dispatcher; }
-			__declspec(property(get = GetBackground)) const Dispatcher& Dispatch;
+			Dispatcher& GetDispatcher() ;
+			__declspec(property(get = GetDispatcher)) const Dispatcher& Dispatch;
 		private:
 			static shared_ptr<Dispatcher> m_Dispatcher;
 		};

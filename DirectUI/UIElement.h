@@ -2,6 +2,7 @@
 #include "CD2D_Brush.h"
 #include "CDirectUI_Rect.h"
 #include "DependencyObject.h"
+#include "CTrace.h"
 using namespace DirectUI;
 #include <d2d1_1.h>
 #include <d3d11.h>
@@ -125,6 +126,7 @@ namespace DirectUI
 			virtual D2D1_SIZE_F GetSize(float width, float height);
 			virtual void Release() {};
 			static ID2D1Factory* m_pD2DFactory;
+			CDirectUI_Rect MappingRenderRect1(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y = false);
 			CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y = false);
 			CDirectUI_Thinkness m_Margin;
 			bool m_IsEnabled = true;

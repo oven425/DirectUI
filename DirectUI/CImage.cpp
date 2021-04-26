@@ -3,22 +3,103 @@
 using namespace DirectUI;
 using namespace Control;
 
+CDirectUI_Rect CImage::MappingToSource(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
+{
+	CDirectUI_Rect rc = CDirectUI_Rect(0,0, actual_rect.GetWidth(), actual_rect.GetHeight());
+	if (ignore_x == false)
+	{
+		switch (this->m_HorizontalAlignment)
+		{
+		case HorizontalAlignments::Center:
+		{
+			if (rc.GetWidth() < measure_size.GetWidth())
+			{
+				float offset_x = measure_size.GetWidth() - rc.GetWidth();
+				offset_x = offset_x / 2;
+				//rc.SetX(offset_x);
+				rc.SetOffsetX(offset_x);
+			}
+		}
+		break;
+		case HorizontalAlignments::Right:
+		{
+			if (rc.GetWidth() < measure_size.GetWidth())
+			{
+				float offset_x = measure_size.GetWidth() - rc.GetWidth();
+				//CTrace::WriteLine(L"offset_x:%f", offset_x);
+				//rc.SetOffsetX(offset_x);
+				rc.SetX(abs(offset_x));
+			}
+		}
+		break;
+		}
+	}
+	if (ignore_y == false)
+	{
+		switch (this->m_VerticalAlignment)
+		{
+		case VerticalAlignments::Center:
+		{
+			if (rc.GetHeight() < measure_size.GetHeight())
+			{
+				float offset_y = measure_size.GetHeight() - rc.GetHeight();
+				offset_y = offset_y / 2;
+				rc.SetY(offset_y);
+			}
+		}
+		break;
+		case VerticalAlignments::Bottom:
+		{
+			if (rc.GetHeight() < measure_size.GetHeight())
+			{
+				float offset_y = measure_size.GetHeight() - rc.GetHeight();
+				rc.SetY(offset_y);
+			}
+		}
+		break;
+		}
+	}
+
+	return rc;
+}
+
+
 void CImage::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//if (this->m_pD2DBitmap != NULL)
+	//{
+	//	if (this->m_Stretch == Stretchs::None)
+	//	{
+	//		this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+	//	}
+	//	else
+	//	{
+	//		this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	//	}
+	//}
+	//
+	//::CControl::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->m_pD2DBitmap != NULL)
 	{
+		CDirectUI_Rect rc = this->MappingToSource(this->m_ActualRect, this->DesiredSize);
+		//CDirectUI_Rect rc1 = this->m_ActualRect;
+		//rc1.SetX(abs(rc.GetLeft()));
+		//rc1.SetY(abs(rc.GetTop()));
 		if (this->m_Stretch == Stretchs::None)
 		{
-			this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height));
+			pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc);
 		}
 		else
 		{
-			this->m_pRenderBuf->DrawBitmap(this->m_pD2DBitmap, D2D1::RectF(0, 0, this->DesiredSize.width, this->DesiredSize.height), 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+			pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		}
 	}
-	
-	::CControl::OnRender(pRT);
+
+
+	pRT->PopAxisAlignedClip();
 }
 
 D2D1_RECT_F CImage::Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst)

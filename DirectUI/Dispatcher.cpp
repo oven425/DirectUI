@@ -14,7 +14,11 @@ Dispatcher::Dispatcher()
 
 void Dispatcher::Polling()
 {
-
+	while (true)
+	{
+		
+		this_thread::sleep_for(chrono::milliseconds(1));
+	}
 }
 
 //void Dispatcher::UITimer(PVOID lpParam, BOOLEAN TimerOrWaitFired)

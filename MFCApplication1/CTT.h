@@ -7,42 +7,63 @@ using namespace std;
 
 #include "CTT_Propoerty.h"
 
-template<class T>
-struct is_std_function : std::false_type {};
+//template<class T>
+//struct is_std_function : std::false_type {};
+//
+//template<class T>
+//struct is_std_function<std::function<T>> : std::true_type {};
+//
+//// the partial specialization of A is enabled via a template parameter
+//template<class T, class Enable = void>
+//class A {}; // primary template
+//
+//template<class T>
+//class A<T, typename std::enable_if<std::is_floating_point<T>::value>::type> {
+//}; // specialization for floating point types
+//
+//
+//template<class T, class Enable = void>
+//class Event {}; // primary template
+//template<class T>
+//class Event<T, typename std::enable_if<is_std_function<T>::value>::type>
+//{
+//public:
+//	void operator+=(const T& data) 
+//	{
+//
+//		this->m_Handlers.push_back(data);
+//	}
+//
+//	void Fire(T data) 
+//	{
+//		for (auto oo : this->m_Handlers)
+//		{
+//			oo(data);
+//		}
+//	}
+//protected:
+//	vector<T> m_Handlers;
+//};
 
-template<class T>
-struct is_std_function<std::function<T>> : std::true_type {};
-
-// the partial specialization of A is enabled via a template parameter
-template<class T, class Enable = void>
-class A {}; // primary template
-
-template<class T>
-class A<T, typename std::enable_if<std::is_floating_point<T>::value>::type> {
-}; // specialization for floating point types
-
-
-template<class T, class Enable = void>
-class Event {}; // primary template
-template<class T>
-class Event<T, typename std::enable_if<is_std_function<T>::value>::type>
+template<typename T_Result, typename ... Args>
+class Event
 {
 public:
-	void operator+=(const T& data) 
-	{
 
+	void operator+=(std::function<T_Result(Args...)> data)
+	{
 		this->m_Handlers.push_back(data);
 	}
 
-	void Fire(int data) 
+	void Fire(Args ... args)
 	{
 		for (auto oo : this->m_Handlers)
 		{
-			oo(data);
+			oo(args...);
 		}
 	}
 protected:
-	vector<T> m_Handlers;
+	vector<std::function<T_Result(Args...)>> m_Handlers;
 };
 
 
@@ -52,13 +73,13 @@ class CValueConvertBase
 
 };
 
-class CBindingBase
+class CBindingBase :public std::function<void()>
 {
 
 };
 
 template<typename T>
-class CBinding :CBindingBase
+class CBinding :public CBindingBase
 {
 public:
 	CValueConvertBase Convert;

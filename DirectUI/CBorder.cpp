@@ -120,16 +120,84 @@ ID2D1PathGeometry* CBorder::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius 
 void CBorder::OnRender(ID2D1RenderTarget* pRT)
 {
 	HRESULT hr = S_OK;
-	//ID2D1BitmapRenderTarget *pCompatibleRenderTarget = NULL;
-	//HRESULT hr = pRT->CreateCompatibleRenderTarget(this->DesiredSize, &pCompatibleRenderTarget);
-	//pCompatibleRenderTarget->BeginDraw();
-	this->CreateRenderBuf(pRT, this->DesiredSize);
-	CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+
+
+	//CDirectUI_CornerRadius cornerradius = this->m_CornerRadius;
+
+	//CDirectUI_Thinkness borderthickness = this->m_BorderThickness;
+
+	//ID2D1GeometrySink *pGeometrySink = NULL;
+
+
+	//ID2D1PathGeometry* m_pPathGeometryUnion = NULL;
+	//CDirectUI_Thinkness thinkness = borderthickness / 2;
+	//ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, cornerradius - thinkness, thinkness);
+
+	//CDirectUI_Thinkness thinkness1 = borderthickness / 2;
+	//ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ borderthickness, cornerradius - thinkness, -thinkness1);
+
+
+
+	//if (SUCCEEDED(hr))
+	//{
+	//	//
+	//	// Use D2D1_COMBINE_MODE_UNION to combine the geometries.
+	//	//
+	//	hr = m_pD2DFactory->CreatePathGeometry(&m_pPathGeometryUnion);
+
+	//	if (SUCCEEDED(hr))
+	//	{
+	//		hr = m_pPathGeometryUnion->Open(&pGeometrySink);
+
+	//		if (SUCCEEDED(hr))
+	//		{
+	//			hr = m_pBorder->CombineWithGeometry(
+	//				m_pCircleGeometry2,
+	//				D2D1_COMBINE_MODE::D2D1_COMBINE_MODE_EXCLUDE,
+	//				NULL,
+	//				NULL,
+	//				pGeometrySink
+	//			);
+	//		}
+
+	//		if (SUCCEEDED(hr))
+	//		{
+	//			hr = pGeometrySink->Close();
+	//		}
+
+	//		//SafeRelease(&pGeometrySink);
+	//	}
+	//}
+	//if (this->m_BorderBrush)
+	//{
+	//	this->m_BorderBrush->Refresh(this->m_pRenderBuf);
+	//	this->m_pRenderBuf->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
+	//}
+	//if (this->Background)
+	//{
+	//	this->Background->Refresh(this->m_pRenderBuf);
+	//	this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->Background);
+	//}
+
+	//
+
+	//if (this->m_Child)
+	//{
+	//	this->m_Child->OnRender(this->m_pRenderBuf);
+	//}
+
+	//::CControl::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+
+	//CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
+	CDirectUI_Rect rc = this->MappingRenderRect1(this->m_ActualRect, this->DesiredSize);
 
 
 	CDirectUI_CornerRadius cornerradius = this->m_CornerRadius;
 
-	//CDirectUI_Thinkness m_BorderThickness(10);
 	CDirectUI_Thinkness borderthickness = this->m_BorderThickness;
 
 	ID2D1GeometrySink *pGeometrySink = NULL;
@@ -140,7 +208,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 	ID2D1PathGeometry* m_pBorder = this->BuildPath(rc, cornerradius - thinkness, thinkness);
 
 	CDirectUI_Thinkness thinkness1 = borderthickness / 2;
-	ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc+ borderthickness, cornerradius - thinkness, -thinkness1);
+	ID2D1PathGeometry* m_pCircleGeometry2 = this->BuildPath(rc + borderthickness, cornerradius - thinkness, -thinkness1);
 
 
 
@@ -176,56 +244,25 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 	}
 	if (this->m_BorderBrush)
 	{
-		this->m_BorderBrush->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
+		this->m_BorderBrush->Refresh(pRT);
+		pRT->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
 	}
-	//if (this->m_Background)
-	//{
-	//	this->m_Background->Refresh(this->m_pRenderBuf);
-	//	this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->m_Background);
-	//}
 	if (this->Background)
 	{
-		this->Background->Refresh(this->m_pRenderBuf);
-		this->m_pRenderBuf->FillGeometry(m_pCircleGeometry2, *this->Background);
+		this->Background->Refresh(pRT);
+		pRT->FillGeometry(m_pCircleGeometry2, *this->Background);
 	}
 
-	
+
 
 	if (this->m_Child)
 	{
-		this->m_Child->OnRender(this->m_pRenderBuf);
+		this->m_Child->OnRender(pRT);
 	}
 
-	::CControl::OnRender(pRT);
-}
+	pRT->PopAxisAlignedClip();
 
-//void CBorder::Arrange(float x, float y, float width, float height)
-//{
-//	CDirectUI_Size border_sz = CDirectUI_Size(width, height) + this->m_Margin;
-//	if (this->m_Child)
-//	{
-//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-//		{
-//			this->DesiredSize.width = border_sz.GetWidth();
-//		}
-//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-//		{
-//			this->DesiredSize.height = border_sz.GetHeight();
-//		}
-//		CControl::Arrange(x, y, width, height);
-//		
-//		CDirectUI_Rect rc = this->DesiredSize;
-//		rc = rc + this->m_BorderThickness;
-//		rc = rc + this->m_Padding;
-//		
-//		this->m_Child->Arrange(rc.GetX(), rc.GetY(), rc.GetWidth(), rc.GetHeight());
-//	}
-//	else
-//	{
-//		CControl::Arrange(x, y, width, height);
-//	}
-//}
+}
 
 void CBorder::Arrange(const CDirectUI_Rect& data)
 {
@@ -244,7 +281,10 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 		
 		CDirectUI_Rect rc = this->DesiredSize;
 		rc = rc + this->m_BorderThickness;
-		rc = rc + *this->Padding;
+		if (this->Padding)
+		{
+			rc = rc + *this->Padding;
+		}
 		
 		this->m_Child->Arrange(data);
 	}
@@ -260,7 +300,11 @@ void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	CDirectUI_Size border_sz = data + this->m_Margin;
 	if (this->m_Child)
 	{
-		CDirectUI_Size child_sz = border_sz + *this->Padding + this->m_BorderThickness;
+		CDirectUI_Size child_sz = border_sz + this->m_BorderThickness;
+		if (this->Padding)
+		{
+			child_sz = child_sz + *this->Padding;
+		}
 		this->m_Child->Measure(child_sz, pRT);
 		
 		//else

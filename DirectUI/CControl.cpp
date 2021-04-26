@@ -10,7 +10,7 @@ CControl::CControl()
 	if (!BackgroundProperty)
 	{
 		BackgroundProperty = ::make_shared<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>>();
-		BackgroundProperty->DependencyChangeHandler = std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
+		BackgroundProperty->DependencyChangeHandler += std::bind(BackgroundPropertyChange, std::placeholders::_1, std::placeholders::_2);
 		BackgroundProperty->m_Name = L"Background";
 	}
 }

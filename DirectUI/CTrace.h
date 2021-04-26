@@ -34,7 +34,11 @@ namespace DirectUI
 			::OutputDebugStringW(buf.get());
 			::OutputDebugStringW(L"\r\n");
 		}
-
+		CTrace operator<<(const wchar_t* data)
+		{
+			::OutputDebugStringW(data);
+			return *this;
+		}
 
 	};
 }

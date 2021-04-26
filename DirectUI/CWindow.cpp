@@ -226,8 +226,8 @@ LRESULT CWindow::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UIN
 bool CWindow::Init(HWND hwnd)
 {
 	this->m_hWnd = hwnd;
-	
-
+	const Dispatcher& aa = this->Dispatch;
+	this->Dispatch.Invoke([]() {});
 	SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
 	RECT rc;
 	GetClientRect(hwnd, &rc);
@@ -362,7 +362,7 @@ bool CWindow::HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs)
 
 void CWindow::OnSize(float width, float height, float dpiscale)
 {
-	//this->pRT->Resize(D2D1::SizeU(width, height));
+	this->pRT->Resize(D2D1::SizeU(width, height));
 	//CContentControl::OnSize(width, height, dpiscale);
 
 	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
@@ -448,17 +448,11 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 
 		//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
 		//br.Refresh(pRT);
-		//////pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
+		//pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
 		////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
 		////pRT->PopAxisAlignedClip();
 
-		//pRT->PushAxisAlignedClip(
-		//	D2D1::RectF(40, 40, 100, 100),
-		//	D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
-		//);
 
-		//pRT->DrawRectangle(D2D1::RectF(10, 10, 100, 100), br, 5);
-		//pRT->PopAxisAlignedClip();
 		//pRT->PopAxisAlignedClip();
 
 		CContentControl::OnRender(this->pRT);

@@ -59,10 +59,11 @@ namespace DirectUI
 				auto args = DependencyPropertyChangeArgs<T>();
 				args.OldValue = old;
 				args.NewValue = data;
-				if (dp->DependencyChangeHandler)
-				{
-					dp->DependencyChangeHandler(*this, args);
-				}
+				//if (dp->DependencyChangeHandler)
+				//{
+				//	dp->DependencyChangeHandler(*this, args);
+				//}
+				dp->DependencyChangeHandler.Fire(*this, args);
 			}
 			m_Save[dp] = data;
 		}
@@ -94,10 +95,11 @@ namespace DirectUI
 				auto args = DependencyPropertyChangeArgs<T>();
 				args.OldValue = old;
 				args.NewValue = data;
-				if (dp->DependencyChangeHandler)
-				{
-					dp->DependencyChangeHandler(*this, args);
-				}
+				//if (dp->DependencyChangeHandler)
+				//{
+				//	dp->DependencyChangeHandler(*this, args);
+				//}
+				dp->DependencyChangeHandler.Fire(*this, args);
 			}
 
 			m_Save[dp] = data;

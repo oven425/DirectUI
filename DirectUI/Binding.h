@@ -51,6 +51,7 @@ namespace DirectUI
 				{
 					dp->DependencyChangeHandler = [](const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)
 					{
+						
 					};
 				}
 			}
@@ -71,10 +72,37 @@ namespace DirectUI
 		};
 
 		template<typename T>
-		class __declspec(dllexport) Binding : public BindingBase
+		class __declspec(dllexport) Binding
 		{
 		public:
+			void SetSource(shared_ptr<DependencyProperty<T>> dp, shared_ptr<DirectUI::Control::UIElement> ui)
+			{
+				this->m_Source = ui;
+				this->m_SourceDP = dp;
+				if (dp)
+				{
+					dp->DependencyChangeHandler += [](const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)
+					{
+
+					};
+				}
+			}
+			void SetTarget(shared_ptr<DependencyProperty<T>> dp, shared_ptr<DirectUI::Control::UIElement> ui)
+			{
+				m_TargetDP = dp;
+				this->m_Target = ui;
+				if (!dp && !ui)
+				{
+
+				}
+			}
 			shared_ptr<IValueConverter<T,T>> Converter;
+		protected:
+			BindingModes m_Mode = BindingModes::TwoWay;
+			shared_ptr<DirectUI::Control::UIElement> m_Target;
+			shared_ptr<DependencyPropertyBase> m_TargetDP;
+			shared_ptr<DirectUI::Control::UIElement> m_Source;
+			shared_ptr<DependencyPropertyBase> m_SourceDP;
 		};
 	}
 }

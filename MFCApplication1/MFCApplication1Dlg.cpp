@@ -205,10 +205,31 @@ typed_foo(const F& f) {
 
 shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
 shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
-BOOL CMFCApplication1Dlg::OnInitDialog()
+
+void Eventt(int a, string b)
 {
 
-	//Event<int> evtt;
+}
+
+void Invoke(std::function<void()> data)
+{
+	data();
+}
+
+BOOL CMFCApplication1Dlg::OnInitDialog()
+{
+	//Invoke(CBinding<int>());
+
+	//Event<void, int, string> evt1;
+	//evt1 += std::bind(Eventt, std::placeholders::_1, std::placeholders::_2);
+	//evt1 += [](int a, string b)
+	//{
+	//	int aa = a;
+	//	string bb = b;
+	//};
+	//evt1.Fire(10, "20");
+
+	//
 	//float fff = 1.3;
 	////typed_foo<shared_ptr<int>>(make_shared<int>(10));
 	////SetValue("123");
@@ -379,39 +400,39 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//canvas->AddChild(image);
 	//windows->SetChild(canvas);
 
-	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	//border->Name = L"border";
-	////border->SetCornerRadius(CDirectUI_CornerRadius(20));
-	//border->SetBorderThickness(CDirectUI_Thinkness(10));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	////border->SetWidth(200);
-	//border->SetHorizontalAlignment(HorizontalAlignments::Center);
-	////border->SetVerticalAlignment(VerticalAlignments::Bottom);
-	////border->SetMargin(CDirectUI_Thinkness(20));
-	////border->SetPadding(CDirectUI_Thinkness(40));
-	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//imgsource->Open(L"sample.jpg");
-	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::Uniform);
-	////image->SetHieght(100);
-	////image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//image->Name = L"image";
-	////image->Margin = CDirectUI_Thinkness(10);
+	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+	border->Name = L"border";
+	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
+	border->SetBorderThickness(CDirectUI_Thinkness(10));
+	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
+	border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
+	//border->SetWidth(200);
+	border->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//border->SetMargin(CDirectUI_Thinkness(20));
+	//border->SetPadding(CDirectUI_Thinkness(40));
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	imgsource->Open(L"sample.jpg");
+	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	image->SetSource(imgsource);
+	image->SetStretch(Stretchs::Uniform);
+	//image->SetHieght(100);
+	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	image->Name = L"image";
+	//image->Margin = CDirectUI_Thinkness(10);
 	//border->SetChild(image);
 
-	//shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>();
-	//textblock->Name = L"text";
-	////textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
-	////textblock->SetVerticalAlignment(VerticalAlignments::Center);
-	//textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
-	//textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
-	//textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	//border->SetChild(textblock);
-	//windows->SetChild(border);
+	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>();
+	textblock->Name = L"text";
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
+	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
+	textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
+	textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	border->SetChild(textblock);
+	windows->SetChild(border);
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
@@ -436,15 +457,15 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
 	//windows->SetChild(ellipse);
 
-	shared_ptr<Shapes::Rectangle> rectangle = ::make_shared<Shapes::Rectangle>();
-	rectangle->RadiusX = 50;
-	rectangle->RadiusY = 50;
-	rectangle->SetWidth(200);
-	rectangle->SetHieght(200);
-	//rectangle->Stretch = Stretchs::Uniform;
-	rectangle->SetHorizontalAlignment(HorizontalAlignments::Right);
-	rectangle->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
-	windows->SetChild(rectangle);
+	//shared_ptr<Shapes::Rectangle> rectangle = ::make_shared<Shapes::Rectangle>();
+	//rectangle->RadiusX = 50;
+	//rectangle->RadiusY = 50;
+	//rectangle->SetWidth(200);
+	//rectangle->SetHieght(200);
+	////rectangle->Stretch = Stretchs::Uniform;
+	//rectangle->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//rectangle->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
+	//windows->SetChild(rectangle);
 
 	//shared_ptr<CUniformGrid> uniformgrid = ::make_shared<CUniformGrid>();
 	//uniformgrid->Name = L"uniformgrid";
@@ -512,28 +533,18 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//}
 	//windows->SetChild(grid);
 
-	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	//border->SetBorderThickness(10);
-	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	//border->SetMargin(CDirectUI_Thinkness(20));
-	////border->SetWidth(300);
-	////border->SetHieght(300);
-	//border->Name = L"border";
-	////border->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////border->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//windows->SetChild(border);
+
 
 	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
 	//imgsource->Open(L"sample.jpg");
 	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
 	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::None);
+	//image->SetStretch(Stretchs::Fill);
 	////image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//image->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//image->Name = L"image";
-	//image->SetMargin(CDirectUI_Thinkness(10,20,40,60));
+	//image->SetMargin(CDirectUI_Thinkness(30));
 	//windows->SetChild(image);
 
 	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
@@ -547,15 +558,15 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	////textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
 	//textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	////textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
-	//textblock->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f)));
+	//textblock->Background =::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	//textblock->SetForeground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f)));
 	//textblock->Name = L"textblock";
-	//textblock->SetMargin(CDirectUI_Thinkness(10, 20, 40, 60));
-	//textblock->SetWidth(200);
+	//textblock->SetMargin(CDirectUI_Thinkness(10));
+	////textblock->SetWidth(200);
 	////textblock->SetHieght(10);
 
-	////textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////textblock->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
 	//windows->SetChild(textblock);
 
 
