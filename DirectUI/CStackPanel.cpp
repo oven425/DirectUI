@@ -39,7 +39,7 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Size stackpanel_sz = data + this->m_Margin;
+	CDirectUI_Size stackpanel_sz = data + *this->Margin;
 	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
@@ -94,19 +94,19 @@ void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void CStackPanel::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Rect rc = data + this->m_Margin;
+	CDirectUI_Rect rc = data + *this->Margin;
 	float w = this->DesiredSize.width;
 	float h = this->DesiredSize.height;
 	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
 	{
-		if (w > rc.GetWidth() - this->m_Margin.GetLeft() - this->m_Margin.GetRight())
+		if (w > rc.GetWidth() - (*this->Margin).GetLeft() - (*this->Margin).GetRight())
 		{
 			w = rc.GetWidth();
 		}
 	}
 	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
 	{
-		if (h > rc.GetHeight() - this->m_Margin.GetTop() - this->m_Margin.GetBottom())
+		if (h > rc.GetHeight() - (*this->Margin).GetTop() - (*this->Margin).GetBottom())
 		{
 			h = rc.GetHeight();
 		}

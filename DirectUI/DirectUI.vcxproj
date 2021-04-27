@@ -196,7 +196,7 @@
     <ClInclude Include="CTextBlock.h" />
     <ClInclude Include="CThumb.h" />
     <ClInclude Include="CTrace.h" />
-    <ClInclude Include="CUniformGrid.h" />
+    <ClInclude Include="UniformGrid.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Ellipse.h" />
@@ -247,7 +247,7 @@
     <ClCompile Include="CTextBlock.cpp" />
     <ClCompile Include="CThumb.cpp" />
     <ClCompile Include="CTrace.cpp" />
-    <ClCompile Include="CUniformGrid.cpp" />
+    <ClCompile Include="UniformGrid.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="dllmain.cpp" />

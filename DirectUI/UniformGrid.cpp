@@ -1,21 +1,38 @@
 #include "pch.h"
 #include <math.h>
-#include "CUniformGrid.h"
+#include "UniformGrid.h"
 using namespace DirectUI;
 using namespace Control;
 
-void CUniformGrid::OnRender(ID2D1RenderTarget* pRT)
+shared_ptr<DependencyProperty<unsigned int>> UniformGrid::RowsProperty;
+shared_ptr<DependencyProperty<unsigned int>> UniformGrid::ColumnsProperty;
+
+void UniformGrid::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//for (auto oo : this->m_Childs)
+	//{
+	//	oo->OnRender(this->m_pRenderBuf);
+	//}
+	//::CControl::OnRender(pRT);
+
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
+	pRT->PopAxisAlignedClip();
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(this->m_pRenderBuf);
+		oo->OnRender(pRT);
 	}
 
-	::CControl::OnRender(pRT);
+	
 }
 
-void CUniformGrid::CheckRowCol(float width, float height)
+void UniformGrid::CheckRowCol(float width, float height)
 {
 	this->m_CellCount = this->m_Childs.size();
 	this->m_CellRows = 0;
@@ -48,10 +65,10 @@ void CUniformGrid::CheckRowCol(float width, float height)
 	this->m_CellHeight = height / this->m_CellRows;
 }
 
-void CUniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
+void UniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	//::CControl::Measure(width, height, pRT);
-	CDirectUI_Size sz = data + this->m_Margin;
+	CDirectUI_Size sz = data + *this->Margin;
 	this->CheckRowCol(sz.GetWidth(), sz.GetHeight());
 	for (auto oo : this->m_Childs)
 	{
@@ -85,10 +102,10 @@ void CUniformGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	this->DesiredSize.height = height1 * this->m_CellRows;
 }
 
-void CUniformGrid::Arrange(const CDirectUI_Rect& data)
+void UniformGrid::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Rect rc = data + this->m_Margin;
-	rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
+	CDirectUI_Rect rc = data + *this->Margin;
+	//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
 	if (rc.GetWidth() > this->DesiredSize.width)
 	{
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
@@ -103,7 +120,8 @@ void CUniformGrid::Arrange(const CDirectUI_Rect& data)
 			this->DesiredSize.height = rc.GetHeight();
 		}
 	}
-
+	::CControl::Arrange(data);
+	rc = this->m_ActualRect;
 	this->CheckRowCol(rc.GetWidth(), rc.GetHeight());
 	unsigned int index = 0;
 	float cellwidth = this->m_CellWidth;
@@ -123,53 +141,9 @@ void CUniformGrid::Arrange(const CDirectUI_Rect& data)
 			}
 		}
 	}
-
-	::CControl::Arrange(data);
 }
 
-//void CUniformGrid::Arrange(float x, float y, float width, float height)
-//{
-//	CDirectUI_Rect rc = CDirectUI_Rect(x, y, x + width, y + height);
-//	rc = rc + this->m_Margin;
-//	if (rc.GetWidth() > this->DesiredSize.width)
-//	{
-//		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-//		{
-//			this->DesiredSize.width = rc.GetWidth();
-//		}
-//	}
-//	if (rc.GetHeight() > this->DesiredSize.height)
-//	{
-//		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-//		{
-//			this->DesiredSize.height = rc.GetHeight();
-//		}
-//	}
-//	
-//	this->CheckRowCol(rc.GetWidth(), rc.GetHeight());
-//	unsigned int index = 0;
-//	float cellwidth = this->m_CellWidth;
-//	for (int row = 0; row < this->m_CellRows; row++)
-//	{
-//		for (int col = 0; col < this->m_CellColums; col++)
-//		{
-//			index = row * this->m_CellColums + col;
-//			
-//			if (index < this->m_Childs.size())
-//			{
-//				float cellwidth = this->m_CellWidth;
-//				float cellheight = this->m_CellHeight;
-//				float x1 = x + col * cellwidth;
-//				float y1 = y + row * cellheight;
-//				this->m_Childs[index]->Arrange(x1,y1, cellwidth, cellheight);
-//			}
-//		}
-//	}
-//
-//	::CControl::Arrange(x, y, width, height);
-//}
-
-void CUniformGrid::OnSize(float width, float height, float dpiscale)
+void UniformGrid::OnSize(float width, float height, float dpiscale)
 {
 	::CControl::OnSize(width, height, dpiscale);
 	for (auto oo : this->m_Childs)
@@ -178,12 +152,12 @@ void CUniformGrid::OnSize(float width, float height, float dpiscale)
 	}
 }
 
-void CUniformGrid::SetRows(int data)
+void UniformGrid::SetRows(int data)
 {
 	this->m_Rows = data;
 }
 
-void CUniformGrid::SetColums(int data)
+void UniformGrid::SetColums(int data)
 {
 	this->m_Columns = data;
 }

@@ -46,7 +46,7 @@ void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
 	//CDirectUI_Thinkness margin = this->m_Margin;
-	CDirectUI_Size sz1 = data + this->m_Margin;
+	CDirectUI_Size sz1 = data + *this->Margin;
 	//width = width - margin.GetLeft() - margin.GetRight();
 	//height = height - margin.GetTop() - margin.GetBottom();
 	float w = sz1.GetWidth();
@@ -77,7 +77,7 @@ void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void CTextBlock::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Rect rc = data + this->m_Margin;
+	CDirectUI_Rect rc = data + *this->Margin;
 	if (this->DesiredSize.width < rc.GetWidth())
 	{
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)

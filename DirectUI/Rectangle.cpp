@@ -25,7 +25,7 @@ Rectangle::Rectangle()
 void Rectangle::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Size sz = data + this->m_Margin;
+	CDirectUI_Size sz = data + *this->Margin;
 	if (this->m_Width > 0)
 	{
 		switch (this->Stretch)
@@ -88,8 +88,7 @@ void Rectangle::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void Rectangle::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Thinkness margin = this->m_Margin;
-	CDirectUI_Rect rc = data + this->m_Margin;
+	CDirectUI_Rect rc = data + *this->Margin;
 	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
 	float left = rc.GetLeft();
 	float top = rc.GetTop();
@@ -182,18 +181,64 @@ void Rectangle::Arrange(const CDirectUI_Rect& data)
 
 void Rectangle::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize, false);
-	CDirectUI_Rect render_rc = this->DesiredSize;
+	//this->CreateRenderBuf(pRT, this->DesiredSize, false);
+	//CDirectUI_Rect render_rc = this->DesiredSize;
+	//switch (this->Stretch)
+	//{
+	//case Stretchs::Uniform:
+	//{
+	//	render_rc = CDirectUI_Rect(min(this->DesiredSize.width, this->DesiredSize.height));
+	//}
+	//break;
+	//case Stretchs::UniformToFill:
+	//{
+	//	render_rc = CDirectUI_Rect(max(this->DesiredSize.width, this->DesiredSize.height));
+	//}
+	//break;
+	//}
+	//if (this->Fill)
+	//{
+	//	this->Fill->Refresh(pRT);
+	//	float radius_x = this->RadiusX;
+	//	float radius_y = this->RadiusY;
+	//	if (radius_x > 0 && radius_y > 0)
+	//	{
+	//		CDirectUI_RoundedRect rounded(render_rc, radius_x, radius_y);
+	//		this->m_pRenderBuf->FillRoundedRectangle(rounded, *this->Fill);
+	//	}
+	//	else
+	//	{
+	//		this->m_pRenderBuf->FillRectangle(render_rc, *this->Fill);
+	//	}
+	//	
+	//}
+	//if (this->StrokeThickness > 0 && this->Stroke)
+	//{
+	//	this->Stroke->Refresh(pRT);
+	//	auto br = *this->Stroke;
+	//	this->m_pRenderBuf->DrawEllipse(CDirectUI_Rect(this->DesiredSize) + this->StrokeThickness / 2, *this->Stroke, this->StrokeThickness);
+	//}
+
+	//Control::UIElement::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	CDirectUI_Rect render_rc = this->m_ActualRect;
 	switch (this->Stretch)
 	{
 	case Stretchs::Uniform:
 	{
-		render_rc = CDirectUI_Rect(min(this->DesiredSize.width, this->DesiredSize.height));
+		//render_rc = CDirectUI_Rect(min(this->DesiredSize.width, this->DesiredSize.height));
+		float ff = min(this->DesiredSize.width, this->DesiredSize.height);
+		render_rc.SetWidth(ff);
+		render_rc.SetHeight(ff);
 	}
 	break;
 	case Stretchs::UniformToFill:
 	{
-		render_rc = CDirectUI_Rect(max(this->DesiredSize.width, this->DesiredSize.height));
+		//render_rc = CDirectUI_Rect(max(this->DesiredSize.width, this->DesiredSize.height));
+		float ff = max(this->DesiredSize.width, this->DesiredSize.height);
+		render_rc.SetWidth(ff);
+		render_rc.SetHeight(ff);
 	}
 	break;
 	}
@@ -205,22 +250,21 @@ void Rectangle::OnRender(ID2D1RenderTarget* pRT)
 		if (radius_x > 0 && radius_y > 0)
 		{
 			CDirectUI_RoundedRect rounded(render_rc, radius_x, radius_y);
-			this->m_pRenderBuf->FillRoundedRectangle(rounded, *this->Fill);
+			pRT->FillRoundedRectangle(rounded, *this->Fill);
 		}
 		else
 		{
-			this->m_pRenderBuf->FillRectangle(render_rc, *this->Fill);
+			pRT->FillRectangle(render_rc, *this->Fill);
 		}
 		
 	}
 	if (this->StrokeThickness > 0 && this->Stroke)
 	{
 		this->Stroke->Refresh(pRT);
-		auto br = *this->Stroke;
-		this->m_pRenderBuf->DrawEllipse(CDirectUI_Rect(this->DesiredSize) + this->StrokeThickness / 2, *this->Stroke, this->StrokeThickness);
+		pRT->DrawEllipse(CDirectUI_Rect(this->DesiredSize) + this->StrokeThickness / 2, *this->Stroke, this->StrokeThickness);
 	}
 
-	Control::UIElement::OnRender(pRT);
+	pRT->PopAxisAlignedClip();
 
 }
 

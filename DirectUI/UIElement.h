@@ -128,12 +128,17 @@ namespace DirectUI
 			static ID2D1Factory* m_pD2DFactory;
 			CDirectUI_Rect MappingRenderRect1(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y = false);
 			CDirectUI_Rect MappingRenderRect(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x = false, bool ignore_y = false);
-			CDirectUI_Thinkness m_Margin;
+			//CDirectUI_Thinkness m_Margin;
 			bool m_IsEnabled = true;
 			virtual void CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& data, shared_ptr<Direct2D::CD2D_Brush> background);
 			ID2D1BitmapRenderTarget* m_pRenderBuf = NULL;
+			
+			
 		public:
-			void SetMargin(CDirectUI_Thinkness& data);
+			void SetMargin(shared_ptr<CDirectUI_Thinkness> data);
+			shared_ptr<CDirectUI_Thinkness> GetMargin();
+			__declspec(property(get = GetMargin, put = SetMargin)) shared_ptr<CDirectUI_Thinkness> Margin;
+			//void SetMargin(CDirectUI_Thinkness& data);
 			wstring Name = L"";
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
 			virtual void Arrange(const CDirectUI_Rect& data);
@@ -164,6 +169,7 @@ namespace DirectUI
 		private:
 			Trees m_Tree = Trees::Logic;
 		protected:
+			static shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> MarginProperty;
 			//static shared_ptr<DependencyProperty<int>> HorizontalAlignmentProperty;
 			//static shared_ptr<DependencyProperty<int>> VerticalAlignmentProperty;
 		};

@@ -266,7 +266,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 
 void CBorder::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Size border_sz = data + this->m_Margin;
+	CDirectUI_Size border_sz = data + *this->Margin;
 	if (this->m_Child)
 	{
 		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
@@ -279,14 +279,11 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 		}
 		CControl::Arrange(data);
 		
-		CDirectUI_Rect rc = this->DesiredSize;
-		rc = rc + this->m_BorderThickness;
-		if (this->Padding)
-		{
-			rc = rc + *this->Padding;
-		}
+		CDirectUI_Rect rc = this->m_ActualRect;
+		rc = rc + this->m_BorderThickness + *this->Padding;
+
 		
-		this->m_Child->Arrange(data);
+		this->m_Child->Arrange(rc);
 	}
 	else
 	{
@@ -297,14 +294,11 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Size border_sz = data + this->m_Margin;
+	CDirectUI_Size border_sz = data + *this->Margin;
 	if (this->m_Child)
 	{
-		CDirectUI_Size child_sz = border_sz + this->m_BorderThickness;
-		if (this->Padding)
-		{
-			child_sz = child_sz + *this->Padding;
-		}
+		CDirectUI_Size child_sz = border_sz + this->m_BorderThickness + *this->Padding;
+
 		this->m_Child->Measure(child_sz, pRT);
 		
 		//else

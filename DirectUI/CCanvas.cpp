@@ -33,18 +33,30 @@ void CCanvas::LeftPropertyChange(const DependencyObject& sender, const Dependenc
 
 void CCanvas::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//for (auto oo : this->m_Childs)
+	//{
+	//	oo->OnRender(this->m_pRenderBuf);
+	//}
+
+	//::CControl::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
+	pRT->PopAxisAlignedClip();
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(this->m_pRenderBuf);
+		oo->OnRender(pRT);
 	}
-
-	::CControl::OnRender(pRT);
 }
 
 void CCanvas::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
-	CDirectUI_Size sz = data + this->m_Margin;
+	CDirectUI_Size sz = data + *this->Margin;
 	for (auto oo : this->m_Childs)
 	{
 		CDirectUI_Size child_sz(oo->GetWidth(), oo->GetHieght());
@@ -58,8 +70,8 @@ void CCanvas::Arrange(const CDirectUI_Rect& data)
 	::CControl::Arrange(data);
 	for (auto oo : this->m_Childs)
 	{
-		float child_x = GetLeft(oo);
-		float child_y = GetTop(oo);
+		float child_x = GetLeft(oo)+this->m_ActualRect.GetLeft();
+		float child_y = GetTop(oo) + this->m_ActualRect.GetTop();
 		//char msg[256] = { 0 };
 		//::sprintf_s(msg, "child_x:%f child_y:%f\r\n", child_x, child_y);
 		//::OutputDebugStringA(msg);

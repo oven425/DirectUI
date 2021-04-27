@@ -25,6 +25,7 @@ namespace Control
 		__declspec(property(get = GetBackground, put = SetBackground)) shared_ptr<Direct2D::CD2D_Brush> Background;
 	protected:
 		virtual void Release() {};
+		virtual void DrawBackground(ID2D1RenderTarget* pRT);
 	public:
 		static shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> BackgroundPropertyInstance();
 		static shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> BackgroundProperty;

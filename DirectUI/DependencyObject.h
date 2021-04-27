@@ -69,7 +69,7 @@ namespace DirectUI
 		}
 
 		template<typename T>
-		inline typename std::enable_if<!Extension::is_shared_ptr<T>::value, void>::type
+		inline typename std::enable_if<!Extension::is_shared_ptr<T>::value&&std::is_arithmetic<T>::value, void>::type
 			SetValue(shared_ptr<DependencyProperty<T>> dp, T data)
 		{
 			if (!dp)
@@ -106,7 +106,7 @@ namespace DirectUI
 		}
 
 		template<typename T>
-		inline typename std::enable_if<!Extension::is_shared_ptr<T>::value, T>::type
+		inline typename std::enable_if<!Extension::is_shared_ptr<T>::value&&std::is_arithmetic<T>::value, T>::type
 			GetValue(shared_ptr<DependencyProperty<T>> dp)
 		{
 			if (dp)
@@ -147,6 +147,7 @@ namespace DirectUI
 						//::OutputDebugStringA("");
 					}
 				}
+				return (*dp).m_Default;
 			}
 			return T{};
 		}

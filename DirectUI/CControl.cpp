@@ -43,3 +43,12 @@ shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> CControl::Backg
 {
 	return BackgroundProperty;
 }
+
+void CControl::DrawBackground(ID2D1RenderTarget* pRT)
+{
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
+}

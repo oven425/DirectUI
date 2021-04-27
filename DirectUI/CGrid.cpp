@@ -43,7 +43,7 @@ void CGrid::OnRender(ID2D1RenderTarget* pRT)
 
 void CGrid::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
-	CDirectUI_Size sz = data + this->m_Margin;
+	CDirectUI_Size sz = data + *this->Margin;
 	vector<CDirectUI_Size> size_col;
 	vector<CDirectUI_Size> size_row;
 	for (auto oo : this->m_ColumnDefinitions)

@@ -8,13 +8,12 @@ namespace DirectUI
 {
 	namespace Control
 	{
-		class __declspec(dllexport) CUniformGrid : public CPanel
+		class __declspec(dllexport) UniformGrid : public CPanel
 		{
 		public:
 			virtual void OnRender(ID2D1RenderTarget* pRT) override;
 			virtual void OnSize(float width, float height, float dpiscale) override;
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
-			//virtual void Arrange(float x, float y, float width, float height) override;
 			void Arrange(const CDirectUI_Rect& data) override;
 			void SetRows(int data);
 			void SetColums(int data);
@@ -29,6 +28,8 @@ namespace DirectUI
 			int m_CellColums = 0;
 			int m_Rows = 0;
 			int m_Columns = 0;
+			static shared_ptr<DependencyProperty<unsigned int>> RowsProperty;
+			static shared_ptr<DependencyProperty<unsigned int>> ColumnsProperty;
 		};
 	}
 }

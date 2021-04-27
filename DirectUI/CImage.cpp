@@ -207,10 +207,10 @@ D2D1_RECT_F CImage::Calculate_UniformToFill(const D2D1_RECT_F& rcSrc, const D2D1
 void CImage::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Thinkness margin = this->m_Margin;
+	CDirectUI_Thinkness margin = *this->Margin;
 
 
-	CDirectUI_Size sz = data + this->m_Margin;
+	CDirectUI_Size sz = data + *this->Margin;
 
 	if (this->m_Width > 0)
 	{

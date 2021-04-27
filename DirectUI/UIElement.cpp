@@ -6,13 +6,9 @@ using namespace Control;
 ID2D1Factory* UIElement::m_pD2DFactory = NULL;
 //shared_ptr<DependencyProperty<int>> UIElement::HorizontalAlignmentProperty;
 //shared_ptr<DependencyProperty<int>> UIElement::VerticalAlignmentProperty;
-
+shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> UIElement::MarginProperty;
 UIElement::UIElement()
 {
-	
-
-
-
 	//if (!HorizontalAlignmentProperty)
 	//{
 	//	HorizontalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
@@ -25,6 +21,13 @@ UIElement::UIElement()
 	//	VerticalAlignmentProperty->m_Name = L"VerticalAlignment";
 	//}
 	//this->SetValue(VerticalAlignmentProperty, (int)VerticalAlignments::Stretch);
+
+	if (!MarginProperty)
+	{
+		MarginProperty = ::make_shared<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>>();
+		MarginProperty->m_Default = ::make_shared<CDirectUI_Thinkness>();
+		MarginProperty->m_Name = L"Margin";
+	}
 }
 
 //void UIElement::BackgroundPropertyChange(const DependencyObject& sender, const DependencyPropertyChangeArgs< Direct2D::CD2D_Brush>& args)
@@ -223,8 +226,7 @@ void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& da
 
 void UIElement::Arrange(const CDirectUI_Rect& data)
 {
-	CDirectUI_Thinkness margin = this->m_Margin;
-	CDirectUI_Rect rc = data + this->m_Margin;
+	CDirectUI_Rect rc = data + *this->Margin;
 	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
 	float left = rc.GetLeft();
 	float top = rc.GetTop();
@@ -379,10 +381,10 @@ void UIElement::SetHorizontalAlignment(HorizontalAlignments data)
 	this->m_HorizontalAlignment = data;
 }
 
-void UIElement::SetMargin(CDirectUI_Thinkness& data)
-{
-	this->m_Margin = data;
-}
+//void UIElement::SetMargin(CDirectUI_Thinkness& data)
+//{
+//	this->m_Margin = data;
+//}
 
 void UIElement::SetEnabled(bool data)
 {
@@ -419,4 +421,16 @@ void UIElement::InvalidateMeasurce()
 	{
 		wp->InvalidateMeasurce();
 	}
+}
+
+void UIElement::SetMargin(shared_ptr<CDirectUI_Thinkness> data)
+{
+	this->SetValue(MarginProperty, data);
+}
+
+shared_ptr<CDirectUI_Thinkness> UIElement::GetMargin()
+{
+	return this->GetValue<shared_ptr<CDirectUI_Thinkness>>(MarginProperty);
+
+	return nullptr;
 }

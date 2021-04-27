@@ -59,7 +59,7 @@ namespace DirectUI
 	public:
 		EventHandler<void, const DependencyObject&, const DependencyPropertyChangeArgs<T>&> DependencyChangeHandler;
 		//std::function<void(const DependencyObject& sender, const DependencyPropertyChangeArgs<T>& args)> DependencyChangeHandler;
-		
+		T m_Default = T{};
 	public:
 		DependencyProperty() {}
 	};

@@ -12,7 +12,7 @@
 #include "../DirectUI/CD2D_LinearGradientBrush.h"
 #include "../DirectUI/CBorder.h"
 #include "../DirectUI/CStackPanel.h"
-#include "../DirectUI/CUniformGrid.h"
+#include "../DirectUI/UniformGrid.h"
 #include "../DirectUI/CImage.h"
 #include "../DirectUI/CTextBlock.h"
 #include "../DirectUI/CButton.h"

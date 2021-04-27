@@ -13,7 +13,7 @@ void CThumb::OnRender(ID2D1RenderTarget* pRT)
 void CThumb::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	this->DesiredSize = data + this->m_Margin;
+	this->DesiredSize = data + *this->Margin;
 	if (this->m_Width > 0)
 	{
 		this->DesiredSize.width = this->m_Width;

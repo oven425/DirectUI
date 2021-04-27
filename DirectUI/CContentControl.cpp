@@ -11,6 +11,7 @@ CContentControl::CContentControl()
 	if (!PaddingProperty)
 	{
 		PaddingProperty = ::make_shared<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>>();
+		PaddingProperty->m_Default = ::make_shared<CDirectUI_Thinkness>();
 	}
 }
 
@@ -67,7 +68,7 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Size border_sz = data + this->m_Margin;
+	CDirectUI_Size border_sz = data + *this->Margin;
 	if (this->m_Child)
 	{
 		CDirectUI_Size child_sz = border_sz;
@@ -123,7 +124,7 @@ void CContentControl::SetPadding(shared_ptr<CDirectUI_Thinkness> data)
 
 shared_ptr<CDirectUI_Thinkness> CContentControl::GetPadding()
 {
-	//auto obj = this->GetValue<shared_ptr<void>>(PaddingProperty);
+	return this->GetValue<shared_ptr<CDirectUI_Thinkness>>(PaddingProperty);
 	//return  static_pointer_cast<CDirectUI_Thinkness>(obj);
 	return nullptr;
 }

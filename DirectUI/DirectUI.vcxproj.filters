@@ -54,9 +54,6 @@
     <ClInclude Include="CDirectUI_Thinkness.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CUniformGrid.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="CTrace.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -162,6 +159,9 @@
     <ClInclude Include="File.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="UniformGrid.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -198,9 +198,6 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CDirectUI_Thinkness.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="CUniformGrid.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="CTrace.cpp">
@@ -306,6 +303,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="File.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformGrid.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
