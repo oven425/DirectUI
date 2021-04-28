@@ -76,228 +76,10 @@ void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const Dra
 }
 
 // CMFCApplication1Dlg 訊息處理常式
-#include <array>
-#include <variant>
-using namespace std;
 
-shared_ptr<CD2D_Brush> s1;
-shared_ptr<CD2D_Brush> s2;
-
-//template<typename T>
-//typename std::enable_if<std::is_integral<T>::value|| std::is_floating_point<T>::value, void>::type
-//SetValue(T data)
-//{
-//	//T aa = std::get<T>(test);
-//	//if (aa != data)
-//	//{
-//
-//	//}
-//}
-
-CTT_Object test;
-void PropertyChange(const CTT_Object& sender, const CTTChangeArgs<int>& args)
-{
-
-}
-
-void Property1Change(const CTT_Object& sender, const CTTChangeArgs<CD2D_Brush>& args)
-{
-
-}
-
-template<class _Ty1, class _Ty2>
-	_NODISCARD shared_ptr<_Ty1> static_pointer_cast11(const shared_ptr<_Ty2>& _Other) noexcept
-{	// static_cast for shared_ptr that properly respects the reference count control block
-	const auto _Ptr = static_cast<typename shared_ptr<_Ty1>::element_type *>(_Other.get());
-	return (shared_ptr<_Ty1>(_Other, _Ptr));
-}
-
-template<typename T>
-shared_ptr<T> Trans(shared_ptr<void> src)
-{
-	const auto _Ptr = static_cast<typename shared_ptr<T>::element_type *>(src.get());
-	return shared_ptr<T>(src, _Ptr);
-}
-
-template<typename T, typename = typename enable_if<is_integral<T>::value, void>::type>
-void Test(T x)
-{
-	//return T;
-}
-
-//template<class T>
-//struct is_shared_ptr : std::false_type {};
-//
-//template<class T>
-//struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
-//
-//
-//std::variant<int, float, string, shared_ptr<void>> var;
-//
-//template<typename T>
-//inline typename std::enable_if<is_shared_ptr<T>::value, void>::type
-// SetValue(T data)
-//{
-//	var = static_pointer_cast<void>(data);
-//}
-//
-//template<typename T>
-//inline typename std::enable_if<!is_shared_ptr<T>::value, void>::type
-// SetValue(T data)
-//{
-//	var = data;
-//}
-//
-//
-//template<typename T>
-//inline typename std::enable_if<!is_shared_ptr<T>::value, T>::type
-// GetValue()
-//{
-//	try
-//	{
-//		return std::get<T>(var);
-//	}
-//	catch (...)
-//	{
-//
-//	}
-//	return T{};
-//}
-//
-//template<typename T, typename T1>
-//inline typename std::enable_if<is_shared_ptr<T>::value, T>::type
-//GetValue()
-//{
-//	try
-//	{
-//		auto aa = std::get<shared_ptr<void>>(var);
-//		//T src = aa;
-//		const auto _Ptr = static_cast<typename T::element_type *>(aa.get());
-//		return (T(aa, _Ptr));
-//		//const char* ddd = typeid(src).raw_name();
-//		//return static_pointer_cast<T1>(aa);
-//		//return std::get<T>(var);
-//	}
-//	catch (...)
-//	{
-//
-//	}
-//	return T{};
-//}
-
-template <typename T, class F>
-inline typename std::enable_if<std::is_same<T, int>::value, void>::type
-typed_foo(const F& f) {
-	std::cout << ">>> messing with ints! " << f << std::endl;
-}
-
-template <typename T, class F>
-inline typename std::enable_if<std::is_same<T, float>::value, void>::type
-typed_foo(const F& f) {
-	std::cout << ">>> messing with floats! " << f << std::endl;
-}
-
-template <typename T, class F>
-inline typename std::enable_if<std::is_same<T, shared_ptr<T>>::value, void>::type
-typed_foo(const F& f) {
-	std::cout << ">>> messing with floats! " << f << std::endl;
-}
-
-shared_ptr<CTT_Propoerty<int>> TestProperty = ::make_shared<CTT_Propoerty<int>>();
-shared_ptr<CTT_Propoerty<CD2D_Brush>> Test1Property = ::make_shared<CTT_Propoerty<CD2D_Brush>>();
-
-void Eventt(int a, string b)
-{
-
-}
-
-void Invoke(std::function<void()> data)
-{
-	data();
-}
 
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
-	//Invoke(CBinding<int>());
-
-	//Event<void, int, string> evt1;
-	//evt1 += std::bind(Eventt, std::placeholders::_1, std::placeholders::_2);
-	//evt1 += [](int a, string b)
-	//{
-	//	int aa = a;
-	//	string bb = b;
-	//};
-	//evt1.Fire(10, "20");
-
-	//
-	//float fff = 1.3;
-	////typed_foo<shared_ptr<int>>(make_shared<int>(10));
-	////SetValue("123");
-	////auto strr = GetValue<string>();
-	//shared_ptr<int> tt;
-	//
-	////SetValue(make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red)));
-	////auto bbrq =  GetValue<shared_ptr<CD2D_SolidColorBrush>, CD2D_SolidColorBrush>();
-	////auto use_count = bbrq.use_count();
-	//////GetValue<shared_ptr<int>>();
-	//////SetValue(1);
-	////int temp = GetValue<int>();
-
-
-
-
-
-	//Event <std::function<void(int a)>> evt;
-	//evt += [](int a)
-	//{
-
-	//};
-	//evt += [](int a)
-	//{
-
-	//};
-	//evt.Fire(10);
-
-	//TestProperty->Handler = std::bind(PropertyChange, std::placeholders::_1, std::placeholders::_2);
-	//Test1Property->Handler = std::bind(Property1Change, std::placeholders::_1, std::placeholders::_2);
-	//s1 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
-	//s2 = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
-
-	//int usecount = s1.use_count();
-	//weak_ptr<void> vv = s1;
-	//usecount = s1.use_count();
-	//usecount = vv.use_count();
-	////s1.reset();
-	//auto vb = vv.lock();
-	//usecount = vv.use_count();
-	////std::shared_ptr<void> pointer = s1;
-	////auto ptr = std::make_shared<std::remove_reference<decltype(*s1)>::type>();
-
-	//auto hh1 = dynamic_pointer_cast<shared_ptr<CD2D_Brush>>(s1);
-	////auto hhr = Trans<CD2D_Brush>(vv);
-	////auto tt1 = static_pointer_cast11<CD2D_Brush>(vv);
-	////const auto _Ptr = static_cast<typename shared_ptr<CD2D_Brush>::element_type *>(vv.get());
-	////auto tt2 = shared_ptr<CD2D_Brush>(vv, _Ptr);
-	////test.SetValue(Test1Property, 1);
-	////test.SetValue(TestProperty, 2);
-	//test.SetValue(Test1Property, s1);
-	//test.SetValue(Test1Property, s2);
-	////s2.reset();
-	//auto getbr = test.GetValue<weak_ptr<void>>(Test1Property);
-	////float f = 1.1;
-	////int use_count = s1.use_count();
-	////test.SetValue(TestProperty, s1);
-	////use_count = s1.use_count();
-	////test.GetValue<shared_ptr<void>>();
-	////test.SetValue(TestProperty, s2);
-	////use_count = s1.use_count();
-	////dynamic_pointer_cast<shared_ptr<CD2D_SolidColorBrush>>(s1);
-	//
-
-	////auto weak = std::get<weak_ptr<CD2D_Brush>>(test);
-	////auto ss = *weak.lock();
-	////test = 1;
-
 	CDialogEx::OnInitDialog();
 
 	// 將 [關於...] 功能表加入系統功能表。
@@ -326,22 +108,6 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	//shared_ptr<CD2D_SolidColorBrush> br = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Red));
-	//shared_ptr<void> aa = br;
-	//shared_ptr<CD2D_SolidColorBrush> br1 = static_pointer_cast<CD2D_SolidColorBrush>(aa);
-
-	//shared_ptr<float> ff = ::make_shared<float>(5);
-	//float& ii = *ff;
-	//ii = 100;
-	//shared_ptr<void> ff_save = ff;
-	//*ff = 10;
-	//if (ff_save == ff)
-	//{
-	//	::OutputDebugStringA("");
-	//}
-
-	//CDirectUI_Size sz1(100, 200);
-	//CDirectUI_Size sz2 = sz1.SetWidth1(300);
 	
 	//array< D2D1_GRADIENT_STOP, 2> gradientStops;
 	////D2D1_GRADIENT_STOP gradientStops[2];
@@ -400,54 +166,59 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//canvas->AddChild(image);
 	//windows->SetChild(canvas);
 
-	//shared_ptr<CBorder> border = ::make_shared<CBorder>();
-	//border->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	//border->Name = L"border";
+	shared_ptr<CBorder> border = ::make_shared<CBorder>();
+	border->Background = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f));
+	border->Name = L"border";
 	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
-	//border->SetBorderThickness(CDirectUI_Thinkness(10));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(CDirectUI_Color(255,0,0)));
-	//border->SetBorderBrush(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
-	////border->SetWidth(200);
-	////border->SetHorizontalAlignment(HorizontalAlignments::Center);
-	////border->SetVerticalAlignment(VerticalAlignments::Bottom);
-	////border->SetMargin(CDirectUI_Thinkness(20));
+	border->SetBorderThickness(CDirectUI_Thinkness(10));
+	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
+	//border->SetWidth(200);
+	//border->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//border->SetMargin(CDirectUI_Thinkness(20));
 	//border->Margin = ::make_shared<CDirectUI_Thinkness>(10);
-	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	//imgsource->Open(L"sample.jpg");
-	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	//image->SetSource(imgsource);
-	//image->SetStretch(Stretchs::Uniform);
-	////image->SetHieght(100);
-	////image->SetHorizontalAlignment(HorizontalAlignments::Right);
-	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//image->Name = L"image";
-	////image->SetMargin = CDirectUI_Thinkness(10);
-	////border->SetChild(image);
+	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	imgsource->Open(L"sample.jpg");
+	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	image->SetSource(imgsource);
+	image->SetStretch(Stretchs::Uniform);
+	//image->SetHieght(100);
+	//image->SetHorizontalAlignment(HorizontalAlignments::Right);
+	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	image->Name = L"image";
+	//image->SetMargin = CDirectUI_Thinkness(10);
+	//border->SetChild(image);
 
-	//shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>();
-	//textblock->Name = L"text";
-	////textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
-	////textblock->SetVerticalAlignment(VerticalAlignments::Center);
-	//textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
-	//textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
-	//textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>();
+	textblock->Name = L"text";
+	//textblock->SetHorizontalAlignment(HorizontalAlignments::Center);
+	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
+	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
+	textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
+	textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
-	//border->SetChild(textblock);
-	//windows->SetChild(border);
+	border->SetChild(textblock);
+	windows->SetChild(border);
 
 
 	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	//stackpanel->Margin = ::make_shared<CDirectUI_Thinkness>(30);
+	//stackpanel->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
-	//stackpanel->SetOrientation(Orientations::Horizontal);
-	//shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
-	//ellipse->SetWidth(12);
-	//ellipse->SetHieght(12);
-	//ellipse->Fill = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue));
-	//stackpanel->AddChild(ellipse);
+	//stackpanel->Orientation = Orientations::Vertical;
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	auto ss = L"123456789abcdefghTest_" + std::to_wstring(i);
+	//	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(ss.c_str());
+	//	//textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
+	//	textblock->Font->SetFontSize(20);
+	//	textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
+	//	textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
+	//	textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
+	//	stackpanel->AddChild(textblock);
+	//}
 
-	//shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(L"test");
-	//textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
-	//stackpanel->AddChild(textblock);
+	//
 	//windows->SetChild(stackpanel);
 
 	//shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
@@ -552,24 +323,24 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
  //   textblock->Font = ::make_shared<CD2D_Font>();
-	//textblock->Font->SetFontSize(32);
+	//textblock->Font->SetFontSize(40);
 	////textblock->Font->SetFontWeight();
 	////textblock->Font->SetFontStyle();
 	////textblock->Font->SetUnderLine(true);
 	////textblock->Font->SetFontName(CD2D_Font::GetFontNmaes()[0]);
 	////textblock->Font->SetTriming(DWRITE_TRIMMING_GRANULARITY::DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 	////textblock->Font->SetAligment(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING);
-	//textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	//textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n1234567890");
 	////textblock->SetText(L"abc defghij klmnopqrstuvWXYZ");
 	//textblock->Background =::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 	//textblock->SetForeground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::White, 1.0f)));
 	//textblock->Name = L"textblock";
-	//textblock->SetMargin(CDirectUI_Thinkness(10));
+	//textblock->Margin = make_shared<CDirectUI_Thinkness>(10);
 	////textblock->SetWidth(200);
 	////textblock->SetHieght(10);
 
 	//textblock->SetHorizontalAlignment(HorizontalAlignments::Right);
-	//textblock->SetVerticalAlignment(VerticalAlignments::Center);
+	////textblock->SetVerticalAlignment(VerticalAlignments::Center);
 	//windows->SetChild(textblock);
 
 
@@ -598,41 +369,41 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(thumb);
 
 
-	shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
-	canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
+	//shared_ptr<CCanvas> canvas = ::make_shared<CCanvas>();
+	//canvas->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f)));
 
-	shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
-	thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
-	thumb->SetWidth(100);
-	thumb->SetHieght(100);
-	canvas->AddChild(thumb);
-	thumb->DragStartedHandler = [](auto sender, auto args)
-	{
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%f\r\n", args.HorizontalOffset, args.VerticalOffset);
-		::OutputDebugStringA(msg);
-	};
-	thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
-	{
-		//char msg[256] = { 0 };
-		//::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-		//::OutputDebugStringA(msg);
-		float pos_left = CCanvas::GetLeft(sender) + args.HorizontalChange;
-		float top = CCanvas::GetTop(sender);
-		float pos_top = top + args.VerticalChange;
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "pos_left:%f, top:%f,  ver:%f\r\n", pos_left, top, args.VerticalChange);
-		::OutputDebugStringA(msg);
-		CCanvas::SetLeft(sender, pos_left);
-		CCanvas::SetTop(sender, pos_top);
-	};
-	thumb->DragCompletedHandler=[](auto sender, auto args)
-	{
-		char msg[256] = { 0 };
-		::sprintf_s(msg, "Stop ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
-		::OutputDebugStringA(msg);
-	};
-	windows->SetChild(canvas);
+	//shared_ptr<CThumb> thumb = ::make_shared<CThumb>();
+	//thumb->SetBackground(::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Blue, 1.0f)));
+	//thumb->SetWidth(100);
+	//thumb->SetHieght(100);
+	//canvas->AddChild(thumb);
+	//thumb->DragStartedHandler = [](auto sender, auto args)
+	//{
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "Start OffsetX:%f, OffsetY:%f\r\n", args.HorizontalOffset, args.VerticalOffset);
+	//	::OutputDebugStringA(msg);
+	//};
+	//thumb->DragDeltaHandler = [](auto sender, const DragDeltaEventArgs& args)
+	//{
+	//	//char msg[256] = { 0 };
+	//	//::sprintf_s(msg, "Start ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+	//	//::OutputDebugStringA(msg);
+	//	float pos_left = CCanvas::GetLeft(sender) + args.HorizontalChange;
+	//	float top = CCanvas::GetTop(sender);
+	//	float pos_top = top + args.VerticalChange;
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "pos_left:%f, top:%f,  ver:%f\r\n", pos_left, top, args.VerticalChange);
+	//	::OutputDebugStringA(msg);
+	//	CCanvas::SetLeft(sender, pos_left);
+	//	CCanvas::SetTop(sender, pos_top);
+	//};
+	//thumb->DragCompletedHandler=[](auto sender, auto args)
+	//{
+	//	char msg[256] = { 0 };
+	//	::sprintf_s(msg, "Stop ChangeX:%f, ChangeY:%f\r\n", args.HorizontalChange, args.VerticalChange);
+	//	::OutputDebugStringA(msg);
+	//};
+	//windows->SetChild(canvas);
 
 
 	//shared_ptr<Shapes::Ellipse> ellipse = make_shared<Shapes::Ellipse>();

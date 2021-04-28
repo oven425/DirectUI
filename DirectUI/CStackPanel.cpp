@@ -5,7 +5,6 @@ using namespace Control;
 
 shared_ptr<DependencyProperty<int>> CStackPanel::OrientationProperty;
 
-
 CStackPanel::CStackPanel()
 {
 	if (!OrientationProperty)
@@ -26,14 +25,29 @@ void CStackPanel::OnSize(float width, float height, float dpiscale)
 
 void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
-	
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
+	//
+	//for (auto oo : this->m_Childs)
+	//{
+	//	oo->OnRender(this->m_pRenderBuf);
+	//}
+
+	//::CControl::OnRender(pRT);
+	if (this->m_ActualRect == 0)
+	{
+		return;
+	}
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
+	pRT->PopAxisAlignedClip();
 	for (auto oo : this->m_Childs)
 	{
-		oo->OnRender(this->m_pRenderBuf);
+		oo->OnRender(pRT);
 	}
-
-	::CControl::OnRender(pRT);
 }
 
 void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
@@ -111,31 +125,44 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 			h = rc.GetHeight();
 		}
 	}
+	CControl::Arrange(data);
+	float y = this->m_ActualRect.GetTop();
+	float x = this->m_ActualRect.GetLeft();
+	for (auto oo : this->m_Childs)
+	{
+		oo->GetActualRect() = CDirectUI_Rect(0);
+	}
 	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
 	{
-		float y = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(CDirectUI_Rect(0, y, w, y+oo->DesiredSize.height));
+			oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y));
+			//oo->GetActualRect() = ::UIElement::MappingRenderRect1(oo->GetActualRect(), oo->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
 			y = y + oo->GetActualRect().GetHeight();
+			float b1 = oo->GetActualRect().GetBottom();
+			float b2 = this->m_ActualRect.GetBottom();
+			if (b1 > b2)
+			{
+				oo->GetActualRect().SetBottom(this->m_ActualRect.GetBottom());
+				break;
+			}
 		}
 	}
 	break;
 	case Orientations::Horizontal:
 	{
-		float x = 0;
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(CDirectUI_Rect(x, 0, x+oo->DesiredSize.width, h));
+			oo->Arrange(CDirectUI_Rect(x, y, x+oo->DesiredSize.width, h));
 			x = x + oo->GetActualRect().GetWidth();
 		}
 	}
 	break;
 	}
 
-	CControl::Arrange(data);
+	
 }
 
 void CStackPanel::SetOrientation(Orientations data)

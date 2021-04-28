@@ -51,8 +51,8 @@ namespace DirectUI
 		void SetHeight(float data) { this->m_Bottom = this->m_Top + data; }
 		float GetX() { return this->m_Left; }
 		float GetY() { return this->m_Top; }
-		float GetWidth() { return this->m_Right - this->m_Left; }
-		float GetHeight() { return this->m_Bottom - this->m_Top; }
+		float GetWidth() const { return this->m_Right - this->m_Left; }
+		float GetHeight() const { return this->m_Bottom - this->m_Top; }
 		float GetLeft() { return this->m_Left; }
 		float GetTop() { return this->m_Top; }
 		float GetRight() { return this->m_Right; }
@@ -144,6 +144,16 @@ namespace DirectUI
 		CDirectUI_Rect operator=(float data) const throw()
 		{
 			return CDirectUI_Rect(data, data, data, data);
+		}
+
+		bool operator==(float data) const throw()
+		{
+			return this->m_Bottom == data && this->m_Left == data && this->m_Right == data && this->m_Top == data;
+		}
+
+		CDirectUI_Rect operator==(const CDirectUI_Rect& data) const throw()
+		{
+			return CDirectUI_Rect(data);
 		}
 
 		bool PtInRect(float x, float y)

@@ -2,8 +2,15 @@
 #include "CBorder.h"
 using namespace DirectUI;
 using namespace Control;
-
-
+shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> CBorder::BorderBrushProperty;
+CBorder::CBorder()
+{
+	if (!BorderBrushProperty)
+	{
+		BorderBrushProperty = ::make_shared<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>>();
+		BorderBrushProperty->m_Name = L"BorderBrush";
+	}
+}
 ID2D1PathGeometry* CBorder::BuildPath(CDirectUI_Rect rc, CDirectUI_CornerRadius corner_radius, CDirectUI_Thinkness thinkness)
 {
 	ID2D1PathGeometry* path = NULL;
@@ -193,7 +200,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
 	//CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-	CDirectUI_Rect rc = this->MappingRenderRect1(this->m_ActualRect, this->DesiredSize);
+	CDirectUI_Rect rc = UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
 
 
 	CDirectUI_CornerRadius cornerradius = this->m_CornerRadius;
@@ -242,10 +249,10 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 			//SafeRelease(&pGeometrySink);
 		}
 	}
-	if (this->m_BorderBrush)
+	if (this->BorderBrush)
 	{
-		this->m_BorderBrush->Refresh(pRT);
-		pRT->FillGeometry(m_pPathGeometryUnion, *this->m_BorderBrush);
+		this->BorderBrush->Refresh(pRT);
+		pRT->FillGeometry(m_pPathGeometryUnion, *this->BorderBrush);
 	}
 	if (this->Background)
 	{
@@ -289,6 +296,8 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 	{
 		CControl::Arrange(data);
 	}
+
+
 }
 
 void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
@@ -312,26 +321,22 @@ void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 		}
 
 	}
-	else
-	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-		{
-			this->DesiredSize.width = border_sz.GetWidth();
-		}
-		else
-		{
-			this->DesiredSize.width = this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
-		}
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-		{
-			this->DesiredSize.height = border_sz.GetHeight();
-		}
-		else
-		{
-			this->DesiredSize.height = this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
-		}
-
-	}
+	//if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+	//{
+	//	this->DesiredSize.width = border_sz.GetWidth();
+	//}
+	//else
+	//{
+	//	this->DesiredSize.width = this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
+	//}
+	//if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+	//{
+	//	this->DesiredSize.height = border_sz.GetHeight();
+	//}
+	//else
+	//{
+	//	this->DesiredSize.height = this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
+	//}
 }
 
 void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)
@@ -345,11 +350,12 @@ void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)
 
 void CBorder::SetBorderBrush(shared_ptr<Direct2D::CD2D_Brush> data)
 {
-	if (this->m_BorderBrush)
-	{
-		this->m_BorderBrush->Release();
-	}
-	this->m_BorderBrush = data;
+	this->SetValue(BorderBrushProperty, data);
+}
+
+shared_ptr<Direct2D::CD2D_Brush> CBorder::GetBorderBrush()
+{
+	return this->GetValue<shared_ptr<Direct2D::CD2D_Brush>>(BorderBrushProperty);
 }
 
 void CBorder::SetBorderThickness(const CDirectUI_Thinkness& data)

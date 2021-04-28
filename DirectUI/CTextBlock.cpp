@@ -2,8 +2,19 @@
 #include "CTextBlock.h"
 using namespace DirectUI;
 using namespace Control;
+shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> CTextBlock::ForegroundProperty;
+
+CTextBlock::CTextBlock() 
+{
+	if (!ForegroundProperty)
+	{
+		ForegroundProperty = ::make_shared<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>>();
+		ForegroundProperty->m_Name = L"Foreground";
+	}
+}
 
 CTextBlock::CTextBlock(const wchar_t* data)
+	: CTextBlock()
 {
 	this->m_Text = data;
 }
@@ -32,11 +43,11 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		this->Background->Refresh(pRT);
 		pRT->FillRectangle(this->m_ActualRect, *this->Background);
 	}
-	if (this->m_Foreground)
+	if (this->Foreground)
 	{
-		this->m_Foreground->Refresh(pRT);
+		this->Foreground->Refresh(pRT);
 		
-		pRT->DrawTextLayout(MappingRenderRect1(this->m_ActualRect, this->DesiredSize) , *this->Font, *this->m_Foreground);
+		pRT->DrawTextLayout(MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment) , *this->Font, *this->Foreground);
 	}
 	
 	pRT->PopAxisAlignedClip();
@@ -45,13 +56,14 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
-	//CDirectUI_Thinkness margin = this->m_Margin;
 	CDirectUI_Size sz1 = data + *this->Margin;
-	//width = width - margin.GetLeft() - margin.GetRight();
-	//height = height - margin.GetTop() - margin.GetBottom();
+
 	float w = sz1.GetWidth();
 	float h = sz1.GetHeight();
-
+	if (data.GetHeight() == 0)
+	{
+		h = 0;
+	}
 	if (this->m_Width > 0)
 	{
 		w = this->m_Width;
@@ -68,6 +80,10 @@ void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 
 	this->DesiredSize.height = sz.height;
+	if (data.GetHeight() == 0)
+	{
+		this->DesiredSize.height = this->DesiredSize.height + this->Margin->GetTop() + this->Margin->GetBottom();
+	}
 	if (this->m_Height > 0 && this->m_Height < sz.height)
 	{
 		this->DesiredSize.height = this->m_Height;
@@ -97,11 +113,17 @@ void CTextBlock::Arrange(const CDirectUI_Rect& data)
 
 void CTextBlock::SetForeground(shared_ptr<Direct2D::CD2D_Brush> data)
 {
-	if (this->m_Foreground)
-	{
-		this->m_Foreground->Release();
-	}
-	this->m_Foreground = data;
+	//if (this->m_Foreground)
+	//{
+	//	this->m_Foreground->Release();
+	//}
+	//this->m_Foreground = data;
+	this->SetValue(ForegroundProperty, data);
+}
+
+shared_ptr<Direct2D::CD2D_Brush> CTextBlock::GetForeground()
+{
+	return this->GetValue<shared_ptr<Direct2D::CD2D_Brush>>(ForegroundProperty);
 }
 
 void CTextBlock::SetText(const wchar_t* data)

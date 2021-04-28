@@ -82,61 +82,57 @@ D2D1_SIZE_F UIElement::GetSize(float width, float height)
 	return sz;
 }
 
-CDirectUI_Rect UIElement::MappingRenderRect1(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
+CDirectUI_Rect UIElement::MappingRenderRect1(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, HorizontalAlignments horizontalalignment, VerticalAlignments verticalalignment)
 {
 	CDirectUI_Rect rc = actual_rect;
-	if (ignore_x == false)
+	switch (horizontalalignment)
 	{
-		switch (this->m_HorizontalAlignment)
+	case HorizontalAlignments::Center:
+	{
+		if (rc.GetWidth() < measure_size.GetWidth())
 		{
-		case HorizontalAlignments::Center:
-		{
-			if (rc.GetWidth() < measure_size.GetWidth())
-			{
-				float offset_x = rc.GetWidth() - measure_size.GetWidth();
-				offset_x = offset_x / 2;
-				//rc.SetX(offset_x);
-				rc.SetOffsetX(offset_x);
-			}
-		}
-		break;
-		case HorizontalAlignments::Right:
-		{
-			if (rc.GetWidth() < measure_size.GetWidth())
-			{
-				float offset_x = rc.GetWidth() - measure_size.GetWidth();
-				//CTrace::WriteLine(L"offset_x:%f", offset_x);
-				rc.SetOffsetX(offset_x);
-			}
-		}
-		break;
+			float offset_x = rc.GetWidth() - measure_size.GetWidth();
+			offset_x = offset_x / 2;
+			//rc.SetX(offset_x);
+			rc.SetOffsetX(offset_x);
 		}
 	}
-	if (ignore_y == false)
+	break;
+	case HorizontalAlignments::Right:
 	{
-		switch (this->m_VerticalAlignment)
+		if (rc.GetWidth() < measure_size.GetWidth())
 		{
-		case VerticalAlignments::Center:
-		{
-			if (rc.GetHeight() < measure_size.GetHeight())
-			{
-				float offset_y = rc.GetHeight()- measure_size.GetHeight();
-				offset_y = offset_y / 2;
-				rc.SetOffsetY(offset_y);
-			}
-		}
-		break;
-		case VerticalAlignments::Bottom:
-		{
-			if (rc.GetHeight() < measure_size.GetHeight())
-			{
-				float offset_y =  rc.GetHeight() - measure_size.GetHeight();
-				rc.SetOffsetY(offset_y);
-			}
-		}
-		break;
+			float offset_x = rc.GetWidth() - measure_size.GetWidth();
+			//CTrace::WriteLine(L"offset_x:%f", offset_x);
+			rc.SetOffsetX(offset_x);
 		}
 	}
+	break;
+	}
+
+	switch (verticalalignment)
+	{
+	case VerticalAlignments::Center:
+	{
+		if (rc.GetHeight() < measure_size.GetHeight())
+		{
+			float offset_y = rc.GetHeight() - measure_size.GetHeight();
+			offset_y = offset_y / 2;
+			rc.SetOffsetY(offset_y);
+		}
+	}
+	break;
+	case VerticalAlignments::Bottom:
+	{
+		if (rc.GetHeight() < measure_size.GetHeight())
+		{
+			float offset_y = rc.GetHeight() - measure_size.GetHeight();
+			rc.SetOffsetY(offset_y);
+		}
+	}
+	break;
+	}
+
 
 	return rc;
 }
@@ -226,6 +222,11 @@ void UIElement::CreateRenderBuf(ID2D1RenderTarget* pRT, const CDirectUI_Size& da
 
 void UIElement::Arrange(const CDirectUI_Rect& data)
 {
+	if (data == 0)
+	{
+		this->m_ActualRect = data;
+		return;
+	}
 	CDirectUI_Rect rc = data + *this->Margin;
 	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
 	float left = rc.GetLeft();
@@ -248,6 +249,10 @@ void UIElement::Arrange(const CDirectUI_Rect& data)
 			w = this->DesiredSize.width;
 		}
 	}
+	if (data.GetWidth() == 0)
+	{
+		w = this->DesiredSize.width;
+	}
 	float h = bottom - top;
 	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
 	{
@@ -255,6 +260,10 @@ void UIElement::Arrange(const CDirectUI_Rect& data)
 		{
 			h = this->DesiredSize.height;
 		}
+	}
+	if (data.GetHeight() == 0)
+	{
+		h = this->DesiredSize.height;
 	}
 	switch (this->m_HorizontalAlignment)
 	{
@@ -380,11 +389,6 @@ void UIElement::SetHorizontalAlignment(HorizontalAlignments data)
 {
 	this->m_HorizontalAlignment = data;
 }
-
-//void UIElement::SetMargin(CDirectUI_Thinkness& data)
-//{
-//	this->m_Margin = data;
-//}
 
 void UIElement::SetEnabled(bool data)
 {

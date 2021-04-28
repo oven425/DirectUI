@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CControl.h"
+
 using namespace DirectUI;
 using namespace Control;
 

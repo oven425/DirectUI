@@ -5,9 +5,19 @@ using namespace Control;
 
 void CThumb::OnRender(ID2D1RenderTarget* pRT)
 {
-	this->CreateRenderBuf(pRT, this->DesiredSize);
+	//this->CreateRenderBuf(pRT, this->DesiredSize);
 
-	::CControl::OnRender(pRT);
+	//::CControl::OnRender(pRT);
+
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (this->Background)
+	{
+		this->Background->Refresh(pRT);
+		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+	}
+
+
+	pRT->PopAxisAlignedClip();
 }
 
 void CThumb::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
@@ -27,13 +37,8 @@ void CThumb::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void CThumb::Arrange(const CDirectUI_Rect& data)
 {
-	float old_y = this->m_ActualRect.GetY();
 	::CControl::Arrange(data);
-	float new_y = this->m_ActualRect.GetY();
-	if (new_y < old_y)
-	{
-		::OutputDebugStringA("");
-	}
+
 }
 
 void CThumb::OnMouseMove(const MouseMoveArgs& args)
