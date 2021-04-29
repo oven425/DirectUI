@@ -12,7 +12,7 @@ namespace DirectUI
 			virtual void OnRender(ID2D1RenderTarget* pRT) override;
 			virtual void Arrange(const CDirectUI_Rect& data) override;
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
-
+			virtual void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT) override;
 			void SetPadding(shared_ptr<CDirectUI_Thinkness> data);
 			shared_ptr<CDirectUI_Thinkness> GetPadding();
 			__declspec(property(get = GetPadding, put = SetPadding)) shared_ptr<CDirectUI_Thinkness> Padding;

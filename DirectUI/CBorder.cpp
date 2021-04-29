@@ -197,12 +197,13 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 
 	//::CControl::OnRender(pRT);
 
-	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	pRT->PushAxisAlignedClip(UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment), D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
 	//CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
-	CDirectUI_Rect rc = UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
-
-
+	//CDirectUI_Rect rc = UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
+	CDirectUI_Rect rc = this->m_ActualRect;
+	rc.SetWidth(this->DesiredSize.width);
+	rc.SetHeight(this->DesiredSize.height);
 	CDirectUI_CornerRadius cornerradius = this->m_CornerRadius;
 
 	CDirectUI_Thinkness borderthickness = this->m_BorderThickness;
@@ -304,39 +305,33 @@ void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;
 	CDirectUI_Size border_sz = data + *this->Margin;
+	if (this->m_Width > 0)
+	{
+		border_sz.SetWidth(this->m_Width);
+	}
+	if (this->m_Height > 0)
+	{
+		border_sz.SetHeight(this->m_Height);
+	}
+
 	if (this->m_Child)
 	{
 		CDirectUI_Size child_sz = border_sz + this->m_BorderThickness + *this->Padding;
 
 		this->m_Child->Measure(child_sz, pRT);
-		
-		//else
-		{
-			this->DesiredSize.width = this->m_Child->DesiredSize.width + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
-		}
-		
-		//else
-		{
-			this->DesiredSize.height = this->m_Child->DesiredSize.height + this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
-		}
-
+		this->DesiredSize.width = this->m_Child->DesiredSize.width + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
+		this->DesiredSize.height = this->m_Child->DesiredSize.height + this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
 	}
-	//if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
-	//{
-	//	this->DesiredSize.width = border_sz.GetWidth();
-	//}
-	//else
-	//{
-	//	this->DesiredSize.width = this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
-	//}
-	//if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
-	//{
-	//	this->DesiredSize.height = border_sz.GetHeight();
-	//}
-	//else
-	//{
-	//	this->DesiredSize.height = this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
-	//}
+	else
+	{
+		this->DesiredSize.width = border_sz.GetWidth();
+		this->DesiredSize.height = border_sz.GetHeight();
+	}
+}
+
+void CBorder::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
+{
+
 }
 
 void CBorder::SetCornerRadius(CDirectUI_CornerRadius& data)

@@ -66,6 +66,103 @@ void UIElement::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 }
 
+void UIElement::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
+{
+	CDirectUI_Rect rc = data + *this->Margin;
+	D2D1_SIZE_F sz = this->GetSize(rc.GetWidth(), rc.GetHeight());
+	float left = rc.GetLeft();
+	float top = rc.GetTop();
+	float right = left + sz.width;
+	if (rc.GetWidth() < sz.width)
+	{
+		right = left + rc.GetWidth();
+	}
+	float bottom = top + sz.height;
+	if (rc.GetHeight() < sz.height)
+	{
+		bottom = top + rc.GetHeight();
+	}
+	float w = right - left;
+	//if (this->m_HorizontalAlignment != HorizontalAlignments::Stretch)
+	{
+		if (w > this->DesiredSize.width)
+		{
+			w = this->DesiredSize.width;
+		}
+	}
+	if (data.GetWidth() == 0)
+	{
+		w = this->DesiredSize.width;
+	}
+	float h = bottom - top;
+	//if (this->m_VerticalAlignment != VerticalAlignments::Stretch)
+	{
+		if (h > this->DesiredSize.height)
+		{
+			h = this->DesiredSize.height;
+		}
+	}
+	if (data.GetHeight() == 0)
+	{
+		h = this->DesiredSize.height;
+	}
+	switch (this->m_HorizontalAlignment)
+	{
+	case HorizontalAlignments::Stretch:
+	{
+		//left = left + (width - w) / 2;
+		if (rc.GetWidth() > this->DesiredSize.width)
+		{
+			left = left + (rc.GetWidth() - w) / 2;
+		}
+	}
+	break;
+	case HorizontalAlignments::Center:
+	{
+		//w = this->DesiredSize.width;
+		left = left + (rc.GetWidth() - w) / 2;
+	}
+	break;
+	case HorizontalAlignments::Left:
+	{
+		//w = this->DesiredSize.width;
+	}
+	break;
+	case HorizontalAlignments::Right:
+	{
+		//w = this->DesiredSize.width;
+		left = left + (rc.GetWidth() - w);
+	}
+	break;
+	}
+	switch (this->m_VerticalAlignment)
+	{
+	case VerticalAlignments::Stretch:
+	{
+		if (rc.GetHeight() > this->DesiredSize.height)
+		{
+			top = top + (rc.GetHeight() - h) / 2;
+		}
+	}
+	break;
+	case VerticalAlignments::Center:
+	{
+		top = top + (rc.GetHeight() - h) / 2;
+	}
+	break;
+	case VerticalAlignments::Bottom:
+	{
+		top = top + (rc.GetHeight() - h);
+	}
+	break;
+	}
+
+	this->m_MeasureRect.SetLeft(left);
+	this->m_MeasureRect.SetTop(top);
+	this->m_MeasureRect.SetWidth(w);
+	this->m_MeasureRect.SetHeight(h);
+}
+
 D2D1_SIZE_F UIElement::GetSize(float width, float height)
 {
 	D2D1_SIZE_F sz = { 0 };
@@ -116,9 +213,11 @@ CDirectUI_Rect UIElement::MappingRenderRect1(CDirectUI_Rect& actual_rect, const 
 	{
 		if (rc.GetHeight() < measure_size.GetHeight())
 		{
-			float offset_y = rc.GetHeight() - measure_size.GetHeight();
+			float offset_y = measure_size.GetHeight() - rc.GetHeight();
 			offset_y = offset_y / 2;
-			rc.SetOffsetY(offset_y);
+			rc.SetY(offset_y);
+			::OutputDebugStringW(rc.ToString().c_str());
+			OutputDebugStringW(L"\r\n");
 		}
 	}
 	break;
@@ -126,13 +225,14 @@ CDirectUI_Rect UIElement::MappingRenderRect1(CDirectUI_Rect& actual_rect, const 
 	{
 		if (rc.GetHeight() < measure_size.GetHeight())
 		{
-			float offset_y = rc.GetHeight() - measure_size.GetHeight();
-			rc.SetOffsetY(offset_y);
+			float offset_y = measure_size.GetHeight() - rc.GetHeight();
+			rc.SetY(rc.GetTop()+ offset_y);
+			//rc.SetHeight()
+			CTrace::WriteLine(L"measure:%f rc:%f", measure_size.GetHeight(), rc.GetHeight());
 		}
 	}
 	break;
 	}
-
 
 	return rc;
 }

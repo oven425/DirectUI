@@ -139,8 +139,10 @@ namespace DirectUI
 			__declspec(property(get = GetMargin, put = SetMargin)) shared_ptr<CDirectUI_Thinkness> Margin;
 			wstring Name = L"";
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
+			virtual void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT);
 			virtual void Arrange(const CDirectUI_Rect& data);
 			D2D_SIZE_F DesiredSize = { 0 };
+			CDirectUI_Rect m_MeasureRect;
 		public:
 			virtual void OnMouseEnter(const MouseMoveArgs& args) { this->m_IsMouseOver = true; };
 			virtual void OnMouseLeave(const MouseMoveArgs& args) { this->m_IsMouseOver = false; };

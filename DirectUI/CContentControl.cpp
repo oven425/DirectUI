@@ -65,6 +65,16 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 	}
 }
 
+void CContentControl::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
+{
+	this->m_MeasureRect = 0;
+	CDirectUI_Rect rc = data + *this->Margin;
+	if (this->m_Child)
+	{
+
+	}
+}
+
 void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 {
 	this->DesiredSize.width = this->DesiredSize.height = 0;

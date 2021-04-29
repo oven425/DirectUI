@@ -342,8 +342,8 @@ bool CWindow::Init(HWND hwnd)
 		),
 		&pRT
 	);
-	auto owner = static_pointer_cast<CControl>(this->shared_from_this());
-	this->m_Root = owner;
+	this->pRT->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+	this->m_Root = static_pointer_cast<CControl>(this->shared_from_this());
 	this->SetRoot(this->m_Root);
 
 	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
@@ -365,7 +365,8 @@ void CWindow::OnSize(float width, float height, float dpiscale)
 	this->pRT->Resize(D2D1::SizeU(width, height));
 	//CContentControl::OnSize(width, height, dpiscale);
 
-	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
+	//this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
+	this->Measure(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale), this->pRT);
 	this->Arrange(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale));
 }
 #ifdef D2D1_Ex
@@ -439,7 +440,7 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 	{
 		this->pRT->BeginDraw();
 		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
-	
+		
 
 		//pRT->PushAxisAlignedClip(
 		//	D2D1::RectF(20, 20, 120, 120),
@@ -448,9 +449,7 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 
 		//Direct2D::CD2D_SolidColorBrush br = Direct2D::CD2D_SolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green));
 		//br.Refresh(pRT);
-		//pRT->FillRectangle(D2D1::RectF(10, 10, 30, 30), br);
-		////pRT->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(50, 50), 50, 50), br, 2);
-		////pRT->PopAxisAlignedClip();
+		//pRT->DrawRectangle(D2D1::RectF(10, 10, 30, 30), br);
 
 
 		//pRT->PopAxisAlignedClip();
@@ -500,5 +499,6 @@ void CWindow::InvalidateMeasurce()
 	UINT dpi = ::GetDpiForWindow(this->m_hWnd);
 	float dpiscale = (float)(dpi / 96.0);
 
-	this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
+	//this->Measure(CDirectUI_Size(width / dpiscale, height / dpiscale), this->pRT);
+	this->Measure(CDirectUI_Rect(0, 0, width / dpiscale, height / dpiscale), this->pRT);
 }

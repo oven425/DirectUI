@@ -172,11 +172,12 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//border->SetCornerRadius(CDirectUI_CornerRadius(20));
 	border->SetBorderThickness(CDirectUI_Thinkness(10));
 	border->BorderBrush = ::make_shared<CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green, 1.0f));
-	//border->SetWidth(200);
+	border->SetWidth(400);
+	border->SetHieght(200);
 	//border->SetHorizontalAlignment(HorizontalAlignments::Center);
-	//border->SetVerticalAlignment(VerticalAlignments::Bottom);
+	border->SetVerticalAlignment(VerticalAlignments::Bottom);
 	//border->SetMargin(CDirectUI_Thinkness(20));
-	//border->Margin = ::make_shared<CDirectUI_Thinkness>(10);
+	border->Margin = ::make_shared<CDirectUI_Thinkness>(10);
 	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
 	imgsource->Open(L"sample.jpg");
 	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
@@ -196,8 +197,9 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	textblock->SetForeground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black)));
 	textblock->SetBackground(::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple)));
 	textblock->SetText(L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	textblock->Font->SetFontSize(40);
 	//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
-	border->SetChild(textblock);
+	//border->SetChild(textblock);
 	windows->SetChild(border);
 
 

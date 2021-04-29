@@ -17,6 +17,7 @@ namespace DirectUI
 			void SetBorderThickness(const CDirectUI_Thinkness& data);
 			void SetCornerRadius(CDirectUI_CornerRadius& data);
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
+			virtual void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT) override;
 			virtual void Arrange(const CDirectUI_Rect& data) override;
 			void Release() override;
 			void OnRender(ID2D1RenderTarget* pRT) override;
