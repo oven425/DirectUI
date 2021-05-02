@@ -178,7 +178,6 @@
     <ClInclude Include="CDirectUI_CornerRadius.h" />
     <ClInclude Include="CDirectUI_RoundedRect.h" />
     <ClInclude Include="CheckBox.h" />
-    <ClInclude Include="CRepeatButton.h" />
     <ClInclude Include="DispatcherObject.h" />
     <ClInclude Include="DispatcherTimer.h" />
     <ClInclude Include="DependencyObject.h" />
@@ -229,7 +228,6 @@
     <ClCompile Include="CDirectUI_CornerRadius.cpp" />
     <ClCompile Include="CDirectUI_RoundedRect.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="CRepeatButton.cpp" />
     <ClCompile Include="DispatcherObject.cpp" />
     <ClCompile Include="DispatcherTimer.cpp" />
     <ClCompile Include="DependencyObject.cpp" />

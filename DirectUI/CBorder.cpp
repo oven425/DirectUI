@@ -331,6 +331,31 @@ void CBorder::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 
 void CBorder::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 {
+	this->m_MeasureRect = 0;
+	CDirectUI_Rect border_sz = data + *this->Margin;
+	if (this->m_Width > 0)
+	{
+		border_sz.SetWidth(this->m_Width);
+	}
+	if (this->m_Height > 0)
+	{
+		border_sz.SetHeight(this->m_Height);
+	}
+
+	if (this->m_Child)
+	{
+		CDirectUI_Size child_sz = border_sz + this->m_BorderThickness + *this->Padding;
+
+		this->m_Child->Measure(child_sz, pRT);
+		this->DesiredSize.width = this->m_Child->DesiredSize.width + this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
+		this->DesiredSize.height = this->m_Child->DesiredSize.height + this->m_BorderThickness.GetTop() + this->m_BorderThickness.GetBottom();
+	}
+	else
+	{
+		//this->DesiredSize.width = border_sz.GetWidth();
+		//this->DesiredSize.height = border_sz.GetHeight();
+		this->Measure(data, pRT);
+	}
 
 }
 
