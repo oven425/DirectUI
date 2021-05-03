@@ -29,16 +29,16 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Binding binding = new Binding("IsChecked");
-            binding.Mode = BindingMode.OneWay;
-            binding.Source = this.checkbox_2;
-            this.checkbox_1.SetBinding(CheckBox.IsCheckedProperty, binding);
+            //Binding binding = new Binding("IsChecked");
+            //binding.Mode = BindingMode.OneWay;
+            //binding.Source = this.checkbox_2;
+            //this.checkbox_1.SetBinding(CheckBox.IsCheckedProperty, binding);
 
-            Binding binding1 = new Binding("IsChecked");
-            binding1.Mode = BindingMode.OneWay;
-            binding1.Converter = new Bool2Visibility();
-            binding1.Source = this.checkbox_2;
-            this.border_1.SetBinding(Border.VisibilityProperty, binding1);
+            //Binding binding1 = new Binding("IsChecked");
+            //binding1.Mode = BindingMode.OneWay;
+            //binding1.Converter = new Bool2Visibility();
+            //binding1.Source = this.checkbox_2;
+            //this.border_1.SetBinding(Border.VisibilityProperty, binding1);
         }
     }
 

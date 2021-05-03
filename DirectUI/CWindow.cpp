@@ -439,7 +439,7 @@ void CWindow::OnRender(ID2D1RenderTarget* pRT)
 	if (pRT != NULL)
 	{
 		this->pRT->BeginDraw();
-		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Red, 1.0f));
+		this->pRT->Clear(D2D1::ColorF(D2D1::ColorF::Black, 1.0f));
 		
 
 		//pRT->PushAxisAlignedClip(

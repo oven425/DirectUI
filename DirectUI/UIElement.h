@@ -140,6 +140,7 @@ namespace DirectUI
 			wstring Name = L"";
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT);
 			virtual void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT);
+			static CDirectUI_Rect MeasureMapping(const CDirectUI_Rect& rc, const CDirectUI_Size& sz, HorizontalAlignments horizontalalignment, VerticalAlignments verticalalignment);
 			virtual void Arrange(const CDirectUI_Rect& data);
 			D2D_SIZE_F DesiredSize = { 0 };
 			CDirectUI_Rect m_MeasureRect;

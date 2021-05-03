@@ -81,24 +81,29 @@ void CImage::OnRender(ID2D1RenderTarget* pRT)
 	//
 	//::CControl::OnRender(pRT);
 
+	//pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	//if (this->m_pD2DBitmap != NULL)
+	//{
+	//	CDirectUI_Rect rc = this->MappingToSource(this->m_ActualRect, this->DesiredSize);
+	//	//CDirectUI_Rect rc1 = this->m_ActualRect;
+	//	//rc1.SetX(abs(rc.GetLeft()));
+	//	//rc1.SetY(abs(rc.GetTop()));
+	//	if (this->m_Stretch == Stretchs::None)
+	//	{
+	//		pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc);
+	//	}
+	//	else
+	//	{
+	//		pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	//	}
+	//}
+	//pRT->PopAxisAlignedClip();
+
 	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->m_pD2DBitmap != NULL)
 	{
-		CDirectUI_Rect rc = this->MappingToSource(this->m_ActualRect, this->DesiredSize);
-		//CDirectUI_Rect rc1 = this->m_ActualRect;
-		//rc1.SetX(abs(rc.GetLeft()));
-		//rc1.SetY(abs(rc.GetTop()));
-		if (this->m_Stretch == Stretchs::None)
-		{
-			pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rc);
-		}
-		else
-		{
-			pRT->DrawBitmap(this->m_pD2DBitmap, this->m_ActualRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
-		}
+		pRT->DrawBitmap(this->m_pD2DBitmap, this->m_MeasureRect, 1, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
-
-
 	pRT->PopAxisAlignedClip();
 }
 
@@ -329,6 +334,132 @@ void CImage::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	{
 		this->DesiredSize.height = 0;
 	}
+}
+
+void CImage::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
+{
+	this->m_MeasureRect = 0;
+
+	CDirectUI_Rect rc = data + *this->Margin;
+	CDirectUI_Size sz = rc;
+	if (this->m_Width > 0)
+	{
+		sz.SetWidth(this->m_Width);
+	}
+	if (this->m_Height > 0)
+	{
+		sz.SetHeight(this->m_Height);
+	}
+
+	if (this->m_pD2DBitmap == NULL)
+	{
+		D2D1_BITMAP_PROPERTIES pp = D2D1_BITMAP_PROPERTIES();
+		pp.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		pp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+		double dpix = 0;
+		double dpiy = 0;
+		(*this->m_Source).operator IWICFormatConverter*()->GetResolution(&dpix, &dpiy);
+		pp.dpiX = dpix;
+		pp.dpiY = dpiy;
+		pRT->CreateBitmapFromWicBitmap(*this->m_Source, pp, &this->m_pD2DBitmap);
+	}
+	if (this->m_Source && this->m_pD2DBitmap != NULL)
+	{
+		D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+		if (sz == 0)
+		{
+			sz = ss;
+		}
+		else if (sz.GetWidth() == 0)
+		{
+			float h_ = sz.GetHeight() / ss.height;
+			sz.SetWidth(ss.width * h_);
+		}
+		else if (sz.GetHeight() == 0)
+		{
+			float w_ = sz.GetWidth() / ss.width;
+			sz.SetHeight(ss.height * w_);
+		}
+		switch (this->m_Stretch)
+		{
+		case Stretchs::Uniform:
+		{
+			D2D1_RECT_F src = { 0 };
+			src.right = ss.width;
+			src.bottom = ss.height;
+			D2D1_RECT_F dst = sz;
+			D2D1_RECT_F rrc = Calculate_Uniform(src, dst);
+			this->DesiredSize.width = rrc.right - rrc.left;
+			this->DesiredSize.height = rrc.bottom - rrc.top;
+		}
+		break;
+		case Stretchs::Fill:
+		{
+			this->DesiredSize = sz;
+		}
+		break;
+		case Stretchs::None:
+		{
+			D2D1_SIZE_F ss = this->m_pD2DBitmap->GetSize();
+			if (this->m_Width > 0)
+			{
+				if (this->m_Width < this->DesiredSize.width)
+				{
+					this->DesiredSize.width = this->m_Width;
+				}
+				else
+				{
+					this->DesiredSize.width = ss.width;
+				}
+			}
+			else
+			{
+				this->DesiredSize.width = ss.width;
+			}
+			if (this->m_Height > 0)
+			{
+				if (ss.height < this->m_Height)
+				{
+					this->DesiredSize.height = ss.height;
+				}
+				else
+				{
+					this->DesiredSize.height = this->m_Height;
+				}
+
+			}
+			else
+			{
+				this->DesiredSize.height = ss.height;
+			}
+		}
+		break;
+		case Stretchs::UniformToFill:
+		{
+			D2D1_RECT_F src = { 0 };
+			src.right = ss.width;
+			src.bottom = ss.height;
+			D2D1_RECT_F dst = sz;
+			D2D1_RECT_F rrc = Calculate_UniformToFill(src, dst);
+			this->DesiredSize.width = rrc.right - rrc.left;
+			this->DesiredSize.height = rrc.bottom - rrc.top;
+		}
+		break;
+		}
+	}
+	else
+	{
+		this->DesiredSize = data;
+	}
+	//if (this->DesiredSize.width < 0)
+	//{
+	//	this->DesiredSize.width = 0;
+	//}
+	//if (this->DesiredSize.height < 0)
+	//{
+	//	this->DesiredSize.height = 0;
+	//}
+	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
 }
 
 void CImage::Arrange(const CDirectUI_Rect& data)

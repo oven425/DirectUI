@@ -34,11 +34,12 @@ void CContentControl::OnRender(ID2D1RenderTarget* pRT)
 	//	this->m_Child->OnRender(this->m_pRenderBuf);
 	//}
 	//::CControl::OnRender(pRT);
-
+	::CControl::OnRender(pRT);
 	if (this->m_Child)
 	{
 		this->m_Child->OnRender(pRT);
 	}
+	
 }
 
 void CContentControl::Arrange(const CDirectUI_Rect& data)
@@ -68,10 +69,34 @@ void CContentControl::Arrange(const CDirectUI_Rect& data)
 void CContentControl::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 {
 	this->m_MeasureRect = 0;
-	CDirectUI_Rect rc = data + *this->Margin;
+	
 	if (this->m_Child)
 	{
-
+		CDirectUI_Rect rc = data + *this->Margin+*this->Padding;
+		this->m_Child->Measure(rc, pRT);
+		this->m_MeasureRect = this->m_Child->m_MeasureRect + *this->Margin + *this->Padding;
+		switch (this->m_HorizontalAlignment)
+		{
+		case HorizontalAlignments::Stretch:
+		{
+			this->m_MeasureRect.SetX(data.GetLeft());
+			this->m_MeasureRect.SetWidth(data.GetWidth());
+		}
+		break;
+		}
+		switch (this->m_VerticalAlignment)
+		{
+		case VerticalAlignments::Stretch:
+		{
+			this->m_MeasureRect.SetY(data.GetTop());
+			this->m_MeasureRect.SetHeight(data.GetHeight());
+		}
+		break;
+		}
+	}
+	else
+	{
+		CControl::Measure(data, pRT);
 	}
 }
 

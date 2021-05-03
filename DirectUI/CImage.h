@@ -13,6 +13,7 @@ namespace DirectUI
 			void SetStretch(Stretchs data);
 			void OnRender(ID2D1RenderTarget* pRT) override;
 			void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
+			void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT) override;
 			void Arrange(const CDirectUI_Rect& data) override;
 		protected:
 			D2D1_RECT_F Calculate_Uniform(const D2D1_RECT_F& rcSrc, const D2D1_RECT_F& rcDst);

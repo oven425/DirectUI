@@ -354,7 +354,7 @@ void CBorder::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	{
 		//this->DesiredSize.width = border_sz.GetWidth();
 		//this->DesiredSize.height = border_sz.GetHeight();
-		this->Measure(data, pRT);
+		::UIElement::Measure(data, pRT);
 	}
 
 }

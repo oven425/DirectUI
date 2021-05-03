@@ -34,10 +34,7 @@ void CControl::SetBackground(shared_ptr<Direct2D::CD2D_Brush> data)
 
 shared_ptr<Direct2D::CD2D_Brush> CControl::GetBackground()
 {
-	//auto obj = this->GetValue<shared_ptr<void>>(BackgroundProperty);
-	//return  static_pointer_cast<Direct2D::CD2D_Brush>(obj);
 	return this->GetValue<shared_ptr<Direct2D::CD2D_Brush>>(BackgroundProperty);
-	return nullptr;
 }
 
 shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> CControl::BackgroundPropertyInstance()
@@ -45,11 +42,14 @@ shared_ptr<DependencyProperty<shared_ptr<Direct2D::CD2D_Brush>>> CControl::Backg
 	return BackgroundProperty;
 }
 
-void CControl::DrawBackground(ID2D1RenderTarget* pRT)
+void CControl::OnRender(ID2D1RenderTarget* pRT)
 {
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->Background)
 	{
 		this->Background->Refresh(pRT);
-		pRT->FillRectangle(this->m_ActualRect, *this->Background);
+		pRT->FillRectangle(this->m_MeasureRect, *this->Background);
 	}
+
+	pRT->PopAxisAlignedClip();
 }

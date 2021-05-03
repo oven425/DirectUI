@@ -49,14 +49,14 @@ namespace DirectUI
 		void SetY(float data) { this->m_Bottom = data + this->m_Bottom - this->m_Top; this->m_Top = data; }
 		void SetWidth(float data) { this->m_Right = this->m_Left + data; }
 		void SetHeight(float data) { this->m_Bottom = this->m_Top + data; }
-		float GetX() { return this->m_Left; }
-		float GetY() { return this->m_Top; }
+		float GetX() const { return this->m_Left; }
+		float GetY() const { return this->m_Top; }
 		float GetWidth() const { return this->m_Right - this->m_Left; }
 		float GetHeight() const { return this->m_Bottom - this->m_Top; }
-		float GetLeft() { return this->m_Left; }
-		float GetTop() { return this->m_Top; }
-		float GetRight() { return this->m_Right; }
-		float GetBottom() { return this->m_Bottom; }
+		float GetLeft() const { return this->m_Left; }
+		float GetTop() const { return this->m_Top; }
+		float GetRight() const { return this->m_Right; }
+		float GetBottom() const { return this->m_Bottom; }
 		void SetOffsetX(float data)
 		{
 			this->m_Left = this->m_Left + data;
