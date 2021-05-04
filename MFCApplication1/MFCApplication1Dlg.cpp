@@ -203,25 +203,24 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//windows->SetChild(border);
 
 
-	//shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
+	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
 	//stackpanel->Margin = ::make_shared<CDirectUI_Thinkness>(30);
 	//stackpanel->SetVerticalAlignment(VerticalAlignments::Bottom);
-	//stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
-	//stackpanel->Orientation = Orientations::Vertical;
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	auto ss = L"123456789abcdefghTest_" + std::to_wstring(i);
-	//	shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(ss.c_str());
-	//	//textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
-	//	textblock->Font->SetFontSize(20);
-	//	textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
-	//	textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
-	//	textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
-	//	stackpanel->AddChild(textblock);
-	//}
+	stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
+	stackpanel->Orientation = Orientations::Vertical;
+	for (int i = 10; i < 14; i++)
+	{
+		auto ss = L"123456789abcdefghTest_" + std::to_wstring(i);
+		shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(ss.c_str());
+		//textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
+		textblock->Font->SetFontSize(20);
+		//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
+		textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
+		textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
+		stackpanel->AddChild(textblock);
+	}
 
-	//
-	//windows->SetChild(stackpanel);
+	windows->SetChild(stackpanel);
 
 	//shared_ptr<Shapes::Ellipse> ellipse = ::make_shared<Shapes::Ellipse>();
 	////ellipse->SetWidth(100);
@@ -311,17 +310,17 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 
 
-	shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
-	imgsource->Open(L"sample.jpg");
-	shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
-	image->SetSource(imgsource);
-	image->SetStretch(Stretchs::None);
-	//image->SetHieght(100);
-	//image->SetHorizontalAlignment(HorizontalAlignments::Center);
-	//image->SetVerticalAlignment(VerticalAlignments::Bottom);
-	image->Name = L"image";
-	image->Margin = ::make_shared<CDirectUI_Thinkness>(30);
-	windows->SetChild(image);
+	//shared_ptr<CD2D_ImageSource> imgsource = ::make_shared<CD2D_ImageSource>();
+	//imgsource->Open(L"sample.jpg");
+	//shared_ptr<DirectUI::Control::CImage> image = ::make_shared<DirectUI::Control::CImage>();
+	//image->SetSource(imgsource);
+	//image->SetStretch(Stretchs::None);
+	////image->SetHieght(100);
+	////image->SetHorizontalAlignment(HorizontalAlignments::Center);
+	////image->SetVerticalAlignment(VerticalAlignments::Bottom);
+	//image->Name = L"image";
+	//image->Margin = ::make_shared<CDirectUI_Thinkness>(30);
+	//windows->SetChild(image);
 
 	//shared_ptr<DirectUI::Control::CTextBlock> textblock = ::make_shared<DirectUI::Control::CTextBlock>();
  //   textblock->Font = ::make_shared<CD2D_Font>();

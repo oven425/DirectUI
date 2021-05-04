@@ -2,6 +2,8 @@
 #include "CStackPanel.h"
 using namespace DirectUI;
 using namespace Control;
+#include <numeric>
+using namespace std;
 
 shared_ptr<DependencyProperty<int>> CStackPanel::OrientationProperty;
 
@@ -48,6 +50,57 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 	{
 		oo->OnRender(pRT);
 	}
+}
+
+void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
+{
+	this->m_MeasureRect = 0;
+	CDirectUI_Rect stackpanel_rc = data + *this->Margin;
+	switch (this->Orientation)
+	{
+	case Orientations::Vertical:
+	{
+		CDirectUI_Rect rc = stackpanel_rc;
+		float height = 0;
+		float width = 0;
+		for (auto oo : this->m_Childs)
+		{
+			rc.SetHeight(0);
+			oo->Measure(rc, pRT);
+			//this->DesiredSize.height = this->DesiredSize.height + oo->DesiredSize.height;
+			rc.SetOffsetY(oo->m_MeasureRect.GetHeight());
+			
+			height = height + oo->m_MeasureRect.GetHeight();
+			//this->m_MeasureRect.SetHeight((*aaa)->m_MeasureRect.GetWidth());
+		}
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<UIElement> c1, shared_ptr<UIElement> c2) {return c1->m_MeasureRect.GetWidth() > c2->m_MeasureRect.GetWidth(); });
+		width = (*aaa)->m_MeasureRect.GetWidth();
+		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		{
+			width = stackpanel_rc.GetWidth();
+		}
+		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		{
+			height = stackpanel_rc.GetHeight();
+		}
+		this->m_MeasureRect = ::UIElement::MeasureMapping(stackpanel_rc, CDirectUI_Size(width, height), this->m_HorizontalAlignment, this->m_VerticalAlignment);
+	}
+	break;
+	case Orientations::Horizontal:
+	{
+		this->DesiredSize.height = stackpanel_rc.GetHeight();
+		for (auto oo : this->m_Childs)
+		{
+			oo->Measure(stackpanel_rc, pRT);
+			this->DesiredSize.width = this->DesiredSize.width + oo->DesiredSize.width;
+		}
+
+		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<UIElement> c1, shared_ptr<UIElement> c2) {return c1->DesiredSize.height > c2->DesiredSize.height; });
+		this->DesiredSize.height = (*aaa)->DesiredSize.height;
+	}
+	break;
+	}
+	
 }
 
 void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)

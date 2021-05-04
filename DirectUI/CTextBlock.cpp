@@ -71,8 +71,30 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 {
 	this->m_MeasureRect = 0;
-	CDirectUI_Rect rc = data + *this->Margin;
+	
 	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str(), 0, 0);
+
+	CDirectUI_Rect margin_rc = data + *this->Margin;
+	CDirectUI_Rect rc = data;
+	if (data.GetHeight() == 0)
+	{
+		rc.SetHeight(margin_rc.GetHeight());
+	}
+	else if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+	{
+		sz.height = margin_rc.GetHeight();
+		rc.SetHeight(margin_rc.GetHeight());
+	}
+	if (data.GetWidth() == 0)
+	{
+		rc.SetWidth(margin_rc.GetWidth());
+	}
+	else if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+	{
+		sz.width = margin_rc.GetWidth();
+		rc.SetWidth(margin_rc.GetWidth());
+	}
+	
 	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, sz, this->m_HorizontalAlignment, this->m_VerticalAlignment);
 	//switch (this->m_HorizontalAlignment)
 	//{

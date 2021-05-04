@@ -14,6 +14,7 @@ namespace DirectUI
 			void SetOrientation(Orientations data);
 			Orientations GetOrientation();
 			virtual void Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT) override;
+			void Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT) override;
 			virtual void Arrange(const CDirectUI_Rect& data) override;
 			__declspec(property(get = GetOrientation, put = SetOrientation)) Orientations Orientation;
 		protected:
