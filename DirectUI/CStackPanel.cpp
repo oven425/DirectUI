@@ -84,6 +84,10 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 			height = stackpanel_rc.GetHeight();
 		}
 		this->m_MeasureRect = ::UIElement::MeasureMapping(stackpanel_rc, CDirectUI_Size(width, height), this->m_HorizontalAlignment, this->m_VerticalAlignment);
+		for (auto oo : this->m_Childs)
+		{
+			oo->m_MeasureRect.SetOffsetY(this->m_MeasureRect.GetY());
+		}
 	}
 	break;
 	case Orientations::Horizontal:
