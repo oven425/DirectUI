@@ -4,23 +4,26 @@ using namespace DirectUI;
 using namespace Control;
 
 ID2D1Factory* UIElement::m_pD2DFactory = NULL;
-//shared_ptr<DependencyProperty<int>> UIElement::HorizontalAlignmentProperty;
-//shared_ptr<DependencyProperty<int>> UIElement::VerticalAlignmentProperty;
+shared_ptr<DependencyProperty<int>> UIElement::HorizontalAlignmentProperty;
+shared_ptr<DependencyProperty<int>> UIElement::VerticalAlignmentProperty;
 shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> UIElement::MarginProperty;
 UIElement::UIElement()
 {
-	//if (!HorizontalAlignmentProperty)
-	//{
-	//	HorizontalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
-	//	HorizontalAlignmentProperty->m_Name = L"HorizontalAlignment";
-	//}
-	//this->SetValue(HorizontalAlignmentProperty, (int)HorizontalAlignments::Stretch);
-	//if (!VerticalAlignmentProperty)
-	//{
-	//	VerticalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
-	//	VerticalAlignmentProperty->m_Name = L"VerticalAlignment";
-	//}
-	//this->SetValue(VerticalAlignmentProperty, (int)VerticalAlignments::Stretch);
+	if (!HorizontalAlignmentProperty)
+	{
+		HorizontalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
+		HorizontalAlignmentProperty->m_Default = (int)HorizontalAlignments::Stretch;
+		HorizontalAlignmentProperty->m_Name = L"HorizontalAlignment";
+	}
+	this->SetValue(HorizontalAlignmentProperty, (int)HorizontalAlignments::Stretch);
+	if (!VerticalAlignmentProperty)
+	{
+		VerticalAlignmentProperty = ::make_shared<DependencyProperty<int>>();
+		VerticalAlignmentProperty->m_Default = (int)VerticalAlignments::Stretch;
+		VerticalAlignmentProperty->m_Name = L"VerticalAlignment";
+	}
+	
+	this->SetValue(VerticalAlignmentProperty, (int)VerticalAlignments::Stretch);
 
 	if (!MarginProperty)
 	{
@@ -82,7 +85,7 @@ void UIElement::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	float top = rc.GetTop();
 	float w = rc.GetWidth();
 	float h = rc.GetHeight();
-	switch (this->m_HorizontalAlignment)
+	switch (this->HorizontalAlignment)
 	{
 	case HorizontalAlignments::Stretch:
 	{
@@ -109,7 +112,7 @@ void UIElement::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	}
 	break;
 	}
-	switch (this->m_VerticalAlignment)
+	switch (this->VerticalAlignment)
 	{
 	case VerticalAlignments::Stretch:
 	{
@@ -216,7 +219,7 @@ CDirectUI_Rect UIElement::MappingRenderRect(CDirectUI_Rect& actual_rect, const C
 	CDirectUI_Rect rc = CDirectUI_Rect(0, 0, actual_rect.GetWidth(), actual_rect.GetHeight());
 	if (ignore_x == false)
 	{
-		switch (this->m_HorizontalAlignment)
+		switch (this->HorizontalAlignment)
 		{
 		case HorizontalAlignments::Center:
 		{
@@ -241,7 +244,7 @@ CDirectUI_Rect UIElement::MappingRenderRect(CDirectUI_Rect& actual_rect, const C
 	}
 	if (ignore_y == false)
 	{
-		switch (this->m_VerticalAlignment)
+		switch (this->VerticalAlignment)
 		{
 		case VerticalAlignments::Center:
 		{
@@ -429,11 +432,11 @@ void UIElement::Arrange(const CDirectUI_Rect& data)
 			h = this->DesiredSize.height;
 		}
 	}
-	if (data.GetHeight() == 0)
-	{
-		h = this->DesiredSize.height;
-	}
-	switch (this->m_HorizontalAlignment)
+	//if (data.GetHeight() == 0)
+	//{
+	//	h = this->DesiredSize.height;
+	//}
+	switch (this->HorizontalAlignment)
 	{
 	case HorizontalAlignments::Stretch:
 	{
@@ -462,7 +465,7 @@ void UIElement::Arrange(const CDirectUI_Rect& data)
 	}
 	break;
 	}
-	switch (this->m_VerticalAlignment)
+	switch (this->VerticalAlignment)
 	{
 	case VerticalAlignments::Stretch:
 	{
@@ -550,12 +553,24 @@ void UIElement::SetVisibility(Visibilitys data)
 
 void UIElement::SetVerticalAlignment(VerticalAlignments data)
 {
-	this->m_VerticalAlignment = data;
+	this->SetValue(VerticalAlignmentProperty, (int)data);
+	//this->m_VerticalAlignment = data;
+}
+
+VerticalAlignments UIElement::GetVerticalAlignment()
+{
+	return (VerticalAlignments)this->GetValue(VerticalAlignmentProperty);
 }
 
 void UIElement::SetHorizontalAlignment(HorizontalAlignments data)
 {
-	this->m_HorizontalAlignment = data;
+	this->SetValue(HorizontalAlignmentProperty, (int)data);
+	//this->m_HorizontalAlignment = data;
+}
+
+HorizontalAlignments UIElement::GetHorizontalAlignment()
+{
+	return (HorizontalAlignments)this->GetValue(HorizontalAlignmentProperty);
 }
 
 void UIElement::SetEnabled(bool data)

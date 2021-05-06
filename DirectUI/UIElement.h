@@ -100,9 +100,11 @@ namespace DirectUI
 			float GetHieght() { return this->m_Height; }
 			Visibilitys GetVisibility() { return this->m_Visibility; }
 			void SetVerticalAlignment(VerticalAlignments data);
-			VerticalAlignments GetVerticalAlignment() { return this->m_VerticalAlignment; }
+			VerticalAlignments GetVerticalAlignment();
+			__declspec(property(get = GetVerticalAlignment, put = SetVerticalAlignment)) VerticalAlignments VerticalAlignment;
 			void SetHorizontalAlignment(HorizontalAlignments data);
 			HorizontalAlignments GetHorizontalAlignment();
+			__declspec(property(get = GetHorizontalAlignment, put = SetHorizontalAlignment)) HorizontalAlignments HorizontalAlignment;
 			CDirectUI_Rect& GetActualRect() { return this->m_ActualRect; }
 			virtual bool HitTest(int x, int y, vector<shared_ptr<UIElement>>& childs);
 			void SetEnabled(bool data);
@@ -121,8 +123,8 @@ namespace DirectUI
 			float m_MaxHeight = 0;
 			CDirectUI_Rect m_ActualRect;
 			Visibilitys m_Visibility = Visibilitys::Visible;
-			VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
-			HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
+			//VerticalAlignments m_VerticalAlignment = VerticalAlignments::Stretch;
+			//HorizontalAlignments m_HorizontalAlignment = HorizontalAlignments::Stretch;
 			virtual D2D1_SIZE_F GetSize(float width, float height);
 			virtual void Release() {};
 			static ID2D1Factory* m_pD2DFactory;
@@ -171,8 +173,8 @@ namespace DirectUI
 			Trees m_Tree = Trees::Logic;
 		protected:
 			static shared_ptr<DependencyProperty<shared_ptr<CDirectUI_Thinkness>>> MarginProperty;
-			//static shared_ptr<DependencyProperty<int>> HorizontalAlignmentProperty;
-			//static shared_ptr<DependencyProperty<int>> VerticalAlignmentProperty;
+			static shared_ptr<DependencyProperty<int>> HorizontalAlignmentProperty;
+			static shared_ptr<DependencyProperty<int>> VerticalAlignmentProperty;
 		};
 	}
 }

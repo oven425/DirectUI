@@ -3,12 +3,23 @@
 using namespace DirectUI;
 using namespace Control;
 
+shared_ptr<DependencyProperty<int>> CImage::StretchProperty;
+
+CImage::CImage()
+{
+	if (!StretchProperty)
+	{
+		StretchProperty = ::make_shared<DependencyProperty<int>>();
+		StretchProperty->m_Default = (int)Stretchs::Uniform;
+	}
+}
+
 CDirectUI_Rect CImage::MappingToSource(CDirectUI_Rect& actual_rect, const CDirectUI_Size& measure_size, bool ignore_x, bool ignore_y)
 {
 	CDirectUI_Rect rc = CDirectUI_Rect(0,0, actual_rect.GetWidth(), actual_rect.GetHeight());
 	if (ignore_x == false)
 	{
-		switch (this->m_HorizontalAlignment)
+		switch (this->HorizontalAlignment)
 		{
 		case HorizontalAlignments::Center:
 		{
@@ -36,7 +47,7 @@ CDirectUI_Rect CImage::MappingToSource(CDirectUI_Rect& actual_rect, const CDirec
 	}
 	if (ignore_y == false)
 	{
-		switch (this->m_VerticalAlignment)
+		switch (this->VerticalAlignment)
 		{
 		case VerticalAlignments::Center:
 		{
@@ -255,7 +266,7 @@ void CImage::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 			float w_ = sz.GetWidth() / ss.width;
 			sz.SetHeight(ss.height * w_);
 		}
-		switch (this->m_Stretch)
+		switch (this->Stretch)
 		{
 		case Stretchs::Uniform:
 		{
@@ -380,7 +391,7 @@ void CImage::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 			float w_ = sz.GetWidth() / ss.width;
 			sz.SetHeight(ss.height * w_);
 		}
-		switch (this->m_Stretch)
+		switch (this->Stretch)
 		{
 		case Stretchs::Uniform:
 		{
@@ -459,7 +470,7 @@ void CImage::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	//{
 	//	this->DesiredSize.height = 0;
 	//}
-	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
+	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, this->DesiredSize, this->HorizontalAlignment, this->VerticalAlignment);
 }
 
 void CImage::Arrange(const CDirectUI_Rect& data)
@@ -475,7 +486,13 @@ void CImage::SetSource(shared_ptr<Direct2D::CD2D_ImageSource> data)
 
 void CImage::SetStretch(Stretchs data)
 {
-	this->m_Stretch = data;
+	this->SetValue(StretchProperty, (int)data);
+	//this->m_Stretch = data;
+}
+
+Stretchs CImage::GetStretch()
+{
+	return (Stretchs)GetValue(StretchProperty);
 }
 
 void CImage::Release()

@@ -197,7 +197,7 @@ void CBorder::OnRender(ID2D1RenderTarget* pRT)
 
 	//::CControl::OnRender(pRT);
 
-	pRT->PushAxisAlignedClip(UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment), D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	pRT->PushAxisAlignedClip(UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->HorizontalAlignment, this->VerticalAlignment), D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
 	//CDirectUI_Rect rc = CDirectUI_Rect(0, 0, this->DesiredSize.width, this->DesiredSize.height);
 	//CDirectUI_Rect rc = UIElement::MappingRenderRect1(this->m_ActualRect, this->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
@@ -277,11 +277,11 @@ void CBorder::Arrange(const CDirectUI_Rect& data)
 	CDirectUI_Size border_sz = data + *this->Margin;
 	if (this->m_Child)
 	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = border_sz.GetWidth();
 		}
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = border_sz.GetHeight();
 		}

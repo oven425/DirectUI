@@ -75,7 +75,7 @@ void CContentControl::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT
 		CDirectUI_Rect rc = data + *this->Margin+*this->Padding;
 		this->m_Child->Measure(rc, pRT);
 		this->m_MeasureRect = this->m_Child->m_MeasureRect + *this->Margin + *this->Padding;
-		switch (this->m_HorizontalAlignment)
+		switch (this->HorizontalAlignment)
 		{
 		case HorizontalAlignments::Stretch:
 		{
@@ -84,7 +84,7 @@ void CContentControl::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT
 		}
 		break;
 		}
-		switch (this->m_VerticalAlignment)
+		switch (this->VerticalAlignment)
 		{
 		case VerticalAlignments::Stretch:
 		{
@@ -112,7 +112,7 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 			border_sz + *this->Padding;
 		}
 		this->m_Child->Measure(child_sz, pRT);
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = border_sz.GetWidth();
 		}
@@ -120,7 +120,7 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 		{
 			this->DesiredSize.width = this->m_Child->DesiredSize.width;
 		}
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = border_sz.GetHeight();
 		}
@@ -132,7 +132,7 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 	}
 	else
 	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = border_sz.GetWidth();
 		}
@@ -140,7 +140,7 @@ void CContentControl::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT
 		{
 			//this->DesiredSize.width = this->m_BorderThickness.GetLeft() + this->m_BorderThickness.GetRight();
 		}
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = border_sz.GetHeight();
 		}

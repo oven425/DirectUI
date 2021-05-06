@@ -108,14 +108,14 @@ void UniformGrid::Arrange(const CDirectUI_Rect& data)
 	//rc = CDirectUI_Rect(0, 0, rc.GetWidth(), rc.GetHeight());
 	if (rc.GetWidth() > this->DesiredSize.width)
 	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = rc.GetWidth();
 		}
 	}
 	if (rc.GetHeight() > this->DesiredSize.height)
 	{
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = rc.GetHeight();
 		}

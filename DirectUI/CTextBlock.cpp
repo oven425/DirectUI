@@ -80,7 +80,7 @@ void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	{
 		rc.SetHeight(margin_rc.GetHeight());
 	}
-	else if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+	else if (this->VerticalAlignment == VerticalAlignments::Stretch)
 	{
 		sz.height = margin_rc.GetHeight();
 		rc.SetHeight(margin_rc.GetHeight());
@@ -89,13 +89,13 @@ void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	{
 		rc.SetWidth(margin_rc.GetWidth());
 	}
-	else if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+	else if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 	{
 		sz.width = margin_rc.GetWidth();
 		rc.SetWidth(margin_rc.GetWidth());
 	}
 	
-	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, sz, this->m_HorizontalAlignment, this->m_VerticalAlignment);
+	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, sz, this->HorizontalAlignment, this->VerticalAlignment);
 	//switch (this->m_HorizontalAlignment)
 	//{
 	//case HorizontalAlignments::Stretch:
@@ -206,14 +206,14 @@ void CTextBlock::Arrange(const CDirectUI_Rect& data)
 	CDirectUI_Rect rc = data + *this->Margin;
 	if (this->DesiredSize.width < rc.GetWidth())
 	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = rc.GetWidth();
 		}
 	}
 	if (this->DesiredSize.height < rc.GetHeight())
 	{
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = rc.GetHeight();
 		}

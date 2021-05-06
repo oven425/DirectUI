@@ -100,7 +100,7 @@ void Ellipse::Arrange(const CDirectUI_Rect& data)
 			h = this->DesiredSize.height;
 		}
 	}
-	switch (this->m_HorizontalAlignment)
+	switch (this->HorizontalAlignment)
 	{
 	case HorizontalAlignments::Stretch:
 	{
@@ -129,7 +129,7 @@ void Ellipse::Arrange(const CDirectUI_Rect& data)
 	}
 	break;
 	}
-	switch (this->m_VerticalAlignment)
+	switch (this->VerticalAlignment)
 	{
 	case VerticalAlignments::Stretch:
 	{

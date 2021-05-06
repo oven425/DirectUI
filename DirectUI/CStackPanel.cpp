@@ -61,6 +61,7 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	case Orientations::Vertical:
 	{
 		CDirectUI_Rect rc = stackpanel_rc;
+		rc.SetOffsetY(-rc.GetLeft());
 		float height = 0;
 		float width = 0;
 		for (auto oo : this->m_Childs)
@@ -75,17 +76,18 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 		}
 		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<UIElement> c1, shared_ptr<UIElement> c2) {return c1->m_MeasureRect.GetWidth() > c2->m_MeasureRect.GetWidth(); });
 		width = (*aaa)->m_MeasureRect.GetWidth();
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			width = stackpanel_rc.GetWidth();
 		}
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			height = stackpanel_rc.GetHeight();
 		}
-		this->m_MeasureRect = ::UIElement::MeasureMapping(stackpanel_rc, CDirectUI_Size(width, height), this->m_HorizontalAlignment, this->m_VerticalAlignment);
+		this->m_MeasureRect = ::UIElement::MeasureMapping(stackpanel_rc, CDirectUI_Size(width, height), this->HorizontalAlignment, this->VerticalAlignment);
 		for (auto oo : this->m_Childs)
 		{
+			
 			oo->m_MeasureRect.SetOffsetY(this->m_MeasureRect.GetY());
 		}
 	}
@@ -145,7 +147,7 @@ void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 	else if (this->DesiredSize.width < stackpanel_sz.GetWidth())
 	{
-		if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			this->DesiredSize.width = stackpanel_sz.GetWidth();
 		}
@@ -156,7 +158,7 @@ void CStackPanel::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 	}
 	else if (this->DesiredSize.height < stackpanel_sz.GetHeight())
 	{
-		if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			this->DesiredSize.height = stackpanel_sz.GetHeight();
 		}
@@ -168,14 +170,14 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 	CDirectUI_Rect rc = data + *this->Margin;
 	float w = this->DesiredSize.width;
 	float h = this->DesiredSize.height;
-	if (this->m_HorizontalAlignment == HorizontalAlignments::Stretch)
+	if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 	{
 		if (w > rc.GetWidth() - (*this->Margin).GetLeft() - (*this->Margin).GetRight())
 		{
 			w = rc.GetWidth();
 		}
 	}
-	if (this->m_VerticalAlignment == VerticalAlignments::Stretch)
+	if (this->VerticalAlignment == VerticalAlignments::Stretch)
 	{
 		if (h > rc.GetHeight() - (*this->Margin).GetTop() - (*this->Margin).GetBottom())
 		{
@@ -185,26 +187,76 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 	CControl::Arrange(data);
 	float y = this->m_ActualRect.GetTop();
 	float x = this->m_ActualRect.GetLeft();
+	//float height = this->m_ActualRect.GetHeight();
 	for (auto oo : this->m_Childs)
 	{
 		oo->GetActualRect() = CDirectUI_Rect(0);
 	}
+	CTrace::WriteLine(L"%s %s", this->Name.c_str(), this->m_ActualRect.ToString().c_str());
 	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
 	{
+		float curr_y = -1;
+		
+		bool begin = false;
+
 		for (auto oo : this->m_Childs)
 		{
-			oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y));
-			//oo->GetActualRect() = ::UIElement::MappingRenderRect1(oo->GetActualRect(), oo->DesiredSize, this->m_HorizontalAlignment, this->m_VerticalAlignment);
-			y = y + oo->GetActualRect().GetHeight();
-			float b1 = oo->GetActualRect().GetBottom();
-			float b2 = this->m_ActualRect.GetBottom();
-			if (b1 > b2)
+			CTrace::WriteLine(L"%s %s", oo->Name.c_str(), oo->m_MeasureRect.ToString().c_str());
+			float child_top = oo->m_MeasureRect.GetTop();
+			float child_bottom = oo->m_MeasureRect.GetBottom();
+			float panel_top = this->m_ActualRect.GetTop();
+			float panel_bottom = this->m_ActualRect.GetBottom();
+			
+			if (child_bottom < panel_bottom && child_top > panel_top)
 			{
-				oo->GetActualRect().SetBottom(this->m_ActualRect.GetBottom());
-				break;
+				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + oo->m_MeasureRect.GetHeight()));
+				y = y + oo->GetActualRect().GetHeight();
 			}
+			else if (child_bottom > panel_top)
+			{
+				//float child_h = child_bottom - panel_top;
+				//oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
+				//y = y + child_h;
+			}
+			else if (child_top < panel_bottom)
+			{
+
+			}
+
+			//if (begin == false && this->m_ActualRect.GetTop() < oo->m_MeasureRect.GetBottom())
+			//{
+			//	begin = true;
+			//	curr_y = this->m_ActualRect.GetTop();
+			//}
+			//if (begin == true)
+			//{
+			//	if (this->m_ActualRect.GetBottom() < oo->m_MeasureRect.GetTop())
+			//	{
+			//		begin = false;
+			//	}
+			//	else
+			//	{
+			//		oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + oo->m_MeasureRect.GetHeight()));
+			//		y = y + oo->GetActualRect().GetHeight();
+			//	}
+			//}
+			//if (begin == true)
+			//{
+			//	float height = 
+			//}
+			//if (oo->m_MeasureRect.GetHeight() > height)
+			//{
+			//	oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + height));
+			//}
+			//else
+			//{
+			//	oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + oo->m_MeasureRect.GetHeight()));
+			//}
+			//
+			//y = y + oo->GetActualRect().GetHeight();
+			//height = height - oo->m_MeasureRect.GetHeight();
 		}
 	}
 	break;
