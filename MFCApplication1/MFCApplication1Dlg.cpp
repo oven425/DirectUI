@@ -219,7 +219,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		textblock->Font->SetFontSize(20+i*3);
 		//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
 		textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
-		//textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
+		textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
 		stackpanel->AddChild(textblock);
 	}
 

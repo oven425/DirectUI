@@ -52,11 +52,12 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	//
 	//pRT->PopAxisAlignedClip();
 
-	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	//pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->Background)
 	{
 		this->Background->Refresh(pRT);
-		pRT->FillRectangle(this->m_MeasureRect, *this->Background);
+		//pRT->FillRectangle(this->m_MeasureRect, *this->Background);
+		pRT->DrawRectangle(this->m_ActualRect, *this->Background);
 	}
 	if (this->Foreground)
 	{
@@ -65,7 +66,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		pRT->DrawTextLayout(this->m_MeasureRect, *this->Font, *this->Foreground);
 	}
 
-	pRT->PopAxisAlignedClip();
+	//pRT->PopAxisAlignedClip();
 }
 
 void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)

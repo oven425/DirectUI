@@ -209,20 +209,22 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 			float panel_top = this->m_ActualRect.GetTop();
 			float panel_bottom = this->m_ActualRect.GetBottom();
 			
-			if (child_bottom < panel_bottom && child_top > panel_top)
+			if (child_bottom <= panel_bottom && child_top >= panel_top)
 			{
 				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + oo->m_MeasureRect.GetHeight()));
 				y = y + oo->GetActualRect().GetHeight();
 			}
 			else if (child_bottom > panel_top)
 			{
-				//float child_h = child_bottom - panel_top;
-				//oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
-				//y = y + child_h;
+				float child_h = child_bottom - panel_top;
+				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
+				y = y + child_h;
 			}
 			else if (child_top < panel_bottom)
 			{
-
+				float child_h = child_top - panel_bottom;
+				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
+				y = y + child_h;
 			}
 
 			//if (begin == false && this->m_ActualRect.GetTop() < oo->m_MeasureRect.GetBottom())
