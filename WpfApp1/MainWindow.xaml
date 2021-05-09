@@ -27,11 +27,15 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Margin="50" Background="Green">
         <CheckBox x:Name="checkbox_1"/>
         <CheckBox x:Name="checkbox_2"/>
         <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
-                   Margin="100,0"/>
+                   />
+        <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
+                   />
+        <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
+                   />
     </StackPanel>
     <!--<TextBlock Text="12312312312345645645678978989" FontSize="40" 
                Foreground="White" Background="Black" 

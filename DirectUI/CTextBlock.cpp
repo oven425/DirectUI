@@ -52,12 +52,12 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	//
 	//pRT->PopAxisAlignedClip();
 
-	//pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->Background)
 	{
 		this->Background->Refresh(pRT);
-		//pRT->FillRectangle(this->m_MeasureRect, *this->Background);
-		pRT->DrawRectangle(this->m_ActualRect, *this->Background);
+		pRT->FillRectangle(this->m_MeasureRect, *this->Background);
+		//pRT->DrawRectangle(this->m_ActualRect, *this->Background);
 	}
 	if (this->Foreground)
 	{
@@ -66,7 +66,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		pRT->DrawTextLayout(this->m_MeasureRect, *this->Font, *this->Foreground);
 	}
 
-	//pRT->PopAxisAlignedClip();
+	pRT->PopAxisAlignedClip();
 }
 
 void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
@@ -86,15 +86,15 @@ void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 		sz.height = margin_rc.GetHeight();
 		rc.SetHeight(margin_rc.GetHeight());
 	}
-	if (data.GetWidth() == 0)
-	{
-		rc.SetWidth(margin_rc.GetWidth());
-	}
-	else if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
-	{
-		sz.width = margin_rc.GetWidth();
-		rc.SetWidth(margin_rc.GetWidth());
-	}
+	//if (data.GetWidth() == 0)
+	//{
+	//	rc.SetWidth(margin_rc.GetWidth());
+	//}
+	//else if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
+	//{
+	//	sz.width = margin_rc.GetWidth();
+	//	rc.SetWidth(margin_rc.GetWidth());
+	//}
 	
 	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, sz, this->HorizontalAlignment, this->VerticalAlignment);
 	//switch (this->m_HorizontalAlignment)
@@ -205,18 +205,32 @@ void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
 void CTextBlock::Arrange(const CDirectUI_Rect& data)
 {
 	CDirectUI_Rect rc = data + *this->Margin;
-	if (this->DesiredSize.width < rc.GetWidth())
+	//if (this->DesiredSize.width < rc.GetWidth())
+	//{
+	//	if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
+	//	{
+	//		this->DesiredSize.width = rc.GetWidth();
+	//	}
+	//}
+	//if (this->DesiredSize.height < rc.GetHeight())
+	//{
+	//	if (this->VerticalAlignment == VerticalAlignments::Stretch)
+	//	{
+	//		this->DesiredSize.height = rc.GetHeight();
+	//	}
+	//}
+	if (this->m_MeasureRect.GetWidth() < rc.GetWidth())
 	{
 		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
-			this->DesiredSize.width = rc.GetWidth();
+			this->m_MeasureRect.SetWidth(rc.GetWidth());
 		}
 	}
-	if (this->DesiredSize.height < rc.GetHeight())
+	if (this->m_MeasureRect.GetHeight() < rc.GetHeight())
 	{
 		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
-			this->DesiredSize.height = rc.GetHeight();
+			this->m_MeasureRect.SetHeight(rc.GetHeight());
 		}
 	}
 	::CControl::Arrange(data);

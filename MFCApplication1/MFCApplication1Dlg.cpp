@@ -205,8 +205,8 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 
 	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
 	stackpanel->Name = L"stackpanel";
-	stackpanel->Margin = ::make_shared<CDirectUI_Thinkness>(30);
-	stackpanel->SetVerticalAlignment(VerticalAlignments::Center);
+	stackpanel->Margin = ::make_shared<CDirectUI_Thinkness>(50);
+	//stackpanel->SetVerticalAlignment(VerticalAlignments::Bottom);
 	stackpanel->SetHorizontalAlignment(HorizontalAlignments::Left);
 	stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
 	stackpanel->Orientation = Orientations::Vertical;
