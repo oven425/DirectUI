@@ -39,13 +39,13 @@ void CStackPanel::OnRender(ID2D1RenderTarget* pRT)
 	{
 		return;
 	}
-	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	//pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->Background)
 	{
 		this->Background->Refresh(pRT);
 		pRT->FillRectangle(this->m_ActualRect, *this->Background);
 	}
-	pRT->PopAxisAlignedClip();
+	//pRT->PopAxisAlignedClip();
 	for (auto oo : this->m_Childs)
 	{
 		oo->OnRender(pRT);
@@ -60,6 +60,7 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	{
 	case Orientations::Vertical:
 	{
+		float max_width = 0;
 		CDirectUI_Rect rc = stackpanel_rc;
 		rc.SetOffsetY(-rc.GetLeft());
 		float height = 0;
@@ -70,17 +71,20 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 			oo->Measure(rc, pRT);
 			rc.SetOffsetY(oo->m_MeasureRect.GetHeight());
 			height = height + oo->m_MeasureRect.GetHeight();
+			if (max_width < oo->m_MeasureRect.GetWidth())
+			{
+				max_width = oo->m_MeasureRect.GetWidth();
+			}
 		}
-		auto aaa = std::max_element(this->m_Childs.begin(), this->m_Childs.end(), [](shared_ptr<UIElement> c1, shared_ptr<UIElement> c2) {return c1->m_MeasureRect.GetWidth() > c2->m_MeasureRect.GetWidth(); });
-		width = (*aaa)->m_MeasureRect.GetWidth();
 		if (this->HorizontalAlignment == HorizontalAlignments::Stretch)
 		{
 			width = stackpanel_rc.GetWidth();
 		}
 		else
 		{
-			width = (*(*aaa)).m_MeasureRect.GetWidth();
+			width = max_width;
 		}
+
 		if (this->VerticalAlignment == VerticalAlignments::Stretch)
 		{
 			height = stackpanel_rc.GetHeight();
@@ -89,7 +93,8 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 		for (auto oo : this->m_Childs)
 		{
 			oo->m_MeasureRect.SetOffsetY(this->m_MeasureRect.GetY());
-			//oo->m_MeasureRect.SetWidth
+			oo->m_MeasureRect.SetX(this->m_MeasureRect.GetX());
+			oo->m_MeasureRect.SetWidth(width);
 		}
 	}
 	break;
@@ -193,7 +198,8 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 	{
 		oo->GetActualRect() = CDirectUI_Rect(0);
 	}
-	CTrace::WriteLine(L"%s %s", this->Name.c_str(), this->m_ActualRect.ToString().c_str());
+	CTrace::WriteLine(L"%s measure %s", this->Name.c_str(), this->m_MeasureRect.ToString().c_str());
+	CTrace::WriteLine(L"%s arrange %s", this->Name.c_str(), this->m_ActualRect.ToString().c_str());
 	switch (this->Orientation)
 	{
 	case Orientations::Vertical:
@@ -204,7 +210,7 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 
 		for (auto oo : this->m_Childs)
 		{
-			CTrace::WriteLine(L"%s %s", oo->Name.c_str(), oo->m_MeasureRect.ToString().c_str());
+			
 			float child_top = oo->m_MeasureRect.GetTop();
 			float child_bottom = oo->m_MeasureRect.GetBottom();
 			float panel_top = this->m_ActualRect.GetTop();
@@ -212,34 +218,40 @@ void CStackPanel::Arrange(const CDirectUI_Rect& data)
 			
 			if (child_bottom <= panel_bottom && child_top >= panel_top)
 			{
-				::OutputDebugStringA("mode 1\r\n");
+				//::OutputDebugStringA("mode 1\r\n");
 				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + oo->m_MeasureRect.GetHeight()));
 				y = y + oo->GetActualRect().GetHeight();
 			}
 			else if (child_bottom > panel_bottom && child_top < panel_top)
 			{
-				::OutputDebugStringA("mode 2\r\n");
+				//::OutputDebugStringA("mode 2\r\n");
 				float child_h = panel_bottom - panel_top;
 				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
 				y = y + oo->GetActualRect().GetHeight();
 			}
 			else if (child_top < panel_top && child_bottom > panel_top)
 			{
-				::OutputDebugStringA("mode 3\r\n");
+				//::OutputDebugStringA("mode 3\r\n");
 				float child_h = child_bottom - panel_top;
 				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
 				y = y + child_h;
 			}
 			else if (child_bottom > panel_bottom && child_top < panel_bottom)
 			{
-				::OutputDebugStringA("mode 4\r\n");
+				//::OutputDebugStringA("mode 4\r\n");
 				float child_h = panel_bottom - child_top;
 				oo->Arrange(CDirectUI_Rect(x, y, this->m_ActualRect.GetRight(), y + child_h));
 				y = y + child_h;
 			}
 			else
 			{
-				::OutputDebugStringA("mode NO\r\n");
+				//::OutputDebugStringA("mode NO\r\n");
+			}
+			CTrace::WriteLine(L"%s measure %s", oo->Name.c_str(), oo->m_MeasureRect.ToString().c_str());
+			CTrace::WriteLine(L"%s arrange %s", oo->Name.c_str(), oo->GetActualRect().ToString().c_str());
+			if (this->HorizontalAlignment == HorizontalAlignments::Right)
+			{
+				//oo->m_MeasureRect.SetX(oo->m_MeasureRect.GetX() - oo->GetActualRect().GetX());
 			}
 
 			//if (begin == false && this->m_ActualRect.GetTop() < oo->m_MeasureRect.GetBottom())

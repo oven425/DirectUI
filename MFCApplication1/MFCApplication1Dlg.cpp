@@ -202,12 +202,11 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	////border->SetChild(textblock);
 	//windows->SetChild(border);
 
-
 	shared_ptr<CStackPanel> stackpanel = ::make_shared<CStackPanel>();
 	stackpanel->Name = L"stackpanel";
 	stackpanel->Margin = ::make_shared<CDirectUI_Thinkness>(50);
-	//stackpanel->SetVerticalAlignment(VerticalAlignments::Bottom);
-	stackpanel->SetHorizontalAlignment(HorizontalAlignments::Left);
+	//stackpanel->VerticalAlignment = VerticalAlignments::Bottom;
+	//stackpanel->HorizontalAlignment = HorizontalAlignments::Right;
 	stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
 	stackpanel->Orientation = Orientations::Vertical;
 	for (int i = 1; i < 5; i++)
@@ -217,7 +216,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 		textblock->Name = L"textblock_" + std::to_wstring(i);
 		//textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
 		textblock->Font->SetFontSize(20+i*3);
-		//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
+		textblock->Margin = ::make_shared<CDirectUI_Thinkness>(5);
 		textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
 		textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
 		stackpanel->AddChild(textblock);
