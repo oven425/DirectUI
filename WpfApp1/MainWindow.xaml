@@ -31,7 +31,7 @@
         <CheckBox x:Name="checkbox_1"/>
         <CheckBox x:Name="checkbox_2"/>
         <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
-                   />
+                   Margin="20" Height="200" />
         <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
                    />
         <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 

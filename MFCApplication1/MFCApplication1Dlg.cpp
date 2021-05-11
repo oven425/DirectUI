@@ -209,14 +209,14 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//stackpanel->HorizontalAlignment = HorizontalAlignments::Right;
 	stackpanel->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Green));
 	stackpanel->Orientation = Orientations::Vertical;
-	for (int i = 1; i < 5; i++)
+	for (int i = 1; i < 2; i++)
 	{
 		auto ss = L"123456789abcdefghTest_" + std::to_wstring(i+10);
 		shared_ptr<CTextBlock> textblock = ::make_shared<CTextBlock>(ss.c_str());
 		textblock->Name = L"textblock_" + std::to_wstring(i);
 		//textblock->SetHorizontalAlignment(HorizontalAlignments::Left);
 		textblock->Font->SetFontSize(20+i*3);
-		textblock->Margin = ::make_shared<CDirectUI_Thinkness>(5);
+		//textblock->Margin = ::make_shared<CDirectUI_Thinkness>(10);
 		textblock->Foreground = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Black));
 		textblock->Background = ::make_shared <CD2D_SolidColorBrush>(D2D1::ColorF(D2D1::ColorF::Purple));
 		stackpanel->AddChild(textblock);

@@ -52,12 +52,12 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 	//
 	//pRT->PopAxisAlignedClip();
 
-	pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	//pRT->PushAxisAlignedClip(this->m_ActualRect, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	if (this->Background)
 	{
 		this->Background->Refresh(pRT);
-		pRT->FillRectangle(this->m_MeasureRect, *this->Background);
-		//pRT->DrawRectangle(this->m_ActualRect, *this->Background);
+		//pRT->FillRectangle(this->m_MeasureRect, *this->Background);
+		pRT->DrawRectangle(this->m_ActualRect, *this->Background);
 	}
 	if (this->Foreground)
 	{
@@ -66,7 +66,7 @@ void CTextBlock::OnRender(ID2D1RenderTarget* pRT)
 		pRT->DrawTextLayout(this->m_MeasureRect, *this->Font, *this->Foreground);
 	}
 
-	pRT->PopAxisAlignedClip();
+	//pRT->PopAxisAlignedClip();
 }
 
 void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
@@ -79,6 +79,10 @@ void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	CDirectUI_Rect rc = data;
 	if (data.GetHeight() == 0)
 	{
+		//rc.SetHeight(sz.height);
+		//rc.SetTop(rc.GetTop() - this->Margin->GetTop());
+		//rc.SetBottom(rc.GetBottom() + this->Margin->GetBottom());
+		//sz.height = sz.height + this->Margin->GetTop() + this->Margin->GetBottom();
 		rc.SetHeight(margin_rc.GetHeight());
 	}
 	else if (this->VerticalAlignment == VerticalAlignments::Stretch)
@@ -97,109 +101,6 @@ void CTextBlock::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 	//}
 	
 	this->m_MeasureRect = ::UIElement::MeasureMapping(rc, sz, this->HorizontalAlignment, this->VerticalAlignment);
-	//switch (this->m_HorizontalAlignment)
-	//{
-	//case HorizontalAlignments::Stretch:
-	//{
-	//	this->m_MeasureRect.SetLeft(rc.GetLeft());
-	//	this->m_MeasureRect.SetWidth(rc.GetWidth());
-	//}
-	//break;
-	//case HorizontalAlignments::Left:
-	//{
-	//	float left = rc.GetLeft();
-	//	this->m_MeasureRect.SetLeft(left);
-	//	this->m_MeasureRect.SetWidth(sz.width);
-	//}
-	//break;
-	//case HorizontalAlignments::Center:
-	//{
-	//	float left = rc.GetLeft();
-	//	left = left + (rc.GetWidth() - sz.width)/2;
-	//	this->m_MeasureRect.SetLeft(left);
-	//	this->m_MeasureRect.SetWidth(sz.width);
-	//}
-	//break;
-	//case HorizontalAlignments::Right:
-	//{
-	//	float left = rc.GetLeft();
-	//	left = left + rc.GetWidth() - sz.width;
-	//	this->m_MeasureRect.SetLeft(left);
-	//	this->m_MeasureRect.SetWidth(sz.width);
-	//}
-	//break;
-	//}
-
-	//switch (this->m_VerticalAlignment)
-	//{
-	//case VerticalAlignments::Stretch:
-	//{
-	//	this->m_MeasureRect.SetTop(rc.GetTop());
-	//	this->m_MeasureRect.SetHeight(rc.GetHeight());
-	//}
-	//break;
-	//case VerticalAlignments::Top:
-	//{
-	//	float top = rc.GetTop();
-	//	this->m_MeasureRect.SetTop(top);
-	//	this->m_MeasureRect.SetHeight(sz.height);
-	//}
-	//break;
-	//case VerticalAlignments::Center:
-	//{
-	//	float top = rc.GetTop();
-	//	top = top + (rc.GetHeight() - sz.height)/2;
-	//	this->m_MeasureRect.SetTop(top);
-	//	this->m_MeasureRect.SetHeight(sz.height);
-	//}
-	//break;
-	//case VerticalAlignments::Bottom:
-	//{
-	//	float top = rc.GetTop();
-	//	top = top + rc.GetHeight() - sz.height;
-	//	this->m_MeasureRect.SetTop(top);
-	//	this->m_MeasureRect.SetHeight(sz.height);
-	//}
-	//break;
-	//}
-}
-
-void CTextBlock::Measure(const CDirectUI_Size& data, ID2D1RenderTarget* pRT)
-{
-	this->DesiredSize.width = this->DesiredSize.height = 0;
-	CDirectUI_Size sz1 = data + *this->Margin;
-
-	float w = sz1.GetWidth();
-	float h = sz1.GetHeight();
-	if (data.GetHeight() == 0)
-	{
-		h = 0;
-	}
-	if (this->m_Width > 0)
-	{
-		w = this->m_Width;
-	}
-	if (this->m_Height > 0)
-	{
-		h = this->m_Height;
-	}
-	D2D1_SIZE_F sz = this->Font->GetTextSize(this->m_Text.c_str(), w, h);
-	this->DesiredSize.width = sz.width;
-	if (this->m_Width > 0 && this->m_Width < sz.width)
-	{
-		this->DesiredSize.width = this->m_Width;
-	}
-
-	this->DesiredSize.height = sz.height;
-	if (data.GetHeight() == 0)
-	{
-		this->DesiredSize.height = this->DesiredSize.height + this->Margin->GetTop() + this->Margin->GetBottom();
-	}
-	if (this->m_Height > 0 && this->m_Height < sz.height)
-	{
-		this->DesiredSize.height = this->m_Height;
-	}
-
 }
 
 void CTextBlock::Arrange(const CDirectUI_Rect& data)

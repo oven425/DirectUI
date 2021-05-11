@@ -69,6 +69,12 @@ void CStackPanel::Measure(const CDirectUI_Rect& data, ID2D1RenderTarget* pRT)
 		{
 			rc.SetHeight(0);
 			oo->Measure(rc, pRT);
+			
+			oo->m_MeasureRect.SetTop(oo->m_MeasureRect.GetTop() + oo->Margin->GetTop());
+			oo->m_MeasureRect.SetBottom(oo->m_MeasureRect.GetBottom() + oo->Margin->GetBottom());
+			oo->m_MeasureRect.SetLeft(oo->m_MeasureRect.GetLeft() + oo->Margin->GetLeft());
+			oo->m_MeasureRect.SetRight(oo->m_MeasureRect.GetRight() - oo->Margin->GetRight());
+			
 			rc.SetOffsetY(oo->m_MeasureRect.GetHeight());
 			height = height + oo->m_MeasureRect.GetHeight();
 			if (max_width < oo->m_MeasureRect.GetWidth())
