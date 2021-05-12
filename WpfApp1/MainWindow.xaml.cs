@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -39,7 +40,64 @@ namespace WpfApp1
             //binding1.Converter = new Bool2Visibility();
             //binding1.Source = this.checkbox_2;
             //this.border_1.SetBinding(Border.VisibilityProperty, binding1);
+
+            var controllerName = "WpfApp1.HogeController";
+            var actionName = "TakoAction";
+            var type = Type.GetType(controllerName);
+            var method = type.GetMethod(actionName);
+            var instance = Activator.CreateInstance(type);
+            //var cache = new ConcurrentDictionary<Tuple<string, string>, Delegate>();
+            //var dynamicDelegate = cache.GetOrAdd(Tuple.Create(controllerName, actionName), _ =>
+            //{
+            //    // パラメータはMethodInfoから動的に作る
+            //    var parameters = method.GetParameters().Select(x =>
+            //            System.Linq.Expressions.Expression.Parameter(x.ParameterType, x.Name))
+            //        .ToArray();
+
+            //    return System.Linq.Expressions.Expression.Lambda(
+            //            System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
+            //        parameters).Compile();
+            //});
+            //var result = dynamicDelegate.DynamicInvoke(new object[] { 10, 20 });
+
+            //var cache = new ConcurrentDictionary<string, Func<object[], object>>();
+            //var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
+            //var parameters = method.GetParameters()
+            //    .Select((x, index) =>
+            //        System.Linq.Expressions.Expression.Convert(
+            //            System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
+            //        x.ParameterType))
+            //    .ToArray();
+
+            //var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
+            //            System.Linq.Expressions.Expression.Convert(
+            //                System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
+            //                typeof(object)),
+            //            args).Compile();
+            //var result = lambda.Invoke(new object[] { "1.1", (float)2.2 });
+
+            method = typeof(Func<int, int, string>).GetMethods()[0];
+            var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
+            var parameters = method.GetParameters()
+                .Select((x, index) =>
+                    System.Linq.Expressions.Expression.Convert(
+                        System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
+                    x.ParameterType))
+                .ToArray();
+
+            var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
+                        System.Linq.Expressions.Expression.Convert(
+                            System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
+                            typeof(object)),
+                        args).Compile();
         }
+
+        Func<int, int, string> m_Func;
+        public void Test(Func<int, int, string> data)
+        {
+            this.m_Func = data;
+        }
+
     }
 
     public class Bool2Visibility : IValueConverter
@@ -70,6 +128,19 @@ namespace WpfApp1
                     dpiTransform.Freeze();
                 this.LayoutTransform = dpiTransform;
             };
+        }
+    }
+
+    public class HogeController
+    {
+        public string HugaAction(int x, int y)
+        {
+            return (x + y).ToString();
+        }
+
+        public double TakoAction(string s, float f)
+        {
+            return double.Parse(s) * f;
         }
     }
 }
