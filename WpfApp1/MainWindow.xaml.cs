@@ -30,6 +30,7 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            
             //Binding binding = new Binding("IsChecked");
             //binding.Mode = BindingMode.OneWay;
             //binding.Source = this.checkbox_2;

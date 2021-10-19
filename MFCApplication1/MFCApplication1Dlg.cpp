@@ -77,7 +77,8 @@ void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const Dra
 
 // CMFCApplication1Dlg 訊息處理常式
 
-
+template<typename T>
+using deleted_unique_ptr = std::unique_ptr<T, std::function<void(T*)>>;
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -108,6 +109,20 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+
+	//deleted_unique_ptr<FILE> file(
+	//	fopen("file.txt", "r"),
+	//	[](FILE* f) 
+	//	{ 
+	//		fclose(f); 
+	//	});
+	//char ccs[100] = { 0 };
+	//
+	//fwrite(ccs, 1, 4, file.get());
+
+	//shared_ptr fp2(fopen("tmp.txt"," w"),[](FILE * fp) { fclose(fp); puts(" close file"); });
+
+	return TRUE;
 	
 	//array< D2D1_GRADIENT_STOP, 2> gradientStops;
 	////D2D1_GRADIENT_STOP gradientStops[2];
