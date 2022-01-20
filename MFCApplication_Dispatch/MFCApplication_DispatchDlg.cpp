@@ -69,7 +69,8 @@ END_MESSAGE_MAP()
 
 
 // CMFCApplicationDispatchDlg 訊息處理常式
-
+#include <queue>
+using namespace std;
 BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -100,6 +101,25 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+	priority_queue <int> tq_less;
+	priority_queue<int, vector<int>, greater<int>> tq_great;
+	for (int i = 0; i < 10; i++)
+	{
+		tq_less.push(i);
+		tq_great.push(i);
+	}
+
+	for (auto& oo : tq_great)
+	{
+
+	}
+
+	vector<int> ll;
+	for (auto oo : ll)
+	{
+
+	}
+
 
 	//std::tuple<int, char> foo(10, 'x');
 	//auto bar = std::make_tuple("test", 3.1, 14, 'y');
@@ -129,24 +149,25 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	//std::cout << std::get<1>(foo) << '\n';
 
 
-	this->m_Dispatcher.Invoke([] 
-		{
-			::OutputDebugStringA("1\r\n");
-			::Sleep(3000);
-			::OutputDebugStringA("1-1\r\n");
-		});
-	this->m_Dispatcher.Invoke([]
-		{
-			::OutputDebugStringA("2\r\n");
-		});
-	this->m_Dispatcher.Invoke([]
-		{
-			::OutputDebugStringA("3\r\n");
-		});
-	this->m_Dispatcher.Invoke([]
-		{
-			::OutputDebugStringA("4\r\n");
-		});
+	//this->m_Dispatcher.Invoke([] 
+	//	{
+	//		::OutputDebugStringA("1\r\n");
+	//		::Sleep(3000);
+	//		::OutputDebugStringA("1-1\r\n");
+	//	});
+	//this->m_Dispatcher.Invoke([]
+	//	{
+	//		::OutputDebugStringA("2\r\n");
+	//	});
+	//this->m_Dispatcher.Invoke([]
+	//	{
+	//		::OutputDebugStringA("3\r\n");
+	//	});
+	//this->m_Dispatcher.Invoke([]
+	//	{
+	//		::OutputDebugStringA("4\r\n");
+	//	});
+
 
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

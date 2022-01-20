@@ -5,6 +5,7 @@
 #pragma once
 #include "Dispatch.h"
 #include "DispatchObject.h"
+#include "Test.h"
 
 // CMFCApplicationDispatchDlg 對話方塊
 class CMFCApplicationDispatchDlg : public CDialogEx
