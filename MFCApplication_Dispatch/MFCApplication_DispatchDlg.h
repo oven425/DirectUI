@@ -24,7 +24,12 @@ public:
 	Dispatch m_Dispatcher;
 	DispatchObject m_object;
 // 程式碼實作
+private:
+	int m_A = 0;
+	int m_B = 0;
+
 protected:
+	
 	HICON m_hIcon;
 
 	// 產生的訊息對應函式

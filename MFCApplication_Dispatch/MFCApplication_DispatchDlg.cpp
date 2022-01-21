@@ -68,6 +68,20 @@ BEGIN_MESSAGE_MAP(CMFCApplicationDispatchDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
+class Action
+{
+public:
+	Action(std::function<void()> action)
+		: m_Action(action)
+	{}
+	std::function<void()> m_Action;
+	void Excute()
+	{
+		this->m_Action();
+	}
+};
+
+
 // CMFCApplicationDispatchDlg 訊息處理常式
 #include <queue>
 using namespace std;
@@ -101,25 +115,65 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	priority_queue <int> tq_less;
-	priority_queue<int, vector<int>, greater<int>> tq_great;
-	for (int i = 0; i < 10; i++)
+
+
+	priority_queue<pair<int, Action*>> pp;
+	pp.push({ 5, new Action([&] 
+		{
+			this->m_A = this->m_A + 1;
+		}) });
+	pp.push({ 4, new Action([&] {}) });
+	pp.push({ 6, new Action([&] {}) });
+	pp.push({ 3, new Action([&] {}) });
+	pp.push({ 7, new Action([&] {}) });
+	while (pp.empty() == false)
 	{
-		tq_less.push(i);
-		tq_great.push(i);
+		auto now = pp.top();
+		now.second->Excute();
+		pp.pop();
 	}
 
-	for (auto& oo : tq_great)
+	vector<std::function<void()>> actions;
+	actions.push_back([&]
+		{
+			this->m_A = this->m_B*this->m_B;
+		});
+	actions.push_back([&]
+		{
+			this->m_A = this->m_B+this->m_B;
+		});
+	this->m_B = 5;
+	for (auto oo : actions)
 	{
-
+		
+		oo();
+		auto hr = this->m_A;
 	}
 
-	vector<int> ll;
-	for (auto oo : ll)
+
+
+	std::function<int(int, int)> func;
+	std::function<void()> action;
+	int a = 0;
+	int b = 0;
+	func = [](int a, int b)
 	{
+		return a + b;
+	};
+	auto c = func(a, b);
+	this->m_B = 10;
+	action = [&] {
+		this->m_A = this->m_B*this->m_B;
+	};
+	action();
+	this->m_A = 0;
 
-	}
 
+
+	//action = []
+	//{
+	//	this->m
+	//};
 
 	//std::tuple<int, char> foo(10, 'x');
 	//auto bar = std::make_tuple("test", 3.1, 14, 'y');

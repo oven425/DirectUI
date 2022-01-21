@@ -49,11 +49,6 @@ public:
 				{
 					dd->wait->notify_one();
 				}
-
-
-
-
-				
 			}
 			else
 			{
