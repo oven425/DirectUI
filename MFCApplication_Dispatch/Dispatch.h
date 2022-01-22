@@ -1,11 +1,17 @@
 #pragma once
 #include <thread>
+#include <vector>
 #include <functional>
 #include <chrono>
 #include <queue>
 #include <tuple>
 #include <mutex>
 using namespace std;
+
+#include "DispatcherTimer.h"
+
+
+
 
 class Dispatch
 {
@@ -50,6 +56,13 @@ public:
 					dd->wait->notify_one();
 				}
 			}
+			else if (this->m_Timers.empty() == false)
+			{
+				for (auto oo : this->m_Timers)
+				{
+					oo.CheckTime();
+				}
+			}
 			else
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -79,8 +92,19 @@ public:
 	}
 
 private:
-	
+	friend class DispatcherTimer;
+	void AddTimer(const DispatcherTimer& data)
+	{
+		this->m_Timers.push_back(data);
+	}
+	void RemoveTimer(const DispatcherTimer& data)
+	{
+		
+	}
+	vector<DispatcherTimer> m_Timers;
 	queue<data1> m_Actions;
 	mutex m_ActionsLock;
 };
+
+
 
