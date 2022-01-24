@@ -3,9 +3,9 @@
 //
 
 #pragma once
+#include "DispatcherTimer.h"
 #include "Dispatch.h"
 #include "DispatchObject.h"
-#include "Test.h"
 
 // CMFCApplicationDispatchDlg 對話方塊
 class CMFCApplicationDispatchDlg : public CDialogEx
@@ -21,8 +21,8 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支援
-	Dispatch m_Dispatcher;
-	DispatchObject m_object;
+	//Dispatch m_Dispatcher;
+	//DispatchObject m_object;
 // 程式碼實作
 private:
 	int m_A = 0;

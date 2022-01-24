@@ -115,7 +115,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	
+	DispatcherTimer m_Timer;
 
 	priority_queue<pair<int, Action*>> pp;
 	pp.push({ 5, new Action([&] 

@@ -1,8 +1,15 @@
+//#define Test
 #pragma once
 #include <chrono>
 using namespace std;
 
+#ifdef  Test
+class Dispatch;
+#else
 #include "Dispatch.h"
+#endif
+
+
 
 class DispatcherTimer
 {

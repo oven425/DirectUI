@@ -39,9 +39,6 @@
     <ClInclude Include="DispatchObject.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Test.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="DispatcherTimer.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="DispatchObject.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="DispatcherTimer.cpp">

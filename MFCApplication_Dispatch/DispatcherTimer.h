@@ -2,7 +2,7 @@
 #include <chrono>
 using namespace std;
 
-class Dispatch;
+#include "Dispatch.h"
 
 class DispatcherTimer
 {
@@ -11,13 +11,15 @@ private:
 public:
 	DispatcherTimer()
 	{
-		Dispatcher->AddTimer(*this);
+		//Dispatcher->AddTimer(*this);
+		Dispatch::Instance().AddTimer(this);
 	}
 
 	~DispatcherTimer()
 	{
-		Dispatcher->RemoveTimer(*this);
+		//Dispatcher->RemoveTimer(*this);
 	}
+
 	void Start()
 	{
 		this->m_CurrentTime = chrono::steady_clock::now();
@@ -27,15 +29,9 @@ public:
 	{
 	}
 
-
-
 private:
 	bool m_IsEnable = false;
-	Dispatch* Dispatcher;
-	void CheckTime()
-	{
-
-	}
+	void CheckTime(DispatcherTimer* data);
 	chrono::steady_clock::time_point m_CurrentTime;
 };
 

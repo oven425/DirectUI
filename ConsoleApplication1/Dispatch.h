@@ -1,3 +1,4 @@
+#define Test
 #pragma once
 #include <vector>
 using namespace std;

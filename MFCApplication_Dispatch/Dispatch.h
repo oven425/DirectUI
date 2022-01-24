@@ -8,10 +8,10 @@
 #include <mutex>
 using namespace std;
 
-#include "DispatcherTimer.h"
+//#include "DispatcherTimer.h"
 
 
-
+class DispatcherTimer;
 
 class Dispatch
 {
@@ -32,13 +32,6 @@ class Dispatch
 		unique_ptr<condition_variable> wait;
 	};
 public:
-	Dispatch()
-	{
-		thread tt(&Dispatch::Loop, this);
-		tt.detach();
-
-	}
-
 	void Loop()
 	{
 		while (true)
@@ -60,7 +53,7 @@ public:
 			{
 				for (auto oo : this->m_Timers)
 				{
-					oo.CheckTime();
+					CheckTimer(oo);
 				}
 			}
 			else
@@ -90,18 +83,25 @@ public:
 		//m_Actions.push(action);
 		m_ActionsLock.unlock();
 	}
-
+	static Dispatch& Instance()
+	{
+		return m_Instance;
+	}
 private:
+	Dispatch()
+	{
+		thread tt(&Dispatch::Loop, this);
+		tt.detach();
+	}
+	static Dispatch m_Instance;
 	friend class DispatcherTimer;
-	void AddTimer(const DispatcherTimer& data)
+	void AddTimer(DispatcherTimer* data)
 	{
 		this->m_Timers.push_back(data);
 	}
-	void RemoveTimer(const DispatcherTimer& data)
-	{
-		
-	}
-	vector<DispatcherTimer> m_Timers;
+	void RemoveTimer(const DispatcherTimer* data);
+	void CheckTimer(DispatcherTimer* data);
+	vector<DispatcherTimer*> m_Timers;
 	queue<data1> m_Actions;
 	mutex m_ActionsLock;
 };
