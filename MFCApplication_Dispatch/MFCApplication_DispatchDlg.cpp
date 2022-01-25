@@ -116,7 +116,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 
 	// TODO: 在此加入額外的初始設定
 	DispatcherTimer m_Timer;
-
+	EventHandler<int> kkk;
 	priority_queue<pair<int, Action*>> pp;
 	pp.push({ 5, new Action([&] 
 		{

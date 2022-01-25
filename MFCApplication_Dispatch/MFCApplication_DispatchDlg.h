@@ -6,6 +6,7 @@
 #include "DispatcherTimer.h"
 #include "Dispatch.h"
 #include "DispatchObject.h"
+#include "EventHandler.h"
 
 // CMFCApplicationDispatchDlg 對話方塊
 class CMFCApplicationDispatchDlg : public CDialogEx

@@ -77,20 +77,45 @@ namespace WpfApp1
             //            args).Compile();
             //var result = lambda.Invoke(new object[] { "1.1", (float)2.2 });
 
-            method = typeof(Func<int, int, string>).GetMethods()[0];
-            var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
-            var parameters = method.GetParameters()
-                .Select((x, index) =>
-                    System.Linq.Expressions.Expression.Convert(
-                        System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
-                    x.ParameterType))
-                .ToArray();
+            //method = typeof(Func<int, int, string>).GetMethods()[0];
+            //var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
+            //var parameters = method.GetParameters()
+            //    .Select((x, index) =>
+            //        System.Linq.Expressions.Expression.Convert(
+            //            System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
+            //        x.ParameterType))
+            //    .ToArray();
 
-            var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
-                        System.Linq.Expressions.Expression.Convert(
-                            System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
-                            typeof(object)),
-                        args).Compile();
+            //var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
+            //            System.Linq.Expressions.Expression.Convert(
+            //                System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
+            //                typeof(object)),
+            //            args).Compile();
+
+            EventTest tt = new EventTest();
+            tt.Org += Tt_Org;
+            tt.Org += Tt_Org1;
+            tt.OrgInt += Tt_OrgInt;
+            tt.OrgTest += Tt_OrgTest;
+            tt.Fire();
+        }
+
+        private void Tt_OrgTest(object sender, TestArgs e)
+        {
+        }
+
+        private void Tt_OrgInt(object sender, int e)
+        {
+        }
+
+        private void Tt_Org(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Tt_Org1(object sender, EventArgs e)
+        {
+
         }
 
         Func<int, int, string> m_Func;
@@ -99,6 +124,29 @@ namespace WpfApp1
             this.m_Func = data;
         }
 
+    }
+
+    public class EventTest
+    {
+        public event EventHandler Org;
+        public event EventHandler<int> OrgInt;
+        public event EventHandler<TestArgs> OrgTest;
+        public EventTest()
+        {
+            
+
+        }
+
+        public void Fire()
+        {
+            Org(this, new EventArgs());
+            OrgInt(this, 10);
+        }
+    }
+
+    public class TestArgs:EventArgs
+    {
+        public string A { set; get; }
     }
 
     public class Bool2Visibility : IValueConverter
