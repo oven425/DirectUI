@@ -3,11 +3,11 @@
 #include <functional>
 using namespace std;
 
-template <class T>
+template <class TSender, class TArgs>
 class EventHandler
 {
 public:
-	std::function<void(T)> m_F;
+	std::function<void(TSender, TArgs)> m_F;
 };
 
 class EventArgs
