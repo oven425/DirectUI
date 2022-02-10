@@ -99,7 +99,10 @@ private:
 	{
 		this->m_Timers.push_back(data);
 	}
-	void RemoveTimer(const DispatcherTimer* data);
+	void RemoveTimer(const DispatcherTimer* data)
+	{
+		//this->m_Timers.erase(data);
+	}
 	void CheckTimer(DispatcherTimer* data);
 	vector<DispatcherTimer*> m_Timers;
 	queue<data1> m_Actions;

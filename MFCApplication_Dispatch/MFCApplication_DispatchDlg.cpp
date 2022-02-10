@@ -85,10 +85,10 @@ public:
 // CMFCApplicationDispatchDlg 訊息處理常式
 #include <queue>
 using namespace std;
+DispatcherTimer m_Timer;
 BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
 	// 將 [關於...] 功能表加入系統功能表。
 
 	// IDM_ABOUTBOX 必須在系統命令範圍之中。
@@ -115,11 +115,33 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	DispatcherTimer m_Timer;
-	EventHandler<void*, int> kkk;
-	kkk.m_F = [](void*, int) {
+	
+	m_Timer.m_TimeSpan = chrono::milliseconds(100);
+	m_Timer.Tick += ([](auto obj, auto args)
+		{
+			//obj.Stop();
+			SYSTEMTIME time = { 0 };
+			::GetLocalTime(&time);
+			CString str;
+			str.AppendFormat(_T("%02d:%02d:%02d.%03d\r\n"), time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
+			::OutputDebugStringW(str);
+		});
+	//EventHandler<void*, int> kkk;
+	//kkk += ([](void*, int)
+	//	{
+	//		::OutputDebugStringA("");
+	//	});
+	//kkk += ([](void*, int)
+	//	{
+	//		::OutputDebugStringA("");
+	//	});
 
-	};
+	m_Timer.Start();
+
+	//kkk.Fire(this, 10);
+	//kkk.m_F = [](void*, int) {
+
+	//};
 	
 	priority_queue<pair<int, Action*>> pp;
 	pp.push({ 5, new Action([&] 

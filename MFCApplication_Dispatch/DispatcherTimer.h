@@ -3,6 +3,7 @@
 using namespace std;
 
 #include "Dispatch.h"
+#include "EventHandler.h"
 
 class DispatcherTimer
 {
@@ -11,27 +12,22 @@ private:
 public:
 	DispatcherTimer()
 	{
-		//Dispatcher->AddTimer(*this);
 		Dispatch::Instance().AddTimer(this);
 	}
 
 	~DispatcherTimer()
 	{
-		//Dispatcher->RemoveTimer(*this);
+		Dispatch::Instance().RemoveTimer(this);
 	}
 
-	void Start()
-	{
-		this->m_CurrentTime = chrono::steady_clock::now();
-	}
+	void Start();
 
-	void Stop()
-	{
-	}
-
+	void Stop();
+	chrono::milliseconds m_TimeSpan;
+	EventHandler<DispatcherTimer, EventArgs> Tick;
 private:
 	bool m_IsEnable = false;
-	void CheckTime(DispatcherTimer* data);
 	chrono::steady_clock::time_point m_CurrentTime;
+	//chrono::steady_clock::duration<> m_Interval;
 };
 

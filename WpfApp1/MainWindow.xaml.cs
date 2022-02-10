@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -28,9 +29,13 @@ namespace WpfApp1
             InitializeComponent();
         }
 
+        DispatcherTimer m_Timer = new DispatcherTimer();
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            this.m_Timer.Interval = TimeSpan.FromSeconds(10);
+            this.m_Timer.Start();
+            this.m_Timer.Tick += M_Timer_Tick;
+            this.m_Timer.Tick += M_Timer_Tick;
             //Binding binding = new Binding("IsChecked");
             //binding.Mode = BindingMode.OneWay;
             //binding.Source = this.checkbox_2;
@@ -99,6 +104,13 @@ namespace WpfApp1
             tt.OrgTest += Tt_OrgTest;
             tt.Fire();
         }
+
+        private void M_Timer_Tick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Trace.WriteLine("M_Timer_Tick");
+        }
+
+
 
         private void Tt_OrgTest(object sender, TestArgs e)
         {
