@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include <mutex>
 using namespace std;
 
 #include "Dispatch.h"
@@ -28,6 +29,7 @@ public:
 private:
 	bool m_IsEnable = false;
 	chrono::steady_clock::time_point m_CurrentTime;
+
 	//chrono::steady_clock::duration<> m_Interval;
 };
 

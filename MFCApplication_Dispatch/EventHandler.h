@@ -34,7 +34,8 @@ public:
 
 class EventArgs
 {
-
+public:
+	bool Canceled;
 };
 
 //<template T>

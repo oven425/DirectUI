@@ -6,9 +6,8 @@
 #include <queue>
 #include <tuple>
 #include <mutex>
+#include <memory>
 using namespace std;
-
-//#include "DispatcherTimer.h"
 
 
 class DispatcherTimer;
@@ -51,10 +50,12 @@ public:
 			}
 			else if (this->m_Timers.empty() == false)
 			{
+				this->m_ActionsLock.lock();
 				for (auto oo : this->m_Timers)
 				{
 					CheckTimer(oo);
 				}
+				this->m_ActionsLock.unlock();
 			}
 			else
 			{
@@ -97,16 +98,28 @@ private:
 	friend class DispatcherTimer;
 	void AddTimer(DispatcherTimer* data)
 	{
+		this->m_TimersLock.lock();
 		this->m_Timers.push_back(data);
+		this->m_TimersLock.unlock();
 	}
 	void RemoveTimer(const DispatcherTimer* data)
 	{
-		//this->m_Timers.erase(data);
+		this->m_TimersLock.lock();
+		for(auto i= this->m_Timers.begin() ; i!=this->m_Timers.end() ; i++)
+		{
+			if (*i == data)
+			{
+				this->m_Timers.erase(i);
+				break;
+			}
+		}
+		this->m_TimersLock.unlock();
 	}
 	void CheckTimer(DispatcherTimer* data);
 	vector<DispatcherTimer*> m_Timers;
 	queue<data1> m_Actions;
 	mutex m_ActionsLock;
+	mutex m_TimersLock;
 };
 
 

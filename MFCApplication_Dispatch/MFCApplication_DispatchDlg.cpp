@@ -86,6 +86,7 @@ public:
 #include <queue>
 using namespace std;
 DispatcherTimer m_Timer;
+ 
 BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -115,7 +116,14 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	
+	Visual vv1;
+	vv1.SetValue(&Visual::ThincknessProperty, ::make_shared<Thinckness>(10));
+	vv1.SetValue(&Visual::ThincknessProperty, ::make_shared<Thinckness>(20, 40));
+	//auto thinckness = vv1.GetValue(&Visual::ThincknessProperty);
+	//vv1.SetValue(&Visual::WidthProperty, 10);
+	//vv1.SetValue(&Visual::WidthProperty, 11);
+	auto value = vv1.get_value(10);
+	Visual vv2;
 	m_Timer.m_TimeSpan = chrono::milliseconds(100);
 	m_Timer.Tick += ([](auto obj, auto args)
 		{
@@ -126,6 +134,9 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 			str.AppendFormat(_T("%02d:%02d:%02d.%03d\r\n"), time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
 			::OutputDebugStringW(str);
 		});
+
+
+
 	//EventHandler<void*, int> kkk;
 	//kkk += ([](void*, int)
 	//	{
