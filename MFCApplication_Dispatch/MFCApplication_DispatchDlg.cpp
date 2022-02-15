@@ -117,14 +117,16 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 
 	// TODO: 在此加入額外的初始設定
 	Visual vv1;
+	Visual::SetTag(vv1, "123");
+	auto tag = Visual::GetTag(vv1);
+	vv1.SetValue(&Visual::WidthProperty, 1);
+	auto width = vv1.GetValue(&Visual::WidthProperty);
 	vv1.SetValue(&Visual::ThincknessProperty, ::make_shared<Thinckness>(10));
 	vv1.SetValue(&Visual::ThincknessProperty, ::make_shared<Thinckness>(20, 40));
-	//auto thinckness = vv1.GetValue(&Visual::ThincknessProperty);
-	//vv1.SetValue(&Visual::WidthProperty, 10);
-	//vv1.SetValue(&Visual::WidthProperty, 11);
-	auto value = vv1.get_value(10);
+	auto value = vv1.GetValue(&Visual::ThincknessProperty);
 	Visual vv2;
-	m_Timer.m_TimeSpan = chrono::milliseconds(100);
+	vv2.SetValue(&Visual::WidthProperty, 10);
+	m_Timer.m_TimeSpan = chrono::milliseconds(10);
 	m_Timer.Tick += ([](auto obj, auto args)
 		{
 			//obj.Stop();

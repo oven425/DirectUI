@@ -24,6 +24,27 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static DependencyProperty TestProperty;
+        static MainWindow()
+        {
+            TestProperty = DependencyProperty.Register("AA", typeof(int), typeof(MainWindow), new PropertyMetadata() { PropertyChangedCallback = TestPropertyChange });
+        }
+        public int AA
+        {
+            set
+            {
+                this.SetValue(TestProperty, value);
+            }
+            get
+            {
+                return (int)GetValue(TestProperty);
+            }
+        }
+        static void TestPropertyChange(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var aa = obj as MainWindow;
+            
+        }
         public MainWindow()
         {
             InitializeComponent();
