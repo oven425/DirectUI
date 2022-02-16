@@ -6,27 +6,12 @@ DependencyProperty<string> Visual::TagProperty;
 
 Visual::Visual()
 {
-	auto meta_width = ::make_shared<PropertyMetadata<int>>();
-	(*meta_width).PropertyChangedCallback = [](auto obj, auto args)
-	{
+	//WidthProperty.Meta.PropertyChangedCallback = [&](auto obj, auto args)
+	//{
+	//	string str = this->name + " ";
+	//	::OutputDebugStringA(str.c_str());
+	//};
 
-	};
-	this->SetPropertyMetadata(&Visual::WidthProperty, meta_width);
-	this->GetPropertyMetadata(&Visual::WidthProperty);
-	auto meta_thinckness = ::make_shared<PropertyMetadata<shared_ptr<Thinckness>>>();
-
-	(*meta_thinckness).PropertyChangedCallback = [](auto obj, auto args)
-	{
-
-	};
-
-	shared_ptr<void> sss = meta_thinckness;
-	shared_ptr<PropertyMetadata<shared_ptr<Thinckness>>> sss1 = static_pointer_cast<PropertyMetadata<shared_ptr<Thinckness>>>(sss);
-	auto pppp = meta_thinckness.get();
-
-
-	this->SetPropertyMetadata(&Visual::ThincknessProperty, meta_thinckness);
-	this->GetPropertyMetadata(&Visual::ThincknessProperty);
 }
 
 Visual::~Visual()

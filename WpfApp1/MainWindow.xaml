@@ -9,7 +9,11 @@
         Background="Red"
         Loaded="Window_Loaded"
         >
-    <Window.Resources>
+    <StackPanel>
+        <local:ButtonTest x:Name="A" Click="A_Click" Content="{Binding Time}"></local:ButtonTest>
+        <local:ButtonTest x:Name="B" Click="A_Click" Content="{Binding Path=Time, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></local:ButtonTest>
+    </StackPanel>
+    <!--<Window.Resources>
         <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">
             <Grid x:Name="bg">
                 <Grid.Background>
@@ -36,7 +40,7 @@
                    />
         <TextBlock Text="ABCDEFGABCDEFGABCDEFGABCDEFG" FontSize="30" Background="Blue" 
                    />
-    </StackPanel>
+    </StackPanel>-->
     <!--<TextBlock Text="12312312312345645645678978989" FontSize="40" 
                Foreground="White" Background="Black" 
                Height="100"

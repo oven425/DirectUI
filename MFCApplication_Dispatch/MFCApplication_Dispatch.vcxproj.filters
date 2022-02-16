@@ -57,6 +57,18 @@
     <ClInclude Include="Thinckness.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentControl.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication_Dispatch.cpp">
@@ -90,6 +102,18 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Thinckness.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentControl.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

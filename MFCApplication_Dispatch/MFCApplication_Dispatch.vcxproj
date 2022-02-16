@@ -188,6 +188,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="ContentControl.h" />
+    <ClInclude Include="Control.h" />
     <ClInclude Include="DependencyObject.h" />
     <ClInclude Include="DependencyProperty.h" />
     <ClInclude Include="Dispatch.h" />
@@ -202,8 +205,12 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Thinckness.h" />
     <ClInclude Include="Visual.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="ContentControl.cpp" />
+    <ClCompile Include="Control.cpp" />
     <ClCompile Include="DependencyObject.cpp" />
     <ClCompile Include="DependencyProperty.cpp" />
     <ClCompile Include="Dispatch.cpp" />
@@ -220,6 +227,7 @@
     </ClCompile>
     <ClCompile Include="Thinckness.cpp" />
     <ClCompile Include="Visual.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCApplicationDispatch.rc" />

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace WpfApp1
 {
@@ -49,14 +50,20 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-
+        MinUI m_MinUI;
         DispatcherTimer m_Timer = new DispatcherTimer();
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.m_Timer.Interval = TimeSpan.FromSeconds(10);
+            if (this.m_MinUI == null)
+            {
+                this.DataContext = this.m_MinUI = new MinUI();
+            }
+
+            this.m_Timer.Interval = TimeSpan.FromSeconds(1);
             this.m_Timer.Start();
             this.m_Timer.Tick += M_Timer_Tick;
             this.m_Timer.Tick += M_Timer_Tick;
+            
             //Binding binding = new Binding("IsChecked");
             //binding.Mode = BindingMode.OneWay;
             //binding.Source = this.checkbox_2;
@@ -129,6 +136,7 @@ namespace WpfApp1
         private void M_Timer_Tick(object sender, EventArgs e)
         {
             System.Diagnostics.Trace.WriteLine("M_Timer_Tick");
+            this.m_MinUI.Time = DateTime.Now;
         }
 
 
@@ -157,6 +165,36 @@ namespace WpfApp1
             this.m_Func = data;
         }
 
+        private void A_Click(object sender, RoutedEventArgs e)
+        {
+            var test = sender as ButtonTest;
+            test.Test++;
+        }
+    }
+
+    public class MinUI : INotifyPropertyChanged
+    {
+        DateTime m_Time;
+        public DateTime Time
+        {
+            set
+            {
+                this.m_Time = value;
+                this.Update("Time");
+            }
+            get
+            {
+                return this.m_Time;
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        void Update(string name)
+        {
+            if(this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 
     public class EventTest

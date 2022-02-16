@@ -7,7 +7,7 @@ using namespace std;
 #include "EventHandler.h"
 class DependencyObject;
 template <class T>
-class DependencyPropertyArgs
+class DependencyPropertyChangedEventArgs
 {
 public:
 	T Old;
@@ -19,14 +19,13 @@ class PropertyMetadata
 {
 public:
 	T Default;
-	std::function<void(DependencyObject obj, DependencyPropertyArgs<T> args)> PropertyChangedCallback;
+	std::function<void(DependencyObject obj, DependencyPropertyChangedEventArgs<T> args)> PropertyChangedCallback;
 };
 
 template <class T>
 class DependencyProperty
 {
 public:
-	T m_Default = T{};
-	EventHandler<DependencyObject, DependencyPropertyArgs<T>> PropertyChangedCallback;
+	PropertyMetadata<T> Meta;
 };
 

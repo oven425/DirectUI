@@ -15,5 +15,6 @@ public:
 
 	static void SetTag(DependencyObject& d, string value);
 	static string GetTag(DependencyObject& d);
+	string name = "";
 };
 
