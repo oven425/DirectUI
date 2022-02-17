@@ -8,9 +8,12 @@
 class Window : public ContentControl
 {
 public:
-	static shared_ptr<Window> Attach();
+	Window(HWND hwnd);
+	~Window();
 protected:
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
-	int aa = 0;
+	HWND m_hWnd;
+private:
+	
 };
 

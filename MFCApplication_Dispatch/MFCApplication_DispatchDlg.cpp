@@ -116,6 +116,15 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+	auto canvas = ::make_shared<Canvas>();
+	for (int i = 0; i < 10; i++)
+	{
+		auto control = ::make_shared<Control>();
+		canvas->AddChild(control);
+		Canvas::SetLeft(control, i);
+		Canvas::SetLeft(control, i+1);
+	}
+	this->m_Window1 = make_shared<Window>(this->GetDlgItem(IDC_BUTTON1)->m_hWnd);
 	Visual vv1;
 	vv1.name = "vv1";
 	Visual::SetTag(vv1, "123");
@@ -138,7 +147,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 			::GetLocalTime(&time);
 			CString str;
 			str.AppendFormat(_T("%02d:%02d:%02d.%03d\r\n"), time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
-			::OutputDebugStringW(str);
+			//::OutputDebugStringW(str);
 		});
 
 

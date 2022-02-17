@@ -10,7 +10,8 @@
 #include "DependencyObject.h"
 #include "Visual.h"
 #include "Thinckness.h"
-
+#include "Window.h"
+#include "Canvas.h"
 // CMFCApplicationDispatchDlg 對話方塊
 class CMFCApplicationDispatchDlg : public CDialogEx
 {
@@ -31,7 +32,7 @@ public:
 private:
 	int m_A = 0;
 	int m_B = 0;
-
+	shared_ptr<Window> m_Window1;
 protected:
 	
 	HICON m_hIcon;

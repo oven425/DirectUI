@@ -196,6 +196,7 @@
     <ClInclude Include="Dispatch.h" />
     <ClInclude Include="DispatcherTimer.h" />
     <ClInclude Include="DispatchObject.h" />
+    <ClInclude Include="DrawingContext.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCApplication_Dispatch.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Dispatch.cpp" />
     <ClCompile Include="DispatcherTimer.cpp" />
     <ClCompile Include="DispatchObject.cpp" />
+    <ClCompile Include="DrawingContext.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="MFCApplication_Dispatch.cpp" />
     <ClCompile Include="MFCApplication_DispatchDlg.cpp" />

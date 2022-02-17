@@ -12,7 +12,7 @@ LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT
 	break;
 	case WM_LBUTTONDOWN:
 	{
-
+		::OutputDebugStringA("WM_LBUTTONDOWN\r\n");
 	}
 	break;
 	case WM_LBUTTONUP:
@@ -22,16 +22,20 @@ LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT
 	break;
 	case WM_MOUSEMOVE:
 	{
-
+		::OutputDebugStringA("WM_MOUSEMOVE\r\n");
 	}
 	break;
 	}
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-shared_ptr<Window> Window::Attach()
+Window::Window(HWND hwnd)
+	: m_hWnd(hwnd)
 {
-	auto window = make_shared<Window>();
-	window->aa = 100;
-	return window;
+	::SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
+}
+
+Window::~Window()
+{
+	RemoveWindowSubclass(this->m_hWnd, WinProc, (DWORD_PTR)this);
 }
