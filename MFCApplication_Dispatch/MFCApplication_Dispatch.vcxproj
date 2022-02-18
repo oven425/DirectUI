@@ -196,15 +196,16 @@
     <ClInclude Include="Dispatch.h" />
     <ClInclude Include="DispatcherTimer.h" />
     <ClInclude Include="DispatchObject.h" />
-    <ClInclude Include="DrawingContext.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCApplication_Dispatch.h" />
     <ClInclude Include="MFCApplication_DispatchDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RoutedEvent.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Thinckness.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Visual.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -217,7 +218,6 @@
     <ClCompile Include="Dispatch.cpp" />
     <ClCompile Include="DispatcherTimer.cpp" />
     <ClCompile Include="DispatchObject.cpp" />
-    <ClCompile Include="DrawingContext.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="MFCApplication_Dispatch.cpp" />
     <ClCompile Include="MFCApplication_DispatchDlg.cpp" />
@@ -227,7 +227,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RoutedEvent.cpp" />
     <ClCompile Include="Thinckness.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="Visual.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

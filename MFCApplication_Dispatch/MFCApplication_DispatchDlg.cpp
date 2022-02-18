@@ -116,6 +116,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+	UIElement ui;
 	auto canvas = ::make_shared<Canvas>();
 	for (int i = 0; i < 10; i++)
 	{
@@ -127,7 +128,6 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	this->m_Window1 = make_shared<Window>(this->GetDlgItem(IDC_BUTTON1)->m_hWnd);
 	Visual vv1;
 	vv1.name = "vv1";
-	Visual::SetTag(vv1, "123");
 	auto tag = Visual::GetTag(vv1);
 	vv1.SetValue(&Visual::WidthProperty, 1);
 	vv1.SetValue(&Visual::WidthProperty, 2);

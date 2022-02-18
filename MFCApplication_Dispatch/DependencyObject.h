@@ -40,7 +40,7 @@ public:
 				args.Old = this->GetValue(dp);
 				if (args.New != args.Old)
 				{
-					dp->Meta.PropertyChangedCallback(*this, args);
+					dp->Meta.PropertyChangedCallback(this, args);
 				}
 			}
 

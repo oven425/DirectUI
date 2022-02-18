@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.ComponentModel;
+using System.Threading;
 
 namespace WpfApp1
 {
@@ -25,21 +26,33 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static DependencyProperty TestProperty;
+        public static readonly DependencyProperty TestProperty;
+        public static readonly RoutedEvent ConditionalClickEvent;
+        public static readonly RoutedEvent ConditionalClickEvent1;
+        public static readonly RoutedEvent AnimationStartedEvent = EventManager.RegisterRoutedEvent("AnimationStarted",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MainWindow));
+        
         static MainWindow()
         {
             TestProperty = DependencyProperty.Register("AA", typeof(int), typeof(MainWindow), new PropertyMetadata() { PropertyChangedCallback = TestPropertyChange });
+            ConditionalClickEvent = EventManager.RegisterRoutedEvent("ConditionalClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MainWindow));
+            ConditionalClickEvent = EventManager.RegisterRoutedEvent("ConditionalClick1", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MainWindow));
         }
+        public event RoutedEventHandler ConditionalClick
+        {
+            add { AddHandler(ConditionalClickEvent, value); }
+            remove { RemoveHandler(ConditionalClickEvent, value); }
+        }
+        public event RoutedEventHandler AnimationStarted
+        {
+            add { AddHandler(AnimationStartedEvent, value); }
+            remove { RemoveHandler(AnimationStartedEvent, value); }
+        }
+        
         public int AA
         {
-            set
-            {
-                this.SetValue(TestProperty, value);
-            }
-            get
-            {
-                return (int)GetValue(TestProperty);
-            }
+            set { this.SetValue(TestProperty, value); }
+            get {  return (int)GetValue(TestProperty); }
         }
         static void TestPropertyChange(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
@@ -50,17 +63,48 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+        async Task Test(int data)
+        {
+            System.Diagnostics.Trace.WriteLine($"begin {data}");
+            await Task.Delay(5000);
+            System.Diagnostics.Trace.WriteLine($"end {data}");
+        }
+
+        public async Task Foo(int num)
+        {
+            Console.WriteLine("Thread {0} - Start {1}", Thread.CurrentThread.ManagedThreadId, num);
+            await Task.Delay(5000);
+            Console.WriteLine("Thread {0} - End {1}", Thread.CurrentThread.ManagedThreadId, num);
+        }
+        public List<Task> TaskList = new List<Task>();
         MinUI m_MinUI;
         DispatcherTimer m_Timer = new DispatcherTimer();
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
+
+            //List<Task> tasks = new List<Task>();
+            
+            //foreach(var oo in Enumerable.Range(1, 2))
+            //{
+            //    var task = new Task(async() => await Test(oo));
+            //    //var task = Task.Run(async () => await Test(oo));
+
+            //    tasks.Add(task);
+            //}
+            //tasks.ForEach(x => x.Start());
+            //Task.WaitAll(tasks.ToArray());
+            //System.Diagnostics.Trace.WriteLine("All end");
+
+            //CustomEventArgs args = new CustomEventArgs(CustomClickWithCustomArgsEvent,10);
+            //RaiseEvent(args);
             if (this.m_MinUI == null)
             {
                 this.DataContext = this.m_MinUI = new MinUI();
             }
 
             this.m_Timer.Interval = TimeSpan.FromSeconds(1);
-            this.m_Timer.Start();
+            //this.m_Timer.Start();
             this.m_Timer.Tick += M_Timer_Tick;
             this.m_Timer.Tick += M_Timer_Tick;
             
@@ -80,57 +124,7 @@ namespace WpfApp1
             var type = Type.GetType(controllerName);
             var method = type.GetMethod(actionName);
             var instance = Activator.CreateInstance(type);
-            //var cache = new ConcurrentDictionary<Tuple<string, string>, Delegate>();
-            //var dynamicDelegate = cache.GetOrAdd(Tuple.Create(controllerName, actionName), _ =>
-            //{
-            //    // パラメータはMethodInfoから動的に作る
-            //    var parameters = method.GetParameters().Select(x =>
-            //            System.Linq.Expressions.Expression.Parameter(x.ParameterType, x.Name))
-            //        .ToArray();
-
-            //    return System.Linq.Expressions.Expression.Lambda(
-            //            System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
-            //        parameters).Compile();
-            //});
-            //var result = dynamicDelegate.DynamicInvoke(new object[] { 10, 20 });
-
-            //var cache = new ConcurrentDictionary<string, Func<object[], object>>();
-            //var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
-            //var parameters = method.GetParameters()
-            //    .Select((x, index) =>
-            //        System.Linq.Expressions.Expression.Convert(
-            //            System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
-            //        x.ParameterType))
-            //    .ToArray();
-
-            //var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
-            //            System.Linq.Expressions.Expression.Convert(
-            //                System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
-            //                typeof(object)),
-            //            args).Compile();
-            //var result = lambda.Invoke(new object[] { "1.1", (float)2.2 });
-
-            //method = typeof(Func<int, int, string>).GetMethods()[0];
-            //var args = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "args");
-            //var parameters = method.GetParameters()
-            //    .Select((x, index) =>
-            //        System.Linq.Expressions.Expression.Convert(
-            //            System.Linq.Expressions.Expression.ArrayIndex(args, System.Linq.Expressions.Expression.Constant(index)),
-            //        x.ParameterType))
-            //    .ToArray();
-
-            //var lambda = System.Linq.Expressions.Expression.Lambda<Func<object[], object>>(
-            //            System.Linq.Expressions.Expression.Convert(
-            //                System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.New(type), method, parameters),
-            //                typeof(object)),
-            //            args).Compile();
-
-            EventTest tt = new EventTest();
-            tt.Org += Tt_Org;
-            tt.Org += Tt_Org1;
-            tt.OrgInt += Tt_OrgInt;
-            tt.OrgTest += Tt_OrgTest;
-            tt.Fire();
+            this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT));
         }
 
         private void M_Timer_Tick(object sender, EventArgs e)
@@ -139,38 +133,17 @@ namespace WpfApp1
             this.m_MinUI.Time = DateTime.Now;
         }
 
-
-
-        private void Tt_OrgTest(object sender, TestArgs e)
-        {
-        }
-
-        private void Tt_OrgInt(object sender, int e)
-        {
-        }
-
-        private void Tt_Org(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void Tt_Org1(object sender, EventArgs e)
+        void TT (object sender, CustomEventArgs args)
         {
 
         }
 
-        Func<int, int, string> m_Func;
-        public void Test(Func<int, int, string> data)
+        private void A_CustomClickWithCustomArgs(object sender, CustomEventArgs e)
         {
-            this.m_Func = data;
-        }
 
-        private void A_Click(object sender, RoutedEventArgs e)
-        {
-            var test = sender as ButtonTest;
-            test.Test++;
         }
     }
+
 
     public class MinUI : INotifyPropertyChanged
     {

@@ -19,7 +19,7 @@ class PropertyMetadata
 {
 public:
 	T Default;
-	std::function<void(DependencyObject obj, DependencyPropertyChangedEventArgs<T> args)> PropertyChangedCallback;
+	std::function<void(DependencyObject* obj, DependencyPropertyChangedEventArgs<T> args)> PropertyChangedCallback;
 };
 
 template <class T>

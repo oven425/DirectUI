@@ -12,6 +12,7 @@
 #include "Thinckness.h"
 #include "Window.h"
 #include "Canvas.h"
+#include "UIElement.h"
 // CMFCApplicationDispatchDlg 對話方塊
 class CMFCApplicationDispatchDlg : public CDialogEx
 {

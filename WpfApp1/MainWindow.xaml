@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600"
+        
         Background="Red"
         Loaded="Window_Loaded"
         >
     <StackPanel>
-        <local:ButtonTest x:Name="A" Click="A_Click" Content="{Binding Time}"></local:ButtonTest>
-        <local:ButtonTest x:Name="B" Click="A_Click" Content="{Binding Path=Time, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></local:ButtonTest>
+        <local:ButtonTest x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
+        <local:ButtonTest x:Name="B" Content="BB"></local:ButtonTest>
     </StackPanel>
     <!--<Window.Resources>
         <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">
