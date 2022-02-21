@@ -10,8 +10,8 @@ template <class T>
 class DependencyPropertyChangedEventArgs
 {
 public:
-	T Old;
-	T New;
+	T OldValue;
+	T NewValue;
 };
 
 template <class T>

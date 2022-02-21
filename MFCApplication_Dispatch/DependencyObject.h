@@ -36,9 +36,9 @@ public:
 			if (dp->Meta.PropertyChangedCallback)
 			{
 				DependencyPropertyChangedEventArgs<T> args;
-				args.New = data;
-				args.Old = this->GetValue(dp);
-				if (args.New != args.Old)
+				args.NewValue = data;
+				args.OldValue = this->GetValue(dp);
+				if (args.NewValue != args.OldValue)
 				{
 					dp->Meta.PropertyChangedCallback(this, args);
 				}

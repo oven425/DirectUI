@@ -107,7 +107,7 @@ namespace WpfApp1
             //this.m_Timer.Start();
             this.m_Timer.Tick += M_Timer_Tick;
             this.m_Timer.Tick += M_Timer_Tick;
-            
+
             //Binding binding = new Binding("IsChecked");
             //binding.Mode = BindingMode.OneWay;
             //binding.Source = this.checkbox_2;
@@ -119,13 +119,11 @@ namespace WpfApp1
             //binding1.Source = this.checkbox_2;
             //this.border_1.SetBinding(Border.VisibilityProperty, binding1);
 
-            var controllerName = "WpfApp1.HogeController";
-            var actionName = "TakoAction";
-            var type = Type.GetType(controllerName);
-            var method = type.GetMethod(actionName);
-            var instance = Activator.CreateInstance(type);
+
             this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT));
+            this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT1));
         }
+       
 
         private void M_Timer_Tick(object sender, EventArgs e)
         {
@@ -134,6 +132,11 @@ namespace WpfApp1
         }
 
         void TT (object sender, CustomEventArgs args)
+        {
+
+        }
+
+        void TT1(object sender, CustomEventArgs args)
         {
 
         }

@@ -86,7 +86,7 @@ public:
 #include <queue>
 using namespace std;
 DispatcherTimer m_Timer;
- 
+
 BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -117,6 +117,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 
 	// TODO: 在此加入額外的初始設定
 	UIElement ui;
+	
 	auto canvas = ::make_shared<Canvas>();
 	for (int i = 0; i < 10; i++)
 	{
