@@ -4,9 +4,31 @@
 #include <iostream>
 #include "Dispatch.h"
 #include "DispatcherTimer.h"
+#include <functional>
 
+void A(int a, int b)
+{
+
+}
+class AA
+{
+public:
+	void A(int a, int b)
+	{
+
+	}
+	AA()
+	{
+		auto func = std::bind(&AA::A, this, placeholders::_1, placeholders::_2);
+		func(1, 2);
+	}
+};
 int main()
 {
+	AA aa;
+	auto func = std::bind(&AA::A, aa, placeholders::_1, placeholders::_2);
+	
+	func(1, 2);
 	DispatcherTimer time;
 	//time.Start();
 	Dispatch dd = Dispatch::getInstance();

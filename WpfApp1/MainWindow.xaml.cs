@@ -82,9 +82,8 @@ namespace WpfApp1
         async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-
             //List<Task> tasks = new List<Task>();
-            
+
             //foreach(var oo in Enumerable.Range(1, 2))
             //{
             //    var task = new Task(async() => await Test(oo));
@@ -143,7 +142,7 @@ namespace WpfApp1
 
         private void A_CustomClickWithCustomArgs(object sender, CustomEventArgs e)
         {
-
+            
         }
     }
 

@@ -1,18 +1,24 @@
 #pragma once
 #include <functional>
 using namespace std;
-
+#include "DependencyObject.h"
 class RoutedEventArgs
 {
 
 };
 
-template<class T>
+template<class T, class A=std::queue<T>>
 class RoutedEvent
 {
 public:
-	//std::function<void(void*, RoutedEventArgs*)> handler;
-	T handler;
+	A aa;
+
+	std::function<void(DependencyObject*, T*)> handler;
+	//T handler;
+	RoutedEvent()
+	{
+		
+	}
 };
 
 
