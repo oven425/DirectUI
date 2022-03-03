@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600"
-        
+        Mouse.MouseDown="Window_MouseDown"
+        PreviewMouseDown="Window_PreviewMouseDown"
         Background="Red"
         Loaded="Window_Loaded"
         >
-    <StackPanel>
-        <local:ButtonTest x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
-        <local:ButtonTest x:Name="B" Content="BB"></local:ButtonTest>
+    <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
+        <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
+        <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="B" Content="BB"></local:ButtonTest>
+        <Border MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
+            <Rectangle MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" Fill="Gray" Height="50"/>
+        </Border>
     </StackPanel>
     <!--<Window.Resources>
         <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">

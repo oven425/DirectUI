@@ -7,12 +7,10 @@ class RoutedEventArgs
 
 };
 
-template<class T, class A=std::queue<T>>
+template<class T>
 class RoutedEvent
 {
 public:
-	A aa;
-
 	std::function<void(DependencyObject*, T*)> handler;
 	//T handler;
 	RoutedEvent()

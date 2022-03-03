@@ -50,14 +50,14 @@ namespace WpfApp1
 
         public ButtonTest()
         {
-
+            Func<bool> a;
         }
 
         protected override void OnClick()
         {
             CustomEventArgs args = new CustomEventArgs(CustomClickWithCustomArgsEvent, 10);
             //RoutedEventArgs args = new RoutedEventArgs(CustomClickWithCustomArgsEvent);
-
+            
             RaiseEvent(args);
             base.OnClick();
         }

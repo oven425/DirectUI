@@ -144,6 +144,16 @@ namespace WpfApp1
         {
             
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Trace.WriteLine($"Window_MouseDown:{sender.GetType()}");
+        }
+
+        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Trace.WriteLine($"Window_PreviewMouseDown:{sender.GetType()}");
+        }
     }
 
 

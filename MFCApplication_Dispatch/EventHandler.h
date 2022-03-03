@@ -28,6 +28,7 @@ public:
 	{
 		this->m_Fs.push_back(evt);
 	}
+
 	vector<function<void(TSender, TArgs)>> m_Fs;
 	std::function<void(TSender, TArgs)> m_F;
 };
