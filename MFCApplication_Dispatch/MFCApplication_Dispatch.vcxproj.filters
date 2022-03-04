@@ -75,6 +75,9 @@
     <ClInclude Include="UIElement.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication_Dispatch.cpp">
@@ -126,6 +129,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

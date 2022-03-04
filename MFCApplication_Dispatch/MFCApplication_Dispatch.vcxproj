@@ -200,6 +200,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCApplication_Dispatch.h" />
     <ClInclude Include="MFCApplication_DispatchDlg.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RoutedEvent.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="MFCApplication_Dispatch.cpp" />
     <ClCompile Include="MFCApplication_DispatchDlg.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

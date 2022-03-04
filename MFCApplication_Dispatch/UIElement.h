@@ -28,6 +28,19 @@ public:
 		return m_Func(data...);
 	}
 
+	//operator D2D1_SIZE_F() const throw()
+	//{
+	//	D2D1_SIZE_F sz = { 0 };
+	//	sz.width = this->m_Width;
+	//	sz.height = this->m_Height;
+	//	return sz;
+	//}
+
+	operator std::function<TReturn(Args...)>() const throw()
+	{
+		return this->m_Func;
+	}
+
 	void operator=(std::function<TReturn(Args...)> func)
 	{
 		this->m_Func = func;
@@ -50,15 +63,19 @@ public:
 	{
 		UIElement* aa = (UIElement*)sender;
 	}
+
+	void TT1(DependencyObject* sender, AArgs* args)
+	{
+		UIElement* aa = (UIElement*)sender;
+	}
+
 	void VV(DependencyObject* sender, RoutedEventArgs* args)
 	{
 		UIElement* aa = (UIElement*)sender;
 		AArgs* bb = (AArgs*)args;
 	}
-	void AA()
-	{
 
-	}
+
 	UIElement()
 	{
 		std::function<void(DependencyObject* sender, AArgs* args)> func = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
@@ -67,45 +84,23 @@ public:
 		
 		auto func2 = std::bind(&UIElement::VV, this, placeholders::_1, placeholders::_2);
 		
-		using tt = decltype(std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2));
-		using vv = decltype(std::bind(&UIElement::VV, this, placeholders::_1, placeholders::_2));
-		using ww = std::function<void(DependencyObject*, RoutedEventArgs*)>;
-		auto type_name = typeid(vv).name();
-
-		//func1(this, &AArgs());
-		//func2(this, &AArgs());
-
-		//void* oi = (void*)&func1;
-		//auto f = (tt*)oi;
-		//(*f)(this, &AArgs());
-		
-		std::function<void(DependencyObject*, AArgs*)> aa1 = func1;
-		
-		//std::function<void(DependencyObject*, RoutedEventArgs*)> aa2 = aa1;
 
 
-
-		//vector<IDelegate*> ii;
-		//Delegate<void, DependencyObject*, AArgs*> delegate_aargs;
-		//delegate_aargs = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
-		//delegate_aargs.invoke(this, &AArgs());
-		//ii.push_back(&delegate_aargs);
-
-
-
+		//auto de = Delegate<void, DependencyObject*, AArgs*>(std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2));
 		std::function<void(DependencyObject*, AArgs*)> f = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
 		this->AddHandler(&UIElement::TestEvent, f);
+		f = std::bind(&UIElement::TT1, this, placeholders::_1, placeholders::_2);
+		this->AddHandler(&UIElement::TestEvent, f);
+
 		AArgs args;
-		this->RaiseEvent(args);
+		this->RaiseEvent(&UIElement::TestEvent, &args);
 	}
-	//map<void*, vector<void*>> m_Handlers;
+
 	map<void*, vector<IDelegate*>> m_Handlers;
 	template<class T>
 	void AddHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*,T*)> handler)
 	{
 		this->m_Handlers[routed].push_back(new Delegate<void, DependencyObject*, T*>(handler));
-		//void* oi = (void*)&handler;
-		//this->m_Handlers[routed].push_back(oi);
 	}
 
 	template<class T>
@@ -114,9 +109,19 @@ public:
 		
 	}
 
-	void RaiseEvent(RoutedEventArgs args)
+	template<class T>
+	void RaiseEvent(RoutedEvent<T>* routed, RoutedEventArgs* args)
 	{
+		std::map<void*, vector<IDelegate*>>::iterator find = this->m_Handlers.find(routed);
+		if (find != this->m_Handlers.end())
+		{
+			for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
+			{
+				((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
 
+
+			}
+		}
 	}
 private:
 

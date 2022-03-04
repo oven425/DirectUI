@@ -11,6 +11,7 @@
         Background="Red"
         Loaded="Window_Loaded"
         >
+
     <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="B" Content="BB"></local:ButtonTest>

@@ -121,6 +121,7 @@ namespace WpfApp1
 
             this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT));
             this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT1));
+            //this.B.RemoveHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT1));
         }
        
 
