@@ -74,8 +74,11 @@ public:
 		UIElement* aa = (UIElement*)sender;
 		AArgs* bb = (AArgs*)args;
 	}
-
-
+	//MwndSource->HwndMouseInputProvider->
+	//PreviewMouseUpEvent
+	//HwndMouseInputProvider
+	//HwndWrapper _wndProc
+	//InputManager RequestContinueProcessingStagingArea
 	UIElement()
 	{
 		std::function<void(DependencyObject* sender, AArgs* args)> func = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
@@ -91,37 +94,47 @@ public:
 		this->AddHandler(&UIElement::TestEvent, f);
 		f = std::bind(&UIElement::TT1, this, placeholders::_1, placeholders::_2);
 		this->AddHandler(&UIElement::TestEvent, f);
-
+		this->RemoveHandler(&UIElement::TestEvent, f);
 		AArgs args;
 		this->RaiseEvent(&UIElement::TestEvent, &args);
 	}
 
 	map<void*, vector<IDelegate*>> m_Handlers;
+	//map<void*, map<void*,vector<IDelegate*>>> m_Handlers;
 	template<class T>
 	void AddHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*,T*)> handler)
 	{
 		this->m_Handlers[routed].push_back(new Delegate<void, DependencyObject*, T*>(handler));
+		//this->m_Handlers[routed][handler].push_back(new Delegate<void, DependencyObject*, T*>(handler));
 	}
 
 	template<class T>
-	void RemoveHandler(RoutedEvent<T>* routed) 
+	void RemoveHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*, T*)> handler)
 	{
-		
+		//std::map<void*, map<void*,vector<IDelegate*>>>::iterator handlers = this->m_Handlers.find(routed);
+		//if (handlers != this->m_Handlers.end())
+		//{
+		//	std::map<void*, vector<IDelegate*>>::iterator delegates = handlers->second.find(&handler);
+		//	if (delegates != handlers->second.end())
+		//	{
+
+		//	}
+		//}
 	}
 
 	template<class T>
 	void RaiseEvent(RoutedEvent<T>* routed, RoutedEventArgs* args)
 	{
-		std::map<void*, vector<IDelegate*>>::iterator find = this->m_Handlers.find(routed);
-		if (find != this->m_Handlers.end())
-		{
-			for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
-			{
-				((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
+		//std::map<void*, vector<IDelegate*>>::iterator find = this->m_Handlers.find(routed);
+		//if (find != this->m_Handlers.end())
+		//{
+		//	for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
+		//	{
+		//		((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
 
 
-			}
-		}
+		//	}
+		//}
 	}
 private:
 

@@ -116,7 +116,13 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	UIElement ui;
+	UIElement ui1;
+	ui1.name = "ui1";
+
+	UIElement ui2;
+	ui2.name = "ui2";
+
+	ui1.AddChild(ui2);
 	
 	auto canvas = ::make_shared<Canvas>();
 	for (int i = 0; i < 10; i++)

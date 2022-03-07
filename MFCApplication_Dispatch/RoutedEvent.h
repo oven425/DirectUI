@@ -12,7 +12,6 @@ class RoutedEvent
 {
 public:
 	std::function<void(DependencyObject*, T*)> handler;
-	//T handler;
 	RoutedEvent()
 	{
 		

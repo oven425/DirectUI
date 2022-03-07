@@ -18,5 +18,14 @@ public:
 	static void SetTag(DependencyObject& d, string value);
 	static string GetTag(DependencyObject& d);
 	string name = "";
+
+	void AddChild(Visual& data)
+	{
+		data.m_Parent = this;
+	}
+
+
+protected:
+	DependencyObject* m_Parent;
 };
 
