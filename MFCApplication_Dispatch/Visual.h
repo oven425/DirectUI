@@ -1,8 +1,10 @@
 #pragma once
 #include "DependencyObject.h"
 #include "Thinckness.h"
+#include <memory>
+using namespace std;
 
-class Visual:public DependencyObject
+class Visual:public DependencyObject, public enable_shared_from_this<Visual>
 {
 public:
 	static DependencyProperty<string> TagProperty;
@@ -19,13 +21,30 @@ public:
 	static string GetTag(DependencyObject& d);
 	string name = "";
 
-	void AddChild(Visual& data)
+	void AddLogicChild(shared_ptr<Visual> data)
 	{
-		data.m_Parent = this;
+		data->m_Parent = static_pointer_cast<DependencyObject>(data);
 	}
 
+	static shared_ptr<DependencyObject> GetParent(Visual visual)
+	{
+		return visual.m_Parent;
+		return nullptr;
+	}
+
+	static shared_ptr<DependencyObject> GetRoot(shared_ptr<Visual> visual)
+	{
+		auto root = visual;
+		while (root->m_Parent != nullptr)
+		{
+			root = static_pointer_cast<Visual>(root->m_Parent);
+		}
+		return static_pointer_cast<DependencyObject>(root);
+
+		return nullptr;
+	}
 
 protected:
-	DependencyObject* m_Parent;
+	shared_ptr<DependencyObject> m_Parent = nullptr;
 };
 

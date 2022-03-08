@@ -1,6 +1,6 @@
 #pragma once
-#include "DependencyObject.h"
-class Control : public DependencyObject
+#include "Visual.h"
+class Control : public Visual
 {
 public:
 	static DependencyProperty<int> WidthProperty;

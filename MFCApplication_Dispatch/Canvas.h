@@ -1,6 +1,6 @@
 #pragma once
-#include "Control.h"
-class Canvas : public Control
+#include "Panel.h"
+class Canvas : public Panel
 {
 public:
 	Canvas();
