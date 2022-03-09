@@ -154,6 +154,7 @@ namespace WpfApp1
 
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            //Keyboard.IsKeyDown();
             System.Diagnostics.Trace.WriteLine($"Window_PreviewMouseDown:{sender.GetType()}");
         }
     }

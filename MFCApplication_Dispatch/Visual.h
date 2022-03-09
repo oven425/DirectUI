@@ -4,7 +4,7 @@
 #include <memory>
 using namespace std;
 
-class Visual:public DependencyObject, public enable_shared_from_this<Visual>
+class Visual:public DependencyObject
 {
 public:
 	static DependencyProperty<string> TagProperty;
@@ -21,9 +21,9 @@ public:
 	static string GetTag(DependencyObject& d);
 	string name = "";
 
-	void AddLogicChild(shared_ptr<Visual> data)
+	void SetParent(shared_ptr<Visual> data)
 	{
-		data->m_Parent = static_pointer_cast<DependencyObject>(data);
+		this->m_Parent = static_pointer_cast<DependencyObject>(data);
 	}
 
 	static shared_ptr<DependencyObject> GetParent(Visual visual)

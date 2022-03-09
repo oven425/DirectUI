@@ -80,7 +80,10 @@ public:
 		this->m_Action();
 	}
 };
-
+//mouse event
+//HwndSource -InputFilterMessage()-> HwndMouseInputProvider -FilterMessage()->ReportInput()->
+//InputProviderSite -ReportInput()-> InputManager -ProcessInput()->ProcessStagingArea()->PreProcessInput()->
+//MouseDevice -PreProcessInput()->
 
 // CMFCApplicationDispatchDlg 訊息處理常式
 #include <queue>
@@ -118,12 +121,16 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	// TODO: 在此加入額外的初始設定
 	
 	auto canvas = ::make_shared<Canvas>();
+	canvas->name = "canvas";
 	for (int i = 0; i < 10; i++)
 	{
 		auto control = ::make_shared<Control>();
+		char name[10] = { 0 };
+		::sprintf(name, "control_%d", i);
+		control->name = name;
 		canvas->AddChild(control);
 		Canvas::SetLeft(control, i);
-		Canvas::SetLeft(control, i + 1);
+		Canvas::SetTop(control, i + 1);
 	}
 	this->m_Window1 = make_shared<Window>(this->GetDlgItem(IDC_BUTTON1)->m_hWnd);
 

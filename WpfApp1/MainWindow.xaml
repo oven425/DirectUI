@@ -8,9 +8,11 @@
         Title="MainWindow" Height="600" Width="600"
         Mouse.MouseDown="Window_MouseDown"
         PreviewMouseDown="Window_PreviewMouseDown"
-        Background="Red"
         Loaded="Window_Loaded"
         >
+    <Window.Background>
+        <SolidColorBrush Color="Red" Opacity="0.9"/>
+    </Window.Background>
 
     <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>

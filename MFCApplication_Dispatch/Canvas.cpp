@@ -18,7 +18,7 @@ Canvas::Canvas()
 void Canvas::AddChild(shared_ptr<Control> data)
 {
 	this->m_Childs.push_back(data);
-	//data->AddLogicChild(this);
+	data->SetParent(shared_from_this());
 }
 
 void Canvas::SetTop(shared_ptr<DependencyObject> obj, int data)
