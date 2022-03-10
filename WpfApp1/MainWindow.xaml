@@ -10,9 +10,7 @@
         PreviewMouseDown="Window_PreviewMouseDown"
         Loaded="Window_Loaded"
         >
-    <Window.Background>
-        <SolidColorBrush Color="Red" Opacity="0.9"/>
-    </Window.Background>
+
 
     <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
@@ -20,6 +18,7 @@
         <Border MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
             <Rectangle MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" Fill="Gray" Height="50"/>
         </Border>
+        <local:RenderT Height="100" Background="Red"></local:RenderT>
     </StackPanel>
     <!--<Window.Resources>
         <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">

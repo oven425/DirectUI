@@ -157,6 +157,21 @@ namespace WpfApp1
             //Keyboard.IsKeyDown();
             System.Diagnostics.Trace.WriteLine($"Window_PreviewMouseDown:{sender.GetType()}");
         }
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            drawingContext.DrawEllipse(Brushes.Red, null, new Point(this.ActualWidth / 2, this.ActualHeight / 2), this.ActualWidth / 2, this.ActualHeight / 2);
+
+            base.OnRender(drawingContext);
+        }
+    }
+
+    public class RenderT:Control
+    {
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            drawingContext.DrawEllipse(Brushes.Red, null, new Point(this.ActualWidth / 2, this.ActualHeight / 2), this.ActualWidth/2, this.ActualHeight/2);
+            base.OnRender(drawingContext);
+        }
     }
 
 

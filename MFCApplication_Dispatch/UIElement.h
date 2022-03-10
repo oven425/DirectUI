@@ -88,9 +88,9 @@ public:
 		auto func2 = std::bind(&UIElement::VV, this, placeholders::_1, placeholders::_2);
 		
 
-
 		//auto de = Delegate<void, DependencyObject*, AArgs*>(std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2));
 		std::function<void(DependencyObject*, AArgs*)> f = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
+		this->AddHandler(&UIElement::TestEvent, f);
 		this->AddHandler(&UIElement::TestEvent, f);
 		f = std::bind(&UIElement::TT1, this, placeholders::_1, placeholders::_2);
 		this->AddHandler(&UIElement::TestEvent, f);
@@ -99,42 +99,49 @@ public:
 		this->RaiseEvent(&UIElement::TestEvent, &args);
 	}
 
-	map<void*, vector<IDelegate*>> m_Handlers;
-	//map<void*, map<void*,vector<IDelegate*>>> m_Handlers;
+	//map<void*, vector<IDelegate*>> m_Handlers;
+	map<void*, map<string,vector<unique_ptr<IDelegate>>>> m_Handlers;
 	template<class T>
 	void AddHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*,T*)> handler)
 	{
-		this->m_Handlers[routed].push_back(new Delegate<void, DependencyObject*, T*>(handler));
-		//this->m_Handlers[routed][handler].push_back(new Delegate<void, DependencyObject*, T*>(handler));
+		auto nn = typeid(handler).name();
+		//this->m_Handlers[routed].push_back(new Delegate<void, DependencyObject*, T*>(handler));
+		this->m_Handlers[routed][nn].push_back(::make_unique<Delegate<void, DependencyObject*, T*>>(handler));
 	}
 
 	template<class T>
 	void RemoveHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*, T*)> handler)
 	{
-		//std::map<void*, map<void*,vector<IDelegate*>>>::iterator handlers = this->m_Handlers.find(routed);
-		//if (handlers != this->m_Handlers.end())
-		//{
-		//	std::map<void*, vector<IDelegate*>>::iterator delegates = handlers->second.find(&handler);
-		//	if (delegates != handlers->second.end())
-		//	{
-
-		//	}
-		//}
+		auto nn = typeid(handler).name();
+		auto handlers = this->m_Handlers.find(routed);
+		if (handlers != this->m_Handlers.end())
+		{
+			std::map<string, vector<unique_ptr<IDelegate>>>::iterator delegates = handlers->second.find(nn);
+			if (delegates != handlers->second.end())
+			{
+				if (delegates->second.empty() == false)
+				{
+					delegates->second.erase(delegates->second.begin());
+				}
+			}
+		}
 	}
 
 	template<class T>
 	void RaiseEvent(RoutedEvent<T>* routed, RoutedEventArgs* args)
 	{
-		//std::map<void*, vector<IDelegate*>>::iterator find = this->m_Handlers.find(routed);
-		//if (find != this->m_Handlers.end())
-		//{
-		//	for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
-		//	{
-		//		((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
+		std::map<void*, map<string, vector<unique_ptr<IDelegate>>>>::iterator find = this->m_Handlers.find(routed);
+		if (find != this->m_Handlers.end())
+		{
+			//for(auto oo in )
+
+			//for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
+			//{
+			//	((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
 
 
-		//	}
-		//}
+			//}
+		}
 	}
 private:
 
