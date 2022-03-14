@@ -90,6 +90,8 @@ public:
 using namespace std;
 DispatcherTimer m_Timer;
 
+#define SOME_MACRO(x) (static_cast<decltype(this)>(x))
+
 BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -119,7 +121,13 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	
+	char str[] = "http://c.biancheng.net";
+	char *p1 = reinterpret_cast<char*>(str);
+	char ff[100] = { 0 };
+	::memcpy(ff, p1, 10);
+	std::function<void(decltype(*this))> mm;
+	auto iu = static_cast<decltype(this)>(this);
+	//auto tt = std::remove_reference<decltype(*this)>::type;
 	auto canvas = ::make_shared<Canvas>();
 	canvas->name = "canvas";
 	for (int i = 0; i < 10; i++)

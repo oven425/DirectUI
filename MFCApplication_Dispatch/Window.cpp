@@ -20,6 +20,26 @@ LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT
 
 	}
 	break;
+	case WM_MBUTTONDOWN:
+	{
+
+	}
+	break;
+	case WM_MBUTTONUP:
+	{
+
+	}
+	break;
+	case WM_RBUTTONDOWN:
+	{
+
+	}
+	break;
+	case WM_RBUTTONUP:
+	{
+
+	}
+	break;
 	case WM_MOUSEMOVE:
 	{
 		::OutputDebugStringA("WM_MOUSEMOVE\r\n");

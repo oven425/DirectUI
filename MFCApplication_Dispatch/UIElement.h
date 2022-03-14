@@ -52,13 +52,19 @@ protected:
 class AArgs : public RoutedEventArgs
 {
 public:
+	AArgs() {}
+	AArgs(RoutedEvent* routedevent)
+		: RoutedEventArgs(routedevent)
+	{
+
+	}
 	int m_V = 100;
 };
 
 class UIElement :public Visual
 {
 public:
-	static RoutedEvent<AArgs> TestEvent;
+	static RoutedEvent TestEvent;
 	void TT(DependencyObject* sender, AArgs* args)
 	{
 		UIElement* aa = (UIElement*)sender;
@@ -79,38 +85,18 @@ public:
 	//HwndMouseInputProvider
 	//HwndWrapper _wndProc
 	//InputManager RequestContinueProcessingStagingArea
-	UIElement()
-	{
-		std::function<void(DependencyObject* sender, AArgs* args)> func = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
+	UIElement();
 
-		auto func1 = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
-		
-		auto func2 = std::bind(&UIElement::VV, this, placeholders::_1, placeholders::_2);
-		
-
-		//auto de = Delegate<void, DependencyObject*, AArgs*>(std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2));
-		std::function<void(DependencyObject*, AArgs*)> f = std::bind(&UIElement::TT, this, placeholders::_1, placeholders::_2);
-		this->AddHandler(&UIElement::TestEvent, f);
-		this->AddHandler(&UIElement::TestEvent, f);
-		f = std::bind(&UIElement::TT1, this, placeholders::_1, placeholders::_2);
-		this->AddHandler(&UIElement::TestEvent, f);
-		this->RemoveHandler(&UIElement::TestEvent, f);
-		AArgs args;
-		this->RaiseEvent(&UIElement::TestEvent, &args);
-	}
-
-	//map<void*, vector<IDelegate*>> m_Handlers;
 	map<void*, map<string,vector<unique_ptr<IDelegate>>>> m_Handlers;
 	template<class T>
-	void AddHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*,T*)> handler)
+	void AddHandler(RoutedEvent* routed, std::function<void(DependencyObject*,T*)> handler)
 	{
 		auto nn = typeid(handler).name();
-		//this->m_Handlers[routed].push_back(new Delegate<void, DependencyObject*, T*>(handler));
 		this->m_Handlers[routed][nn].push_back(::make_unique<Delegate<void, DependencyObject*, T*>>(handler));
 	}
 
 	template<class T>
-	void RemoveHandler(RoutedEvent<T>* routed, std::function<void(DependencyObject*, T*)> handler)
+	void RemoveHandler(RoutedEvent* routed, std::function<void(DependencyObject*, T*)> handler)
 	{
 		auto nn = typeid(handler).name();
 		auto handlers = this->m_Handlers.find(routed);
@@ -127,8 +113,10 @@ public:
 		}
 	}
 
+	void RaiseEvent(RoutedEventArgs* args);
+
 	template<class T>
-	void RaiseEvent(RoutedEvent<T>* routed, RoutedEventArgs* args)
+	void RaiseEvent(RoutedEvent* routed, RoutedEventArgs* args)
 	{
 		std::map<void*, map<string, vector<unique_ptr<IDelegate>>>>::iterator find = this->m_Handlers.find(routed);
 		if (find != this->m_Handlers.end())
