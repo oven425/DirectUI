@@ -10,7 +10,7 @@ public:
 	virtual void Check() = 0;
 };
 
-template<typename TReturn, typename... Args>
+template<typename TReturn, typename... TParam>
 class Delegate :public IDelegate
 {
 public:
@@ -19,11 +19,11 @@ public:
 
 	}
 	Delegate() {}
-	Delegate(std::function<TReturn(Args...)> func)
+	Delegate(std::function<TReturn(TParam...)> func)
 	{
 		this->m_Func = func;
 	}
-	TReturn invoke(Args... data)
+	TReturn invoke(TParam... data)
 	{
 		return m_Func(data...);
 	}
@@ -36,17 +36,17 @@ public:
 	//	return sz;
 	//}
 
-	operator std::function<TReturn(Args...)>() const throw()
+	operator std::function<TReturn(TParam...)>() const throw()
 	{
 		return this->m_Func;
 	}
 
-	void operator=(std::function<TReturn(Args...)> func)
+	void operator=(std::function<TReturn(TParam...)> func)
 	{
 		this->m_Func = func;
 	}
 protected:
-	std::function<TReturn(Args...)> m_Func;
+	std::function<TReturn(TParam...)> m_Func;
 };
 
 class AArgs : public RoutedEventArgs
@@ -87,7 +87,7 @@ public:
 	//InputManager RequestContinueProcessingStagingArea
 	UIElement();
 
-	map<void*, map<string,vector<unique_ptr<IDelegate>>>> m_Handlers;
+	
 	template<class T>
 	void AddHandler(RoutedEvent* routed, std::function<void(DependencyObject*,T*)> handler)
 	{
@@ -114,24 +114,7 @@ public:
 	}
 
 	void RaiseEvent(RoutedEventArgs* args);
-
-	template<class T>
-	void RaiseEvent(RoutedEvent* routed, RoutedEventArgs* args)
-	{
-		std::map<void*, map<string, vector<unique_ptr<IDelegate>>>>::iterator find = this->m_Handlers.find(routed);
-		if (find != this->m_Handlers.end())
-		{
-			//for(auto oo in )
-
-			//for (vector<IDelegate*>::iterator i = find->second.begin(); i != find->second.end(); i++)
-			//{
-			//	((Delegate<void, DependencyObject*, T*>*)(*i))->invoke(this, (T*)args);
-
-
-			//}
-		}
-	}
 private:
-
+	map<void*, map<string, vector<unique_ptr<IDelegate>>>> m_Handlers;
 };
 

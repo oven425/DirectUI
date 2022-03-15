@@ -155,6 +155,7 @@ namespace WpfApp1
 
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            //e.GetPosition();
             //Keyboard.IsKeyDown();
             System.Diagnostics.Trace.WriteLine($"Window_PreviewMouseDown:{sender.GetType()}");
         }
@@ -165,6 +166,47 @@ namespace WpfApp1
             base.OnRender(drawingContext);
         }
     }
+
+    public interface DebugTrace<T>
+    {
+        void Trace(T data);
+    }
+
+    public class TraceData
+    {
+        public DateTime Time { set; get; }
+        public string Message { set; get; }
+        public int Level { set; get; }
+    }
+
+    public class Trace : DebugTrace<TraceData>
+    {
+        void DebugTrace<TraceData>.Trace(TraceData data)
+        {
+            this.m_CSVLog.Trace(data);
+            this.m_DebugView.Trace($"Message:{data.Message}");
+        }
+
+        CSVTrace m_CSVLog = new CSVTrace();
+        StringTrace m_DebugView = new StringTrace();
+    }
+
+    public class CSVTrace : DebugTrace<TraceData>
+    {
+        public void Trace(TraceData data)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StringTrace : DebugTrace<string>
+    {
+        public void Trace(string data)
+        {
+            System.Diagnostics.Trace.WriteLine(data);
+        }
+    }
+
 
     public class RenderT:Control
     {

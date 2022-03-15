@@ -2,50 +2,52 @@
 #include "Window.h"
 LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
-	switch (uMsg)
-	{
-	case WM_PAINT:
-	case WM_ERASEBKGND:
-	{
+	Window* aa = (Window*)dwRefData;
+	aa->m_Mouse.FilterMessage(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+	//switch (uMsg)
+	//{
+	//case WM_PAINT:
+	//case WM_ERASEBKGND:
+	//{
 
-	}
-	break;
-	case WM_LBUTTONDOWN:
-	{
-		::OutputDebugStringA("WM_LBUTTONDOWN\r\n");
-	}
-	break;
-	case WM_LBUTTONUP:
-	{
+	//}
+	//break;
+	//case WM_LBUTTONDOWN:
+	//{
+	//	::OutputDebugStringA("WM_LBUTTONDOWN\r\n");
+	//}
+	//break;
+	//case WM_LBUTTONUP:
+	//{
 
-	}
-	break;
-	case WM_MBUTTONDOWN:
-	{
+	//}
+	//break;
+	//case WM_MBUTTONDOWN:
+	//{
 
-	}
-	break;
-	case WM_MBUTTONUP:
-	{
+	//}
+	//break;
+	//case WM_MBUTTONUP:
+	//{
 
-	}
-	break;
-	case WM_RBUTTONDOWN:
-	{
+	//}
+	//break;
+	//case WM_RBUTTONDOWN:
+	//{
 
-	}
-	break;
-	case WM_RBUTTONUP:
-	{
+	//}
+	//break;
+	//case WM_RBUTTONUP:
+	//{
 
-	}
-	break;
-	case WM_MOUSEMOVE:
-	{
-		::OutputDebugStringA("WM_MOUSEMOVE\r\n");
-	}
-	break;
-	}
+	//}
+	//break;
+	//case WM_MOUSEMOVE:
+	//{
+	//	::OutputDebugStringA("WM_MOUSEMOVE\r\n");
+	//}
+	//break;
+	//}
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 

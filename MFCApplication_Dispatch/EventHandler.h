@@ -18,7 +18,7 @@ class EventHandler
 public:
 	void Fire(TSender obj, TArgs args)
 	{
-		for (auto oo : this->m_Fs)
+		for (auto oo : this->m_Funcs)
 		{
 			oo(obj, args);
 		}
@@ -26,11 +26,10 @@ public:
 
 	void operator+=(function<void(TSender, TArgs)> evt)
 	{
-		this->m_Fs.push_back(evt);
+		this->m_Funcs.push_back(evt);
 	}
-
-	vector<function<void(TSender, TArgs)>> m_Fs;
-	std::function<void(TSender, TArgs)> m_F;
+protected:
+	vector<function<void(TSender, TArgs)>> m_Funcs;
 };
 
 class EventArgs
@@ -38,9 +37,4 @@ class EventArgs
 public:
 	bool Canceled;
 };
-
-//<template T>
-//class EventHandler<T>
-//{
-//};
 
