@@ -112,8 +112,9 @@ public:
 			}
 		}
 	}
-
 	void RaiseEvent(RoutedEventArgs* args);
+	void CaptureMouse();
+	void ReleaseMouseCapture();
 private:
 	map<void*, map<string, vector<unique_ptr<IDelegate>>>> m_Handlers;
 };

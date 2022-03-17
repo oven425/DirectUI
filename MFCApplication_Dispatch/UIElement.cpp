@@ -46,3 +46,13 @@ void UIElement::RaiseEvent(RoutedEventArgs* args)
 
 	}
 }
+
+void UIElement::CaptureMouse()
+{
+
+}
+
+void UIElement::ReleaseMouseCapture()
+{
+
+}

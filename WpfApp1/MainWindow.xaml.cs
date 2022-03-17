@@ -149,7 +149,8 @@ namespace WpfApp1
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+            this.border.CaptureMouse();
+            this.border.ReleaseMouseCapture();
             System.Diagnostics.Trace.WriteLine($"Window_MouseDown:{sender.GetType()}");
         }
 

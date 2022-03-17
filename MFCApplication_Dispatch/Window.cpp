@@ -3,7 +3,11 @@
 LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
 	Window* aa = (Window*)dwRefData;
-	aa->m_Mouse.FilterMessage(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+	if (aa->m_Mouse != nullptr)
+	{
+		aa->m_Mouse->FilterMessage(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+	}
+	
 	//switch (uMsg)
 	//{
 	//case WM_PAINT:
@@ -54,7 +58,9 @@ LRESULT Window::WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT
 Window::Window(HWND hwnd)
 	: m_hWnd(hwnd)
 {
+	this->m_Mouse = ::make_unique<MouseDevice>(hwnd);
 	::SetWindowSubclass(this->m_hWnd, WinProc, 0, (DWORD_PTR)this);
+	
 }
 
 Window::~Window()

@@ -15,7 +15,7 @@
     <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="B" Content="BB"></local:ButtonTest>
-        <Border MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
+        <Border x:Name="border" MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
             <Rectangle MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" Fill="Gray" Height="50"/>
         </Border>
         <local:RenderT Height="100" Background="Red"></local:RenderT>

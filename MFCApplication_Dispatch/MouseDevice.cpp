@@ -10,7 +10,8 @@
 
 
 //MouseDevice PreNotifyInput get mouse move tagert element
-MouseDevice::MouseDevice()
+MouseDevice::MouseDevice(HWND hwnd)
+	: m_hWnd(hwnd)
 {
 
 }
@@ -21,22 +22,49 @@ LRESULT MouseDevice::FilterMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 	{
 	case WM_LBUTTONDOWN:
 	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+		this->Record(wParam, lParam);
 	}
 	break;
 	case WM_MOUSEMOVE:
 	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+		if (this->m_IsRecord == false)
+		{
+			this->m_IsRecord = true;
+			TRACKMOUSEEVENT te = { 0 };
+			te.hwndTrack = this->m_hWnd;
+			te.dwHoverTime = 100;
+			te.cbSize = sizeof(TRACKMOUSEEVENT);
+			te.dwFlags = TME_HOVER | TME_LEAVE;
+			BOOL bb = TrackMouseEvent(&te);
+		}
+		this->Record(wParam, lParam);
 	}
 	break;
 	case WM_LBUTTONUP:
 	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+		this->Record(wParam, lParam);
+	}
+	break;
+	case WM_MOUSELEAVE:
+	{
+		::OutputDebugStringA("WM_MOUSELEAVE\r\n");
+		this->m_IsRecord = false;
+	}
+	break;
+	case WM_MOUSEHOVER:
+	{
+		::OutputDebugStringA("WM_MOUSEHOVER\r\n");
 	}
 	break;
 	}
 	return 0;
+}
+
+void MouseDevice::Record(WPARAM wParam, LPARAM lParam)
+{
+	if (this->m_IsRecord == true)
+	{
+		this->m_LastPt.x = GET_X_LPARAM(lParam);
+		this->m_LastPt.y = GET_Y_LPARAM(lParam);
+	}
 }

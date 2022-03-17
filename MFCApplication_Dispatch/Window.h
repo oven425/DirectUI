@@ -1,4 +1,7 @@
 #pragma once
+#include <memory>
+using namespace std;
+
 #include <Windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
@@ -14,7 +17,7 @@ public:
 protected:
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 	HWND m_hWnd;
-	MouseDevice m_Mouse;
+	unique_ptr<MouseDevice> m_Mouse;
 private:
 	
 };
