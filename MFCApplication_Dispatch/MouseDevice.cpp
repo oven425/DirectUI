@@ -60,6 +60,11 @@ LRESULT MouseDevice::FilterMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
+void MouseDevice::Capture(UIElement* data)
+{
+
+}
+
 void MouseDevice::Record(WPARAM wParam, LPARAM lParam)
 {
 	if (this->m_IsRecord == true)

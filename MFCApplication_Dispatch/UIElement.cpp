@@ -47,6 +47,9 @@ void UIElement::RaiseEvent(RoutedEventArgs* args)
 	}
 }
 
+//CaptureMouse -CaptureMouse->
+//Mouse -Mouse.Capture->Mouse.PrimaryDevice.Capture->
+//MouseDevice-Capture->ChangeMouseCapture 
 void UIElement::CaptureMouse()
 {
 

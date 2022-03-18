@@ -137,6 +137,7 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 		::sprintf(name, "control_%d", i);
 		control->name = name;
 		canvas->AddChild(control);
+		
 		Canvas::SetLeft(control, i);
 		Canvas::SetTop(control, i + 1);
 	}
