@@ -10,16 +10,32 @@
         PreviewMouseDown="Window_PreviewMouseDown"
         Loaded="Window_Loaded"
         >
+    <local:DiagnolPanel>
+        <Button BorderBrush="Black" Background="Red" Content="0" Width="40"></Button>
+        <Button BorderBrush="Black" Background="Red" Content="1" Width="40"></Button>
 
+        <Button BorderBrush="Black" Background="Red" Content="2" Width="40"></Button>
+        <Button BorderBrush="Black" Background="Red" Content="3" Width="40"></Button>
 
-    <StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
+        <Button BorderBrush="Black" Background="Red" Content="4" Width="40"></Button>
+
+        <Button BorderBrush="Black" Background="Red" Content="5" Width="40"></Button>
+
+        <Button BorderBrush="Black" Background="Red" Content="6" Width="40"></Button>
+        <Button BorderBrush="Black" Background="Red" Content="7" Width="40"></Button>
+
+        <Button BorderBrush="Black" Background="Red" Content="8" Width="40"></Button>
+
+    </local:DiagnolPanel>
+
+    <!--<StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="B" Content="BB"></local:ButtonTest>
         <Border x:Name="border" MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
             <Rectangle MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" Fill="Gray" Height="50"/>
         </Border>
         <local:RenderT Height="100" Background="Red"></local:RenderT>
-    </StackPanel>
+    </StackPanel>-->
     <!--<Window.Resources>
         <ControlTemplate x:Key="ct" TargetType="{x:Type Thumb}">
             <Grid x:Name="bg">

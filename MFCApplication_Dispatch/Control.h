@@ -1,7 +1,7 @@
 #pragma once
-#include "UIElement.h"
+#include "FrameworkElement.h"
 
-class Control : public UIElement, public enable_shared_from_this<Control>
+class Control : public FrameworkElement, public enable_shared_from_this<Control>
 {
 public:
 	static DependencyProperty<int> WidthProperty;

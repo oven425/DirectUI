@@ -47,6 +47,11 @@ void UIElement::RaiseEvent(RoutedEventArgs* args)
 	}
 }
 
+void UIElement::Measure(Size& data)
+{
+
+}
+
 //CaptureMouse -CaptureMouse->
 //Mouse -Mouse.Capture->Mouse.PrimaryDevice.Capture->
 //MouseDevice-Capture->ChangeMouseCapture 

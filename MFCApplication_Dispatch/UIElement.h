@@ -1,8 +1,14 @@
 #pragma once
-#include "Visual.h"
-#include "RoutedEvent.h"
 #include <functional>
 using namespace std;
+
+
+#include "Visual.h"
+#include "RoutedEvent.h"
+#include "Size.h"
+
+
+
 
 class IDelegate
 {
@@ -65,6 +71,8 @@ class UIElement :public Visual
 {
 public:
 	static RoutedEvent TestEvent;
+	double m_ActualWidth = 0;
+	double m_ActualHeight = 0;
 	void TT(DependencyObject* sender, AArgs* args)
 	{
 		UIElement* aa = (UIElement*)sender;
@@ -115,6 +123,7 @@ public:
 	void RaiseEvent(RoutedEventArgs* args);
 	void CaptureMouse();
 	void ReleaseMouseCapture();
+	void Measure(Size& data);
 private:
 	map<void*, map<string, vector<unique_ptr<IDelegate>>>> m_Handlers;
 };

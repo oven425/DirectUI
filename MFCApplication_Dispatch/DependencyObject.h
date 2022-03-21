@@ -6,30 +6,11 @@ using namespace std;
 
 #include "DispatchObject.h"
 #include "DependencyProperty.h"
-class DependencyObject:public DispatchObject
+class DependencyObject : public DispatchObject
 {
 public:
-	//template<class T>
-	//void SetPropertyMetadata(const DependencyProperty<T>* dp, shared_ptr<PropertyMetadata<T>> meta)
-	//{		
-	//	this->m_PropertyMetadatas[dp] = meta;
-	//}
-
-	//template<class T>
-	//constexpr shared_ptr<PropertyMetadata<T>> GetPropertyMetadata(const DependencyProperty<T>* dp)
-	//{
-	//	if (this->m_PropertyMetadatas.find(dp) != this->m_PropertyMetadatas.end())
-	//	{
-	//		auto var = this->m_PropertyMetadatas[dp];
-	//		shared_ptr<PropertyMetadata<T>> sss1 = static_pointer_cast<PropertyMetadata<T>>(var);
-	//		return sss1;
-	//	}
-	//	return nullptr;
-	//}
-
-
 	template<class T>
-	void SetValue(const DependencyProperty<T>* dp, T data)
+	void SetValue(shared_ptr<DependencyProperty<T>> dp, T data)
 	{
 		if (this->m_Saves.find(dp) != this->m_Saves.end())
 		{
@@ -54,7 +35,7 @@ public:
 	}
 
 	template<class T>
-	constexpr T GetValue(const DependencyProperty<T>* dp)
+	constexpr T GetValue(shared_ptr<DependencyProperty<T>> dp)
 	{
 		if constexpr (std::is_arithmetic_v<T>)
 		{
@@ -95,7 +76,7 @@ public:
 		return T{};
 	}
 private:
-	map<const void*, std::variant<int, unsigned int, string, shared_ptr<void>>> m_Saves;
+	map<shared_ptr<void>, std::variant<int, unsigned int, double, string, shared_ptr<void>>> m_Saves;
 	//map<const void*, shared_ptr<void>> m_PropertyMetadatas;
 };
 

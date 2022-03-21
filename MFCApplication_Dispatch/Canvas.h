@@ -4,8 +4,8 @@ class Canvas : public Panel
 {
 public:
 	Canvas();
-	static DependencyProperty<int> LeftPorperty;
-	static DependencyProperty<int> TopPorperty;
+	static shared_ptr<DependencyProperty<int>> LeftPorperty;
+	static shared_ptr<DependencyProperty<int>> TopPorperty;
 	void AddChild(shared_ptr<Control> data);
 	static void SetTop(shared_ptr<DependencyObject> obj, int data);
 	static void SetLeft(shared_ptr<DependencyObject> obj, int data);

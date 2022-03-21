@@ -121,6 +121,10 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+
+	shared_ptr<DependencyProperty<int>> pp = ::make_shared< DependencyProperty<int>>();
+	shared_ptr<void> vv = pp;
+
 	char str[] = "http://c.biancheng.net";
 	char *p1 = reinterpret_cast<char*>(str);
 	char ff[100] = { 0 };
@@ -137,9 +141,9 @@ BOOL CMFCApplicationDispatchDlg::OnInitDialog()
 		::sprintf(name, "control_%d", i);
 		control->name = name;
 		canvas->AddChild(control);
-		
+		//auto l = Canvas::GetLeft(control);
 		Canvas::SetLeft(control, i);
-		Canvas::SetTop(control, i + 1);
+		//Canvas::SetTop(control, i + 1);
 	}
 	this->m_Window1 = make_shared<Window>(this->GetDlgItem(IDC_BUTTON1)->m_hWnd);
 

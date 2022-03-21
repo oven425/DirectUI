@@ -26,6 +26,9 @@ template <class T>
 class DependencyProperty
 {
 public:
+	DependencyProperty() {}
+	virtual ~DependencyProperty() {}
+public:
 	PropertyMetadata<T> Meta;
 };
 
