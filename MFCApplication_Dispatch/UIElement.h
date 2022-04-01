@@ -124,6 +124,10 @@ public:
 	void CaptureMouse();
 	void ReleaseMouseCapture();
 	void Measure(Size& data);
+	void Arrangd(Size& data) {};
+protected:
+	virtual Size MeasureOverride(Size& data) { return Size(); }
+	virtual Size ArrangeOverride(Size& data) { return Size(); }
 private:
 	map<void*, map<string, vector<unique_ptr<IDelegate>>>> m_Handlers;
 };

@@ -199,6 +199,7 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FrameworkElement.h" />
+    <ClInclude Include="Hwnds.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="MFCApplication_Dispatch.h" />
     <ClInclude Include="MFCApplication_DispatchDlg.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="RoutedEvent.h" />
     <ClInclude Include="Size.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Thickness.h" />
     <ClInclude Include="Thinckness.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Visual.h" />
@@ -227,6 +229,7 @@
     <ClCompile Include="DispatchObject.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="FrameworkElement.cpp" />
+    <ClCompile Include="Hwnds.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="MFCApplication_Dispatch.cpp" />
     <ClCompile Include="MFCApplication_DispatchDlg.cpp" />
@@ -242,6 +245,7 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="RoutedEvent.cpp" />
     <ClCompile Include="Size.cpp" />
+    <ClCompile Include="Thickness.cpp" />
     <ClCompile Include="Thinckness.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="Visual.cpp" />

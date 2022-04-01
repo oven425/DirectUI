@@ -96,6 +96,12 @@
     <ClInclude Include="FrameworkElement.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Hwnds.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Thickness.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication_Dispatch.cpp">
@@ -168,6 +174,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="FrameworkElement.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Hwnds.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Thickness.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

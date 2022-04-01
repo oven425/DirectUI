@@ -3,6 +3,7 @@
 shared_ptr<DependencyProperty<double>> FrameworkElement::WidthProperty;
 shared_ptr<DependencyProperty<double>> FrameworkElement::HeightProperty;
 //https://www.codeproject.com/Articles/5324971/Deep-Dive-into-WPF-Layouting-and-Rendering
+//https://docs.microsoft.com/en-us/windows/win32/directcomp/directcomposition-portal
 FrameworkElement::FrameworkElement()
 {
 	if (WidthProperty != nullptr)
