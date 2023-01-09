@@ -77,6 +77,13 @@ void CMFCApplication1Dlg::DragFiles(const shared_ptr<CControl> sender, const Dra
 
 // CMFCApplication1Dlg 訊息處理常式
 
+void CMFCApplication1Dlg::HotyEvent(int scancode)
+{
+	CString str;
+	str.Format(_T("scancode:%d\r\n"), scancode);
+	::OutputDebugString(str);
+}
+
 template<typename T>
 using deleted_unique_ptr = std::unique_ptr<T, std::function<void(T*)>>;
 BOOL CMFCApplication1Dlg::OnInitDialog()
@@ -109,7 +116,8 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-
+	m_HotKey.m_OnScancode = std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1);
+	m_HotKey.Capture();
 	//deleted_unique_ptr<FILE> file(
 	//	fopen("file.txt", "r"),
 	//	[](FILE* f) 
