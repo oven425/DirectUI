@@ -55,7 +55,8 @@ public:
 protected:
 	void HotyEvent(int scancode);
 	HICON m_hIcon;
-	HotKey m_HotKey;
+	//HotKey m_HotKey;
+	//HotKey m_HotKey1;
 	// 產生的訊息對應函式
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);

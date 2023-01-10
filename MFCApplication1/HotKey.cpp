@@ -1,20 +1,40 @@
 #include "pch.h"
 #include "HotKey.h"
 
-HHOOK m_hHook = NULL;
-HotKey* m_Instance = NULL;
-static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+HHOOK HotKey::m_hHook = NULL;
+HotKey* HotKey::m_Instance = new HotKey();
+LRESULT HotKey::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
+	auto kb = (KBDLLHOOKSTRUCT*)lParam;
+	
 	if (m_Instance->m_OnScancode != nullptr)
 	{
-		auto kb = (KBDLLHOOKSTRUCT*)lParam;
+		
 		m_Instance->m_OnScancode(kb->scanCode);
+	
+	}
+	auto find = m_Instance->m_Actions.find(kb->scanCode);
+	if (find != m_Instance->m_Actions.end())
+	{
+		find->second();
 	}
 	return CallNextHookEx(m_hHook, nCode, wParam, lParam);
 }
 
-void HotKey::Capture()
+void HotKey::Start()
 {
-	m_Instance = this;
-	m_hHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, NULL, 0);
+	if (m_hHook == NULL)
+	{
+		m_hHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, NULL, 0);
+	}
+}
+
+void HotKey::Stop()
+{
+	if (m_hHook != NULL)
+	{
+		::UnhookWindowsHookEx(m_hHook);
+		m_hHook = NULL;
+	}
+
 }

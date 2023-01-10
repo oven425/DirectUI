@@ -84,6 +84,10 @@ void CMFCApplication1Dlg::HotyEvent(int scancode)
 	::OutputDebugString(str);
 }
 
+void print_num(int num) {
+	std::cout << num << std::endl;
+}
+
 template<typename T>
 using deleted_unique_ptr = std::unique_ptr<T, std::function<void(T*)>>;
 BOOL CMFCApplication1Dlg::OnInitDialog()
@@ -116,8 +120,34 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
-	m_HotKey.m_OnScancode = std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1);
-	m_HotKey.Capture();
+	
+	//vector<int> ss;
+	//auto printStudentDetails = [](int student) { std::cout << student << " " << student << std::endl; };
+	//std::for_each(ss.begin(), ss.end(), std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1));
+	
+	HotKey::Cpauture().SetScanCodeEvent(std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1));
+	
+	HotKey::Cpauture().UseScanCode(1, []() {
+			::OutputDebugStringA("1\r\n");
+		});
+	HotKey::Cpauture().UseScanCode(2, []() {
+			::OutputDebugStringA("2\r\n");
+		});
+
+	HotKey::Cpauture().Start();
+
+	HotKey::Cpauture().Stop();
+	//m_HotKey.m_OnScancode = std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1);
+	//m_HotKey.UseScanCode(1, []() {
+	//	::OutputDebugStringA("1\r\n");
+	//});
+	//m_HotKey.UseScanCode(2, []() {
+	//	::OutputDebugStringA("2\r\n");
+	//});
+	//m_HotKey.Start();
+	//m_HotKey1.Start();
+	//m_HotKey.Capture();
+	//m_HotKey.Capture(std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1));
 	//deleted_unique_ptr<FILE> file(
 	//	fopen("file.txt", "r"),
 	//	[](FILE* f) 
