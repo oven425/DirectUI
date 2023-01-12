@@ -65,4 +65,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	void DragFiles(const shared_ptr<CControl> sender, const DragFilesArgs& args);
+public:
+	void HotKey1(int scancode);
 };

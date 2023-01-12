@@ -125,7 +125,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	//auto printStudentDetails = [](int student) { std::cout << student << " " << student << std::endl; };
 	//std::for_each(ss.begin(), ss.end(), std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1));
 	
-	HotKey::Cpauture().SetScanCodeEvent(std::bind(&CMFCApplication1Dlg::HotyEvent, this, std::placeholders::_1));
+	HotKey::Cpauture().SetScanCodeEvent(std::bind(&CMFCApplication1Dlg::HotKey1, this, std::placeholders::_1));
 	
 	HotKey::Cpauture().UseScanCode(1, []() {
 			::OutputDebugStringA("1\r\n");
@@ -536,3 +536,9 @@ HCURSOR CMFCApplication1Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CMFCApplication1Dlg::HotKey1(int scancode)
+{
+	// TODO: 請在此新增您的實作程式碼.
+}
