@@ -2,6 +2,7 @@
 #include <dwrite.h>
 #include <vector>
 #include <memory>
+#include <string>
 using namespace std;
 
 namespace DirectUI
