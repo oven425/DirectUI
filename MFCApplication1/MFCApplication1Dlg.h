@@ -33,7 +33,7 @@ using namespace Shapes;
 
 
 #include <d2d1_1helper.h>
-
+#include "HotKey.h"
 
 // CMFCApplication1Dlg 對話方塊
 class CMFCApplication1Dlg : public CDialogEx
@@ -53,8 +53,10 @@ public:
 
 // 程式碼實作
 protected:
+	void HotyEvent(int scancode);
 	HICON m_hIcon;
-
+	//HotKey m_HotKey;
+	//HotKey m_HotKey1;
 	// 產生的訊息對應函式
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -63,4 +65,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	void DragFiles(const shared_ptr<CControl> sender, const DragFilesArgs& args);
+public:
+	void HotKey1(int scancode);
 };
