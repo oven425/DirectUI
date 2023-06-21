@@ -81,7 +81,9 @@ namespace WpfApp1
         DispatcherTimer m_Timer = new DispatcherTimer();
         async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            this.Background = new SolidColorBrush(Colors.Red);
+            await Task.Delay(3000);
+            (this.Background as SolidColorBrush).Color = Colors.Green;
             //List<Task> tasks = new List<Task>();
 
             //foreach(var oo in Enumerable.Range(1, 2))

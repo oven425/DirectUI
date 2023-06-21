@@ -10,7 +10,7 @@
         PreviewMouseDown="Window_PreviewMouseDown"
         Loaded="Window_Loaded"
         >
-    <local:DiagnolPanel>
+    <!--<local:DiagnolPanel>
         <Button BorderBrush="Black" Background="Red" Content="0" Width="40"></Button>
         <Button BorderBrush="Black" Background="Red" Content="1" Width="40"></Button>
 
@@ -26,7 +26,7 @@
 
         <Button BorderBrush="Black" Background="Red" Content="8" Width="40"></Button>
 
-    </local:DiagnolPanel>
+    </local:DiagnolPanel>-->
 
     <!--<StackPanel MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown">
         <local:ButtonTest MouseDown="Window_MouseDown" PreviewMouseDown="Window_PreviewMouseDown" x:Name="A" Content="AA" CustomClickWithCustomArgs="A_CustomClickWithCustomArgs"></local:ButtonTest>

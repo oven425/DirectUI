@@ -100,6 +100,37 @@ BOOL CMFCTDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO: 在此加入額外的初始設定
+
+	//Lazy<ID2D1Factory*> d2df([](){
+	//	ID2D1Factory* ff = nullptr;
+	//	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &ff);
+	//	return ff;
+	//	},
+	//	[](auto obj) {
+	//		obj->Release();
+	//	});
+	//auto f1 = d2df.Value();
+	//auto f2 = d2df.Value();
+	// 
+	//Lazy<ID2D1Factory*> aa([]() {
+	//	CComPtr<ID2D1Factory> ff = nullptr;
+	//	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &ff);
+	//	return ff;
+	//	});
+	//aa.operator ID2D1Factory* ()->AddRef();
+	//Lazy<ID2D1Factory*> lllq([]()
+	//	{
+	//		ID2D1Factory* ff = nullptr;
+	//		D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &ff);
+	//		return ff;
+	//	});
+	//ID2D1Factory* ok = lllq;
+	//Lazy<CComPtr<ID2D1Factory>> d2df([]() {
+	//	CComPtr<ID2D1Factory> ff = nullptr;
+	//	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &ff);
+	//	return ff;
+	//	});
+	Lazy2<ID2D1Factory*> ll;
 	m_App = Window::Mount(this->m_hWnd);
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

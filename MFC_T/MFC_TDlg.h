@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "Lazy.h"
+#include "Graphic.h"
 #include "Window.h"
 
 // CMFCTDlg 對話方塊
