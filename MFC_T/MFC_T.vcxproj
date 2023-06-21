@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphic.h" />
+    <ClInclude Include="Lazy.h" />
     <ClInclude Include="MFC_T.h" />
     <ClInclude Include="MFC_TDlg.h" />
     <ClInclude Include="pch.h" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Lazy.cpp" />
     <ClCompile Include="MFC_T.cpp" />
     <ClCompile Include="MFC_TDlg.cpp" />
     <ClCompile Include="pch.cpp">
