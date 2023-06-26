@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.ComponentModel;
 using System.Threading;
+using System.Runtime.Remoting.Contexts;
 
 namespace WpfApp1
 {
@@ -38,6 +39,17 @@ namespace WpfApp1
             ConditionalClickEvent = EventManager.RegisterRoutedEvent("ConditionalClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MainWindow));
             ConditionalClickEvent = EventManager.RegisterRoutedEvent("ConditionalClick1", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MainWindow));
         }
+
+        private static void MainWindow_OnTest1()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void MainWindow_OnTest()
+        {
+            
+        }
+
         public event RoutedEventHandler ConditionalClick
         {
             add { AddHandler(ConditionalClickEvent, value); }
@@ -79,8 +91,15 @@ namespace WpfApp1
         public List<Task> TaskList = new List<Task>();
         MinUI m_MinUI;
         DispatcherTimer m_Timer = new DispatcherTimer();
+        public delegate string TestDelegate(int a);
+        public event TestDelegate OnTest;
+        EventHandler<string> TestHandler;
         async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            OnTest += MainWindow_OnTest2;
+            OnTest += MainWindow_OnTest3;
+            var ooo = OnTest(1);
+            return;
             this.Background = new SolidColorBrush(Colors.Red);
             await Task.Delay(3000);
             (this.Background as SolidColorBrush).Color = Colors.Green;
@@ -126,7 +145,16 @@ namespace WpfApp1
             //this.B.AddHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT1));
             //this.B.RemoveHandler(ButtonTest.CustomClickWithCustomArgsEvent, new CustomClickWithCustomArgsEventHandler(TT1));
         }
-       
+
+        private string MainWindow_OnTest3(int a)
+        {
+            return "1";
+        }
+
+        private string MainWindow_OnTest2(int a)
+        {
+            return "2";
+        }
 
         private void M_Timer_Tick(object sender, EventArgs e)
         {

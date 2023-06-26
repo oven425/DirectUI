@@ -130,7 +130,13 @@ BOOL CMFCTDlg::OnInitDialog()
 	//	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &ff);
 	//	return ff;
 	//	});
-	Lazy2<ID2D1Factory*> ll;
+	//Lazy2<ID2D1Factory*> ll;
+	Delegate<string, int> dd;
+	//dd += [](string str) {};
+	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
+	auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
+	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
+	dd(1);
 	m_App = Window::Mount(this->m_hWnd);
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }

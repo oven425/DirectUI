@@ -1,7 +1,9 @@
 #pragma once
 #include <atlstr.h>
 #include "Lazy.h"
+
 #include "UIElement.h"
+#include "DependecyProperty.h"
 
 
 class Window
@@ -103,6 +105,7 @@ private:
 	static Lazy<CComPtr<ID2D1Factory>> m_D2DFactory;
 	CComPtr<ID2D1HwndRenderTarget> m_pRenderTarget;
 	HWND m_hWnd = NULL;
+	DependecyProperty<Brush> Background;
 };
 
 

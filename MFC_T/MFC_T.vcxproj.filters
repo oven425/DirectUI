@@ -45,6 +45,15 @@
     <ClInclude Include="UIElement.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="Delegate.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Brush.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="DependecyProperty.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFC_T.cpp">
@@ -66,6 +75,15 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Delegate.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Brush.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="DependecyProperty.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

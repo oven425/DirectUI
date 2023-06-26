@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "Delegate.h"
 #include "Lazy.h"
 #include "Graphic.h"
 #include "Window.h"
@@ -33,4 +34,12 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+	string Test1(int str)
+	{
+		return "1";
+	}
+	string Test2(int str)
+	{
+		return "2";
+	}
 };
