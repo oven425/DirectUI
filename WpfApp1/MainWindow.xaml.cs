@@ -96,6 +96,8 @@ namespace WpfApp1
         EventHandler<string> TestHandler;
         async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var tt = new TextBlock();
+            //tt.Foreground
             OnTest += MainWindow_OnTest2;
             OnTest += MainWindow_OnTest3;
             var ooo = OnTest(1);

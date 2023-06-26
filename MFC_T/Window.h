@@ -3,10 +3,9 @@
 #include "Lazy.h"
 
 #include "UIElement.h"
-#include "DependecyProperty.h"
 
 
-class Window
+class Window : public ContentControl
 {
 public:
 	static Window* Mount(HWND hwnd)
@@ -70,6 +69,8 @@ private:
 		//	m_pBlackBrush
 		//);
 
+		this->Render(m_pRenderTarget);
+		
 		auto hr = m_pRenderTarget->EndDraw();
 
 		if (hr == D2DERR_RECREATE_TARGET)
@@ -96,16 +97,17 @@ private:
 			D2D1::HwndRenderTargetProperties(this->m_hWnd, size),
 			&m_pRenderTarget
 		);
+		this->Measure(size.width, size.height);
+		this->Arrange();
 		this->OnPaint();
 	}
-protected:
-	UIElement Content;
+public:
+	int m_aa;
 
 private:
-	static Lazy<CComPtr<ID2D1Factory>> m_D2DFactory;
+	
 	CComPtr<ID2D1HwndRenderTarget> m_pRenderTarget;
 	HWND m_hWnd = NULL;
-	DependecyProperty<Brush> Background;
 };
 
 

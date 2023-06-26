@@ -131,13 +131,32 @@ BOOL CMFCTDlg::OnInitDialog()
 	//	return ff;
 	//	});
 	//Lazy2<ID2D1Factory*> ll;
-	Delegate<string, int> dd;
-	//dd += [](string str) {};
-	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
-	auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
-	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
-	dd(1);
+	// 
+	//Delegate<string, int> dd;
+	////dd += [](string str) {};
+	////dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
+	//auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
+	//auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
+	//auto ddd = dd(1);
+
+
+	//Delegate<void, int> dd;
+	//dd += [](int a) {
+
+	//};
+	//dd += [](int a) {
+
+	//};
+
+	//dd(10);
+
+
+
 	m_App = Window::Mount(this->m_hWnd);
+	TextBlock* textblock = new TextBlock();
+	textblock->m_Text = _T("123");
+	m_App->m_pControl = textblock;
+	//m_App->Content = new TextBlock();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }
 

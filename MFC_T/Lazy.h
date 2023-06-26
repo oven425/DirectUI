@@ -3,26 +3,6 @@
 #include <mutex>
 using namespace std;
 
-//class specific_class
-//{
-//
-//};
-//template<typename T, typename = std::enable_if_t<std::is_base_of_v<specific_class, T>>>
-//class Lazy1
-//{
-//public:
-//	T dd;
-//};
-
-//template<typename T, typename = std::enable_if_t<std::is_class_v<T> || std::is_pointer_v<T>>>
-//class Lazy2
-//{
-//public:
-//	T dd;
-//};
-
-//template <class T>
-//template<typename T, typename = std::enable_if<std::is_object<T>>>
 template<typename T, typename = std::enable_if_t<std::is_class_v<T> || std::is_pointer_v<T>>>
 class Lazy
 {
