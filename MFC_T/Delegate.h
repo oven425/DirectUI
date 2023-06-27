@@ -2,6 +2,7 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
 template<typename T_Result, typename ... Args>
@@ -67,30 +68,79 @@ public:
 	//	//return hr;
 	//}
 
-	//inline typename std::enable_if<std::is_void<T_Result>::value, void>::type
-	//	operator()(Args... args)
+
+	//template <typename T,
+	//	std::enable_if_t<!std::is_void<T_Result>::value, bool> =
+	//	true> // It does not matter what type it is and what the value is,
+	//T_Result operator()(Args... args)
 	//{
 	//	T_Result hr = T_Result{};
-	//	for (auto oo : m_Funs)
+	//	for (auto oo : this->m_Funs)
 	//	{
-	//		oo(args...);
+	//		hr = oo(args...);
 	//	}
 	//	//return "";
-	//	//return hr;
+	//	return hr;
 	//}
 
-	//inline typename  std::enable_if<std::is_void<T_Result>>>::type
+	//template <typename T,
+	//	std::enable_if_t<std::is_void<T_Result>::value, bool> =
+	//	true> // It does not matter what type it is and what the value is,
 	//void operator()(Args... args)
 	//{
-	//	//T_Result hr = T_Result{};
 	//	for (auto oo : this->m_Funs)
 	//	{
 	//		oo(args...);
 	//	}
-	//	//return "";
-	//	//return hr;
 	//}
 
+
+	template <typename T,
+		std::enable_if_t<std::is_void<T_Result>::value, bool> =
+		true> // It does not matter what type it is and what the value is,
+	// as long as the value is of the type.
+	void barTT()
+	{
+		std::cout << "T is int" << std::endl;
+	}
+
+	template <typename T,
+		std::enable_if_t<std::is_void<T_Result>::value, bool> =
+		false> // It does not matter what type it is and what the value is,
+	// as long as the value is of the type.
+	void barTT()
+	{
+		std::cout << "T is int" << std::endl;
+	}
+
+
+
+	template <typename T,
+		std::enable_if_t<std::is_integral<T>::value, bool> =
+		true> // It does not matter what type it is and what the value is,
+	// as long as the value is of the type.
+	void bar()
+	{
+		std::cout << "T is int" << std::endl;
+	}
+
+	template <typename T,
+		std::enable_if_t<std::is_floating_point<T>::value, bool> =
+		true> // It does not matter what type it is and what the value is,
+	// as long as the value is of the type.
+	void bar()
+	{
+		std::cout << "T is float" << std::endl;
+	}
+
+	template <typename T,
+		std::enable_if_t<std::is_array<T>::value, bool> =
+		true> // It does not matter what type it is and what the value is,
+	// as long as the value is of the type.
+	void bar()
+	{
+		std::cout << "T is float" << std::endl;
+	}
 public:
 	vector<std::function<T_Result(Args...)>> m_Funs;
 };

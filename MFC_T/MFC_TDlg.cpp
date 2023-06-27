@@ -140,14 +140,18 @@ BOOL CMFCTDlg::OnInitDialog()
 	//auto ddd = dd(1);
 
 
-	Delegate<string, int> dd;
-	dd += [](int a) {
-		return "0";
-	};
-	dd += [](int a) {
-		return "1";
-	};
-	auto yt = dd.TT(10);
+	Delegate<void, string> dd;
+	dd.barTT<int>();
+	//dd.bar<int>();
+	//dd.bar<float>();
+	//dd.bar<int[10]>();
+	//dd += [](int a) {
+	//	return "0";
+	//};
+	//dd += [](int a) {
+	//	return "1";
+	//};
+	//auto yt = dd.TT(10);
 	//dd(10);
 
 	//Delegate<void, int> dd_void;
