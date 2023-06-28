@@ -141,8 +141,9 @@ BOOL CMFCTDlg::OnInitDialog()
 
 
 	Delegate<void, string> dd;
+	dd.TT<int>("123");
 	//dd.barTT<int>();
-	dd.bar<int>();
+	//dd.bar<int>();
 	//dd.bar<float>();
 	//dd.bar<int[10]>();
 	//dd += [](int a) {
