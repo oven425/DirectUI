@@ -51,7 +51,10 @@
     <ClInclude Include="Brush.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="DependecyProperty.h">
+    <ClInclude Include="DependencyObject.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyProperty.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,7 +86,10 @@
     <ClCompile Include="Brush.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="DependecyProperty.cpp">
+    <ClCompile Include="DependencyObject.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyProperty.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

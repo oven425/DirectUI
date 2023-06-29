@@ -11,6 +11,8 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <map>
+#include <set>
 
 
 // 對 App About 使用 CAboutDlg 對話方塊
@@ -132,11 +134,21 @@ BOOL CMFCTDlg::OnInitDialog()
 	//	});
 	//Lazy2<ID2D1Factory*> ll;
 	// 
+	map<int, void*> mm;
+	mm[1] = (void*)123;
+	mm[2] = (void*)"123";
+	
+	auto aa = (int)mm[1];
+
+	auto pd2 = reinterpret_cast<int>(mm[2]);
+	//mm.insert(1, 1);
+
 	Delegate<string, int> dd;
 	//dd += [](string str) {};
 	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
 	auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
 	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
+	//dd -= func1;
 	auto ddd = dd(1);
 
 

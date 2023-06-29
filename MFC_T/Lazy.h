@@ -4,7 +4,7 @@
 using namespace std;
 
 template<typename T, typename = std::enable_if_t<std::is_class_v<T> || std::is_pointer_v<T>>>
-class Lazy
+class Lazy final
 {
 public:
 	Lazy(std::function<T()> createfunc)

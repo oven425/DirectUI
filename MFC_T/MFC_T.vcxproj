@@ -185,7 +185,8 @@
   <ItemGroup>
     <ClInclude Include="Brush.h" />
     <ClInclude Include="Delegate.h" />
-    <ClInclude Include="DependecyProperty.h" />
+    <ClInclude Include="DependencyObject.h" />
+    <ClInclude Include="DependencyProperty.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Lazy.h" />
@@ -200,7 +201,8 @@
   <ItemGroup>
     <ClCompile Include="Brush.cpp" />
     <ClCompile Include="Delegate.cpp" />
-    <ClCompile Include="DependecyProperty.cpp" />
+    <ClCompile Include="DependencyObject.cpp" />
+    <ClCompile Include="DependencyProperty.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Lazy.cpp" />
     <ClCompile Include="MFC_T.cpp" />

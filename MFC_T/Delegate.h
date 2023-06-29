@@ -20,16 +20,22 @@ public:
 
 	void operator-=(std::function<T_Result(Args...)> data)
 	{
-		int index = 0;
-		for (auto oo : this->m_Funs)
-		{
-			if (oo == data)
-			{
-				index++;
-				break;
-			}
-		}
-		this->m_Funs.erase(this->m_Funs.begin()+index);
+		//int index = 0;
+		//std::function<T_Result(Args...)> func = this->m_Funs[0];
+		//auto hn = data.target_type();
+		//auto t1 = func();
+		//auto t2 = data.target();
+		//auto bb = t1 == t2;
+		//auto bb = func == data;
+		//for (auto oo : this->m_Funs)
+		//{
+		//	if (oo == data)
+		//	{
+		//		index++;
+		//		break;
+		//	}
+		//}
+		//this->m_Funs.erase(this->m_Funs.begin()+index);
 
 	}
 
