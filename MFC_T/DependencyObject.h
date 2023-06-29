@@ -8,7 +8,7 @@ public:
 	template<typename T>
 	void SetValue(DependencyProperty<T> dp, T data)
 	{
-
+	
 	}
 
 	template<typename T>
