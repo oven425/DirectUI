@@ -132,16 +132,18 @@ BOOL CMFCTDlg::OnInitDialog()
 	//	});
 	//Lazy2<ID2D1Factory*> ll;
 	// 
-	//Delegate<string, int> dd;
-	////dd += [](string str) {};
-	////dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
-	//auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
-	//auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
-	//auto ddd = dd(1);
+	Delegate<string, int> dd;
+	//dd += [](string str) {};
+	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
+	auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
+	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
+	auto ddd = dd(1);
 
 
-	Delegate<void, string> dd;
-	dd.TT<int>("123");
+	//Delegate<void, string> dd;
+	//dd("a");
+	//dd.FF<void>("a");
+	//dd.FF<int>("b");
 	//dd.barTT<int>();
 	//dd.bar<int>();
 	//dd.bar<float>();
