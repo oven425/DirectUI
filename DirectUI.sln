@@ -15,6 +15,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication1", "Cons
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFC_T", "MFC_T\MFC_T.vcxproj", "{E389DDF7-70A0-4803-9F20-B87A86F0B885}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectComposition_LayeredChildWindow", "DirectCompositionLayeredChildWindow\cpp\DirectComposition_LayeredChildWindow.vcxproj", "{3CCA7237-6EE9-4449-8571-6513C4DA4C76}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectComposition_Effects", "DirectCompositionEffects\cpp\DirectComposition_Effects.vcxproj", "{A2EA8DA5-F01F-45A9-84C1-0068823A343B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +93,30 @@ Global
 		{E389DDF7-70A0-4803-9F20-B87A86F0B885}.Release|x64.Build.0 = Release|x64
 		{E389DDF7-70A0-4803-9F20-B87A86F0B885}.Release|x86.ActiveCfg = Release|Win32
 		{E389DDF7-70A0-4803-9F20-B87A86F0B885}.Release|x86.Build.0 = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|Any CPU.Build.0 = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|x64.ActiveCfg = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|x64.Build.0 = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|x86.ActiveCfg = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Debug|x86.Build.0 = Debug|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|Any CPU.ActiveCfg = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|Any CPU.Build.0 = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|x64.ActiveCfg = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|x64.Build.0 = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|x86.ActiveCfg = Release|Win32
+		{3CCA7237-6EE9-4449-8571-6513C4DA4C76}.Release|x86.Build.0 = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|Any CPU.Build.0 = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|x64.ActiveCfg = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|x64.Build.0 = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|x86.ActiveCfg = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Debug|x86.Build.0 = Debug|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|Any CPU.Build.0 = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|x64.ActiveCfg = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|x64.Build.0 = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|x86.ActiveCfg = Release|Win32
+		{A2EA8DA5-F01F-45A9-84C1-0068823A343B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
