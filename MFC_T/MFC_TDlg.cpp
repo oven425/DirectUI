@@ -13,6 +13,7 @@
 #endif
 #include <map>
 #include <set>
+#include "DependencyObject.h"
 
 
 // 對 App About 使用 CAboutDlg 對話方塊
@@ -142,7 +143,7 @@ BOOL CMFCTDlg::OnInitDialog()
 
 	auto pd2 = reinterpret_cast<int>(mm[2]);
 	//mm.insert(1, 1);
-
+	//DependencyObject dpo;
 	Delegate<string, int> dd;
 	//dd += [](string str) {};
 	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));

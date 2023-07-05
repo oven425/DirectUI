@@ -4,7 +4,11 @@
 class DependencyObject
 {
 public:
-	DependencyProperty<int> aa;
+	DependencyObject()
+	{
+		//GetSaves(DependencyProperty<int>());
+	}
+	//DependencyProperty<int> aa;
 	template<typename T>
 	void SetValue(DependencyProperty<T> dp, T data)
 	{
@@ -16,5 +20,6 @@ public:
 	{
 
 	}
-};
 
+
+};
