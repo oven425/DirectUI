@@ -151,7 +151,9 @@ BOOL CMFCTDlg::OnInitDialog()
 	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
 	//dd -= func1;
 	auto ddd = dd(1);
-
+	dpo dpo;
+	dp<int> dp;
+	dpo.T(dp);
 
 	//Delegate<void, string> dd;
 	//dd("a");

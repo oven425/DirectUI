@@ -21,32 +21,37 @@ private:
 	static map<std::size_t, void*> m_Saves;
 };
 
+class dpo;
+
 template<typename T>
 class dp
 {
 public:
+	dp()
+	{
+		m_aa++;
+		m_Count++;
+	}
 	friend class dpo;
-	static int doit();
+
 private:
-	T m_Value = T{};
-	static int m_pp;
-	static map<int, int> m_Saves;
+	static int m_Count;
+	T m_aa;
 };
 
 
 class dpo
 {
 public:
+	template<typename T> 
+	friend class dp;
+
 	template<typename T>
-	friend int dp<T>::doit()
+	void T(dp<T>& dp)
 	{
-		return dp<T>::m_pp;
+		dp.m_aa = T{};
 	}
-	template<typename T>
-	void AA(dp<T> dp)
-	{
-		dp.m_Value;
-		
-	}
+private:
+	int m_bb;
 };
 
