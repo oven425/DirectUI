@@ -21,23 +21,48 @@ private:
 	static map<std::size_t, void*> m_Saves;
 };
 
-class dpo;
+
+//template <class T> class Test
+//{
+//private:
+//	T val;
+//public:
+//	static int count;
+//	Test()
+//	{
+//		count++;
+//		count++;
+//	}
+//	// some other stuff in class
+//};
+//
+//template<class T>
+//int Test<T>::count = 0;
+
+//class dpo;
 
 template<typename T>
 class dp
 {
 public:
-	dp()
+	dp(const char* name)
 	{
-		m_aa++;
+		//auto hash = std::hash<string>(name);
+		size_t type = typeid(T).hash_code();
 		m_Count++;
+
 	}
 	friend class dpo;
-
 private:
 	static int m_Count;
-	T m_aa;
+	T m_Value;
+	int m_Hash;
+	static map<std::size_t, dp<T>> m_dps;
 };
+template <typename T>
+int dp<T>::m_Count = 10;
+template <typename T>
+map<std::size_t, dp<T>> dp<T>::m_dps;
 
 
 class dpo

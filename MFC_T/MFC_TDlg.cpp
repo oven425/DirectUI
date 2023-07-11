@@ -149,11 +149,16 @@ BOOL CMFCTDlg::OnInitDialog()
 	//dd.m_Funs.push_back(std::bind(CMFCTDlg::Test1, this, std::placeholders::_1));
 	auto func1 = dd += std::bind(&CMFCTDlg::Test1, this, std::placeholders::_1);
 	auto func2 = dd += std::bind(&CMFCTDlg::Test2, this, std::placeholders::_1);
-	//dd -= func1;
+	dd -= func1;
 	auto ddd = dd(1);
-	dpo dpo;
-	dp<int> dp;
-	dpo.T(dp);
+
+	//dpo dpo;
+	dp<int> dp("aa");
+	//auto iiu = dp<int>::GetStatic()
+	//dp<int>::m_Count = 0;
+	//dp dp;
+	//dp<int>::E_SYNCENGINE_FOLDER_ITEM_COUNT_LIMIT_EXCEEDED = 
+	//dpo.T(dp);
 
 	//Delegate<void, string> dd;
 	//dd("a");

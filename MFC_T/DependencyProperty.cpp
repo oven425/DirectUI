@@ -8,5 +8,7 @@ map<std::size_t, void*> DependencyProperty<T>::m_Saves;
 //template <typename T>
 //int dp<T>::m_pp;
 
-template <typename T>
-int dp<T>::m_Count = 0;
+//template <typename T>
+//int dp<T>::m_Count = 10;
+
+//int dp::m_Count;
