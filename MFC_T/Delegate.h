@@ -16,7 +16,7 @@ public:
 	std::function<T_Result(Args...)> operator+=(std::function<T_Result(Args...)> data)
 	{
 		this->m_Funs.push_back(data);
-		auto ui = std::hash<std::function<T_Result(Args...)>>(data);
+		//auto ui = std::hash<std::function<T_Result(Args...)>>(data);
 		//m_Funs1[data] = 1;
 		return data;
 	}
