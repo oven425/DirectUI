@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using System.ComponentModel;
 using System.Threading;
 using System.Runtime.Remoting.Contexts;
+using System.Net.Http;
 
 namespace WpfApp1
 {
@@ -96,6 +97,10 @@ namespace WpfApp1
         EventHandler<string> TestHandler;
         async private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            HttpClient http = new HttpClient();
+            var resp = await http.GetAsync("https://google.com");
+            //resp.Content.Headers.ContentType = "";
+            var straa = await resp.Content.ReadAsByteArrayAsync();
             var tt = new TextBlock();
             //tt.Foreground
             OnTest += MainWindow_OnTest2;

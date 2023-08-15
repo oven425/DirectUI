@@ -1,11 +1,48 @@
 #pragma once
 #include <memory>
+#include <vector>
 using namespace std;
 
 #include <Windows.h>
 #include <atlstr.h>
 #include <winhttp.h>
 #pragma comment(lib, "WinHTTP.lib")
+class WinHttpClient;
+#include <iostream>
+using namespace std;
+class GFG {
+private:
+    int private_variable;
+
+protected:
+    int protected_variable;
+
+public:
+    GFG()
+    {
+        private_variable = 10;
+        protected_variable = 99;
+    }
+
+    // friend class declaration
+    friend class F;
+};
+
+// Here, class F is declared as a
+// friend inside class GFG. Therefore,
+// F is a friend of class GFG. Class F
+// can access the private members of
+// class GFG.
+class F {
+public:
+    void display(GFG& t)
+    {
+        cout << "The value of Private Variable = "
+            << t.private_variable << endl;
+        cout << "The value of Protected Variable = "
+            << t.protected_variable;
+    }
+};
 
 
 //https://learn.microsoft.com/en-us/windows/win32/winhttp/uniform-resource-locators--urls--in-winhttp
@@ -47,28 +84,117 @@ private:
 class WinHttpResponse final
 {
 public:
-    WinHttpResponse(HINTERNET request)
-    {
-        hRequest = request;
-    }
-    //void GetStatusCode()
+    //friend int add(WinHttpResponse, WinHttpClient);
+    WinHttpResponse(WinHttpClient& dd);
+    //WinHttpResponse(HINTERNET request)
     //{
-    //    //WINHTTP_QUERY_STATUS_CODE
-    //    //DWORD dwStatusCode = 0;
+    //    hRequest = request;
     //    DWORD SizeHeaders = 0;
     //    DWORD dwSize = sizeof(DWORD);
     //    auto bResults = WinHttpQueryHeaders(this->hRequest,
-    //        WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
+    //        WINHTTP_QUERY_RAW_HEADERS_CRLF,
     //        NULL,
-    //        &m_StatusCode,
+    //       NULL,
     //        &dwSize,
     //        WINHTTP_NO_HEADER_INDEX);
-    //    //return dwStatusCode;
+
+    //    const TCHAR* hh = new TCHAR[dwSize + 1];
+    //    bResults = WinHttpQueryHeaders(this->hRequest,
+    //        WINHTTP_QUERY_RAW_HEADERS_CRLF,
+    //        NULL,
+    //        &hh,
+    //        &dwSize,
+    //        WINHTTP_NO_HEADER_INDEX);
+    //    
     //}
+    ~WinHttpResponse()
+    {
+        if (hRequest != NULL)
+        {
+            WinHttpCloseHandle(hRequest);
+        }
+    }
+    int GetStatusCode()
+    {
+        int dwStatusCode;
+        //WINHTTP_QUERY_STATUS_CODE
+        //DWORD dwStatusCode = 0;
+        DWORD SizeHeaders = 0;
+        DWORD dwSize = sizeof(DWORD);
+        auto bResults = WinHttpQueryHeaders(this->hRequest,
+            WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
+            NULL,
+            &dwStatusCode,
+            &dwSize,
+            WINHTTP_NO_HEADER_INDEX);
+        return dwStatusCode;
+    }
+
+    
+
     CString ReadAsString()
     {
-        return _T("");
+        auto buf = ReadAsByteArray();
+        CString content = _T("");
+#if UNICODE
+        int aa = 0;
+        int convertResult = MultiByteToWideChar(CP_UTF8, 0, (char*)buf.data(), buf.size(), NULL, 0);
+#else
+
+
+#endif
+        return content;
     }
+
+    vector<unsigned char> ReadAsByteArray()
+    {
+        BOOL bResults = TRUE;
+        DWORD dwSize = 0;
+        DWORD dwDownloaded = 0;
+        //unsigned char* pszOutBuffer = nullptr;
+        vector<unsigned char> result;
+        // Keep checking for data until there is nothing left.
+       if (bResults)
+           do
+           {
+               // Check for available data.
+               dwSize = 0;
+               if (!WinHttpQueryDataAvailable(hRequest, &dwSize))
+                   printf("Error %u in WinHttpQueryDataAvailable.\n", GetLastError());
+
+               // Allocate space for the buffer.
+               //pszOutBuffer = new unsigned char[dwSize + 1];
+               vector<unsigned char> hh(dwSize);
+               //if (!pszOutBuffer)
+               //{
+               //    printf("Out of memory\n");
+               //    dwSize = 0;
+               //}
+               //else
+               {
+                   // Read the Data.
+                   //ZeroMemory(pszOutBuffer, dwSize + 1);
+
+                   if (!WinHttpReadData(hRequest, (LPVOID)hh.data(),
+                       dwSize, &dwDownloaded))
+                       printf("Error %u in WinHttpReadData.\n", GetLastError());
+                   else
+                       result.insert(result.end(), hh.begin(), hh.end());
+                       //printf("%s\n", pszOutBuffer);
+
+                   // Free the memory allocated to the buffer.
+                   //delete[] pszOutBuffer;
+               }
+
+           } while (dwSize > 0);
+
+
+           // Report any errors.
+           if (!bResults)
+               printf("Error %d has occurred.\n", GetLastError());
+        return result;
+    }
+    
 private:
     HINTERNET hRequest = NULL;
 };
@@ -76,6 +202,17 @@ private:
 class WinHttpClient final
 {
 public:
+    WinHttpClient()
+        : hSession(NULL)
+        , hConnect(NULL)
+        , hRequest(NULL)
+    {
+        // Use WinHttpOpen to obtain a session handle.
+        hSession = WinHttpOpen(L"WinHTTP Example/1.0",
+            WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+            WINHTTP_NO_PROXY_NAME,
+            WINHTTP_NO_PROXY_BYPASS, 0);
+    }
     ~WinHttpClient()
     {
         if (hSession != NULL)
@@ -119,6 +256,7 @@ public:
         }
         return _T("");
     }
+    friend class WinHttpResponse;
     unique_ptr<WinHttpResponse> Get(const CString& url)
 	{
         auto uri = WinHttpUri(url);
@@ -128,11 +266,11 @@ public:
         LPSTR pszOutBuffer;
         BOOL  bResults = FALSE;
 
-        // Use WinHttpOpen to obtain a session handle.
-        hSession = WinHttpOpen(L"WinHTTP Example/1.0",
-            WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-            WINHTTP_NO_PROXY_NAME,
-            WINHTTP_NO_PROXY_BYPASS, 0);
+        //// Use WinHttpOpen to obtain a session handle.
+        //hSession = WinHttpOpen(L"WinHTTP Example/1.0",
+        //    WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+        //    WINHTTP_NO_PROXY_NAME,
+        //    WINHTTP_NO_PROXY_BYPASS, 0);
 
         // Specify an HTTP server.
         if (hSession)
@@ -155,51 +293,14 @@ public:
             bResults = WinHttpReceiveResponse(hRequest, NULL);
         if (bResults)
         {
-            auto resp = ::make_unique< WinHttpResponse>(hRequest);
+            auto resp = ::make_unique<WinHttpResponse>(*this);
+            hRequest = NULL;
             return resp;
         }
         else
         {
             
         }
-        
-        //// Keep checking for data until there is nothing left.
-        //if (bResults)
-        //    do
-        //    {
-        //        // Check for available data.
-        //        dwSize = 0;
-        //        if (!WinHttpQueryDataAvailable(hRequest, &dwSize))
-        //            printf("Error %u in WinHttpQueryDataAvailable.\n", GetLastError());
-
-        //        // Allocate space for the buffer.
-        //        pszOutBuffer = new char[dwSize + 1];
-        //        if (!pszOutBuffer)
-        //        {
-        //            printf("Out of memory\n");
-        //            dwSize = 0;
-        //        }
-        //        else
-        //        {
-        //            // Read the Data.
-        //            ZeroMemory(pszOutBuffer, dwSize + 1);
-
-        //            if (!WinHttpReadData(hRequest, (LPVOID)pszOutBuffer,
-        //                dwSize, &dwDownloaded))
-        //                printf("Error %u in WinHttpReadData.\n", GetLastError());
-        //            else
-        //                printf("%s\n", pszOutBuffer);
-
-        //            // Free the memory allocated to the buffer.
-        //            delete[] pszOutBuffer;
-        //        }
-
-        //    } while (dwSize > 0);
-
-
-        //    // Report any errors.
-        //    if (!bResults)
-        //        printf("Error %d has occurred.\n", GetLastError());
 	}
 private:
     HINTERNET hSession = NULL;
