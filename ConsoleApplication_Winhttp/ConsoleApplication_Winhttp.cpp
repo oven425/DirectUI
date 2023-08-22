@@ -8,6 +8,7 @@ int main()
     WinHttpClient httpclient;
     auto resp = httpclient.Get(_T("https://google.com"));
     auto statuscode = resp->GetStatusCode();
+    auto content_type = resp->GetContentType();
     auto data1 = resp->ReadAsByteArray();
     resp = httpclient.Get(_T("https://google.com"));
     auto data = resp->ReadAsByteArray();

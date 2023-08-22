@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <mutex>
+#include<map>
 using namespace std;
 
 #include <Windows.h>
@@ -8,41 +10,6 @@ using namespace std;
 #include <winhttp.h>
 #pragma comment(lib, "WinHTTP.lib")
 class WinHttpClient;
-#include <iostream>
-using namespace std;
-class GFG {
-private:
-    int private_variable;
-
-protected:
-    int protected_variable;
-
-public:
-    GFG()
-    {
-        private_variable = 10;
-        protected_variable = 99;
-    }
-
-    // friend class declaration
-    friend class F;
-};
-
-// Here, class F is declared as a
-// friend inside class GFG. Therefore,
-// F is a friend of class GFG. Class F
-// can access the private members of
-// class GFG.
-class F {
-public:
-    void display(GFG& t)
-    {
-        cout << "The value of Private Variable = "
-            << t.private_variable << endl;
-        cout << "The value of Protected Variable = "
-            << t.protected_variable;
-    }
-};
 
 
 //https://learn.microsoft.com/en-us/windows/win32/winhttp/uniform-resource-locators--urls--in-winhttp
@@ -84,29 +51,7 @@ private:
 class WinHttpResponse final
 {
 public:
-    //friend int add(WinHttpResponse, WinHttpClient);
     WinHttpResponse(WinHttpClient& dd);
-    //WinHttpResponse(HINTERNET request)
-    //{
-    //    hRequest = request;
-    //    DWORD SizeHeaders = 0;
-    //    DWORD dwSize = sizeof(DWORD);
-    //    auto bResults = WinHttpQueryHeaders(this->hRequest,
-    //        WINHTTP_QUERY_RAW_HEADERS_CRLF,
-    //        NULL,
-    //       NULL,
-    //        &dwSize,
-    //        WINHTTP_NO_HEADER_INDEX);
-
-    //    const TCHAR* hh = new TCHAR[dwSize + 1];
-    //    bResults = WinHttpQueryHeaders(this->hRequest,
-    //        WINHTTP_QUERY_RAW_HEADERS_CRLF,
-    //        NULL,
-    //        &hh,
-    //        &dwSize,
-    //        WINHTTP_NO_HEADER_INDEX);
-    //    
-    //}
     ~WinHttpResponse()
     {
         if (hRequest != NULL)
@@ -130,7 +75,30 @@ public:
         return dwStatusCode;
     }
 
-    
+    CString GetContentType()
+    {
+        DWORD SizeHeaders = 0;
+        TCHAR content_type[256] = { 0 };
+        DWORD dwSize = sizeof(content_type);
+        auto bResults = WinHttpQueryHeaders(this->hRequest,
+            WINHTTP_QUERY_CONTENT_TYPE ,
+            NULL,
+            content_type,
+            &dwSize,
+            WINHTTP_NO_HEADER_INDEX);
+        return content_type;
+    }
+
+    map<CString, CString> m_Headers;
+    map<CString, CString> Headers()
+    {
+        DWORD SizeHeaders = 0;
+        TCHAR rawgeaders[2560] = { 0 };
+        DWORD dwSize = sizeof(rawgeaders);
+        auto bResults = WinHttpQueryHeaders(this->hRequest, WINHTTP_QUERY_RAW_HEADERS_CRLF, NULL, rawgeaders, &dwSize, WINHTTP_NO_HEADER_INDEX);
+
+        return m_Headers;
+    }
 
     CString ReadAsString()
     {
@@ -197,6 +165,7 @@ public:
     
 private:
     HINTERNET hRequest = NULL;
+    std::once_flag m_RawHeaderOnce;
 };
 
 class WinHttpClient final
@@ -212,6 +181,7 @@ public:
             WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
             WINHTTP_NO_PROXY_NAME,
             WINHTTP_NO_PROXY_BYPASS, 0);
+        //WinHttpSetTimeouts();
     }
     ~WinHttpClient()
     {
