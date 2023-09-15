@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include <vector>
 #include <mutex>
@@ -168,6 +168,32 @@ private:
     std::once_flag m_RawHeaderOnce;
 };
 
+class WinHttpContent
+{
+public:
+    WinHttpContent(CString content_type)
+        : m_ContentType(content_type)
+    {
+
+    }
+protected:
+    CString m_ContentType;
+};
+
+class WinHttpContent_Text :public WinHttpContent
+{
+public:
+    WinHttpContent_Text(CString data, CString content_type)
+        : WinHttpContent(content_type)
+    {
+
+    }
+protected:
+    CString m_Dtaa;
+};
+
+
+
 class WinHttpClient final
 {
 public:
@@ -197,6 +223,14 @@ public:
         {
             WinHttpCloseHandle(hRequest);
         }
+    }
+
+
+
+    WinHttpClient* UseHttps(bool use)
+    {
+        this->m_IsUseHttps = use;
+        return this;
     }
     CString GetWinhttpErrorMessage()
     {
@@ -236,19 +270,13 @@ public:
         LPSTR pszOutBuffer;
         BOOL  bResults = FALSE;
 
-        //// Use WinHttpOpen to obtain a session handle.
-        //hSession = WinHttpOpen(L"WinHTTP Example/1.0",
-        //    WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-        //    WINHTTP_NO_PROXY_NAME,
-        //    WINHTTP_NO_PROXY_BYPASS, 0);
-
         // Specify an HTTP server.
         if (hSession)
             hConnect = WinHttpConnect(hSession, uri.GetHost(), uri.GetPort(), 0);
 
         // Create an HTTP request handle.
         if (hConnect)
-            hRequest = WinHttpOpenRequest(hConnect, _T("GET"), NULL, NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
+            hRequest = WinHttpOpenRequest(hConnect, _T("GET"), NULL, NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, BuildFlag());
 
         // Send a request.
         if (hRequest)
@@ -260,19 +288,127 @@ public:
 
         // End the request.
         if (bResults)
-            bResults = WinHttpReceiveResponse(hRequest, NULL);
-        if (bResults)
         {
+            bResults = WinHttpReceiveResponse(hRequest, NULL);
             auto resp = ::make_unique<WinHttpResponse>(*this);
             hRequest = NULL;
             return resp;
         }
         else
         {
-            
+            auto msg = GetWinhttpErrorMessage();
+            //throw 
         }
+        //if (bResults)
+        //{
+        //    auto resp = ::make_unique<WinHttpResponse>(*this);
+        //    hRequest = NULL;
+        //    return resp;
+        //}
+        //else
+        //{
+        //    
+        //}
 	}
+
+    unique_ptr<WinHttpResponse&> Get1(const CString& url)
+    {
+        auto uri = WinHttpUri(url);
+
+        DWORD dwSize = 0;
+        DWORD dwDownloaded = 0;
+        LPSTR pszOutBuffer;
+        BOOL  bResults = FALSE;
+
+        // Specify an HTTP server.
+        if (hSession)
+            hConnect = WinHttpConnect(hSession, uri.GetHost(), uri.GetPort(), 0);
+
+        // Create an HTTP request handle.
+        if (hConnect)
+            hRequest = WinHttpOpenRequest(hConnect, _T("GET"), NULL, NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, BuildFlag());
+
+        // Send a request.
+        if (hRequest)
+            bResults = WinHttpSendRequest(hRequest,
+                WINHTTP_NO_ADDITIONAL_HEADERS,
+                0, WINHTTP_NO_REQUEST_DATA, 0,
+                0, 0);
+
+
+        // End the request.
+        if (bResults)
+        {
+            bResults = WinHttpReceiveResponse(hRequest, NULL);
+            auto resp = ::make_unique<WinHttpResponse>(*this);
+            hRequest = NULL;
+            return resp;
+        }
+        else
+        {
+            auto msg = GetWinhttpErrorMessage();
+            //throw 
+        }
+        //if (bResults)
+        //{
+        //    auto resp = ::make_unique<WinHttpResponse>(*this);
+        //    hRequest = NULL;
+        //    return resp;
+        //}
+        //else
+        //{
+        //    
+        //}
+    }
+
+    void Put(const CString& url, const CString* data)
+    {
+
+    }
+
+    //void Put(const CString& url, const unsigned char* data, int len)
+    //{
+
+    //}
+
+    static std::string ConvertCStringToUTF8(CString strValue)
+    {
+        std::wstring wbuffer;
+#ifdef _UNICODE
+        wbuffer.assign(strValue.GetString(), strValue.GetLength());
+#else
+        /*
+         * 转换ANSI到UNICODE
+         * 获取转换后长度
+         */
+        int length = ::MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, (LPCTSTR)strValue, -1, NULL, 0);
+        wbuffer.resize(length);
+        /* 转换 */
+        MultiByteToWideChar(CP_ACP, 0, (LPCTSTR)strValue, -1, (LPWSTR)(wbuffer.data()), wbuffer.length());
+#endif
+
+        /* 获取转换后长度 */
+        int length = WideCharToMultiByte(CP_UTF8, 0, wbuffer.data(), wbuffer.size(), NULL, 0, NULL, NULL);
+        /* 获取转换后内容 */
+        std::string buffer;
+        buffer.resize(length);
+
+        WideCharToMultiByte(CP_UTF8, 0, strValue, -1, (LPSTR)(buffer.data()), length, NULL, NULL);
+        return(buffer);
+    }
+    
 private:
+    DWORD BuildFlag()
+    {
+        DWORD flag = 0;
+        if (m_IsUseHttps == true)
+        {
+            flag = flag | WINHTTP_FLAG_SECURE;
+        }
+        return flag;
+    }
+    bool m_IsUseHttps = true;
+    int m_WINHTTP_FLAG = WINHTTP_FLAG_SECURE;
     HINTERNET hSession = NULL;
     HINTERNET hConnect = NULL;
     HINTERNET hRequest = NULL;

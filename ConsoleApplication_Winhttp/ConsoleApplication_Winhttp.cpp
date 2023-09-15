@@ -3,15 +3,56 @@
 
 #include <iostream>
 #include "WinHttpClient.h"
+
+std::string ConvertCStringToUTF8(CString strValue)
+{
+    std::wstring wbuffer;
+#ifdef UNICODE
+    int aa;
+#else
+    int aa;
+
+#endif
+#ifdef _UNICODE
+    wbuffer.assign(strValue.GetString(), strValue.GetLength());
+#else
+    /*
+     * 转换ANSI到UNICODE
+     * 获取转换后长度
+     */
+    int length = ::MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, (LPCTSTR)strValue, -1, NULL, 0);
+    wbuffer.resize(length);
+    /* 转换 */
+    MultiByteToWideChar(CP_ACP, 0, (LPCTSTR)strValue, -1, (LPWSTR)(wbuffer.data()), wbuffer.length());
+#endif
+
+    /* 获取转换后长度 */
+    int length = WideCharToMultiByte(CP_UTF8, 0, wbuffer.data(), wbuffer.size(), NULL, 0, NULL, NULL);
+    /* 获取转换后内容 */
+    std::string buffer;
+    buffer.resize(length);
+
+    WideCharToMultiByte(CP_UTF8, 0, strValue, -1, (LPSTR)(buffer.data()), length, NULL, NULL);
+    return(buffer);
+}
+
 int main()
 {
     WinHttpClient httpclient;
-    auto resp = httpclient.Get(_T("https://google.com"));
-    auto statuscode = resp->GetStatusCode();
-    auto content_type = resp->GetContentType();
-    auto data1 = resp->ReadAsByteArray();
-    resp = httpclient.Get(_T("https://google.com"));
-    auto data = resp->ReadAsByteArray();
+    httpclient.Get(_T("https://google.com"));
+    //auto resp = httpclient.Get(_T("https://google.com"));
+    //auto statuscode = resp->GetStatusCode();
+    //auto content_type = resp->GetContentType();
+    //auto data1 = resp->ReadAsByteArray();
+    //resp = httpclient.Get(_T("https://google.com"));
+    //auto data = resp->ReadAsByteArray();
+
+    //auto ddd = ConvertCStringToUTF8(_T("天天開心"));
+
+    //httpclient.UseHttps(false);
+    //httpclient.Put("");
+
+
     std::cout << "Hello World!\n";
 }
 
