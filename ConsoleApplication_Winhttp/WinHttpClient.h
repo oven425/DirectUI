@@ -311,7 +311,7 @@ public:
         //}
 	}
 
-    unique_ptr<WinHttpResponse&> Get1(const CString& url)
+    unique_ptr<WinHttpResponse> Get1(const CString& url)
     {
         auto uri = WinHttpUri(url);
 
@@ -366,10 +366,6 @@ public:
 
     }
 
-    //void Put(const CString& url, const unsigned char* data, int len)
-    //{
-
-    //}
 
     static std::string ConvertCStringToUTF8(CString strValue)
     {
