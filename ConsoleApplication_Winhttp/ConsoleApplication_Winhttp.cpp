@@ -36,10 +36,20 @@ std::string ConvertCStringToUTF8(CString strValue)
     return(buffer);
 }
 
+void yuvtorgb() 
+{
+
+}
+
+#include <shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
+
 int main()
 {
+    UrlEscape(_T("http://localhost:5133/aa?aa=中文測試"), )
     WinHttpClient httpclient;
-    httpclient.Get(_T("https://google.com"));
+    auto resp = httpclient.Get(_T("http://localhost:5133/aa?aa=中文測試"));
+    auto msg = resp->ReadAsString();
     //auto resp = httpclient.Get(_T("https://google.com"));
     //auto statuscode = resp->GetStatusCode();
     //auto content_type = resp->GetContentType();

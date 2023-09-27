@@ -32,7 +32,51 @@ public:
 
         // Crack the URL.
         if (!WinHttpCrackUrl(uri, (DWORD)uri.GetLength(), 0, &m_URL_COMPONENTS))
+        {
+            auto err = GetLastError();
             printf("Error %u in WinHttpCrackUrl.\n", GetLastError());
+
+        }
+            
+
+        //WinHttpCreateUrl(&m_URL_COMPONENTS, ICU_ESCAPE, NULL, &dwUrlLen);
+        //LPWSTR pwszUrl2 = new WCHAR[dwUrlLen];
+
+        //// Create a new URL.
+        //if (!WinHttpCreateUrl(&m_URL_COMPONENTS, ICU_ESCAPE, pwszUrl2, &dwUrlLen))
+        //{
+        //    printf("Error %u in WinHttpCreateUrl.\n", GetLastError());
+        //}
+
+
+        //ZeroMemory(&m_URL_COMPONENTS, sizeof(m_URL_COMPONENTS));
+        //m_URL_COMPONENTS.dwStructSize = sizeof(m_URL_COMPONENTS);
+
+        //// Set required component lengths to non-zero so that they are cracked.
+        //m_URL_COMPONENTS.dwSchemeLength = (DWORD)-1;
+        //m_URL_COMPONENTS.dwHostNameLength = (DWORD)-1;
+        //m_URL_COMPONENTS.dwUrlPathLength = (DWORD)-1;
+        //m_URL_COMPONENTS.dwExtraInfoLength = (DWORD)-1;
+
+        //if (!WinHttpCrackUrl(pwszUrl2, dwUrlLen, 0, &m_URL_COMPONENTS))
+        //    printf("Error %u in WinHttpCrackUrl.\n", GetLastError());
+    }
+
+    CString GetPathAndQuery()
+    {
+        auto path = GetPath();
+        auto query = GetQuery();
+        return path + query;
+    }
+
+    CString GetQuery()
+    {
+        return CString(m_URL_COMPONENTS.lpszExtraInfo, m_URL_COMPONENTS.dwExtraInfoLength);
+    }
+
+    CString GetPath()
+    {
+        return CString(m_URL_COMPONENTS.lpszUrlPath, m_URL_COMPONENTS.dwUrlPathLength);
     }
 
     CString GetHost()
@@ -44,6 +88,7 @@ public:
         return this->m_URL_COMPONENTS.nPort;
     }
 private:
+    
     URL_COMPONENTS m_URL_COMPONENTS = { 0 };
 };
 
@@ -264,6 +309,8 @@ public:
     unique_ptr<WinHttpResponse> Get(const CString& url)
 	{
         auto uri = WinHttpUri(url);
+        auto pathandquery = uri.GetPathAndQuery();
+        
 
         DWORD dwSize = 0;
         DWORD dwDownloaded = 0;
@@ -276,7 +323,7 @@ public:
 
         // Create an HTTP request handle.
         if (hConnect)
-            hRequest = WinHttpOpenRequest(hConnect, _T("GET"), NULL, NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, BuildFlag());
+            hRequest = WinHttpOpenRequest(hConnect, _T("GET"), uri.GetPathAndQuery(), NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, BuildFlag());
 
         // Send a request.
         if (hRequest)
@@ -299,16 +346,6 @@ public:
             auto msg = GetWinhttpErrorMessage();
             //throw 
         }
-        //if (bResults)
-        //{
-        //    auto resp = ::make_unique<WinHttpResponse>(*this);
-        //    hRequest = NULL;
-        //    return resp;
-        //}
-        //else
-        //{
-        //    
-        //}
 	}
 
     unique_ptr<WinHttpResponse> Get1(const CString& url)
@@ -396,14 +433,14 @@ public:
 private:
     DWORD BuildFlag()
     {
-        DWORD flag = 0;
+        DWORD flag = WINHTTP_FLAG_ESCAPE_PERCENT;
         if (m_IsUseHttps == true)
         {
             flag = flag | WINHTTP_FLAG_SECURE;
         }
         return flag;
     }
-    bool m_IsUseHttps = true;
+    bool m_IsUseHttps = false;
     int m_WINHTTP_FLAG = WINHTTP_FLAG_SECURE;
     HINTERNET hSession = NULL;
     HINTERNET hConnect = NULL;
